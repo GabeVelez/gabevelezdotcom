@@ -1,0 +1,279 @@
+:root {
+  --color-black: #404040;
+  --color-blue: #665DF5;
+  --color-gray: #BCBCBC;
+  --color-light: #F0EFFF;
+}
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-black);
+  font-family: 'Inter', sans-serif;
+}
+html, body {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+header {
+  width: 100%;
+  padding: 2rem 0;
+  background-color: white;
+  position: fixed;
+  top: 0;
+}
+.headerContainer {
+    width: 75rem;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+#logo {
+  font-family: 'Abril Fatface', cursive;
+  font-size: 2rem;
+} 
+ul.nav_links {
+  display: flex;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+ul.nav_links li {
+  list-style-type: none;
+}
+ul.nav_links li a {
+  text-decoration: none;
+  margin: 0 .75rem;
+  font-size: 1rem;
+  color: var(--color-black);
+}
+ul.nav_links li a:hover, ul.nav_links li a:active {
+  color: var(--color-blue);
+}
+.helloWorld {
+  width: 100%;
+  background-color: white;
+  padding: 7rem 0 2rem;
+}
+.container {
+  width: 62.5rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.helloText {
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+}
+h1.hiThere {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.hiThere a {
+  text-decoration: none;
+}
+.whoAmI {
+  font-family: 'Abril Fatface', cursive;
+  font-size: 5rem;
+  font-weight: 400;
+  border-bottom: .125rem dotted var(--color-black);
+  leading-trim: both;
+  text-edge: cap alphabetic;
+  color: var(--color-black);
+}
+.whoAmI:hover {
+  color: var(--color-blue);
+  border-bottom: .125rem dotted var(--color-blue);
+}
+.helloText p {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  line-height: 1.75rem;
+}
+.background--custom {
+  background: linear-gradient(90deg, #45b67a, #ac55b0, #f9f783);
+  background-size: 300% 300%;
+  animation: gradient 4s alternate infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+.folioList {
+  padding: 1.5rem 0;
+  background-color: var(--color-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.folioTitle {
+  text-align: center;
+  margin: 0 auto;
+  padding: 2rem;
+  color: white;
+}
+.folioTitle h2 {
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.25rem;
+  letter-spacing: .125rem;
+}
+.caseStudyPanel {
+  background-color: white;
+  border-radius: .5rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 5px 15px 0 rgb(0 0 0 / 10%), 0 15px 35px 0 rgb(0 0 0 / 5%);
+  width: 62.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+.caseStudyImage {
+  width: 33.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 1rem;
+}
+.caseStudyTextSpace {
+  width: 21rem;
+  margin: 1rem;
+}
+.caseStudyProject {
+  text-transform: uppercase;
+  margin-top: 0;
+}
+.caseStudyTextSpace h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.125rem;
+}
+.subtitle {
+  font-size: 1.125rem;
+  margin-top: 0;
+}
+.caseStudyView, .caseStudyInDev {
+  text-transform: uppercase;
+  margin-top: 2.5rem;
+  margin-bottom: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.caseStudyInDev {
+  opacity: .5;
+}
+a.CSView {
+  text-decoration: none;
+  color: var(--color-black);
+}
+a.CSView:hover {
+  color: var(--color-blue);
+}
+.caseStudyView svg {
+  margin-bottom: .0625rem;
+  margin-left: .125rem;
+}
+footer {
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: white;
+}
+footer div.container {
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.footerCredit {
+  font-size: 0.875rem;
+}
+.footerLinks {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+.footerLinks p {
+  margin: 0;
+}
+@media (max-width: 479px) {
+  header {
+    padding: 1rem;
+    width: auto;
+  }
+  #logo {
+    font-size: 1.5rem;
+  }
+  ul.nav_links {
+    margin-top: .5rem;
+  }
+  ul.nav_links li a {
+    margin: 0 1.5rem 0 0;
+  }
+  .headerContainer, .container, .helloImage, .caseStudyImage, .caseStudyTextSpace {
+    width: 100%;
+  }
+  .container {
+    align-items: center;
+  }
+  .helloImage {
+    display: flex;
+    justify-content: center;
+  }
+  .helloText {
+    text-align: center;
+  }
+  h1.hiThere {
+    margin-top: 1rem;
+  }
+  .whoAmI {
+    font-size: 4.25rem;
+  }
+  .helloText p {
+    line-height: 1.5rem;
+  }
+  .folioList {
+    padding: 0;
+  }
+  .folioTitle h2 {
+    font-size: 1rem;
+    letter-spacing: .0625rem;
+  }
+  .caseStudyPanel {
+    width: 80%;
+    margin: 0 1rem 2rem;
+  }
+  .caseStudyImage img {
+    width: 100%;
+    height: auto;
+  }
+  .caseStudyProject {
+    font-size: .875rem;
+  }
+  .caseStudyTextSpace h3 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
+  .caseStudyView, .caseStudyInDev {
+    margin-top: 1.75rem;
+    font-size: .975rem;
+  }
+  footer {
+    padding: 1rem 1rem 2rem;
+    width: auto;
+  }
+  footer div.container {
+    justify-content: center;
+  }
+}
