@@ -4,6 +4,12 @@
   --color-gray: #BCBCBC;
   --color-light: #F0EFFF;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -22,11 +28,12 @@ html, body {
   overflow-x: hidden;
 }
 header {
-  width: 100%;
+  width: 100vw;
   padding: 2rem 0;
   background-color: white;
   position: fixed;
   top: 0;
+  display: flex;
 }
 .headerContainer {
     width: 75rem;
@@ -42,6 +49,7 @@ ul.nav_links {
   display: flex;
   margin-top: 1rem;
   margin-bottom: 0;
+  padding-inline-start: 0;
 }
 ul.nav_links li {
   list-style-type: none;
@@ -91,22 +99,10 @@ h1.hiThere {
   border-bottom: .125rem dotted var(--color-blue);
 }
 .helloText p {
+  font-size: 1.25rem;
   margin-top: 1.5rem;
   margin-bottom: 0;
-  line-height: 1.75rem;
-}
-.background--custom {
-  background: linear-gradient(90deg, #45b67a, #ac55b0, #f9f783);
-  background-size: 300% 300%;
-  animation: gradient 4s alternate infinite;
-}
-@keyframes gradient {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 100%;
-  }
+  line-height: 2.25rem;
 }
 .folioList {
   padding: 1.5rem 0;
@@ -119,7 +115,7 @@ h1.hiThere {
   text-align: center;
   margin: 0 auto;
   padding: 2rem;
-  color: white;
+  color: var(--color-black);
 }
 .folioTitle h2 {
   font-weight: 600;
@@ -209,19 +205,23 @@ footer div.container {
 }
 @media (max-width: 479px) {
   header {
-    padding: 1rem;
-    width: auto;
+    padding: 1rem 0;
   }
   #logo {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
+    margin-right: 10px;
+    margin-top: 1px;
   }
   ul.nav_links {
     margin-top: .5rem;
   }
   ul.nav_links li a {
-    margin: 0 1.5rem 0 0;
+    margin: 0 0 0 1rem;
   }
-  .headerContainer, .container, .helloImage, .caseStudyImage, .caseStudyTextSpace {
+  .headerContainer {
+    width: auto;
+  }
+  .container, .helloImage, .caseStudyImage, .caseStudyTextSpace {
     width: 100%;
   }
   .container {
@@ -241,7 +241,8 @@ footer div.container {
     font-size: 4.25rem;
   }
   .helloText p {
-    line-height: 1.5rem;
+    line-height: 1.875rem;
+    font-size: 1.125rem;
   }
   .folioList {
     padding: 0;
