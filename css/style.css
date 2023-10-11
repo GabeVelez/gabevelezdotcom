@@ -44,6 +44,7 @@ header {
 #logo {
   font-family: 'Abril Fatface', cursive;
   font-size: 2rem;
+  color: var(--color-blue);
 } 
 ul.nav_links {
   display: flex;
