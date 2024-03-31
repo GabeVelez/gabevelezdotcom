@@ -15,17 +15,28 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.typekit.net/lho8sph.css">
     </head>
     <body>
     	<header>
             <div class="headerContainer">
-        		<div id="logo">
-                    @gabevelez
-        		</div>
         		<div class="navbar">
+                    <input id="menu__toggle" type="checkbox" />
+                    <label class="menu__btn" for="menu__toggle">
+                        <span></span>
+                    </label>
+                    <div class="menu__box">
+                        <ul>
+                          <li><a class="menu__item" href="#">Work</a></li>
+                          <li><a class="menu__item" href="#">About</a></li>
+                          <li><a class="menu__item" href="#">CV</a></li>
+                          <li><a class="menu__item" href="#">Contact</a></li>
+                        </ul>
+                    </div>
+
                     <ul class="nav_links">
                         <li><a href="index.html">Work</a></li>
+                        <li><a href="#">About</a></li>
                         <li><a href="GabeVelezResume2022.pdf" target="_blank" rel="nofollow noopener">CV</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
@@ -34,12 +45,19 @@
     	</header>
         <div class="helloWorld">
             <div class="container">
-                <div class="helloImage">
-                    <img src="img/gabevelez.png">
-                </div>
-                <div class="helloText">
-                    <h1 class="hiThere">&#x1F44B; Hi There!<br/><a class="whoAmI" href="GabeVelezResume2022.pdf" target="_blank">I'm Gabe.</a></h1>
-                    <p>I’m a Product Designer, Front End Developer, & Tech Enthusiast, currently serving as CTO at <a href="https://anom.group/" target="_blank">A&N Online Marketing</a>.</p><p>I've had over 20 years of overall design experience in numerous fields. Currently based out of Queens, NY.</p>
+               
+                <h1 id="myNameIs">
+                    <div class="firstName">Gabe</div>
+                    <div class="helloImage">
+                        <img src="img/profile_pic.png">
+                    </div>
+                    <div class="lastName">Velez</div>
+                </h1>
+                <h2 class="mySkillz">Product design <span>✸</span> front-end dev.</h2>
+                <h3 class="experienceYears">More than <strong>20 years</strong> of overall <strong>design experience</strong></h3>
+                <div class="livingIn"><p>Living in Queens, NY</p></div>
+                <div id="currentRole">
+                    <p>Current Role: <strong>CTO</strong> at <a href="https://anom.group/"><strong>A&N Online Marketing</strong></a></p>
                 </div>
             </div>
         </div>
@@ -99,7 +117,7 @@
         <footer>
             <div class="container">
                 <div>
-                    <p class="footerCredit">Coded + Designed with &#9829; by Gabe Velez &#x2022; &#169;2023</p>
+                    <p class="footerCredit">Coded + Designed with &#9829; by Gabe Velez &#x2022; &#169;2024</p>
                 </div>
                 <div class="footerLinks">
                     <p><a href="https://www.linkedin.com/in/gabevelez/" rel="noopener" target="_blank">LinkedIn</a> &#x2022; <a href="https://twitter.com/gabevelez" rel="noopener" target="_blank">X</a> &#x2022; <a href="https://github.com/GabeVelez" rel="noopener" target="_blank">Github</a></p>

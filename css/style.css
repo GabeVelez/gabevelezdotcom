@@ -1,8 +1,11 @@
 :root {
-  --color-black: #404040;
-  --color-blue: #665DF5;
-  --color-gray: #BCBCBC;
-  --color-light: #F0EFFF;
+  --color-white:#ffffff;
+  --color-regentGreen:#3b5156;
+  --color-blueNova:#5B6D93;
+  --color-topaz:#C06A47;
+  --color-honeybee:#EED99A;
+  --color-antiquePewter:#8C8A7B;
+  --color-pristine:#EFE2D2;
 }
 html, body {
     margin: 0;
@@ -19,33 +22,114 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--color-black);
-  font-family: 'Inter', sans-serif;
+  color: var(--color-regentGreen);
+  font-family: "poppins", sans-serif;
 }
 html, body {
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
+a {
+  color:var(--color-blueNova);
+}
 header {
-  width: 100vw;
-  padding: 2rem 0;
+  padding: 2rem 0 0;
   background-color: white;
-  position: fixed;
-  top: 0;
-  display: flex;
 }
 .headerContainer {
     width: 75rem;
     margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
 }
-#logo {
-  font-family: 'Abril Fatface', cursive;
-  font-size: 2rem;
-  color: var(--color-blue);
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+}
+#menu__toggle, .menu__btn {
+  display: none;
 } 
+#menu__toggle {
+  opacity: 0;
+}
+#menu__toggle:checked + .menu__btn > span {
+  transform: rotate(45deg);
+}
+#menu__toggle:checked + .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0deg);
+  background-color: var(--color-white);
+}
+#menu__toggle:checked + .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+  background-color: var(--color-white);
+}
+#menu__toggle:checked ~ .menu__box {
+  left: 0 !important;
+}
+.menu__btn {
+  position: relative;
+  top: 12px;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 4;
+}
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #616161;
+  transition-duration: .25s;
+}
+.menu__btn > span::before {
+  content: '';
+  top: -8px;
+}
+.menu__btn > span::after {
+  content: '';
+  top: 8px;
+}
+.menu__box {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-blueNova);
+  transition-duration: .25s;
+  z-index:3;
+  justify-content: center;
+  flex-direction: column;
+}
+.menu__box ul {
+  list-style: none;
+  padding:0;
+}
+.menu__item {
+  display: block;
+  padding: 12px 24px;
+  color: var(--color-white);
+  font-family: "mono45-headline", monospace;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 48px;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: .25s;
+  text-transform: uppercase;
+  margin: 24px;
+}
+.menu__item:hover {
+  background-color: #CFD8DC;
+}
 ul.nav_links {
   display: flex;
   margin-top: 1rem;
@@ -58,56 +142,85 @@ ul.nav_links li {
 ul.nav_links li a {
   text-decoration: none;
   margin: 0 .75rem;
-  font-size: 1rem;
-  color: var(--color-black);
+  font-size: 1.4rem;
+  font-family: "mono45-headline", monospace;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--color-regentGreen);
 }
 ul.nav_links li a:hover, ul.nav_links li a:active {
-  color: var(--color-blue);
+  color: var(--color-blueNova);
 }
 .helloWorld {
   width: 100%;
   background-color: white;
-  padding: 7rem 0 2rem;
+  padding: 2rem 0 4rem;
 }
 .container {
-  width: 62.5rem;
+  width: 60rem;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
-.helloText {
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
+#myNameIs {
+  font-family: "mono45-headline", monospace;
+  font-weight: 900;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: center;
 }
-h1.hiThere {
-  margin-bottom: 0;
+#myNameIs .firstName {
+  font-size: 11rem;
+}
+#myNameIs .lastName {
+  font-size: 16rem;
+  line-height: 9rem;
+  margin-left: -.25rem;
+}
+.mySkillz {
+  font-size: 2.6rem;
+  font-family: "mono45-headline", monospace;
+  font-weight: 500;
+  font-style: normal;
+  margin-top:0;
+  line-height: 0;
+}
+.mySkillz span {
+    font-size: 3.4rem;
+    color:var(--color-topaz);
+}
+.experienceYears {
+  font-size: 1.8rem;
+  color: var(--color-blueNova);
+  font-weight: 400;
+  text-align: center;
+}
+.livingIn {
+  color: var(--color-antiquePewter);
+}
+.livingIn p {
+  font-size: 1.4rem;
   margin-top: 0;
 }
-.hiThere a {
-  text-decoration: none;
+#currentRole {
+  background:var(--color-pristine);
+  padding:.8rem 1.25rem .7rem;
+  border-radius:.5rem;
+  text-align: center;
+  margin:0 16px;
 }
-.whoAmI {
-  font-family: 'Abril Fatface', cursive;
-  font-size: 5rem;
-  font-weight: 400;
-  border-bottom: .125rem dotted var(--color-black);
-  leading-trim: both;
-  text-edge: cap alphabetic;
-  color: var(--color-black);
-}
-.whoAmI:hover {
-  color: var(--color-blue);
-  border-bottom: .125rem dotted var(--color-blue);
-}
-.helloText p {
-  font-size: 1.25rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0;
-  line-height: 2.25rem;
+#currentRole p {
+  margin: 0;
+  font-size: 1rem;
 }
 .folioList {
   padding: 1.5rem 0;
-  background-color: var(--color-light);
+  background-color: var(--color-blueNova);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -116,15 +229,19 @@ h1.hiThere {
   text-align: center;
   margin: 0 auto;
   padding: 2rem;
-  color: var(--color-black);
+  color: var(--color-regentGreen);
 }
 .folioTitle h2 {
   font-weight: 600;
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 1.25rem;
-  letter-spacing: .125rem;
+  font-size: 1.6rem;
+  letter-spacing: .5rem;
+  color:var(--color-white);
+  font-family: "mono45-headline", monospace;
+  font-weight: 500;
+  font-style: normal;
 }
 .caseStudyPanel {
   background-color: white;
@@ -132,8 +249,7 @@ h1.hiThere {
   padding: 1rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
-  box-shadow: 0 5px 15px 0 rgb(0 0 0 / 10%), 0 15px 35px 0 rgb(0 0 0 / 5%);
-  width: 62.5rem;
+  width: 60rem;
   display: flex;
   flex-wrap: wrap;
 }
@@ -149,21 +265,28 @@ h1.hiThere {
   margin: 1rem;
 }
 .caseStudyProject {
+  font-size: 1.25rem;
   text-transform: uppercase;
   margin-top: 0;
+  font-family: "mono45-headline", monospace;
+  font-weight: 500;
+  font-style: normal;
 }
 .caseStudyTextSpace h3 {
-  font-size: 2rem;
+  font-size: 1.8rem;
+  line-height: 2.4rem;
   font-weight: 600;
   margin-bottom: 1.125rem;
 }
 .subtitle {
   font-size: 1.125rem;
+  line-height: 1.5rem;
   margin-top: 0;
+  color:var(--color-blueNova);
 }
 .caseStudyView, .caseStudyInDev {
   text-transform: uppercase;
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   margin-bottom: 0;
   font-size: 1.125rem;
   font-weight: 600;
@@ -173,10 +296,10 @@ h1.hiThere {
 }
 a.CSView {
   text-decoration: none;
-  color: var(--color-black);
+  color: var(--color-regentGreen);
 }
 a.CSView:hover {
-  color: var(--color-blue);
+  color: var(--color-topaz);
 }
 .caseStudyView svg {
   margin-bottom: .0625rem;
@@ -208,19 +331,20 @@ footer div.container {
   header {
     padding: 1rem 0;
   }
-  #logo {
-    font-size: 1.375rem;
-    margin-right: 10px;
-    margin-top: 1px;
+  #menu__toggle, .menu__btn {
+    display: block;
+  }
+  .navbar {
+    justify-content: flex-start;
   }
   ul.nav_links {
-    margin-top: .5rem;
-  }
-  ul.nav_links li a {
-    margin: 0 0 0 1rem;
+    display: none;
   }
   .headerContainer {
     width: auto;
+  }
+  .helloWorld {
+    padding: 0 0 2rem;
   }
   .container, .helloImage, .caseStudyImage, .caseStudyTextSpace {
     width: 100%;
@@ -228,29 +352,53 @@ footer div.container {
   .container {
     align-items: center;
   }
+  #myNameIs {
+    flex-wrap: wrap;
+    padding:1rem;
+    margin-bottom:1rem;
+  }
   .helloImage {
-    display: flex;
-    justify-content: center;
+    width:150px;
+    margin-bottom: 1rem;
   }
-  .helloText {
-    text-align: center;
+  .helloImage img {
+    width:150px;
+    height:auto;
   }
-  h1.hiThere {
-    margin-top: 1rem;
+  #myNameIs .firstName {
+    font-size: 7rem;
+    margin-right: -1.25rem;
+    margin-top: 2.25rem;
+    z-index: 2;
   }
-  .whoAmI {
-    font-size: 4.25rem;
+  #myNameIs .lastName {
+    font-size: 9rem;
+    line-height: 4.5rem;
   }
-  .helloText p {
-    line-height: 1.875rem;
-    font-size: 1.125rem;
+  .mySkillz {
+    font-size: 1.5rem;
+    line-height: 0.75rem;
+  }
+  .mySkillz span {
+    font-size: 1.8rem;
+  }
+  .experienceYears {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .livingIn p {
+    font-size: 1.2rem;
+  }
+  #currentRole p {
+    font-size: 0.8rem;
   }
   .folioList {
     padding: 0;
   }
   .folioTitle h2 {
-    font-size: 1rem;
-    letter-spacing: .0625rem;
+    letter-spacing: .375rem;
   }
   .caseStudyPanel {
     width: 80%;
@@ -264,8 +412,9 @@ footer div.container {
     font-size: .875rem;
   }
   .caseStudyTextSpace h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-top: 1rem;
+    line-height: 2rem;
   }
   .caseStudyView, .caseStudyInDev {
     margin-top: 1.75rem;
