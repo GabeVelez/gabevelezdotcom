@@ -128,16 +128,16 @@ header {
 .menu__item:hover {
   background-color: #CFD8DC;
 }
-ul.nav_links {
+.nav__links {
   display: flex;
   margin-top: 1rem;
   margin-bottom: 0;
   padding-inline-start: 0;
 }
-ul.nav_links li {
+ul.nav__links li {
   list-style-type: none;
 }
-ul.nav_links li a {
+ul.nav__links li a {
   text-decoration: none;
   margin: 0 .75rem;
   font-size: 1.4rem;
@@ -146,7 +146,7 @@ ul.nav_links li a {
   font-style: normal;
   color: var(--color-regentGreen);
 }
-ul.nav_links li a:hover, ul.nav_links li a:active {
+ul.nav__links li a:hover, ul.nav__links li a:active {
   color: var(--color-blueNova);
 }
 .helloWorld {
@@ -335,7 +335,7 @@ footer div.container {
   .navbar {
     justify-content: flex-start;
   }
-  ul.nav_links {
+  .nav__links {
     display: none;
   }
   .helloWorld {
