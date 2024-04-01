@@ -33,15 +33,22 @@ html, body {
 a {
   color:var(--color-blueNova);
 }
+a:hover {
+  color:var(--color-topaz);
+}
 header {
   padding: 2rem 0 0;
   background-color: white;
   width: 75rem;
   margin: 0 auto;
 }
-.navbar {
+.navbar__home {
   display: flex;
   justify-content: flex-end;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
 }
 #menu__toggle, .menu__btn {
   display: none;
@@ -67,7 +74,7 @@ header {
 }
 .menu__btn {
   position: relative;
-  top: 12px;
+  top: 22px;
   left: 0;
   width: 26px;
   height: 26px;
@@ -128,6 +135,18 @@ header {
 .menu__item:hover {
   background-color: #CFD8DC;
 }
+.logo {
+  font-family: "mono45-headline", monospace;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+}
+.logo .first {
+  font-size: 2rem;
+}
+.logo .last {
+  font-size: 2.4rem;
+}
 .nav__links {
   display: flex;
   margin-top: 1rem;
@@ -147,7 +166,7 @@ ul.nav__links li a {
   color: var(--color-regentGreen);
 }
 ul.nav__links li a:hover, ul.nav__links li a:active {
-  color: var(--color-blueNova);
+  color: var(--color-topaz);
 }
 .helloWorld {
   width: 100%;
@@ -244,7 +263,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
 .caseStudyPanel {
   background-color: white;
   border-radius: .5rem;
-  padding: 1rem;
+  padding: 0.5rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
   width: 60rem;
@@ -252,14 +271,17 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   flex-wrap: wrap;
 }
 .caseStudyImage {
-  width: 33.5rem;
+  width: 30rem;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   margin: 1rem;
 }
+.caseStudyImage img {
+  border-radius: 0.25rem;
+}
 .caseStudyTextSpace {
-  width: 21rem;
+  width: 26rem;
   margin: 1rem;
 }
 .caseStudyProject {
@@ -275,12 +297,13 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   line-height: 2.4rem;
   font-weight: 600;
   margin-bottom: 1.125rem;
+  color:var(--color-blueNova);
 }
 .subtitle {
   font-size: 1.125rem;
-  line-height: 1.5rem;
+  line-height: 1.6rem;
   margin-top: 0;
-  color:var(--color-blueNova);
+  color:var(--color-regentGreen);
 }
 .caseStudyView, .caseStudyInDev {
   text-transform: uppercase;
@@ -308,7 +331,7 @@ footer {
   padding: 1rem 2rem;
   background-color: white;
 }
-footer div.container {
+footer .container {
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -332,8 +355,11 @@ footer div.container {
   #menu__toggle, .menu__btn {
     display: block;
   }
-  .navbar {
+  .navbar, .navbar__home {
     justify-content: flex-start;
+  }
+  .logo {
+    margin-left: 1rem;
   }
   .nav__links {
     display: none;
@@ -403,9 +429,6 @@ footer div.container {
     width: 100%;
     height: auto;
   }
-  .caseStudyProject {
-    font-size: .875rem;
-  }
   .caseStudyTextSpace h3 {
     font-size: 1.6rem;
     margin-top: 1rem;
@@ -419,7 +442,7 @@ footer div.container {
     padding: 1rem 1rem 2rem;
     width: auto;
   }
-  footer div.container {
+  footer .container {
     justify-content: center;
   }
 }
