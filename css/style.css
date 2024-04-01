@@ -36,10 +36,8 @@ a {
 header {
   padding: 2rem 0 0;
   background-color: white;
-}
-.headerContainer {
-    width: 75rem;
-    margin: 0 auto;
+  width: 75rem;
+  margin: 0 auto;
 }
 .navbar {
   display: flex;
