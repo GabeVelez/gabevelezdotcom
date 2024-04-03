@@ -348,6 +348,12 @@ footer .container {
 .footerLinks p {
   margin: 0;
 }
+.image__top {
+  width:inherit;
+}
+.photo__credit {
+    font-size: 0.625rem;
+}
 @media (max-width: 479px) {
   header {
     padding: 1rem 0;
