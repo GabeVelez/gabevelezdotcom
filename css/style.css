@@ -135,17 +135,20 @@ header {
 .menu__item:hover {
   background-color: #CFD8DC;
 }
-.logo {
+.logo__link {
+  text-decoration: none;
+}
+.logo__text {
   font-family: "mono45-headline", monospace;
   font-weight: 900;
   display: flex;
   align-items: center;
 }
-.logo .first {
-  font-size: 2rem;
+.logo__text .first {
+  font-size: 1.4rem;
 }
-.logo .last {
-  font-size: 2.4rem;
+.logo__text .last {
+  font-size: 1.8rem;
 }
 .nav__links {
   display: flex;
