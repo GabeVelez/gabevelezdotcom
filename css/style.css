@@ -37,7 +37,7 @@ a:hover {
   color:var(--color-topaz);
 }
 header {
-  padding: 2rem 0 0;
+  padding: 1rem 0 0;
   background-color: white;
   width: 75rem;
   margin: 0 auto;
@@ -178,6 +178,15 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
 }
 .container {
   width: 60rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+.container__small {
+  width: 40rem;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -330,9 +339,10 @@ a.CSView:hover {
   margin-left: .125rem;
 }
 footer {
-  width: 100%;
-  padding: 1rem 2rem;
   background-color: white;
+  width: 75rem;
+  margin: 0 auto;
+  padding: 1rem 2rem;
 }
 footer .container {
   margin: 0 auto;
@@ -355,12 +365,14 @@ footer .container {
   width:inherit;
 }
 .photo__credit {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
+}
+.about__intro {
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 2.2rem;
 }
 @media (max-width: 479px) {
-  header {
-    padding: 1rem 0;
-  }
   #menu__toggle, .menu__btn {
     display: block;
   }
