@@ -36,6 +36,10 @@ a {
 a:hover {
   color:var(--color-topaz);
 }
+hr {
+  border:1px solid var(--color-pristine);
+  margin: 0;
+}
 header {
   padding: 1rem 0 0;
   background-color: white;
@@ -137,6 +141,7 @@ header {
 }
 .logo__link {
   text-decoration: none;
+  margin-top: .4rem;
 }
 .logo__text {
   font-family: "mono45-headline", monospace;
@@ -152,7 +157,7 @@ header {
 }
 .nav__links {
   display: flex;
-  margin-top: 1rem;
+  margin-top: 0.625rem;
   margin-bottom: 0;
   padding-inline-start: 0;
 }
@@ -171,12 +176,17 @@ ul.nav__links li a {
 ul.nav__links li a:hover, ul.nav__links li a:active {
   color: var(--color-topaz);
 }
-.helloWorld {
+.content-wrapper__helloWorld {
   width: 100%;
   background-color: white;
   padding: 2rem 0 4rem;
 }
-.container {
+.content-wrapper {
+  width: 100%;
+  background-color: white;
+  padding: 1rem 0;
+}
+.content__container {
   width: 60rem;
   margin: 0 auto;
   display: flex;
@@ -185,7 +195,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   align-content: center;
   align-items: center;
 }
-.container__small {
+.content__container--small {
   width: 40rem;
   margin: 0 auto;
   display: flex;
@@ -241,7 +251,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   padding:.8rem 1.25rem .7rem;
   border-radius:.5rem;
   text-align: center;
-  margin:0 16px;
+  margin:0 1rem;
 }
 #currentRole p {
   margin: 0;
@@ -281,7 +291,13 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   width: 60rem;
   display: flex;
   flex-wrap: wrap;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
 }
+.caseStudyPanel:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
 .caseStudyImage {
   width: 30rem;
   display: flex;
@@ -342,9 +358,9 @@ footer {
   background-color: white;
   width: 75rem;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 1.75rem;
 }
-footer .container {
+footer .content__container {
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -379,19 +395,19 @@ footer .container {
   .navbar, .navbar__home {
     justify-content: flex-start;
   }
-  .logo {
-    margin-left: 1rem;
+  .logo__link {
+    margin-left: 1.5rem;
   }
   .nav__links {
     display: none;
   }
-  .helloWorld {
+  .content-wrapper__helloWorld {
     padding: 0 0 2rem;
   }
-  .container, .helloImage, .caseStudyImage, .caseStudyTextSpace {
+  .content__container, .content__container--small, .helloImage, .caseStudyImage, .caseStudyTextSpace {
     width: 100%;
   }
-  .container {
+  .content__container {
     align-items: center;
   }
   #myNameIs {
@@ -434,7 +450,7 @@ footer .container {
     font-size: 1.2rem;
   }
   #currentRole p {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   .folioList {
     padding: 0;
@@ -463,7 +479,11 @@ footer .container {
     padding: 1rem 1rem 2rem;
     width: auto;
   }
-  footer .container {
+  footer .content__container {
     justify-content: center;
+  }
+  .image__top, .about__intro, .about__text {
+    margin-left:1rem;
+    margin-right:1rem;
   }
 }
