@@ -29,7 +29,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--color-regentGreen);
+  color: var(--gabe-white);
   font-family: "poppins", sans-serif;
 }
 html, body {
@@ -39,6 +39,9 @@ html, body {
 }
 body.home {
   background-color: var(--gabe-gray);
+}
+body.page {
+  background-color: var(--gabe-black);
 }
 a {
   color:var(--color-blueNova);
@@ -64,7 +67,7 @@ header {
   width: 100%;
   margin: 0 auto;
   position: fixed;
-  z-index: 2;
+  z-index: 4;
 }
 
 /* Navigation */
@@ -106,7 +109,7 @@ header {
   width: 26px;
   height: 26px;
   cursor: pointer;
-  z-index: 4;
+  z-index: 5;
 }
 .menu__btn > span,
 .menu__btn > span::before,
@@ -137,7 +140,7 @@ header {
   padding: 0;
   background-color: var(--gabe-black-alpha);
   transition-duration: .25s;
-  z-index:3;
+  z-index: 4;
   justify-content: center;
   flex-direction: column;
 }
