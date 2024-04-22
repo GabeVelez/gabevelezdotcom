@@ -50,7 +50,6 @@ hr {
 }
 header {
   padding: 1rem 0 0;
-  background-color: white;
   width: 75rem;
   margin: 0 auto;
 }
@@ -100,7 +99,7 @@ header {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: #616161;
+  background-color: var(--gabe-white);
   transition-duration: .25s;
 }
 .menu__btn > span::before {
