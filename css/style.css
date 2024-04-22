@@ -53,10 +53,11 @@ a.company__link {
   color: var(--gabe-black);
   background-color: var(--gabe-white);
   text-decoration: none;
-  padding: .1rem .5rem 0.08rem;
+  padding: .2rem .5rem 0.08rem;
+  text-transform: uppercase;
 }
 a.company__link:hover {
-  color: var(--gabe-pink);
+  background-color: var(--gabe-pink);
 }
 hr {
   border:1px solid var(--color-pristine);
