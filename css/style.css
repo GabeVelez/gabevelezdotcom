@@ -52,7 +52,7 @@ hr {
 }
 header {
   padding: 1rem 0 0;
-  width: 75rem;
+  width: 100%;
   margin: 0 auto;
   position: fixed;
   z-index: 1;
@@ -157,6 +157,7 @@ header {
 }
 .logo__link {
   margin-top: .4rem;
+  margin-left: 1rem;
 }
 .nav__links {
   display: flex;
@@ -170,25 +171,29 @@ ul.nav__links li {
 ul.nav__links li a {
   text-decoration: none;
   margin: 0 .75rem;
-  font-size: 1.4rem;
-  font-family: "mono45-headline", monospace;
-  font-weight: 500;
+  font-size: 1rem;
+  font-family: "poppins", sans-serif;
+  font-weight: 400;
   font-style: normal;
-  color: var(--color-regentGreen);
+  color: var(--gabe-white);
+  text-transform: uppercase;
 }
 ul.nav__links li a:hover, ul.nav__links li a:active {
-  color: var(--color-topaz);
+  color: var(--gabe-pink);
 }
 
 /* Homepage Styles */
 
-.home .logo__link svg {
+/*.home .logo__link svg {
   display: none;
-}
+}*/
 .hero__wrapper {
   width: 100%;
-  height:80vh;
+  height:90vh;
   display: flex;
+  background-color: var(--gabe-black);
+  z-index:-2;
+  position: relative;
 }
 .hero__wrapper img {
   object-fit: contain;
@@ -234,7 +239,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
 
 .folioList {
   padding: 1.5rem 0;
-  background-color: var(--color-blueNova);
+  background-color: var(--gabe-gray);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,11 +255,11 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 1.6rem;
-  letter-spacing: .5rem;
+  font-size: 1rem;
+  letter-spacing: .375rem;
   color:var(--color-white);
-  font-family: "mono45-headline", monospace;
-  font-weight: 500;
+  font-family: "poppins", sans-serif;
+  font-weight: 400;
   font-style: normal;
 }
 .caseStudyPanel {
@@ -370,9 +375,6 @@ footer .content__container {
   .navbar, .navbar__home {
     justify-content: flex-start;
   }
-  .logo__link {
-    margin-left: 1.5rem;
-  }
   .nav__links {
     display: none;
   }
@@ -386,7 +388,7 @@ footer .content__container {
     padding: 0;
   }
   .folioTitle h2 {
-    letter-spacing: .375rem;
+    letter-spacing: .5rem;
   }
   .caseStudyPanel {
     width: 80%;
