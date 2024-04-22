@@ -7,10 +7,12 @@
   --color-antiquePewter:#8C8A7B;
   --color-pristine:#EFE2D2;
   --gabe-black: #1B2021;
-  --gabe-white: #ffffff;
+  --gabe-black-alpha: rgb(27 32 33 / 80%);
+  --gabe-white: #FFFFFF;
   --gabe-gray: #364042;
   --gabe-darkred: #240000;
   --gabe-teal: #235965;
+  --gabe-pink: #FF69B4;
 }
 html, body {
     margin: 0;
@@ -42,7 +44,7 @@ a {
   color:var(--color-blueNova);
 }
 a:hover {
-  color:var(--color-topaz);
+  color:var(--gabe-pink);
 }
 hr {
   border:1px solid var(--color-pristine);
@@ -52,7 +54,12 @@ header {
   padding: 1rem 0 0;
   width: 75rem;
   margin: 0 auto;
+  position: fixed;
+  z-index: 1;
 }
+
+/* Navigation */
+
 .navbar__home {
   display: flex;
   justify-content: flex-end;
@@ -119,7 +126,7 @@ header {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--color-blueNova);
+  background-color: var(--gabe-black-alpha);
   transition-duration: .25s;
   z-index:3;
   justify-content: center;
@@ -132,19 +139,21 @@ header {
 .menu__item {
   display: block;
   padding: 12px 24px;
-  color: var(--color-white);
-  font-family: "mono45-headline", monospace;
-  font-weight: 900;
-  font-style: normal;
-  font-size: 48px;
   text-align: center;
-  text-decoration: none;
   transition-duration: .25s;
-  text-transform: uppercase;
   margin: 24px;
 }
-.menu__item:hover {
-  background-color: #CFD8DC;
+.menu__text {
+  color: var(--gabe-white);
+  text-transform: uppercase;
+  font-family: "poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 48px;
+  text-decoration: none;
+}
+.menu__text:hover {
+  color:var(--gabe-pink);
 }
 .logo__link {
   margin-top: .4rem;
@@ -170,24 +179,41 @@ ul.nav__links li a {
 ul.nav__links li a:hover, ul.nav__links li a:active {
   color: var(--color-topaz);
 }
-.content-wrapper__helloWorld {
-  width: 100%;
-  background-color: white;
-  padding: 2rem 0 4rem;
+
+/* Homepage Styles */
+
+.home .logo__link svg {
+  display: none;
 }
-.content-wrapper {
+.hero__wrapper {
   width: 100%;
-  background-color: white;
-  padding: 1rem 0;
+  height:80vh;
+  display: flex;
 }
-.content__container {
+.hero__wrapper img {
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  z-index:-1;
+}
+.hero__container {
   width: 60rem;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-content: center;
-  align-items: center;
+  align-self: flex-end;
+  padding: 0 2rem 3rem;
+}
+.hero__container p {
+  color: var(--gabe-white);
+}
+.content-wrapper {
+  width: 100%;
+  background-color: white;
+  padding: 1rem 0;
 }
 .content__container--small {
   width: 40rem;
@@ -198,59 +224,14 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   align-content: center;
   align-items: center;
 }
-#myNameIs {
-  font-family: "mono45-headline", monospace;
-  font-weight: 900;
-  font-style: normal;
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  justify-content: center;
+.histatement {
+  margin-bottom: 0;
+  font-size: .75rem;
+  text-transform: uppercase;
 }
-#myNameIs .firstName {
-  font-size: 11rem;
-}
-#myNameIs .lastName {
-  font-size: 16rem;
-  line-height: 9rem;
-  margin-left: -.25rem;
-}
-.mySkillz {
-  font-size: 2.6rem;
-  font-family: "mono45-headline", monospace;
-  font-weight: 500;
-  font-style: normal;
-  margin-top:0;
-  line-height: 0;
-}
-.mySkillz span {
-    font-size: 3.4rem;
-    color:var(--color-topaz);
-}
-.experienceYears {
-  font-size: 1.8rem;
-  color: var(--color-blueNova);
-  font-weight: 400;
-  text-align: center;
-}
-.livingIn {
-  color: var(--color-antiquePewter);
-}
-.livingIn p {
-  font-size: 1.4rem;
-  margin-top: 0;
-}
-#currentRole {
-  background:var(--color-pristine);
-  padding:.8rem 1.25rem .7rem;
-  border-radius:.5rem;
-  text-align: center;
-  margin:0 1rem;
-}
-#currentRole p {
-  margin: 0;
-  font-size: 1rem;
-}
+
+/* Homeapage Case Study Section */
+
 .folioList {
   padding: 1.5rem 0;
   background-color: var(--color-blueNova);
@@ -400,51 +381,6 @@ footer .content__container {
   }
   .content__container, .content__container--small, .helloImage, .caseStudyImage, .caseStudyTextSpace {
     width: 100%;
-  }
-  .content__container {
-    align-items: center;
-  }
-  #myNameIs {
-    flex-wrap: wrap;
-    padding:1rem;
-    margin-bottom:1rem;
-  }
-  .helloImage {
-    width:150px;
-    margin-bottom: 1rem;
-  }
-  .helloImage img {
-    width:150px;
-    height:auto;
-  }
-  #myNameIs .firstName {
-    font-size: 7rem;
-    margin-right: -1.25rem;
-    margin-top: 2.25rem;
-    z-index: 2;
-  }
-  #myNameIs .lastName {
-    font-size: 9rem;
-    line-height: 4.5rem;
-  }
-  .mySkillz {
-    font-size: 1.5rem;
-    line-height: 0.75rem;
-  }
-  .mySkillz span {
-    font-size: 1.8rem;
-  }
-  .experienceYears {
-    font-size: 1.4rem;
-    line-height: 1.8rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-  .livingIn p {
-    font-size: 1.2rem;
-  }
-  #currentRole p {
-    font-size: 0.9rem;
   }
   .folioList {
     padding: 0;
