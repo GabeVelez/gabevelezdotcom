@@ -7,7 +7,7 @@
   --color-antiquePewter:#8C8A7B;
   --color-pristine:#EFE2D2;
   --gabe-black: #1B2021;
-  --gabe-black-alpha: rgb(27 32 33 / 80%);
+  --gabe-black-alpha: rgb(27 32 33 / 85%);
   --gabe-white: #FFFFFF;
   --gabe-gray: #364042;
   --gabe-darkred: #240000;
@@ -189,7 +189,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
 }*/
 .hero__wrapper {
   width: 100%;
-  height:90vh;
+  height:86vh;
   display: flex;
   background-color: var(--gabe-black);
   z-index:-2;
@@ -256,7 +256,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 1rem;
-  letter-spacing: .375rem;
+  letter-spacing: .25rem;
   color:var(--color-white);
   font-family: "poppins", sans-serif;
   font-weight: 400;
@@ -387,9 +387,6 @@ footer .content__container {
   .folioList {
     padding: 0;
   }
-  .folioTitle h2 {
-    letter-spacing: .5rem;
-  }
   .caseStudyPanel {
     width: 80%;
     margin: 0 1rem 2rem;
@@ -417,5 +414,10 @@ footer .content__container {
   .image__top, .about__intro, .about__text {
     margin-left:1rem;
     margin-right:1rem;
+  }
+}
+@media (min-width: 480px) {
+  .folioTitle h2 {
+    letter-spacing: .5rem;
   }
 }
