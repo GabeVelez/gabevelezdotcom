@@ -46,6 +46,15 @@ a {
 a:hover {
   color:var(--gabe-pink);
 }
+a.company__link {
+  color: var(--gabe-black);
+  background-color: var(--gabe-white);
+  text-decoration: none;
+  padding:0 .125rem;
+}
+a.company__link:hover {
+  color: var(--gabe-pink);
+}
 hr {
   border:1px solid var(--color-pristine);
   margin: 0;
@@ -235,7 +244,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   text-transform: uppercase;
 }
 
-/* Homeapage Case Study Section */
+/* Homepage Case Study Section */
 
 .folioList {
   padding: 1.5rem 0;
