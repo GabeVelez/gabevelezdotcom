@@ -6,6 +6,11 @@
   --color-honeybee:#EED99A;
   --color-antiquePewter:#8C8A7B;
   --color-pristine:#EFE2D2;
+  --gabe-black: #1B2021;
+  --gabe-white: #ffffff;
+  --gabe-gray: #364042;
+  --gabe-darkred: #240000;
+  --gabe-teal: #235965;
 }
 html, body {
     margin: 0;
@@ -29,6 +34,9 @@ html, body {
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+body.home {
+  background-color: var(--gabe-gray);
 }
 a {
   color:var(--color-blueNova);
@@ -140,20 +148,7 @@ header {
   background-color: #CFD8DC;
 }
 .logo__link {
-  text-decoration: none;
   margin-top: .4rem;
-}
-.logo__text {
-  font-family: "mono45-headline", monospace;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-}
-.logo__text .first {
-  font-size: 1.4rem;
-}
-.logo__text .last {
-  font-size: 1.8rem;
 }
 .nav__links {
   display: flex;
