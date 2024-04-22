@@ -50,7 +50,7 @@ a.company__link {
   color: var(--gabe-black);
   background-color: var(--gabe-white);
   text-decoration: none;
-  padding:0 .125rem;
+  padding: .1rem .5rem 0.08rem;
 }
 a.company__link:hover {
   color: var(--gabe-pink);
@@ -64,7 +64,7 @@ header {
   width: 100%;
   margin: 0 auto;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Navigation */
@@ -201,7 +201,6 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   height:86vh;
   display: flex;
   background-color: var(--gabe-black);
-  z-index:-2;
   position: relative;
 }
 .hero__wrapper img {
@@ -209,7 +208,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   width: 100%;
   height: auto;
   position: absolute;
-  z-index:-1;
+  z-index:1;
 }
 .hero__container {
   width: 60rem;
@@ -220,6 +219,7 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
   align-content: center;
   align-self: flex-end;
   padding: 0 2rem 3rem;
+  z-index: 2;
 }
 .hero__container p {
   color: var(--gabe-white);
