@@ -1,11 +1,19 @@
-$(function() {
+$(document).ready(function() {
+
     console.log("Scroll loaded");
-    if($(window).scrollTop() > 50) {
-        $(".navbar").addClass("nav__active");
-        console.log("nav__active class added");
-    } else {
-        //remove the background property so it comes transparent again (defined in your css)
-       $(".navbar").removeClass("nav__active");
-       console.log("nav__active class removed");
-    }
+
+    var $navbar = $(".navbar");
+
+    // Listen for the scroll event on the window
+    $(window).on("scroll", function() {
+        // Check if the scroll position is greater than 0 (i.e., scrolled down from the top)
+        if ($(this).scrollTop() > 0) {
+            // Add a class to the navbar to change its background color
+            $navbar.addClass("nav__active");
+        } else {
+            // Remove the class if the scroll position is at the top
+            $navbar.removeClass("nav__active");
+        }
+    });
 });
+    
