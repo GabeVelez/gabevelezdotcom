@@ -1,6 +1,9 @@
 $(function() {
     $("header").load("layout/nav.html");
     $("footer").load("layout/footer.html");
+});
+
+$(function() {
     $(window).on("scroll", function() {
         if($(window).scrollTop() > 50) {
             $("header").addClass("header__active");
