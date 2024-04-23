@@ -242,7 +242,7 @@ footer .content__container {
 
 .hero {
   width: 100%;
-  height:84vh;
+  height:82vh;
   display: flex;
   background-color: var(--gabe-black);
   position: relative;
@@ -276,24 +276,18 @@ footer .content__container {
 
 /* Homepage__casestudy */
 
-.folioList {
+.cases {
   padding: 0 1.5rem;
   background-color: var(--gabe-gray);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.folioTitle {
+.cases__title {
   text-align: center;
   margin: 0 auto;
-  padding: 2rem;
-  color: var(--color-regentGreen);
-}
-.folioTitle h2 {
-  font-weight: 600;
+  padding: 2rem 0 1.25rem;
   text-transform: uppercase;
-  margin-top: 0;
-  margin-bottom: 0;
   font-size: 1rem;
   letter-spacing: .25rem;
   color:var(--color-white);
@@ -301,7 +295,7 @@ footer .content__container {
   font-weight: 400;
   font-style: normal;
 }
-.caseStudyPanel {
+.card {
   background-color: var(--gabe-black-alpha);
   border-radius: .5rem;
   width:100%;
@@ -310,8 +304,9 @@ footer .content__container {
   box-shadow: 2px 2px 6px rgb(0 0 0 / 20%);
   transition: box-shadow 0.2s ease;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
-.caseStudyPanel:hover {
+.card:hover {
   box-shadow: 4px 4px 12px rgb(0 0 0 / 40%);
 }
 .caseStudyImage {
@@ -335,7 +330,7 @@ footer .content__container {
 }
 .casestudy__subtitle {
   font-size: 1rem;
-  line-height: 1.25rem;
+  line-height: 1.5rem;
   margin-top: 0;
   color:var(--gabe-white);
 }
@@ -412,7 +407,7 @@ footer .content__container {
   .navbar {
     justify-content: space-between;
   }
-  .caseStudyPanel {
+  .card {
     margin-bottom: 2rem;
     margin-top: 2rem;
     width: 60rem;
