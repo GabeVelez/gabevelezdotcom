@@ -32,11 +32,6 @@ body {
   color: var(--gabe-white);
   font-family: "poppins", sans-serif;
 }
-html, body {
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 body.home {
   background-color: var(--gabe-gray);
 }
@@ -94,7 +89,8 @@ header {
   margin-top: 1rem;
 }
 .nav__active {
-  background-color: var(--gabe-black);
+  background: rgb(27,32,33);
+background: linear-gradient(0deg, rgba(27,32,33,0) 0%, rgba(27,32,33,0.85) 100%);
 }
 #menu__toggle, .menu__btn {
   display: block;
