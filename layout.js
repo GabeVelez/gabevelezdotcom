@@ -6,10 +6,10 @@ $(function() {
 $(function() {
     $(window).on("scroll", function() {
         if($(window).scrollTop() > 50) {
-            $("header").addClass("header__active");
+            $(".navbar").addClass("nav__active");
         } else {
             //remove the background property so it comes transparent again (defined in your css)
-           $("header").removeClass("header__active");
+           $(".navbar").removeClass("nav__active");
         }
     });
 });
