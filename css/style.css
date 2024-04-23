@@ -75,7 +75,7 @@ hr {
   margin: 0;
 }
 header {
-  padding: 1rem 0 0;
+  padding: 0;
   width: 100%;
   margin: 0 auto;
   position: fixed;
@@ -352,7 +352,7 @@ footer .content__container {
 
 .content__wrapper {
   width: 100%;
-  padding: 1rem 0;
+  padding: 0;
 }
 .content__container--small {
   width: 40rem;
