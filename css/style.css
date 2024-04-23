@@ -74,6 +74,9 @@ hr {
   border:1px solid var(--color-pristine);
   margin: 0;
 }
+
+/* Navigation */
+
 header {
   padding: 0;
   width: 100%;
@@ -81,15 +84,13 @@ header {
   position: fixed;
   z-index: 4;
 }
-.nav__active {
-  background-image: linear-gradient(180deg, rgba(27, 32, 33, 0.85), rgba(27, 32, 33, 0));
-}
-
-/* Navigation */
-
 .navbar {
   display: flex;
   justify-content: flex-start;
+  margin-top: 1rem;
+}
+.nav__active {
+  background-color: var(--gabe-black);
 }
 #menu__toggle, .menu__btn {
   display: block;
