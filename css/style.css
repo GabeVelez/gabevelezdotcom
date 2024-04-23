@@ -81,6 +81,9 @@ header {
   position: fixed;
   z-index: 4;
 }
+.header__active {
+  background-color: linear-gradient(180deg, rgb(27 32 33 / 85%), rgb(27 32 33 / 0%));
+}
 
 /* Navigation */
 
@@ -89,8 +92,8 @@ header {
   justify-content: flex-start;
 }
 #menu__toggle, .menu__btn {
-  display: none;
-} 
+  display: block;
+}
 #menu__toggle {
   opacity: 0;
 }
@@ -184,7 +187,7 @@ header {
   margin-left: 1rem;
 }
 .nav__links {
-  display: flex;
+  display: none;
   margin-top: 0.625rem;
   margin-bottom: 0;
   padding-inline-start: 0;
@@ -374,12 +377,6 @@ footer .content__container {
 }
 
 @media (max-width: 479px) {
-  #menu__toggle, .menu__btn {
-    display: block;
-  }
-  .nav__links {
-    display: none;
-  }
   .content-wrapper__helloWorld {
     padding: 0 0 2rem;
   }
@@ -420,5 +417,11 @@ footer .content__container {
   }
   .folioList {
     padding: 1.5rem 0;
+  }
+  #menu__toggle, .menu__btn {
+    display: none;
+  }
+  .nav__links {
+    display: flex;
   }
 }
