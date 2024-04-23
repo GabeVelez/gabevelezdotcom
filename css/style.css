@@ -78,18 +78,22 @@ hr {
 /* Navigation */
 
 header {
-  padding: 0;
-  width: 100%;
-  margin: 0 auto;
   position: fixed;
-  z-index: 4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0;
+  z-index: 10000;
+  transition: all 0.2s ease-in-out;
+  height: auto;
+  background-color:transparent;  
 }
 .navbar {
   display: flex;
   justify-content: flex-start;
   margin-top: 1rem;
 }
-.nav__active {
+.aos-animate {
   background-color: var(--gabe-black);
 }
 #menu__toggle, .menu__btn {
