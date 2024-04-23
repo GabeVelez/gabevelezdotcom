@@ -19,6 +19,8 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 html {
   font-family: sans-serif;
@@ -26,7 +28,6 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
-  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--gabe-white);
