@@ -77,7 +77,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 0;
+  padding: 0 0 1.25rem;
   z-index: 10000;
   transition: all 0.2s ease-in-out;
   height: auto;
@@ -90,7 +90,7 @@ header {
 }
 .nav__active {
   background: rgb(27,32,33);
-background: linear-gradient(0deg, rgba(27,32,33,0) 0%, rgba(27,32,33,0.85) 100%);
+  background: linear-gradient(0deg, rgba(27,32,33,0) 0%, rgba(27,32,33,0.85) 40%);
 }
 #menu__toggle, .menu__btn {
   display: block;
