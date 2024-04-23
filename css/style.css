@@ -93,7 +93,7 @@ header {
   justify-content: flex-start;
   margin-top: 1rem;
 }
-.aos-animate {
+.nav__active {
   background-color: var(--gabe-black);
 }
 #menu__toggle, .menu__btn {
