@@ -5,7 +5,7 @@
   --gabe-gray: #364042;
   --gabe-darkred: #240000;
   --gabe-teal: #235965;
-  --gabe-pink: #FF69B4;
+  --gabe-gold: #e9c35c;
 }
 html, body {
     margin: 0;
@@ -37,11 +37,11 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color:var(--gabe-pink);
+  color:var(--gabe-gold);
 }
 .company__link, .company__link--small {
   color: var(--gabe-black);
-  background-color: var(--gabe-white);
+  background: var(--gabe-white);
   text-decoration: none;
   text-transform: uppercase;
   display: inline-block;
@@ -54,7 +54,8 @@ a:hover {
   padding: 0.05rem .15rem 0;
 }
 .company__link:hover, .company__link--small:hover {
-  background-color: var(--gabe-pink);
+  background: rgb(224,170,62);
+  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
   color: var(--gabe-black);
 }
 strong {
@@ -164,7 +165,7 @@ header {
 }
 .menu__text {
   color: var(--gabe-black);
-  background-color: var(--gabe-white);
+  background: var(--gabe-white);
   padding: 1.5rem 1rem 1rem;
   text-transform: uppercase;
   font-family: "poppins", sans-serif;
@@ -176,7 +177,9 @@ header {
   line-height: 1.25rem;
 }
 .menu__text:hover {
-  color:var(--gabe-pink);
+  color: var(--gabe-black);
+  background: rgb(224,170,62);
+  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
 }
 .logo__link {
   margin-top: .4rem;
@@ -202,7 +205,7 @@ ul.nav__links li a {
   text-transform: uppercase;
 }
 ul.nav__links li a:hover, ul.nav__links li a:active {
-  color: var(--gabe-pink);
+  color: var(--gabe-gold);
 }
 
 /* Footer */
