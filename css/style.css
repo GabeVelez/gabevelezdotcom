@@ -63,7 +63,7 @@ strong {
 }
 hr {
   border:1px solid var(--gabe-gold);
-  opacity: 0.5;
+  opacity: 0.25;
   margin: 0;
 }
 
