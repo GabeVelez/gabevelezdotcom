@@ -264,7 +264,7 @@ footer {
   flex-direction: column;
   align-content: center;
   align-self: flex-end;
-  padding: 0 1.5rem 2rem;
+  padding: 0 1.5rem 1rem;
   z-index: 2;
   color: var(--gabe-white);
   line-height: 1.75rem;
@@ -404,6 +404,7 @@ footer {
   }
   .hero__text {
     width: 60rem;
+    padding-bottom: 2rem;
   }
    .cases {
     padding: 1.5rem 0;
