@@ -218,7 +218,7 @@ footer {
   color: var(--gabe-white);
   margin: 0 auto;
   padding: 1rem 1rem 1.5rem;
-   width: auto;
+  width: auto;
 }
 .footer__container {
   width:100%;
@@ -370,8 +370,12 @@ footer {
   }
 }
 @media (min-width: 480px) {
+  .hero {
+    height: 45rem;
+  }
   .navbar {
     justify-content: space-between;
+    padding: 0 4rem;
   }
   #menu__toggle, .menu__btn {
     display: none;
@@ -380,11 +384,14 @@ footer {
     display: flex;
   }
   footer {
-    padding: 1rem 2rem 1.75rem;
-    width: 75rem;
+    padding: 1rem 4rem 1.75rem;
   }
   .footer__container {
     justify-content: space-between;
+  }
+  .hero__image {
+    height: auto;
+    width: inherit;
   }
   .hero__text {
     width: 60rem;
