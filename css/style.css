@@ -1,11 +1,4 @@
 :root {
-  --color-white:#ffffff;
-  --color-regentGreen:#3b5156;
-  --color-blueNova:#5B6D93;
-  --color-topaz:#C06A47;
-  --color-honeybee:#EED99A;
-  --color-antiquePewter:#8C8A7B;
-  --color-pristine:#EFE2D2;
   --gabe-black: #1B2021;
   --gabe-black-alpha: rgb(27 32 33 / 85%);
   --gabe-white: #FFFFFF;
@@ -62,12 +55,13 @@ a:hover {
 }
 .company__link:hover, .company__link--small:hover {
   background-color: var(--gabe-pink);
+  color: var(--gabe-black);
 }
 strong {
   font-weight: 600;
 }
 hr {
-  border:1px solid var(--color-pristine);
+  border:1px solid var(--gabe-white);
   margin: 0;
 }
 
@@ -105,12 +99,12 @@ header {
 #menu__toggle:checked + .menu__btn > span::before {
   top: 0;
   transform: rotate(0deg);
-  background-color: var(--color-white);
+  background-color: var(--gabe-white);
 }
 #menu__toggle:checked + .menu__btn > span::after {
   top: 0;
   transform: rotate(90deg);
-  background-color: var(--color-white);
+  background-color: var(--gabe-white);
 }
 #menu__toggle:checked ~ .menu__box {
   left: 0 !important;
@@ -291,10 +285,17 @@ footer {
   text-transform: uppercase;
   font-size: 1rem;
   letter-spacing: .25rem;
-  color:var(--color-white);
+  color:var(--gabe-white);
   font-family: "poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+.cases__container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 .card {
   background-color: var(--gabe-black-alpha);
@@ -402,13 +403,20 @@ footer {
   .cases__title {
     letter-spacing: .5rem;
   }
+  .cases__container {
+    display: flex;
+    width: 60rem;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
   .card {
     margin-bottom: 2rem;
     margin-top: 2rem;
-    width: 60rem;
+    width: 28rem;
   }
   .card__image {
-    width: 30rem;
+    width: 28rem;
     border-radius: 0.5rem 0.5rem 0 0;
   }
   .card__textarea {
