@@ -246,23 +246,24 @@ footer {
   height:80vh;
   display: flex;
   background-color: var(--gabe-black);
+  z-index:-1;
 }
 .hero__image {
   object-fit: contain;
   width: 100%;
   height: auto;
   position: absolute;
-  z-index:1;
+  z-index:0;
 }
 .hero__text {
-  width: 60rem;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-content: center;
   align-self: flex-end;
-  padding: 0 1.5rem 3rem;
+  padding: 0 1.5rem 2rem;
   z-index: 2;
   color: var(--gabe-white);
   line-height: 1.75rem;
@@ -385,7 +386,10 @@ footer {
   .footer__container {
     justify-content: space-between;
   }
-  .cases {
+  .hero__text {
+    width: 60rem;
+  }
+   .cases {
     padding: 1.5rem 0;
   }
   .cases__title {
