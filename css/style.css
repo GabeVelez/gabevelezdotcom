@@ -62,7 +62,8 @@ strong {
   font-weight: 600;
 }
 hr {
-  border:1px solid var(--gabe-white);
+  border:1px solid var(--gabe-gold);
+  opacity: 0.5;
   margin: 0;
 }
 
@@ -360,6 +361,7 @@ footer {
 .photo__credit {
     font-size: 0.75rem;
     line-height: 1rem;
+    margin-top: 1.25rem;
 }
 .about__intro {
   font-weight: 400;
