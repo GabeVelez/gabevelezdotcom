@@ -246,7 +246,6 @@ footer {
   height:82vh;
   display: flex;
   background-color: var(--gabe-black);
-  position: relative;
 }
 .hero__image {
   object-fit: contain;
