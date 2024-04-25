@@ -34,6 +34,9 @@ a {
 a:hover {
   color:var(--gabe-gold);
 }
+p {
+  font-size: 1rem;
+}
 .company__link, .company__link--small {
   color: var(--gabe-black);
   background: var(--gabe-white);
@@ -62,7 +65,7 @@ hr {
   margin: 0;
 }
 
-/* Navigation */
+/* Header + Nav */
 
 header {
   position: fixed;
@@ -340,14 +343,13 @@ footer {
   width: 100%;
   padding: 0;
 }
-.content__container--small {
+.content__container {
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-content: center;
-  align-items: center;
 }
 .image__top {
   width:inherit;
@@ -355,24 +357,66 @@ footer {
 .photo__credit {
     font-size: 0.75rem;
     line-height: 1rem;
-    margin-top: 1.25rem;
+    margin: 1.25rem 1.5rem 1rem;
+    text-align: center;
 }
 .about__intro {
   font-weight: 400;
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
+.about__intro, .about__text {
+    margin:1rem 1.5rem;
+  }
 
-@media (max-width: 479px) {
-  .about__intro, .about__text {
-    margin-left:1rem;
-    margin-right:1rem;
-  }
+/* Case Study Content */
+
+.casestudy__hero {
+  margin:3rem 1.5rem 1rem;
 }
-@media (min-width: 480px) {
-  .hero {
-    height: 45rem;
-  }
+.casestudy__title {
+  font-weight: 400;
+  line-height: 3rem;
+}
+.casestudy__dates {
+  font-weight: 400;
+  font-size: .875rem;
+}
+.casestudy__image {
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+}
+.casestudy__text {
+  margin:2.25rem 1.5rem 3rem;  
+}
+.block__casestudy {
+  padding:3rem 1.5rem;
+}
+.block__gray {
+  background-color: var(--gabe-gray);
+}
+.block__red {
+  background-color: var(--gabe-darkred);
+}
+.block__teal {
+  background-color: var(--gabe-teal);
+}
+.block__title {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.block__image {
+  width:100%;
+  box-shadow: 2px 2px 6px rgb(0 0 0 / 20%);
+  border-radius: .5rem;
+}
+
+@media (min-width: 600px) {
+
+  /* Header + Nav */
+
   .navbar {
     justify-content: space-between;
     padding: 0 4rem;
@@ -383,11 +427,20 @@ footer {
   .nav__links {
     display: flex;
   }
+
+  /* Footer */
+
   footer {
     padding: 1rem 4rem 1.75rem;
   }
   .footer__container {
     justify-content: space-between;
+  }
+
+  /* Homepage__hero */
+
+  .hero {
+    height: 45rem;
   }
   .hero__image {
     height: auto;
@@ -397,6 +450,9 @@ footer {
     width: 60rem;
     padding-bottom: 2rem;
   }
+
+  /* Homepage__casestudy */
+
    .cases {
     padding: 1.5rem 0;
   }
@@ -422,7 +478,10 @@ footer {
   .card__textarea {
     width: width: 26rem;
   }
-  .content__container--small {
+  .content__container {
     width: 40rem;
   }
+
+  /* Case Study Content */
+
 }
