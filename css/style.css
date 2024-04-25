@@ -420,7 +420,7 @@ footer {
 }
 .block__text--small {
     font-size: 0.75rem;
-    line-height: 1rem;
+    line-height: 1.25rem;
     margin: 0.25rem 0 2.5rem;
     text-align: center;
 }
