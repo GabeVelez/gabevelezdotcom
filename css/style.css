@@ -21,16 +21,11 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
+  background-color: var(--gabe-black);
+  color: var(--gabe-white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--gabe-white);
   font-family: "poppins", sans-serif;
-}
-body.home {
-  background-color: var(--gabe-gray);
-}
-body.page {
-  background-color: var(--gabe-black);
 }
 a {
   color:var(--gabe-white);
@@ -216,7 +211,6 @@ ul.nav__links li a:hover, ul.nav__links li a:active {
 
 footer {
   background-color: var(--gabe-black);
-  color: var(--gabe-white);
   margin: 0 auto;
   padding: 1rem 1rem 1.5rem;
   width: auto;
@@ -266,7 +260,6 @@ footer {
   align-self: flex-end;
   padding: 0 1.5rem 1rem;
   z-index: 2;
-  color: var(--gabe-white);
   line-height: 1.75rem;
 }
 .hero__hi {
@@ -292,7 +285,6 @@ footer {
   text-transform: uppercase;
   font-size: 1rem;
   letter-spacing: .25rem;
-  color:var(--gabe-white);
   font-family: "poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -340,7 +332,6 @@ footer {
   font-size: 1rem;
   line-height: 1.5rem;
   margin-top: 0;
-  color:var(--gabe-white);
 }
 
 /* About Page Content */
