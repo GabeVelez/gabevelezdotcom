@@ -27,15 +27,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: "poppins", sans-serif;
 }
+p {
+  font-size: 1rem;
+}
 a {
   color:var(--gabe-white);
   text-decoration: none;
 }
 a:hover {
   color:var(--gabe-gold);
-}
-p {
-  font-size: 1rem;
 }
 .company__link, .company__link--small {
   color: var(--gabe-black);
@@ -55,6 +55,9 @@ p {
   background: rgb(224,170,62);
   background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
   color: var(--gabe-black);
+}
+::marker {
+    font-weight: 600;
 }
 strong {
   font-weight: 600;
@@ -403,14 +406,23 @@ footer {
   background-color: var(--gabe-teal);
 }
 .block__title {
-  font-size: 1rem;
+  font-size: 1.25rem;
   text-transform: uppercase;
   font-weight: 400;
+  letter-spacing: 0.2rem;
+  margin-bottom:1.25rem;
 }
 .block__image {
   width:100%;
   box-shadow: 2px 2px 6px rgb(0 0 0 / 20%);
   border-radius: .5rem;
+  margin: 1.25rem 0 1rem;
+}
+.block__text--small {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    margin: 0.25rem 0 2rem;
+    text-align: center;
 }
 
 @media (min-width: 600px) {
