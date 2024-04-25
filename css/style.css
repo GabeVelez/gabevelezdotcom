@@ -372,11 +372,11 @@ footer {
 /* Case Study Content */
 
 .casestudy__hero {
-  margin:3rem 1.5rem 1rem;
+  margin:5rem 1.5rem 1rem;
 }
 .casestudy__title {
   font-weight: 400;
-  line-height: 3rem;
+  line-height: 2.5rem;
 }
 .casestudy__dates {
   font-weight: 400;
