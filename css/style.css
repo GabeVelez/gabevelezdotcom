@@ -516,6 +516,15 @@ footer {
 
   /* Case Study Content */
 
+  .casestudy__hero {
+    margin: 7rem 1.5rem 2rem;
+  }
+  .casestudy__title {
+    font-size: 2rem;
+  }
+  .casestudy__dates {
+    font-size: 1rem;
+  }
   .block__container {
     width: 40rem;
   }
