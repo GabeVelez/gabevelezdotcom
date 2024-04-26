@@ -3,6 +3,7 @@
   --gabe-black-alpha: rgb(27 32 33 / 85%);
   --gabe-white: #FFFFFF;
   --gabe-gray: #364042;
+  --gabe-red: #800020;
   --gabe-darkred: #240000;
   --gabe-teal: #235965;
   --gabe-gold: #e9c35c;
@@ -312,10 +313,22 @@ footer {
   transition: box-shadow 0.2s ease;
   text-align: center;
   margin-bottom: 1.5rem;
+  position: relative;
 }
 .card:hover {
   box-shadow: 4px 4px 12px rgb(0 0 0 / 40%);
 }
+.card__banner {
+  position: absolute;
+    top:1.25rem;
+    background-color:var(--gabe-red);
+    color: var(--gabe-white);
+    text-align: center;
+    margin: 0 auto;
+    padding: 0.625rem 1rem;
+    text-transform: uppercase;
+    font-weight: 600; 
+  }
 .card__image {
   width: 100%;
   display: flex;
