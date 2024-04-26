@@ -41,6 +41,7 @@ a:hover {
 .disabled {
   cursor: not-allowed;
   text-decoration: none;
+  pointer-events: none;
 }
 .company__link, .company__link--small {
   color: var(--gabe-black);
@@ -56,7 +57,7 @@ a:hover {
 .company__link--small {
   padding: 0.05rem .15rem 0;
 }
-.company__link:hover, .company__link--small:hover {
+.company__link:hover, .company__link--small:hover, .card:hover .company__link {
   background: rgb(224,170,62);
   background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
   color: var(--gabe-black);
