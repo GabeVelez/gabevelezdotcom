@@ -487,10 +487,6 @@ footer {
   .hero {
     height: 45rem;
   }
-  .hero__image {
-    height: auto;
-    width: inherit;
-  }
   .hero__textarea {
     width: 60rem;
     padding-bottom: 2rem;
@@ -516,7 +512,7 @@ footer {
     margin-right: auto;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1060px) {
 
   /* Header + Nav */
 
@@ -529,6 +525,13 @@ footer {
   }
   .nav__links {
     display: flex;
+  }
+
+  /* Homepage__hero */
+
+  .hero__image {
+    height: auto;
+    width: inherit;
   }
 
   /* Homepage__casestudy */
