@@ -393,7 +393,7 @@ footer {
 .casestudy__text {
   margin:2.25rem 1.5rem 3rem;  
 }
-.block__casestudy {
+.block {
   padding:3rem 1.5rem;
 }
 .block__gray {
@@ -404,6 +404,13 @@ footer {
 }
 .block__teal {
   background-color: var(--gabe-teal);
+}
+.block__container {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 .block__title {
   font-size: 1.25rem;
@@ -491,9 +498,18 @@ footer {
     width: width: 26rem;
   }
   .content__container {
-    width: 40rem;
+    width: 60rem;
   }
 
   /* Case Study Content */
+
+  .block__container {
+    width: 40rem;
+  }
+  .block__image--half {
+    width:50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
 }

@@ -22,19 +22,27 @@
     <body class="page casestudy">
     	<header>
     	</header>
-        <div class="content__wrapper">
-            <div class="content__container">
+        <section class="content__wrapper">
+            <div class="block__container">
                 <div class="casestudy__hero">
                     <h1 class="casestudy__title">AfterPromCentral Events Calendar</h1>
                 <h2 class="casestudy__dates">January 2024 - March 2024</h2>
                 </div>
-                <picture>
-                    <source type="image/webp" media="(min-width: 600px)" srcset="/img/casestudy-hero-desktop.webp">
-                    </source>
-                    <img class="casestudy__image" loading="eager" decoding="async" src="/img/caseStudy_APCECalendar.webp" alt="AfterPromCentral Events Calendar on mobile">
-                </picture>
-                <p class="casestudy__text">I served as the Lead UX Designer and Wordpress Plugin Engineer throughout the entire process from data-driven UX research to initial designs to coding and in-house testing on both mobile & desktop.</p>
-                <div class="block__casestudy block__gray">
+            </div>
+        </section>
+        <picture>
+            <source type="image/webp" media="(min-width: 600px)" srcset="/img/casestudy-hero-desktop.webp">
+            </source>
+            <img class="casestudy__image" loading="eager" decoding="async" src="/img/caseStudy_APCECalendar.webp" alt="AfterPromCentral Events Calendar on mobile">
+        </picture>
+        <article>
+            <section class="block">
+                <div class="block__container">
+                    <p>I served as the Lead UX Designer and Wordpress Plugin Engineer throughout the entire process from data-driven UX research to initial designs to coding and in-house testing on both mobile & desktop.</p>
+                </div>
+            </section>
+            <section class="block block__gray">
+                <div class="block__container">
                     <h3 class="block__title">Context</h3>
                     <p>For over a decade, AfterPromCentral dot com has sold tickets to their after-prom parties for thousands of high school kids in the New York / New Jersey metro area. Their prom season consists of 20-30 parties, running between March and June, and are held in a variety of different venues.</p>
 
@@ -45,11 +53,13 @@
                         </ol>
                     </p>
                 </div>
-                <div class="block__casestudy block__red">
+            </section>
+            <section class="block block__red">
+                <div class="block__container">
                     <h3 class="block__title">The Challenge</h3>
                     <p>The site beforehand had a calendar list view present, but it was literally hand-coded HTML in a widget in the backend of Wordpress. This was messy - the people on the team that manage this are not developers, and accidents would be prone to occur.</p>
 
-                    <img class="block__image" src="/img/casestudy_APCEManualHTMLcode.webp">
+                    <img class="block__image block__image--half" src="/img/casestudy_APCEManualHTMLcode.webp">
 
                     <p class="block__text--small">Manually editing HTML only causes human error!</p>
 
@@ -59,7 +69,9 @@
 
                     <p>There also was the development chasm - I’ve been designing and building Wordpress sites for a while, but only ever kept completely on the front-end. Plugin development was never something I would consider to venture into.</p>
                 </div>
-                <div class="block__casestudy block__teal">
+            </section>
+            <section class="block block__teal">
+                <div class="block__container">
                     <h3 class="block__title">Solution</h3>
                     <p>As the adage goes: Always Be Closing. The decision was made to have these tiles link directly to the sales page instead of the venue page.</p>
 
@@ -69,7 +81,7 @@
 
                     <p>Also, the design would be more focused on the date instead of the venue, so the user can immediately go buy those tickets for that date they need. Company desired to also keep the venue logo strictly for branding purposes.</p>
 
-                    <img class="block__image" src="/img/casestudy_APCETilesFigma.webp">
+                    <img class="block__image block__image--half" src="/img/casestudy_APCETilesFigma.webp">
 
                     <p class="block__text--small">Original vs New Calendar Tile design.</p>
 
@@ -85,24 +97,26 @@
 
                     <p>The plugin basically sets up an admin page section in the Wordpress backend where you can see a new table, pulled from the database, that would show all these events. There team members can add an event using a modal. The event would then be added to the database, where the tabbed calendar area found in the homepage and calendar page can pull data from.</p>
 
-                        <img class="block__image" src="/img/caseStudy_APCEHomepageCalendar.webp">
+                    <img class="block__image" src="/img/caseStudy_APCEHomepageCalendar.webp">
 
-                        <p class="block__text--small">Calendar before & after on the homepage.</p>
+                    <p class="block__text--small">Calendar before & after on the homepage.</p>
 
                     <p>I also remodeled the venue pages so that calendar data can also be pulled from the database and show only the dates of that venue.</p>
 
-                        <img class="block__image" src="/img/caseStudy_APCEVenuepageCalendar.webp">
+                    <img class="block__image" src="/img/caseStudy_APCEVenuepageCalendar.webp">
 
-                        <p class="block__text--small">Before and after showing how users can now see the dates related to their prom better.</p>
+                    <p class="block__text--small">Before and after showing how users can now see the dates related to their prom better.</p>
 
                     <p>There is also a feature created so a team member can delete an event from the table. An editing feature is currently in the works, which is scheduled to add in the off-season.</p>
                 </div>
-                <div class="block__casestudy block__gray">
+            </section>
+            <section class="block block__gray">
+                <div class="block__container">
                     <h3 class="block__title">Results</h3>
                     <p>Deployed just recently. Internally, the team was more than satisfied. There was always a grimace when it came to making these edits. Now, those edits are simple and easy to handle.</p>
                 </div>
-            </div>
-        </div>
+            </section>
+        </article>
         <footer>
         </footer>
     </body>
