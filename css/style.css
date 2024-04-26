@@ -496,37 +496,6 @@ footer {
     padding-bottom: 2rem;
   }
 
-  /* Homepage__casestudy */
-
-   .cases {
-    padding: 1.5rem 0;
-  }
-  .cases__title {
-    letter-spacing: .5rem;
-  }
-  .cases__container {
-    display: flex;
-    width: 60rem;
-    justify-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .card {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-    width: 28rem;
-  }
-  .card__image {
-    width: 28rem;
-    border-radius: 0.5rem 0.5rem 0 0;
-  }
-  .card__textarea {
-    width: width: 26rem;
-  }
-  .content__container {
-    width: 60rem;
-  }
-
   /* Case Study Content */
 
   .casestudy__hero {
@@ -560,5 +529,39 @@ footer {
   }
   .nav__links {
     display: flex;
+  }
+
+  /* Homepage__casestudy */
+
+   .cases {
+    padding: 1.5rem 0;
+  }
+  .cases__title {
+    letter-spacing: .5rem;
+  }
+  .cases__container {
+    display: flex;
+    width: 60rem;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .card {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    width: 28rem;
+  }
+  .card__image {
+    width: 28rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .card__textarea {
+    width: width: 26rem;
+  }
+
+  /* About Page Content */
+  
+  .content__container {
+    width: 60rem;
   }
 }
