@@ -38,6 +38,10 @@ a {
 a:hover {
   color:var(--gabe-gold);
 }
+.disabled {
+  cursor: not-allowed;
+  text-decoration: none;
+}
 .company__link, .company__link--small {
   color: var(--gabe-black);
   background: var(--gabe-white);
