@@ -540,7 +540,7 @@ footer {
     padding: 1.5rem 0;
   }
   .cases__title {
-    letter-spacing: .5rem;
+    font-size: 1.25rem;
   }
   .cases__container {
     display: flex;
