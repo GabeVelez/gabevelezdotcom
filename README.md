@@ -9,4 +9,4 @@
 <hr/>
 
 ### About the site
-The site is build completely using bare-bones HTML & CSS. No frameworks, because I'm nutty like that.
+The site is build completely using bare-bones HTML, CSS & just a dash of JQuery. No frameworks, because I'm nutty like that.
