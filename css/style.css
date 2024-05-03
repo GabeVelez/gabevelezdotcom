@@ -509,6 +509,9 @@ footer {
     width: 60rem;
     padding-bottom: 2rem;
   }
+  .hero__text {
+    font-size: 1.25rem;
+  }
 
   /* Case Study Content */
 
