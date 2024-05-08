@@ -532,6 +532,10 @@ footer {
     margin-left: auto;
     margin-right: auto;
   }
+  .block__iframe--typography {
+    width:640px;
+    height:320px; 
+  }
 }
 @media (min-width: 1060px) {
 
