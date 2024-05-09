@@ -17,6 +17,7 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="/layout.js" type="text/javascript"></script>
         <script src="/scroll.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="/css/textfield.css">
         <link rel="stylesheet" href="https://use.typekit.net/lho8sph.css">
@@ -72,9 +73,43 @@
                     <p>As a designer originally for ListenLoop, I had made sure that the colors proposed worked with our palette. Also, working with the designer at Akkroo, I made sure that their colors were taken into consideration. After some discussion, the team determined that we could reduce the number of colors used down to 46 colors in total, surpassing the 50% suggested. I was certain we could refine this number even more, but for 5 designers working together this was a great start.</p>
                     <h4 class="block__subtitle">2. Typography</h4>
                     <p>My next responsibility in the audit involved typography. In this, the marketing team at Integrate had already made the decision to use the Inter font through all our web products. We accepted this, but we discovered that the Integrate product was using decimal values in their font sizes and had many weights and sizes, most of which were unused.</p>
-                    <div class="block__embed">
+                    <!-- <div class="block__embed">
                         <iframe class="block__embed--iframe" src="https://xd.adobe.com/embed/4e7cb113-9145-4b54-8db1-7412807cecfe-1b2f/" frameborder="0" allowfullscreen=""></iframe>
-                    </div>
+                    </div> -->
+                </div>
+                <div class="block__container">
+                    <swiper-container navigation="true" pagination="true">
+                      <!-- lazy="true" attribute will automatically render the preloader element -->
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-1.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-2.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-3.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-4.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-5.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-6.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-7.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-8.webp" loading="lazy" />
+                      </swiper-slide>
+                      <swiper-slide lazy="true">
+                        <img class="block__slide" src="/img/typoprezi-9.webp" loading="lazy" />
+                      </swiper-slide>
+                      .........
+                    </swiper-container>
+
                     <p class="block__text--small">Presentation of proposed typography audit.</p>
                     <p>Looking at all three products' different font requirements, we were able to determine that we could use whole number values for font sizes. We also could reduce the number of font sizes and weights overall by about one-third without any major visual difference in all three products.</p>
                     <h4 class="block__subtitle">3. Text Fields</h4>

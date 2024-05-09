@@ -488,6 +488,10 @@ footer {
   border-radius: .5rem;
   margin: 1.5rem 0 0.5rem;
 }
+swiper-container, .block__slide {
+  width:640px;
+  height:auto;
+}
 .block__embed {
   padding-bottom:56.25%;
   position:relative;
