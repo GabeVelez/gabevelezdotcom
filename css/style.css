@@ -489,7 +489,7 @@ footer {
   margin: 1.5rem 0 0.5rem;
 }
 swiper-container, .block__slide {
-  width:640px;
+  width:100%;
   height:auto;
 }
 .block__embed {
