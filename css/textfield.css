@@ -1,0 +1,453 @@
+/* Integrate Colors ------------------------------------------ */
+
+:root {
+    --color-black-primary: rgba(0, 0, 0, 0.87);
+    --color-black-secondary: rgba(0, 0, 0, 0.54);
+    --color-black-placeholder: rgba(0, 0, 0, 0.38);
+    --color-black-disable: rgba(0, 0, 0, 0.26);
+    --color-neutral-50: #fafafa;
+    --color-neutral-100: #efefef;
+    --color-neutral-300: #cfcfcf;
+    --color-neutral-500: #a3a3a3;
+    --color-neutral-700: #737373;
+    --color-neutral-900: #424242;
+    --color-blue-500: #4ba8fa;
+    --color-red-500: #f76b5e;
+    --color-yellow-700: #a98e32;
+}
+
+/* General Layout ======================================= */
+
+.textfield__container, .textfield__container--small {
+    font-family:'Inter', sans-serif;
+    margin:30px auto 0; 
+    display:block; 
+    background-color: var(--gabe-white);
+    box-shadow: 2px 2px 6px rgb(0 0 0 / 20%);
+    border-radius: .5rem;
+    width:100%;
+}
+.textfield__container--research {
+    display: flex;
+    padding-bottom: 16px;
+    flex-direction: column;
+}        
+.textfield__title { 
+    text-align:center; 
+    margin-bottom:50px;
+    font-size:1.2em;
+    color: var(--gabe-black);
+}
+.textfield__title--small { 
+  font-weight:300; 
+  color:var(--color-black-secondary);
+  font-size: .875rem; 
+  display:block;
+  text-align: center;
+}
+.textfield__title--spaceless { 
+    margin-bottom:24px!important;
+}
+.textfield__form, .textfield__form--research {
+    margin:0 20px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* FB Field ======================================= */
+
+.fb-group             { 
+  position:relative; 
+  margin-bottom:16px;
+  display: grid;
+}
+.fb-input               {
+  font-size:16px;
+  padding:22px 16px 6px;
+  display:block;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 4px;
+  color:var(--color-black-primary);
+  margin-top: 0;
+}
+.fb-input:hover {
+    border: 1px solid var(--color-blue-500);
+}
+.fb-input:active {
+    border: 1px solid var(--color-neutral-500);
+}
+.fb-input:focus {
+    border: 2px solid var(--color-blue-500);
+    background-image: none;
+    outline: 0;
+    box-shadow: none;
+    padding:21px 15px 5px;
+}
+
+/* Label */
+
+.fb-label {
+  color:var(--color-black-secondary);
+  font-weight:300; 
+  font-size:16px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:16px;
+  top:14px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* Active state */
+
+.fb-input:focus ~ label, .fb-input:valid ~ label        {
+  top:4px;
+  font-size:12px;
+  color:var(--color-black-secondary);
+  font-weight:500;
+}
+
+/* Placeholder */
+
+.fb-input::placeholder { 
+  color: var(--color-black-placeholder);
+  opacity: 0;
+}
+
+.fb-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--color-black-placeholder);
+  opacity: 0;
+}
+
+.fb-input::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--color-black-placeholder);
+  opacity: 0;
+}
+
+/* Placeholder */
+
+.fb-input:focus::placeholder { 
+  color: var(--color-black-placeholder);
+  opacity: 1;
+}
+
+.fb-input:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--color-black-placeholder);
+  opacity: 1;
+}
+
+.fb-input:focus::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--color-black-placeholder);
+  opacity: 1;
+}
+/* Disabled */
+
+.disabled .fb-input {
+    border: 1px solid var(--color-neutral-300);
+    background:var(--color-neutral-100);
+    pointer-events:none;
+}
+.disabled .fb-label { 
+  color: var(--color-black-disable);
+  opacity: 1;
+}
+
+/* MD Field ======================================= */
+
+.md-group { 
+  position:relative; 
+  margin-bottom:16px; 
+}
+.md-input {
+  font-size:16px;
+  padding:14px 16px;
+  display:block;
+  width:-webkit-fill-available;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 4px;
+  color:var(--color-black-primary);
+}
+.md-input:hover {
+    border: 1px solid var(--color-blue-500);
+}
+.md-input:active {
+    border: 1px solid var(--color-neutral-500);
+}
+.md-input:focus {
+    border: 2px solid var(--color-blue-500);
+    background-image: none;
+    outline: 0;
+    box-shadow: none;
+    padding:13px 15px;
+}
+
+/* Label */
+
+.md-label {
+  color:var(--color-black-secondary);
+  font-weight:300; 
+  font-size:16px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:16px;
+  top:14px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* Active State */
+
+.md-input:focus ~ label, .md-input:valid ~ label        {
+  top:-7px;
+  left:8px;
+  font-size:12px;
+  color:var(--color-black-secondary);
+  font-weight:500;
+  padding:0 8px;
+  background:var(--color-white);
+}
+
+/* Placeholder */
+
+.md-input::placeholder { 
+  color: var(--color-black-placeholder);
+  opacity: 0;
+}
+
+.md-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--color-black-placeholder);
+  opacity: 0;
+}
+
+.md-input::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--color-black-placeholder);
+  opacity: 0;
+}
+
+/* Focused Placeholder */
+
+.md-input:focus::placeholder { 
+  color: var(--color-black-placeholder);
+  opacity: 1;
+}
+
+.md-input:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--color-black-placeholder);
+  opacity: 1;
+}
+
+.md-input:focus::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--color-black-placeholder);
+  opacity: 1;
+}
+/* Disabled */
+.disabled .md-input {
+    border: 1px solid var(--color-neutral-300);
+    background:var(--color-neutral-100);
+    pointer-events:none;
+}
+.disabled .md-label { 
+  color: var(--color-black-disable);
+  opacity: 1;
+}
+
+/* Integrate Fields ======================================= */
+
+.input-group { 
+    display:grid; 
+}
+.search-group {
+    position: relative;
+}
+input {
+    font-size:16px;
+    padding:12px;
+    display:block;
+    border:1px solid var(--color-neutral-300);
+    border-radius:4px;
+    color:var(--color-black-primary);
+    margin-top: 8px;
+    font-family:'Inter', sans-serif;
+}
+input:hover {
+    border: 1px solid var(--color-blue-500);
+}
+input:active {
+    border: 1px solid var(--color-neutral-500);
+}
+input:focus {
+    border: 2px solid var(--color-blue-500);
+    background-image: none;
+    outline: 0;
+    box-shadow: none;
+    padding:11px;
+}
+
+/* Label */
+
+label {
+    color:var(--color-black-secondary);
+    font-weight:300; 
+    font-size:12px;
+    pointer-events:none;
+    display:inline-block;
+    grid-row-start:1;
+    padding-top: 1px;
+    font-family:'Inter', sans-serif;
+}
+label-single {
+    height:16px;
+}
+
+/* Placeholder */
+
+::placeholder { 
+    color: var(--color-black-placeholder);
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--color-black-placeholder);
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--color-black-placeholder);
+}
+.msgspace {
+    min-height:18px;
+    padding:2px 0 1px;
+    margin-bottom: 10px;
+}
+.msgspace p {
+    color:var(--color-black-secondary);
+    font-size: 12px;
+    margin:0;
+}
+
+/* Active State */
+
+input:focus ~ label, input:valid ~ label {
+    color:var(--color-blue-500);
+}
+input:optional ~ label {
+    color:var(--color-black-secondary);
+}
+input:focus ~ label i, input:valid ~ label i {
+    color:var(--color-black-secondary);
+}           
+
+/* Disabled */
+
+.disabled input {
+    border: 1px solid var(--color-neutral-300);
+    background:var(--color-neutral-100);
+    pointer-events:none;
+}
+.disabled label { 
+    color: var(--color-black-disable);
+    opacity: 1;
+}
+.disabled ::placeholder { 
+    color: var(--color-black-disable);
+}
+.disabled :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--color-black-disable);
+}
+.disabled ::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--color-black-disable);
+}
+
+/* Error State */
+
+.erroneous input {
+    border:1px solid var(--color-red-500);
+}
+.erroneous label { 
+    color: var(--color-red-500);
+}
+.erroneous input:focus ~ label, .erroneous input:valid ~ label {
+    color:var(--color-red-500);
+}
+.erroneous input:hover {
+    border: 1px solid var(--color-red-500);
+}
+.erroneous input:focus {
+    border: 2px solid var(--color-red-500);
+}
+.erroneous .msgspace p {
+    color:var(--color-red-500);
+}
+
+/* Warning State */
+
+.warning-man input {
+    border:1px solid var(--color-yellow-700);
+    height:20px;
+}
+.warning-man label { 
+    color: var(--color-yellow-700);
+}
+.warning-man input:focus ~ label, .warning-man input:valid ~ label {
+    color:var(--color-yellow-700);
+}
+.warning-man input:hover {
+    border: 1px solid var(--color-yellow-700);
+}
+.warning-man input:focus {
+    border: 2px solid var(--color-yellow-700);
+}
+.warning-man .msgspace p {
+    color:var(--color-yellow-700);
+}
+
+/* Search */
+
+input[type="search"] {
+    padding-left: 36px;
+}
+input[type="search"]:focus {
+    padding-left: 35px;
+}
+.pre-search {
+    position: absolute;
+    top:20px;
+    left:12px;
+}
+.fa-search {
+    color:var(--gabe-black);
+}
+
+/* Responsive ======================================= */
+
+@media (min-width: 600px) {
+
+    .textfield__container--research {
+        flex-direction: row;
+    }  
+    .textfield__form {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .textfield__form--research {
+        flex-wrap: wrap;
+    }
+    .textfield__form--research, .fb-group, .md-group {
+        width:280px;
+    }
+    .fb-input, .md-input {
+        width:248px;
+    }
+    .input-group {
+        width:280px;
+    }
+    .search-group {
+        margin: 0 auto;
+    }
+    .textfield__container--small {
+        width:50%;
+    }
+
+}

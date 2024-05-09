@@ -18,7 +18,10 @@
         <script src="/layout.js" type="text/javascript"></script>
         <script src="/scroll.js" type="text/javascript"></script>
         <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/textfield.css">
         <link rel="stylesheet" href="https://use.typekit.net/lho8sph.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/cc47dcb7f9.js" crossorigin="anonymous"></script>
     </head>
     <body class="page casestudy">
     	<header>
@@ -46,28 +49,130 @@
             <section class="block block__gray">
                 <div class="block__container">
                     <h3 class="block__title">Context</h3>
-                    <p>As a fast-growing business, Integrate was looking to move away from its humble Material Design beginnings. It had acquired two companies (Akkroo & ListenLoop, where I came from) and needed to unify the different design languages.  The team's goal became over time to work on the foundation behind what would become the design tokens for the Integrate Design System.</p>
+                    <p>As a fast-growing business, Integrate was looking to move away from its humble Material Design beginnings. It had acquired two companies (Akkroo & ListenLoop, where I came from) and needed to unify the different design languages.</p>
+                    <p>The team's goal became over time to work on the foundation behind what would become the design tokens for the Integrate Design System.</p>
                 </div>
             </section>
             <section class="block block__red">
                 <div class="block__container">
                     <h3 class="block__title">The Challenge</h3>
-                    <p>Challenge copy goes here</p>
-                    <div class="block__container--iframe" style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
-                        <iframe class="block__iframe--typography" width="100%" height="100%" src="https://xd.adobe.com/embed/4e7cb113-9145-4b54-8db1-7412807cecfe-1b2f/" frameborder="0" allowfullscreen="" style="position:absolute; top:0; left: 0"></iframe>
-                    </div>
-
-                    <p class="block__text--small">Presentation of proposed typography audit.</p>
-
-                    <p></p>
-
-                    
+                    <p>No one on the Design Team at the time had any experience ever building a proper Design System from scratch. Some of us had already been familiar with pre-existing systems (Bootstrap, Material Design, & Ant Design), but no one knew exactly how to go about it at first.</p>
+                    <p> There was also a huge adjustment that needed to be handled. This was three companies: an Events Company, A B2B Ad Platform, and the parent - a B2B Lead Gen Marketplace. Each had different design languages & methods that would need to eventually align.</p>
+                    <p>Coming from ListenLoop, I was more than just a product designer. I had many hats. I made mockups. I pushed code. I handled some customer sales calls. We used Bootstrap. We used React.js. For myself, this became an adjustment away from generalist responsibilities toward more specific (design) needs.</p>
+                    <p>Integrate was built on Angular.js using version 1 of Material Design. Akkroo was built on PHP and had a mobile app also using version 1 of Material Design. The challenge eventually became not just a design challenge, but an engineering challenge as well.</p>
                 </div>
             </section>
             <section class="block block__teal">
                 <div class="block__container">
                     <h3 class="block__title">Solution</h3>
-                    <p>Solution copy goes here.</p>
+                    <p>To start, the design team came together and did an audit of everything design-related though all our products. We knew that Integrate wanted to move into being a full React application, and we would eventually have to work with front end engineers to build out react components that everyone in every department could use.<p>
+                    <h4>1. Color</h4>
+                    <p>My responsibility in this audit started with color. In going through the original Integrate application, we found that they had around 103 colors - 90 colors from Material Design, 8 black variations of text, black & white, and the 3 brand colors.</p>
+                    <p>I took all these colors and ran WCAG background tests to see what would work best. I also looked through the different applications to see that even though all these colors were listed, only some of them were actually being used. I made the suggestion that we reduce the palette by at least 50-60%.</p>
+                    <p>After working together with the team we determined that we could reduce the number of colors used down to 46 colors in total, surpassing the 50% suggested. I was certain we could refine this number even more, but for 5 designers working together this was a great start.</p>
+                    <h4>2. Typography</h4>
+                    <p>My next responsibility in the audit involved typography. In this, the marketing team at Integrate had already made the decision to use the Inter font through all our web products. We accepted this, but we discovered that the Integrate product was using decimal values in their font sizes and again had too many weights and sizes.</p>
+                    <div class="block__container--iframe" style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
+                        <iframe class="block__iframe--typography" width="100%" height="100%" src="https://xd.adobe.com/embed/4e7cb113-9145-4b54-8db1-7412807cecfe-1b2f/" frameborder="0" allowfullscreen="" style="position:absolute; top:0; left: 0"></iframe>
+                    </div>
+                    <p class="block__text--small">Presentation of proposed typography audit.</p>
+                    <p>Looking at all three products' different font requirements, we were able to determine that we could use whole number values for font sizes. We also could reduce the number font sizes and weights overall by about one-third without any major visual difference in all three products.</p>
+                    <h4>3. Text Fields</h4>
+                    <p>Now that color and typography was decided, the design team started working on designing different components. I was directly responsible for auditing and unifying the textfield and all its different states.</p>
+                    <p>For this project, I was allowed to look outside of our org for inspiration to work up the best possible text field for the unified product. We knew immediately that Bootstrap’s forms were somewhat rudimentary in comparison to the Material Design fields the Integrate Marketplace application was already using.</p>
+                    <p>For inspiration, I looked into how Facebook & Google handled text fields. I even built them out in HTML to see the exact interaction points involved, which helped in formulating a better understanding of creating a field that was going to be utilized a lot with accessibility in mind.</p>
+                    <div class="textfield__container">
+                        <h2 class="textfield__title textfield__title--spaceless">Text Field HTML Research</h2>
+                        <div class="textfield__container--research">
+                            <form class="textfield__form--research">
+                                <h2 class="textfield__title--small">Facebook</h2>
+                                <div class="fb-group">      
+                                    <input class="fb-input" type="text" placeholder="insert name here" required>       <label class="fb-label">Name</label>
+                                </div>
+                                <div class="fb-group disabled">
+                                    <input class="fb-input" type="text" required>
+                                    <label class="fb-label">Email</label>
+                                </div>
+                            </form>
+                            <form class="textfield__form--research"> 
+                                <h2 class="textfield__title--small">Material Design</h2>
+                                <div class="md-group">      
+                                    <input class="md-input" type="text" placeholder="insert name here" required>
+                                    <label class="md-label">Name</label>
+                                </div>
+                                <div class="md-group disabled">      
+                                    <input class="md-input" type="text" required>
+                                    <label class="md-label">Email</label>
+                                </div>  
+                            </form>
+                        </div>
+                    </div>
+                    <p>In the end, we went with a simple yet elegant text field that would not use any animation like Facebook and Material Design, but would use color to show states of the text field. We wanted to give a wide berth as well to handle any edge cases that may come up in the future. I also designed the search field with the idea of being able to clear out the field when needed.</p>
+                    
+                    <div class="textfield__container">
+                        <h2 class="textfield__title">Text Field HTML Mockup</h2>
+                        <form class="textfield__form">
+                            <div class="input-group">     
+                                <input type="text" placeholder="insert text here" required>
+                                <label class="label-single">Standard text</label>
+                                <div class="msgspace">
+                                </div>
+                            </div>
+                            <div class="input-group disabled">
+                                <input type="text" placeholder="can't input here" disabled>
+                                <label class="label-single">Disabled Field</label>
+                                <div class="msgspace">
+                                </div>
+                            </div>  
+                            <div class="input-group">
+                                <input type="text" placeholder="insert text here" required>
+                                <label class="label-single">With icon <i class="fas fa-info-circle"></i></label>
+                                <div class="msgspace">
+                                </div>
+                            </div>
+                            <div class="input-group">    
+                                <input type="text" placeholder="insert your name here">
+                                <label class="label-single">Name</label>
+                                <div class="msgspace">
+                                    <p>*Optional (swipe w/ error or warning msg)</p>
+                                </div>
+                            </div>
+                            <div class="input-group warning-man">    
+                                <input type="text" placeholder="insert text here" required>
+                                <label class="label-single">Warn State</label>
+                                <div class="msgspace">
+                                    <p><i class="fas fa-exclamation-triangle"></i></i> Warning Man - you said that already...</p>
+                                </div>
+                            </div>
+                            <div class="input-group erroneous">    
+                                <input type="text" placeholder="insert text here" required>
+                                <label class="label-single">Error State</label>
+                                <div class="msgspace">
+                                    <p><i class="fas fa-exclamation-circle"></i> Dude - No bueno! Dude - No bueno! Dude - No bueno! Dude - No bueno! Dude - No bueno!</p>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" placeholder="insert text here" required>
+                                <label>Huzzah! Here you go - like a super, super, super, super, super, super, super, super, super, super, super, super long question. How are you?</label>
+                                <div class="msgspace">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="textfield__container--small">
+                        <h2 class="textfield__title textfield__title--spaceless">Search Bar HTML Mockup</h2>
+                        <form class="textfield__form">
+                            <div class="input-group search-group">     
+                                <input type="search" placeholder="Search Account" required>
+                                <div class="pre-search">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="msgspace">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
                 </div>
             </section>
             <section class="block block__gray">
