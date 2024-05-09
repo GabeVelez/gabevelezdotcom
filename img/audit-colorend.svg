@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <clipPath id="a">
+      <path d="M0 0h1200v800H0z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#a)">
+    <path fill="#fff" d="M0 0h1200v800H0z"/>
+    <path fill="#cb493d" d="M767 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(807 688)"><tspan x="-34.68" y="0">#CB493D</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="24" font-weight="500" transform="translate(89 65)"><tspan x="0" y="0">Application Colors / Proposed Background Selection</tspan></text>
+    <path fill="#efefef" d="M167 504h80v50h-80Z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(206.714 535)"><tspan x="-32.888" y="0">#EFEFEF</tspan></text>
+    <path fill="#cfcfcf" d="M167 555h80v50h-80Z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(207 586)"><tspan x="-35.552" y="0">#CFCFCF</tspan></text>
+    <path fill="#a3a3a3" d="M167 606h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(207 637)"><tspan x="-33.344" y="0">#A3A3A3</tspan></text>
+    <path fill="#737373" d="M167 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(207 688)"><tspan x="-31.136" y="0">#737373</tspan></text>
+    <path fill="#424242" d="M167 708h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(207 739)"><tspan x="-31.136" y="0">#424242</tspan></text>
+    <path fill="#e5e9ff" d="M367 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(407 535)"><tspan x="-32.304" y="0">#E5E9FF</tspan></text>
+    <path fill="#8293ff" d="M367 606h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(407 637)"><tspan x="-31.424" y="0">#8293FF</tspan></text>
+    <path fill="#5565c6" d="M367 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(407 688)"><tspan x="-32.464" y="0">#5665C6</tspan></text>
+    <path fill="#daeeff" d="M467 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(507 535)"><tspan x="-34.224" y="0">#DAEEFF</tspan></text>
+    <path fill="#2378c2" d="M467 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(507 688)"><tspan x="-32.464" y="0">#2378C2</tspan></text>
+    <path fill="#4ba8fa" d="M467 606h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(507 637)"><tspan x="-33.344" y="0">#4BA8FA</tspan></text>
+    <path fill="#e2f5d8" d="M567 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(607 535)"><tspan x="-32.904" y="0">#E2F5D8</tspan></text>
+    <path fill="#4b9726" d="M567 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(607 688)"><tspan x="-32.168" y="0">#4B9726</tspan></text>
+    <path fill="#84cc60" d="M567 606h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(607 637)"><tspan x="-33.792" y="0">#84CC60</tspan></text>
+    <path fill="#fbf3d7" d="M667 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(707 535)"><tspan x="-33.64" y="0">#FBF3D7</tspan></text>
+    <path fill="#a98e32" d="M667 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(707 688)"><tspan x="-32.312" y="0">#A98E32</tspan></text>
+    <path fill="#edc956" d="M667 606h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(707 637)"><tspan x="-34.088" y="0">#EDC956</tspan></text>
+    <path fill="#ffe2df" d="M767 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(807 535)"><tspan x="-33.192" y="0">#FFE2DF</tspan></text>
+    <path fill="#f76b5e" d="M767 606h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(807 637)"><tspan x="-32.752" y="0">#F76B5E</tspan></text>
+    <path fill="#fce6d6" d="M867 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(907 535)"><tspan x="-34.232" y="0">#FCE7D6</tspan></text>
+    <path fill="#af6e31" d="M867 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(907 688)"><tspan x="-32.608" y="0">#B06E31</tspan></text>
+    <path fill="#eba14d" d="M867 606h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(907 637)"><tspan x="-34.528" y="0">#EBA14D</tspan></text>
+    <path fill="#fce3fd" d="M967 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1007 535)"><tspan x="-34.376" y="0">#FCE3FD</tspan></text>
+    <path fill="#a850aa" d="M967 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1007 688)"><tspan x="-33.344" y="0">#A850AA</tspan></text>
+    <path fill="#d782d9" d="M967 606h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1007 637)"><tspan x="-33.504" y="0">#D782D9</tspan></text>
+    <path fill="#ece5ff" d="M1067 504h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1107 535)"><tspan x="-33.632" y="0">#ECE5FF</tspan></text>
+    <path fill="#7560ba" d="M1067 657h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1107 688)"><tspan x="-32.904" y="0">#7560BA</tspan></text>
+    <path fill="#a48eed" d="M1067 606h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1107 637)"><tspan x="-33.936" y="0">#A48EED</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(114 639)"><tspan x="0" y="0">500</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(114 690)"><tspan x="0" y="0">700</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(114 741)"><tspan x="0" y="0">900</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(114 588)"><tspan x="0" y="0">300</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(114 537)"><tspan x="0" y="0">100</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(167 492)"><tspan x="0" y="0">NEUTRAL</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="12" font-weight="500" transform="translate(54 581)"><tspan x="0" y="0">BLACK</tspan><tspan x="0" y="15">TEXT</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="12" font-weight="500" transform="translate(54 706)"><tspan x="0" y="0">WHITE</tspan><tspan x="0" y="15">TEXT</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="21" font-weight="500" transform="translate(167 386)"><tspan x="0" y="0">UI Colors</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="21" font-weight="500" transform="translate(657 133)"><tspan x="0" y="0">Text Colors</tspan></text>
+    <path d="M657 256h500v70H657z"/>
+    <text font-family="Inter-Medium, Inter" font-size="16" font-weight="500" transform="translate(667 222)"><tspan x="0" y="0">BLACK</tspan><tspan font-size="8"><tspan x="0" y="12">RGBA(0,0,0,X)</tspan></tspan></text>
+    <text fill="#fff" font-family="Inter-Medium, Inter" font-size="16" font-weight="500" transform="translate(667 292)"><tspan x="0" y="0">WHITE</tspan><tspan font-size="8"><tspan x="0" y="12">RGBA(255,255,255,X)</tspan></tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="21" font-weight="500" transform="translate(160 133)"><tspan x="0" y="0">Brand Colors</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="14" transform="translate(313 123)"><tspan x="0" y="0">For Branding only, </tspan><tspan xml:space="preserve" x="0" y="16">not for UI components.  </tspan></text>
+    <path fill="#4b8fc9" d="M160 196h80v50h-80z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(199.714 227)"><tspan x="-33.64" y="0">#4B8FC9</tspan></text>
+    <path fill="#a2cd4e" d="M260 196h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(300 227)"><tspan x="-34.824" y="0">#A2CD4E</tspan></text>
+    <path fill="#f69d38" d="M360 196h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(400 227)"><tspan x="-32.464" y="0">#F69D38</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(160 184)"><tspan x="0" y="0">INT BLUE</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(360 184)"><tspan x="0" y="0">INT ORANGE</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(260 184)"><tspan x="0" y="0">INT GREEN</tspan></text>
+    <path fill="rgba(0,0,0,0.87)" d="M767 196h80v50h-80z"/>
+    <path fill="rgba(0,0,0,0.26)" d="M1067 196h80v50h-80z"/>
+    <path fill="rgba(0,0,0,0.54)" d="M867 196h80v50h-80z"/>
+    <path fill="rgba(0,0,0,0.38)" d="M967 196h80v50h-80z"/>
+    <path fill="rgba(255,255,255,0.96)" d="M767 266h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="10" transform="translate(789 184)"><tspan x="-22.035" y="0">PRIMARY</tspan></text>
+    <path fill="rgba(255,255,255,0.38)" d="M1067 266h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="10" transform="translate(1091 184)"><tspan x="-24.075" y="0">DISABLED</tspan></text>
+    <path fill="rgba(255,255,255,0.87)" d="M867 266h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="10" transform="translate(898 184)"><tspan x="-30.555" y="0">SECONDARY</tspan></text>
+    <path fill="rgba(255,255,255,0.54)" d="M967 266h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="10" transform="translate(1003 184)"><tspan x="-36.115" y="0">PLACEHOLDER</tspan></text>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(807 227)"><tspan x="-11.12" y="0">.87</tspan></text>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(907 227)"><tspan x="-11.12" y="0">.54</tspan></text>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1007 227)"><tspan x="-11.12" y="0">.38</tspan></text>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1107 227)"><tspan x="-11.12" y="0">.26</tspan></text>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(807 297)"><tspan x="-11.12" y="0">.96</tspan></text>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(907 297)"><tspan x="-11.12" y="0">.87</tspan></text>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1007 297)"><tspan x="-11.12" y="0">.54</tspan></text>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(1107 297)"><tspan x="-11.12" y="0">.38</tspan></text>
+    <path fill="#fafafa" d="M167 453h80v50h-80Z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(206.714 484)"><tspan x="-32.456" y="0">#FAFAFA</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(167 441)"><tspan x="0" y="0">NEUTRAL</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(367 441)"><tspan x="0" y="0">INDIGO</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(467 441)"><tspan x="0" y="0">BLUE</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(567 441)"><tspan x="0" y="0">GREEN</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(667 441)"><tspan x="0" y="0">YELLOW</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(767 441)"><tspan x="0" y="0">RED</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(867 441)"><tspan x="0" y="0">ORANGE</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(968 441)"><tspan x="0" y="0">BYZANTIUM</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(1067 441)"><tspan x="0" y="0">PURPLE</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(114 486)"><tspan x="0" y="0">50</tspan></text>
+    <path fill="#00173a" d="M267 709h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(307 741)"><tspan x="-31.872" y="0">#00173A</tspan></text>
+    <path fill="#e8eaed" d="M267 505h80v50h-80Z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(307 538)"><tspan x="-34.376" y="0">#E8EAED</tspan></text>
+    <path fill="#bbc2cb" d="M267 556h80v50h-80z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="15" transform="translate(306 587)"><tspan x="-34.583" y="0">#BBC2CB</tspan></text>
+    <path fill="#8d99aa" d="M267 607h80v50h-80Z"/>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(307 638)"><tspan x="-33.792" y="0">#8D99AA</tspan></text>
+    <path fill="#5f7187" d="M267 658h80v50h-80Z"/>
+    <text fill="#fff" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(307 689)"><tspan x="-31.28" y="0">#5F7187</tspan></text>
+    <text font-family="Inter-Medium, Inter" font-size="10" font-weight="500" transform="translate(267 441)"><tspan x="0" y="0">KILEY NEUTRAL</tspan></text>
+  </g>
+</svg>

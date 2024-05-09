@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <clipPath id="a">
+      <path d="M0 0h1200v900H0z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#a)">
+    <path fill="#fff" d="M0 0h1200v900H0z"/>
+    <path fill="#a3a3a3" d="M89 422h50v50H89z"/>
+    <path fill="#8b8b8b" d="M89 482h50v50H89z"/>
+    <path fill="#737373" d="M89 542h50v50H89z"/>
+    <path fill="#5a5a5a" d="M89 602h50v50H89z"/>
+    <path fill="#424242" d="M89 662h50v50H89z"/>
+    <path fill="#b9b9b9" d="M89 362h50v50H89z"/>
+    <path fill="#cfcfcf" d="M89 302h50v50H89z"/>
+    <path fill="#e5e5e5" d="M89 242h50v50H89z"/>
+    <path fill="#efefef" d="M89 182h50v50H89z"/>
+    <path fill="#fafafa" d="M89 122h50v50H89z"/>
+    <path fill="#8293ff" d="M149 422h50v50h-50z"/>
+    <path fill="#6a7be5" d="M149 482h50v50h-50z"/>
+    <path fill="#5665c6" d="M149 542h50v50h-50z"/>
+    <path fill="#4450a1" d="M149 602h50v50h-50z"/>
+    <path fill="#333c7a" d="M149 662h50v50h-50z"/>
+    <path fill="#9aa9ff" d="M149 362h50v50h-50z"/>
+    <path fill="#b7c2ff" d="M149 302h50v50h-50z"/>
+    <path fill="#d7ddff" d="M149 242h50v50h-50z"/>
+    <path fill="#e5e9ff" d="M149 182h50v50h-50z"/>
+    <path fill="#f2f4ff" d="M149 122h50v50h-50z"/>
+    <path fill="#4ba8fa" d="M209 422h50v50h-50z"/>
+    <path fill="#3390e1" d="M209 482h50v50h-50z"/>
+    <path fill="#2378c2" d="M209 542h50v50h-50z"/>
+    <path fill="#185f9e" d="M209 602h50v50h-50z"/>
+    <path fill="#114878" d="M209 662h50v50h-50z"/>
+    <path fill="#6bbbff" d="M209 362h50v50h-50z"/>
+    <path fill="#94d0ff" d="M209 302h50v50h-50z"/>
+    <path fill="#c3e6ff" d="M209 242h50v50h-50z"/>
+    <path fill="#daeeff" d="M209 182h50v50h-50z"/>
+    <path fill="#eff6fc" d="M209 122h50v50h-50z"/>
+    <path fill="#4b8fc9" d="M942 122h50v50h-50z"/>
+    <path fill="#a2cd4e" d="M1002 122h50v50h-50z"/>
+    <path fill="#f69d38" d="M1062 122h50v50h-50z"/>
+    <path d="M752 122h50v50h-50z"/>
+    <g fill="#fff" stroke="#afafaf">
+      <path stroke="none" d="M812 122h50v50h-50z"/>
+      <path fill="none" d="M812.5 122.5h49v49h-49z"/>
+    </g>
+    <path fill="#edca55" d="M329 422h50v50h-50z"/>
+    <path fill="#cfae42" d="M329 482h50v50h-50z"/>
+    <path fill="#a98e32" d="M329 542h50v50h-50z"/>
+    <path fill="#7d6924" d="M329 602h50v50h-50z"/>
+    <path fill="#4f4218" d="M329 662h50v50h-50z"/>
+    <path fill="#f8d973" d="M329 362h50v50h-50z"/>
+    <path fill="#fde698" d="M329 302h50v50h-50z"/>
+    <path fill="#fff1c2" d="M329 242h50v50h-50z"/>
+    <path fill="#fbf3d7" d="M329 182h50v50h-50z"/>
+    <path fill="#f7f4ea" d="M329 122h50v50h-50z"/>
+    <path fill="#f76b5e" d="M389 422h50v50h-50z"/>
+    <path fill="#de5144" d="M389 482h50v50h-50z"/>
+    <path fill="#be3d31" d="M389 542h50v50h-50z"/>
+    <path fill="#9a2c22" d="M389 602h50v50h-50z"/>
+    <path fill="#731f18" d="M389 662h50v50h-50z"/>
+    <path fill="#ff867b" d="M389 362h50v50h-50z"/>
+    <path fill="#ffa9a0" d="M389 302h50v50h-50z"/>
+    <path fill="#ffd0cb" d="M389 242h50v50h-50z"/>
+    <path fill="#ffe2df" d="M389 182h50v50h-50z"/>
+    <path fill="#fff3f2" d="M389 122h50v50h-50z"/>
+    <path fill="#eba14d" d="M449 422h50v50h-50z"/>
+    <path fill="#d1883d" d="M449 482h50v50h-50z"/>
+    <path fill="#b06e31" d="M449 542h50v50h-50z"/>
+    <path fill="#8a5327" d="M449 602h50v50h-50z"/>
+    <path fill="#61391d" d="M449 662h50v50h-50z"/>
+    <path fill="#f6b26c" d="M449 362h50v50h-50z"/>
+    <path fill="#fcc693" d="M449 302h50v50h-50z"/>
+    <path fill="#ffdcbe" d="M449 242h50v50h-50z"/>
+    <path fill="#fce7d6" d="M449 182h50v50h-50z"/>
+    <path fill="#faf2ed" d="M449 122h50v50h-50z"/>
+    <path fill="#d782d9" d="M509 422h50v50h-50z"/>
+    <path fill="#c368c5" d="M509 482h50v50h-50z"/>
+    <path fill="#a850aa" d="M509 542h50v50h-50z"/>
+    <path fill="#883b89" d="M509 602h50v50h-50z"/>
+    <path fill="#652966" d="M509 662h50v50h-50z"/>
+    <path fill="#e799e9" d="M509 362h50v50h-50z"/>
+    <path fill="#f2b5f3" d="M509 302h50v50h-50z"/>
+    <path fill="#fad5fa" d="M509 242h50v50h-50z"/>
+    <path fill="#fce3fd" d="M509 182h50v50h-50z"/>
+    <path fill="#fff2ff" d="M509 122h50v50h-50z"/>
+    <path fill="#a48eed" d="M569 422h50v50h-50z"/>
+    <path fill="#8d76d7" d="M569 482h50v50h-50z"/>
+    <path fill="#7560ba" d="M569 542h50v50h-50z"/>
+    <path fill="#5d4b99" d="M569 602h50v50h-50z"/>
+    <path fill="#473875" d="M569 662h50v50h-50z"/>
+    <path fill="#b7a4f8" d="M569 362h50v50h-50z"/>
+    <path fill="#ccbdfe" d="M569 302h50v50h-50z"/>
+    <path fill="#e2d9ff" d="M569 242h50v50h-50z"/>
+    <path fill="#ece5ff" d="M569 182h50v50h-50z"/>
+    <path fill="#f5f2ff" d="M569 122h50v50h-50z"/>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 455)"><tspan x="0" y="0">500</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 515)"><tspan x="0" y="0">600</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 575)"><tspan x="0" y="0">700</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 635)"><tspan x="0" y="0">800</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 695)"><tspan x="0" y="0">900</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 395)"><tspan x="0" y="0">400</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 335)"><tspan x="0" y="0">300</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 275)"><tspan x="0" y="0">200</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 215)"><tspan x="0" y="0">100</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="translate(46 155)"><tspan x="0" y="0">050</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 427 305)"><tspan x="-64.44" y="0">Neutral</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 457 275)"><tspan x="-55.56" y="0">Indigo</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 487 245)"><tspan x="-40" y="0">Blue</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 517 215)"><tspan x="-54.08" y="0">Green</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 547 185)"><tspan x="-57" y="0">Yellow</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 577 155)"><tspan x="-36.3" y="0">Red</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 607 125)"><tspan x="-65.94" y="0">Orange</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 637 95)"><tspan x="-94.08" y="0">Byzantium</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 667 65)"><tspan x="-57.78" y="0">Purple</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 583.5 -391.5)"><tspan x="-124.82" y="0">Integrate Blue</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 488.5 -296.5)"><tspan x="-50" y="0">Black</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 518.5 -326.5)"><tspan x="-51.12" y="0">White</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 613.5 -421.5)"><tspan x="-138.9" y="0">Integrate Green</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue, Helvetica Neue" font-size="20" transform="rotate(-90 643.5 -451.5)"><tspan x="-150.76" y="0">Integrate Orange</tspan></text>
+    <path fill="#84cc60" d="M269 422h50v50h-50z"/>
+    <path fill="#66b53f" d="M269 482h50v50h-50z"/>
+    <path fill="#4b9726" d="M269 542h50v50h-50z"/>
+    <path fill="#337214" d="M269 602h50v50h-50z"/>
+    <path fill="#1e4a09" d="M269 662h50v50h-50z"/>
+    <path fill="#9bde7a" d="M269 362h50v50h-50z"/>
+    <path fill="#b6ea9d" d="M269 302h50v50h-50z"/>
+    <path fill="#d5f2c6" d="M269 242h50v50h-50z"/>
+    <path fill="#e2f5d8" d="M269 182h50v50h-50z"/>
+    <path fill="#eff7ea" d="M269 122h50v50h-50z"/>
+    <text fill="#707070" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="24" font-weight="500" transform="translate(89 43)"><tspan x="0" y="0">Original Application Color Selection</tspan></text>
+    <text fill="#707070" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="24" font-weight="500" transform="translate(942 97)"><tspan x="0" y="0">Brand Colors</tspan></text>
+    <text font-family="HelveticaNeue, Helvetica Neue" font-size="18" transform="translate(716 400)"><tspan x="0" y="0">Text colors:</tspan><tspan x="0" y="44">@color-text-dark-primary	rgba(0, 0, 0, 0.87)</tspan><tspan x="0" y="66">@color-text-dark-secondary	rgba(0, 0, 0, 0.54)</tspan><tspan x="0" y="88">@color-text-dark-placeholder	rgba(0, 0, 0, 0.38)</tspan><tspan x="0" y="110">@color-text-dark-disabled	rgba(0, 0, 0, 0.26)</tspan><tspan x="0" y="132">@color-text-light-primary	rgba(255, 255, 255, 0.96)</tspan><tspan x="0" y="154">@color-text-light-secondary	rgba(255, 255, 255, 0.87)</tspan><tspan x="0" y="176">@color-text-light-placeholder	rgba(255, 255, 255, 0.54)</tspan><tspan x="0" y="198">@color-text-light-disabled	rgba(255, 255, 255, 0.38)</tspan></text>
+  </g>
+</svg>
