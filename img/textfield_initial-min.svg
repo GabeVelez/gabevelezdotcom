@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <clipPath id="a">
+      <path d="M0 0h1200v800H0z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#a)" data-name="Text Input">
+    <path fill="#fff" d="M0 0h1200v800H0z"/>
+    <g fill="#fafafa" stroke="#707070" data-name="Rectangle 8719">
+      <path stroke="none" d="M496 0h704v800H496z"/>
+      <path fill="none" d="M496.5.5h703v799h-703z"/>
+    </g>
+    <g data-name="Group 7591">
+      <g data-name="Input / Default">
+        <g fill="#fff" stroke="#9e9e9e" data-name="Rectangle 35" transform="translate(532 135)">
+          <rect width="289" height="48" stroke="none" rx="4"/>
+          <rect width="288" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+        </g>
+      </g>
+      <text font-family="Inter-Regular, Inter" font-size="16" opacity=".54" transform="translate(548 165)"><tspan x="0" y="0">Password</tspan></text>
+      <g data-name="Input">
+        <g data-name="Input / Default">
+          <g fill="#fff" stroke="#039be5" data-name="Rectangle 35" transform="translate(532 235)">
+            <rect width="289" height="48" stroke="none" rx="4"/>
+            <rect width="288" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+        </g>
+        <text data-name="Password" font-family="Inter-Regular, Inter" font-size="16" opacity=".54" transform="translate(548 265)"><tspan x="0" y="0">Password</tspan></text>
+      </g>
+      <g data-name="Input">
+        <g data-name="Input / Default">
+          <g fill="#fff" stroke="#9d9d9d" data-name="Rectangle 35" transform="translate(532 335)">
+            <rect width="289" height="48" stroke="none" rx="4"/>
+            <rect width="288" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+        </g>
+        <text data-name="|At Least 6 characters" font-family="Inter-Regular, Inter" font-size="16" transform="translate(548 365)"><tspan x="0" y="0">|At Least 6 characters</tspan></text>
+        <g data-name="Group 1848">
+          <path fill="#fff" d="M541 326h78v18h-78z" data-name="Rectangle 139"/>
+          <text fill="#616161" data-name="Password" font-family="Inter-SemiBold, Inter" font-size="13" font-weight="600" letter-spacing="0em" transform="translate(549 340)"><tspan x="0" y="0">Password</tspan></text>
+        </g>
+      </g>
+      <g data-name="Input">
+        <g data-name="Input / Default">
+          <g fill="#fff" stroke="#9e9e9e" data-name="Rectangle 35" transform="translate(532 535)">
+            <rect width="289" height="48" stroke="none" rx="4"/>
+            <rect width="288" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+        </g>
+        <text data-name="Password" font-family="Inter-Regular, Inter" font-size="16" opacity=".54" transform="translate(548 565)"><tspan x="0" y="0">Password</tspan></text>
+      </g>
+      <g data-name="Input">
+        <g data-name="Input / Default">
+          <g fill="#fff" stroke="#9d9d9d" data-name="Rectangle 35" transform="translate(532 435)">
+            <rect width="289" height="48" stroke="none" rx="4"/>
+            <rect width="288" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+        </g>
+        <text data-name="******" font-family="Inter-Regular, Inter" font-size="16" transform="translate(548 465)"><tspan x="0" y="0">******</tspan></text>
+        <g data-name="Group 1848">
+          <path fill="#fff" d="M541 426h78v18h-78z" data-name="Rectangle 139"/>
+          <text fill="#616161" data-name="Password" font-family="Inter-SemiBold, Inter" font-size="13" font-weight="600" letter-spacing="0em" transform="translate(549 440)"><tspan x="0" y="0">Password</tspan></text>
+        </g>
+      </g>
+      <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="30" transform="translate(532 101)"><tspan x="0" y="0">RESEARCH:</tspan></text>
+    </g>
+    <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="30" transform="translate(36 101)"><tspan x="0" y="0">RESULTS:</tspan></text>
+    <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="16" transform="translate(36 175)"><tspan x="0" y="0">Default:</tspan></text>
+    <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="16" transform="translate(36 277)"><tspan x="0" y="0">Hover:</tspan></text>
+    <text fill="rgba(0,0,0,0.87)" data-name="Hover:" font-family="Inter-Regular, Inter" font-size="16" transform="translate(36 277)"><tspan x="0" y="0">Hover:</tspan></text>
+    <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="16" transform="translate(36 379)"><tspan x="0" y="0">Focus:</tspan></text>
+    <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="16" transform="translate(36 481)"><tspan x="0" y="0">Filled:</tspan></text>
+    <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="16" transform="translate(36 583)"><tspan x="0" y="0">Warning:</tspan></text>
+    <g data-name="Group 7593">
+      <g data-name="text field">
+        <g fill="#fff" stroke="#cfcfcf" data-name="Rectangle 8718" transform="translate(160 150)">
+          <rect width="300" height="48" stroke="none" rx="4"/>
+          <rect width="299" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+        </g>
+        <text fill="rgba(0,0,0,0.54)" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 139)"><tspan x="0" y="0">Label</tspan></text>
+        <text fill="rgba(0,0,0,0.38)" font-family="Inter-Regular, Inter" font-size="16" transform="translate(176 180)"><tspan x="0" y="0">Placeholder</tspan></text>
+        <text fill="rgba(0,0,0,0.54)" data-name="Helper Text" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 212)"><tspan x="0" y="0">Helper Text</tspan></text>
+      </g>
+      <g data-name="text field">
+        <g fill="#fff" stroke="#4ba8fa" data-name="Rectangle 8718" transform="translate(160 252)">
+          <rect width="300" height="48" stroke="none" rx="4"/>
+          <rect width="299" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+        </g>
+        <text fill="rgba(0,0,0,0.54)" data-name="Label" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 241)"><tspan x="0" y="0">Label</tspan></text>
+        <text fill="rgba(0,0,0,0.38)" data-name="Placeholder" font-family="Inter-Regular, Inter" font-size="16" transform="translate(176 282)"><tspan x="0" y="0">Placeholder</tspan></text>
+        <text fill="rgba(0,0,0,0.54)" data-name="Helper Text" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 314)"><tspan x="0" y="0">Helper Text</tspan></text>
+      </g>
+      <g data-name="text field">
+        <g fill="#fff" stroke="#4ba8fa" stroke-width="2" data-name="Rectangle 8718" transform="translate(160 354)">
+          <rect width="300" height="48" stroke="none" rx="4"/>
+          <rect width="298" height="46" x="1" y="1" fill="none" rx="3"/>
+        </g>
+        <text fill="#4ba8fa" data-name="Label" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 343)"><tspan x="0" y="0">Label</tspan></text>
+        <text fill="rgba(0,0,0,0.38)" data-name="Placeholder" font-family="Inter-Regular, Inter" font-size="16" transform="translate(176 384)"><tspan x="0" y="0">Placeholder</tspan></text>
+        <text fill="rgba(0,0,0,0.54)" data-name="Helper Text" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 416)"><tspan x="0" y="0">Helper Text</tspan></text>
+        <text fill="rgba(0,0,0,0.87)" data-name="|" font-family="Inter-Regular, Inter" font-size="16" transform="translate(171 384)"><tspan x="0" y="0">|</tspan></text>
+      </g>
+      <g data-name="text field">
+        <g fill="#fff" stroke="#cfcfcf" data-name="Rectangle 8718" transform="translate(160 456)">
+          <rect width="300" height="48" stroke="none" rx="4"/>
+          <rect width="299" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+        </g>
+        <text fill="#4ba8fa" data-name="Label" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 445)"><tspan x="0" y="0">Label</tspan></text>
+        <text fill="rgba(0,0,0,0.87)" data-name="Hello World" font-family="Inter-Regular, Inter" font-size="16" transform="translate(176 486)"><tspan x="0" y="0">Hello World</tspan></text>
+        <text fill="rgba(0,0,0,0.54)" data-name="Helper Text" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 518)"><tspan x="0" y="0">Helper Text</tspan></text>
+      </g>
+      <g data-name="text field">
+        <g fill="#fff" stroke="#a98e32" data-name="Rectangle 8718" transform="translate(160 558)">
+          <rect width="300" height="48" stroke="none" rx="4"/>
+          <rect width="299" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+        </g>
+        <text fill="#a98e32" data-name="Label" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 547)"><tspan x="0" y="0">Label</tspan></text>
+        <text fill="rgba(0,0,0,0.87)" data-name="Hello World" font-family="Inter-Regular, Inter" font-size="16" transform="translate(176 588)"><tspan x="0" y="0">Hello World</tspan></text>
+        <text fill="#a98e32" data-name="Warning!" font-family="Inter-Regular, Inter" font-size="12" transform="translate(178 620)"><tspan x="0" y="0">Warning!</tspan></text>
+        <path fill="#a98e32" d="M237.999 610.25a.936.936 0 0 1 .809.464l5.063 8.625a.937.937 0 0 1-.809 1.411h-10.125a.937.937 0 0 1-.809-1.411l5.062-8.625a.936.936 0 0 1 .809-.464Zm0 3a.561.561 0 0 0-.562.563v2.625a.563.563 0 0 0 1.125 0v-2.625a.561.561 0 0 0-.563-.563Zm.75 5.25a.75.75 0 1 0-.75.75.75.75 0 0 0 .75-.75Z" data-name="Icon fa-solid-triangle-exclamation"/>
+      </g>
+      <g data-name="text field">
+        <g fill="#fff" stroke="#f76b5e" data-name="Rectangle 8718" transform="translate(160 660)">
+          <rect width="300" height="48" stroke="none" rx="4"/>
+          <rect width="299" height="47" x=".5" y=".5" fill="none" rx="3.5"/>
+        </g>
+        <text fill="#f76b5e" data-name="Label" font-family="Inter-Regular, Inter" font-size="12" transform="translate(160 649)"><tspan x="0" y="0">Label</tspan></text>
+        <text fill="rgba(0,0,0,0.87)" data-name="Hello World" font-family="Inter-Regular, Inter" font-size="16" transform="translate(176 690)"><tspan x="0" y="0">Hello World</tspan></text>
+        <text fill="#f76b5e" data-name="Error!" font-family="Inter-Regular, Inter" font-size="12" transform="translate(178 722)"><tspan x="0" y="0">Error!</tspan></text>
+        <path fill="#f76b5e" d="M219 724a6 6 0 1 0-6-6 6 6 0 0 0 6 6Zm0-9a.561.561 0 0 1 .563.563v2.625a.563.563 0 0 1-1.125 0v-2.625A.561.561 0 0 1 219 715Zm-.75 5.25a.75.75 0 1 1 .75.75.75.75 0 0 1-.75-.75Z" data-name="Icon fa-solid-circle-exclamation"/>
+      </g>
+    </g>
+    <text fill="rgba(0,0,0,0.87)" font-family="Inter-Regular, Inter" font-size="16" transform="translate(36 685)"><tspan x="0" y="0">Error:</tspan></text>
+    <g data-name="Group 7592">
+      <g data-name="Group 7590">
+        <g data-name="new Text Input">
+          <g fill="#fff" stroke="rgba(0,0,0,0.87)" data-name="Rectangle 8718" transform="translate(864 127)">
+            <rect width="300" height="56" stroke="none" rx="4"/>
+            <rect width="299" height="55" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+          <text fill="rgba(0,0,0,0.87)" data-name="Password" font-family="HelveticaNeue, Helvetica Neue" font-size="12" transform="translate(880 146)"><tspan x="0" y="0">Password</tspan></text>
+          <text fill="rgba(0,0,0,0.38)" data-name="At Least 6 characters" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(880 172)"><tspan x="0" y="0">At Least 6 characters</tspan></text>
+        </g>
+        <g data-name="new Text Input">
+          <g fill="#fff" stroke="#4ba8fa" data-name="Rectangle 8718" transform="translate(864 227)">
+            <rect width="300" height="56" stroke="none" rx="4"/>
+            <rect width="299" height="55" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+          <text fill="#4ba8fa" data-name="Password" font-family="HelveticaNeue, Helvetica Neue" font-size="12" transform="translate(880 246)"><tspan x="0" y="0">Password</tspan></text>
+          <text fill="rgba(0,0,0,0.38)" data-name="At Least 6 characters" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(880 272)"><tspan x="0" y="0">At Least 6 characters</tspan></text>
+        </g>
+        <g data-name="new Text Input">
+          <g fill="#fff" stroke="rgba(0,0,0,0.87)" data-name="Rectangle 8718" transform="translate(864 327)">
+            <rect width="300" height="56" stroke="none" rx="4"/>
+            <rect width="299" height="55" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+          <text fill="#4ba8fa" data-name="Password" font-family="HelveticaNeue, Helvetica Neue" font-size="12" transform="translate(880 346)"><tspan x="0" y="0">Password</tspan></text>
+          <text fill="rgba(0,0,0,0.87)" data-name="|At Least 6 characters" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(880 372)"><tspan x="0" y="0">|</tspan><tspan y="0" fill="rgba(0,0,0,0.38)">At Least 6 characters</tspan></text>
+        </g>
+        <g data-name="new Text Input">
+          <g fill="#fff" stroke="rgba(0,0,0,0.87)" data-name="Rectangle 8718" transform="translate(864 427)">
+            <rect width="300" height="56" stroke="none" rx="4"/>
+            <rect width="299" height="55" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+          <text fill="#4ba8fa" data-name="Password" font-family="HelveticaNeue, Helvetica Neue" font-size="12" transform="translate(880 446)"><tspan x="0" y="0">Password</tspan></text>
+          <text fill="rgba(0,0,0,0.87)" data-name="******" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(880 472)"><tspan x="0" y="0">******</tspan></text>
+        </g>
+        <g data-name="new Text Input">
+          <g fill="#fff" stroke="rgba(0,0,0,0.26)" data-name="Rectangle 8718" transform="translate(864 527)">
+            <rect width="300" height="56" stroke="none" rx="4"/>
+            <rect width="299" height="55" x=".5" y=".5" fill="none" rx="3.5"/>
+          </g>
+          <text fill="rgba(0,0,0,0.26)" data-name="Password" font-family="HelveticaNeue, Helvetica Neue" font-size="12" transform="translate(880 546)"><tspan x="0" y="0">Password</tspan></text>
+          <text fill="rgba(0,0,0,0.26)" data-name="At Least 6 characters" font-family="HelveticaNeue, Helvetica Neue" font-size="16" transform="translate(880 572)"><tspan x="0" y="0">At Least 6 characters</tspan></text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
