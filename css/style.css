@@ -74,9 +74,9 @@ hr {
   margin: 0;
 }
 .fourohfour {
-  font-size: 6rem;
+  font-size: 5.5rem;
   text-align: center;
-  margin: 3rem 0;
+  margin: 2rem 0;
 }
 
 /* Header + Nav */
@@ -567,6 +567,10 @@ swiper-container, .block__slide {
   }*/
 }
 @media (min-width: 1060px) {
+
+  .fourohfour {
+    margin: 3rem 0;
+  }
 
   /* Header + Nav */
 
