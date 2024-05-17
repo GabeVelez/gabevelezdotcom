@@ -199,7 +199,7 @@ header {
   margin-left: 1rem;
 }
 .logo__gabe {
-  fill:#ffffff;
+  fill: var(--gabe-white);
 }
 .logo__gabe:hover {
   fill: var(--gabe-gold);
