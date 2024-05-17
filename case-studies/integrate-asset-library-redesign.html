@@ -85,41 +85,6 @@
                     <p class="block__text--small">The final color choices are in.</p>
                     <h4 class="block__subtitle">2. Typography</h4>
                     <p>My next responsibility in the audit involved typography. In this, the marketing team at Integrate had already made the decision to use the Inter font through all our web products. We accepted this, but we discovered that the Integrate product was using decimal values in their font sizes and had many weights and sizes, most of which were unused.</p>
-                </div>
-                <div class="block__container">
-                    <swiper-container navigation="true" pagination="true">
-                      <!-- lazy="true" attribute will automatically render the preloader element -->
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-1.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-2.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-3.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-4.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-5.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-6.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-7.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-8.webp" loading="lazy" />
-                      </swiper-slide>
-                      <swiper-slide lazy="true">
-                        <img class="block__slide" src="/img/typoprezi-9.webp" loading="lazy" />
-                      </swiper-slide>
-                      .........
-                    </swiper-container>
-
-                    <p class="block__text--small">Presentation of proposed typography audit.</p>
                     <p>Looking at all three products' different font requirements, we were able to determine that we could use whole number values for font sizes. We also could reduce the number of font sizes and weights overall by about one-third without any major visual difference in all three products.</p>
                     <h4 class="block__subtitle">3. Text Fields</h4>
                     <p>Now that color and typography was decided, the design team started working on designing different components. I was directly responsible for auditing and unifying the textfield and all its different states.</p>
@@ -129,101 +94,8 @@
                     </object>
                     <p class="block__text--small">Adobe XD doc showing research & results.</p>
                     <p>For initial inspiration, I looked into how Facebook & Google handled text fields. I even built them out in HTML to see the exact interaction points involved, which helped in formulating a better understanding of creating a field that was going to be utilized a lot with accessibility in mind.</p>
-                    <div class="textfield__container">
-                        <h2 class="textfield__title textfield__title--spaceless">Text Field HTML Research</h2>
-                        <div class="textfield__container--research">
-                            <form class="textfield__form--research">
-                                <h2 class="textfield__title--small">Facebook</h2>
-                                <div class="fb-group">      
-                                    <input class="fb-input" type="text" placeholder="insert name here" required>       <label class="fb-label">Name</label>
-                                </div>
-                                <div class="fb-group disabled">
-                                    <input class="fb-input" type="text" required>
-                                    <label class="fb-label">Email</label>
-                                </div>
-                            </form>
-                            <form class="textfield__form--research"> 
-                                <h2 class="textfield__title--small">Material Design</h2>
-                                <div class="md-group">      
-                                    <input class="md-input" type="text" placeholder="insert name here" required>
-                                    <label class="md-label">Name</label>
-                                </div>
-                                <div class="md-group disabled">      
-                                    <input class="md-input" type="text" required>
-                                    <label class="md-label">Email</label>
-                                </div>  
-                            </form>
-                        </div>
-                    </div>
-                    <p class="block__text--small">HTML interactions from both Facebook & Google.</p>
                     <p>In the end, we went with a simple yet elegant text field that would not use any animation like Facebook and Material Design, but would use color to show states of the text field. We wanted to give a wide berth as well to handle any edge cases that may come up in the future.</p> 
-                    
-                    <div class="textfield__container">
-                        <h2 class="textfield__title">Text Field HTML Mockup</h2>
-                        <form class="textfield__form">
-                            <div class="input-group">     
-                                <input type="text" placeholder="insert text here" required>
-                                <label class="label-single">Standard text</label>
-                                <div class="msgspace">
-                                </div>
-                            </div>
-                            <div class="input-group disabled">
-                                <input type="text" placeholder="can't input here" disabled>
-                                <label class="label-single">Disabled Field</label>
-                                <div class="msgspace">
-                                </div>
-                            </div>  
-                            <div class="input-group">
-                                <input type="text" placeholder="insert text here" required>
-                                <label class="label-single">With icon <i class="fas fa-info-circle"></i></label>
-                                <div class="msgspace">
-                                </div>
-                            </div>
-                            <div class="input-group">    
-                                <input type="text" placeholder="insert your name here">
-                                <label class="label-single">Name</label>
-                                <div class="msgspace">
-                                    <p>*Optional (swipe w/ error or warning msg)</p>
-                                </div>
-                            </div>
-                            <div class="input-group warning-man">    
-                                <input type="text" placeholder="insert text here" required>
-                                <label class="label-single">Warn State</label>
-                                <div class="msgspace">
-                                    <p><i class="fas fa-exclamation-triangle"></i></i> Warning Man - you said that already...</p>
-                                </div>
-                            </div>
-                            <div class="input-group erroneous">    
-                                <input type="text" placeholder="insert text here" required>
-                                <label class="label-single">Error State</label>
-                                <div class="msgspace">
-                                    <p><i class="fas fa-exclamation-circle"></i> Dude - No bueno! Dude - No bueno! Dude - No bueno! Dude - No bueno! Dude - No bueno!</p>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <input type="text" placeholder="insert text here" required>
-                                <label>Huzzah! Here you go - like a super, super, super, super, super, super, super, super, super, super, super, super long question. How are you?</label>
-                                <div class="msgspace">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <p class="block__text--small">HTML mockups for you to interact with.</p>
                     <p>I also designed the search field with the feature of being able to clear out the field when necessary.</p>
-                    <div class="textfield__container--small">
-                        <h2 class="textfield__title textfield__title--spaceless">Search Bar HTML Mockup</h2>
-                        <form class="textfield__form">
-                            <div class="input-group search-group">     
-                                <input type="search" placeholder="Search Account" required>
-                                <div class="pre-search">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="msgspace">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <p class="block__text--small">It's HTML - feel free to type in a search.</p>
                     <h4 class="block__subtitle">4. Badges</h4>
                     <p>Next item I worked on was badges. We noticed that in V1 of the software there were icons being used to signify certain states. These icons were plenty and were hard for a customer to easily understand. Inspired by the badges in Bootstrap, we came up with a grouping of badges based on color that would match the icon colors.</p>
                     <img class="block__image" loading="lazy" decoding="async" src="/img/icons-vs-badges.webp" alt="Original Icons vs Colored Badges" >
