@@ -52,10 +52,10 @@ a:hover {
   line-height: 1.25rem;
 }
 .company__link {
-  padding: .2rem .3rem 0.08rem;
+  padding: .25rem .3rem 0.08rem;
 }
 .company__link--small {
-  padding: 0.05rem .15rem 0;
+  padding: 0.125rem .2rem 0;
 }
 .company__link:hover, .company__link--small:hover, .card:hover .company__link {
   background: rgb(224,170,62);
@@ -338,7 +338,7 @@ footer {
   text-align: center;
   margin: 0 auto;
   padding: 1.5rem 0 1.25rem;
-  text-transform: uppercase;
+  textgit status-transform: uppercase;
   font-size: 1rem;
   letter-spacing: .25rem;
   font-family: "poppins", sans-serif;
