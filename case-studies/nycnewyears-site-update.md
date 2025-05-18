@@ -92,14 +92,14 @@ One particularly effective improvement was the implementation of a comparison fe
 
 To address the credibility challenge, I integrated several trust-building elements throughout the site:
 
-- Verified venue badges with years in operation
+- Verified venue badges with years in operation [FICTIONAL DATA - replace with actual trust elements]
 - Customer testimonials with demographic information
 - Transparency about pricing (clearly showing what's included)
 - Photo galleries from previous years' events
 - Clear FAQ sections addressing common concerns
 - Trust signals (secure payment icons, reviews, years in business)
 
-I also redesigned the concierge section to better highlight our personalized service option, which was previously underutilized despite being a significant value-add for group bookings and special requests.
+I also redesigned the concierge section to better highlight our personalized service option, which was previously underutilized despite being a significant value-add for group bookings and special requests. (WIP - for reference only)
 
 ### Testing and Iteration
 
@@ -107,4 +107,12 @@ Before full deployment, I set up A/B testing on critical conversion pathways to 
 
 ## Results
 
-The site redesign launched in May 2025, just as our early-bird sales period began, and the impact was immediate and significant. Internal workflow efficiency improved by over 70%, with our team reporting that tasks that previously took hours now required just minutes through the new admin interface. On the customer side, mobile conversion rates increased by 45% compared to the previous year, and our average session duration extended by 2.3 minutes – indicating more engaged browsing. Most notably, our early bookings from international customers saw a 38% increase, with customer surveys specifically mentioning the improved transparency and trust signals as factors in their purchase decision. While the true test will come during our peak season (October-December), the initial metrics strongly validate our approach. Looking ahead, we're planning to expand the system to include personalized recommendations based on browsing behavior and to enhance post-purchase communication with event-specific mobile guides.
+The site redesign launched in May 2025, just as our early-bird sales period began, and the impact was immediate and significant. 
+
+[ALL METRICS BELOW ARE FICTIONAL - REPLACE WITH ACTUAL DATA]
+- Internal workflow efficiency improved by over 70%, with our team reporting that tasks that previously took hours now required just minutes through the new admin interface. 
+- On the customer side, mobile conversion rates increased by 45% compared to the previous year
+- Average session duration extended by 2.3 minutes – indicating more engaged browsing. 
+- Most notably, our early bookings from international customers saw a 38% increase, with customer surveys specifically mentioning the improved transparency and trust signals as factors in their purchase decision. 
+
+While the true test will come during our peak season (October-December), the initial metrics strongly validate our approach. Looking ahead, we're planning to expand the system to include personalized recommendations based on browsing behavior and to enhance post-purchase communication with event-specific mobile guides.
