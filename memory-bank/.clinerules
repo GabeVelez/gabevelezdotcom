@@ -1,0 +1,127 @@
+# Gabe Velez Portfolio Website - Project Rules & Patterns
+
+## Coding Standards
+
+### HTML Patterns
+- Use semantic HTML5 elements (`section`, `article`, `header`, `footer`, etc.)
+- Include appropriate ARIA attributes and roles for accessibility
+- Maintain proper indentation (4 spaces)
+- Use lowercase for all HTML element names and attributes
+- Include descriptive alt text for all images
+- Use the `<picture>` element with multiple sources for responsive images
+- Add loading="lazy" for images below the fold
+- Add `decoding="async"` to images for performance
+
+### CSS Patterns
+- Use CSS custom properties for colors defined in :root
+- Follow BEM naming convention (Block__Element--Modifier)
+- Mobile-first approach with min-width media queries
+- Breakpoints at 600px (tablet) and 1060px (desktop)
+- Avoid !important declarations
+- Group related properties together
+- Use relative units (rem, em, %) over absolute units (px) where appropriate
+
+### JavaScript Patterns
+- Use jQuery for DOM manipulation and AJAX
+- Keep JavaScript minimal and focused on specific interactions
+- Use the jQuery document ready pattern: `$(function() { ... })`
+- Component loading handled through layout.js
+- Scroll-based interactions in scroll.js
+
+## Project Preferences
+
+### Design System
+- Color palette defined in CSS variables:
+  - `--gabe-black: #1B2021`
+  - `--gabe-black-alpha: rgb(27 32 33 / 85%)`
+  - `--gabe-white: #FFFFFF`
+  - `--gabe-gray: #364042`
+  - `--gabe-red: #800020`
+  - `--gabe-darkred: #240000`
+  - `--gabe-teal: #235965`
+  - `--gabe-gold: #e9c35c`
+- Typography: Poppins font family from Adobe Fonts
+- Card-based layout for portfolio items
+- Block-based content sections for case studies
+- Consistent spacing patterns throughout
+
+### File Organization
+- Page templates at root level
+- CSS in /css directory
+- Layout components in /layout directory
+- Case studies in /case-studies directory
+- Images in /img directory, with naming conventions:
+  - Responsive variants: image.webp, image@2x.webp
+  - Device-specific variants: image-desktop.webp, image-tablet.webp, image-mobile.webp
+
+### Content Structure
+- Case studies follow consistent pattern:
+  - Hero section with title and dates
+  - Role description
+  - Context explanation
+  - Challenge section
+  - Solution section with visuals
+  - Results section
+
+## Critical Implementation Paths
+
+### Adding a New Page
+1. Create HTML file at appropriate location
+2. Include standard head section (meta tags, title, links to CSS and JS)
+3. Use proper body class for styling (e.g., `class="page"` or `class="home"`)
+4. Include empty header and footer elements to be populated by layout.js
+5. Add page to navigation in both nav.html and nav_index.html
+
+### Adding a New Case Study
+1. Create HTML file in /case-studies directory
+2. Follow existing case study template structure
+3. Prepare images in multiple sizes (desktop, tablet, mobile) and formats
+4. Add card to index.html in the cases__container section
+5. For work-in-progress studies, add `disabled` class to card and include `card__banner` element
+
+### Updating Site Content
+1. Edit relevant HTML files directly
+2. For global components like navigation or footer, update files in /layout directory
+3. Be aware that jQuery loads these components, so changes will affect all pages
+
+### CSS Modifications
+1. All styles are in css/style.css
+2. Mobile styles are the default (no media query needed)
+3. Tablet styles use `@media (min-width: 600px)`
+4. Desktop styles use `@media (min-width: 1060px)`
+5. Follow existing naming conventions when adding new classes
+
+## Known Project Challenges
+
+### Technical Considerations
+- Manual content updates requiring HTML editing
+- No automated build process for optimization
+- Component reuse handled through jQuery loading rather than a component system
+- Limited separation of content and presentation
+- Two case studies marked as "Under Construction" to be completed
+
+### Content Priorities
+- Keep professional information current and accurate
+- Complete the two in-progress case studies
+- Maintain resume PDF with current information
+- Ensure all links remain valid and active
+
+## Workflow Notes
+
+### Development Workflow
+- Manual file editing and updates
+- Test across various device sizes and browsers
+- Pay special attention to responsive breakpoints
+- Verify component loading works correctly
+
+### Common Tasks
+- Update resume: Replace GabeVelezResume2025.pdf while maintaining the same filename
+- Add case study: Create new HTML file and add card to homepage
+- Update professional info: Edit relevant sections in about.html and index.html
+- Fix navigation: Edit layout/nav.html and layout/nav_index.html
+
+## Project Evolution Notes
+- Originally built with minimalist approach (no frameworks)
+- Continues to maintain this approach for simplicity and performance
+- Responsive design has been a priority from the beginning
+- Case studies section evolves as new professional work is completed
