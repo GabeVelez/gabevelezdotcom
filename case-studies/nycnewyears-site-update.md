@@ -22,9 +22,9 @@ What came of this was a completely redesigned site with a completely overhauled 
 
 ## The Challenge
 
-Our legacy website, while functional, had accumulated significant technical debt over the years. We wanted to approach this site update as a complete overhaul, focusing on reducing the actual code coverage and making the engineering much more efficient while improving the site itself. It was built on an aging WordPress Genesis child theme with hand-coded HTML elements scattered throughout widgets and custom fields. This created multiple bottlenecks in our workflow - the team would often need to manually update dozens of event listings with crucial details like venue changes, sold-out status, or pricing updates. Without a streamlined system, human error became inevitable during our busiest season, exactly when we could least afford it.
+Our legacy website, while functional, had accumulated significant technical debt over the years. We wanted to approach this site update as a complete overhaul, focusing on reducing the actual code coverage and making the engineering much more efficient while improving the site itself. It was built on an aging WordPress Genesis child theme with hand-coded HTML elements scattered throughout widgets and custom fields. This created multiple bottlenecks in our workflow - the team would often need to manually update dozens of event listings with crucial details like new venues becoming sold out, and old venues either unavailable or closed. Without a streamlined system, human error became inevitable during our busiest season, exactly when we could least afford it.
 
-From a customer perspective, our site had fallen behind modern UX standards. User research and heatmap analysis showed visitors struggled to effectively compare different venues and event types. The mobile experience was particularly problematic, with important information buried beneath multiple clicks and non-responsive elements making navigation frustrating. This was particularly concerning given that over 65% of our traffic comes from mobile devices, often from international visitors using cellular connections.
+From a customer perspective, our site had fallen behind modern UX standards. User research and heatmap analysis showed visitors struggled to effectively compare different venues and event types. The mobile experience was particularly problematic, with important information buried beneath multiple clicks and non-responsive elements making navigation frustrating. This was particularly concerning given that over 83% of our traffic comes from mobile devices, often from international visitors using cellular connections.
 
 When analyzing our Crazy Egg heatmaps, we discovered an interesting pattern - we had significantly more bounces on mobile compared to desktop, despite having higher mobile engagement overall:
 
@@ -92,6 +92,24 @@ Based on our Crazy Egg findings, we decided to completely change the homepage st
 
 Rather than keeping all events on the homepage as we had previously done, we moved them to a dedicated events page that maintained the familiar layout but without the descriptive copy that now appeared prominently on the homepage for all device sizes. I also implemented a location-based navigation system that allowed users to quickly filter events based on NYC neighborhoods, catering to both tourists familiar with the city and those who wanted events near their accommodations.
 
+Another significant challenge was the site's inadequate search functionality. Previously, we only offered limited dropdown menus: "find by name," "find by location," and "find by type" on desktop, while mobile users had access to just "find by name" and "find by type" options. This created a confusing and difficult navigation experience, especially for mobile users who comprise our largest audience segment.
+
+![Previous confusing dropdown navigation system](/img/caseStudy_nycnyDropdownMess.webp)
+
+To address this, we completely reimagined our search approach:
+
+1. We transformed "find by type" into a prominent category bar that appears on nearly every page, featuring intuitive categories like "best cruises" or "fun rooftops" that match how users actually think about their event preferences.
+
+![New category navigation bar showing event type categories](/img/caseStudy_nycnyCategories.webp)
+
+2. For mobile users, we implemented this category system as a carousel-style interface similar to Instagram's navigation bar, creating a familiar and touch-friendly experience.
+
+3. We replaced the limited "find by name" dropdown with a full-featured search bar enhanced with fuzzy logic, significantly improving the likelihood of users finding what they're looking for even with partial or approximate queries.
+
+4. For location-based searches, we added a dedicated location icon in the header of every page (both mobile and desktop), which opens a modal with geographical filtering options when tapped.
+
+These improvements made the site dramatically more intuitive while simultaneously offering more powerful search capabilities, reducing the steps required for users to find relevant events.
+
 For the event listing pages, I created a card-based design with consistent information hierarchy:
 
 - Event name and venue prominently displayed
@@ -121,6 +139,20 @@ I also redesigned the concierge section to better highlight our personalized ser
 ### Testing and Iteration
 
 Before full deployment, I set up A/B testing on critical conversion pathways to validate our design decisions. This allowed us to make data-driven refinements to button placement, form fields, and call-to-action copy that measurably improved conversion rates.
+
+### Development Methodology
+
+My technical approach to building the site followed a lean, iterative process that leveraged modern tools and practices:
+
+1. I began by creating a standalone prototype using basic HTML, CSS, and JavaScript – completely independent of WordPress. This lightweight prototype focused on just three key page types: the homepage, events listing page, and a single venue page layout.
+
+2. This prototype was hosted on Netlify, allowing the CEO, COO, and team members to quickly interact with the new design concepts and provide feedback before committing to full development.
+
+3. Once the prototype received approval, I utilized VS Code alongside AI tools (Cline and Anthropic Claude 3.7 Sonnet) to rapidly develop the full WordPress implementation. The AI assistance was particularly valuable for generating boilerplate code, refactoring repetitive patterns, and solving complex integration challenges.
+
+4. This approach allowed me to accomplish something I had wanted to do for a long time: dramatically reduce the complexity and redundancy in our codebase. The power of AI-assisted development enabled us to rebuild the site with significantly less code while maintaining all functionality.
+
+The combination of rapid prototyping, team feedback, and AI-assisted development allowed us to complete the project in a compressed timeframe while achieving dramatically improved code quality.
 
 ## Results
 
