@@ -74,6 +74,10 @@ The most technically challenging aspect was integrating with multiple ticketing 
 
 A key focus of our technical overhaul was reducing the actual code coverage to make the site more efficient. Through refactoring and component-based architecture, we significantly reduced the theme's file size and complexity. By eliminating redundant code and creating reusable components, we not only improved maintainability but also enhanced the site's performance and loading times.
 
+One significant challenge we addressed was the inefficient structure of our category and status pages. Previously, if we had events that were closed, sold out, or unavailable, we needed separate template pages for each category-status combination. This resulted in approximately 36 different page templates (twelve categories × 3 status types), creating unnecessary complexity and maintenance overhead.
+
+We completely restructured this system, reducing it to just three template types that were managed via categories in the WordPress backend. Editors could simply check a category from a checklist in the editing area rather than selecting from dozens of templates. This streamlined approach dramatically reduced the amount of code, saved considerable time in content management, and eliminated numerous opportunities for human error in our internal workflows.
+
 ### User Experience Redesign
 
 For the frontend redesign, I started with mobile-first wireframes that prioritized crucial information for decision-making:
