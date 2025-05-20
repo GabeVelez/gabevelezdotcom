@@ -14,7 +14,7 @@ As our flagship business, NYCNewYears.com serves thousands of tourists each year
 
 With that in mind, there was a need to update and overhaul the site:
 
-1. Internally we needed to better automate our workflow in building and maintaining our multiple events. 
+1. Internally we needed to better automate our workflow in building and maintaining our numerous events. 
 2. We needed to better serve our online customers with an improved overall User Experience.
 3. We found that we needed to improve our overall social proof with new potential customers, most of which that travel great distances for an optimal New Year's Eve experience.
 
@@ -24,15 +24,14 @@ What came of this was a completely redesigned site with a completely overhauled 
 
 Our legacy website, while functional, had accumulated significant technical debt over the years. We wanted to approach this site update as a complete overhaul, focusing on reducing the actual code coverage and making the engineering much more efficient while improving the site itself. It was built on an aging WordPress Genesis child theme with hand-coded HTML elements scattered throughout widgets and custom fields. This created multiple bottlenecks in our workflow - the team would often need to manually update dozens of event listings with crucial details like new venues becoming sold out, and old venues either unavailable or closed. Without a streamlined system, human error became inevitable during our busiest season, exactly when we could least afford it.
 
-From a customer perspective, our site had fallen behind modern UX standards. User research and heatmap analysis showed visitors struggled to effectively compare different venues and event types. The mobile experience was particularly problematic, with important information buried beneath multiple clicks and non-responsive elements making navigation frustrating. This was particularly concerning given that over 83% of our traffic comes from mobile devices, often from international visitors using cellular connections.
+From a customer perspective, our site had fallen behind modern UX standards. User research and heatmap analysis showed visitors struggled to effectively compare different venues and event types. The mobile experience was particularly problematic, with important information buried beneath multiple clicks and non-responsive elements making navigation frustrating. This was particularly concerning given that over 83% of our traffic comes from mobile devices.
 
 When analyzing our Crazy Egg heatmaps, we discovered an interesting pattern - we had significantly more bounces on mobile compared to desktop, despite having higher mobile engagement overall:
 
 ![Heatmap showing mobile vs desktop engagement patterns](/img/caseStudy_nycnyHomepageHeatmap1.webp)
 
-The issue became evident through customer feedback, particularly from mobile users who frequently asked, “Is this real?” This concern stemmed from the absence of a key descriptive paragraph on the mobile homepage, which had been removed for sales optimization purposes. This omission led to a lack of trust and context for our largest user segment.
+The issue became evident through customer feedback, particularly from mobile users who frequently asked, “Is this real?” This concern stemmed from the absence of a key descriptive paragraph on the mobile homepage, which had been removed for sales optimization purposes and at least on desktop tried to illustrate a purpose for this site. This omission on mobile led to a lack of trust and context, especially for international tourists planning a once-in-a-lifetime New Year’s Eve in NYC. Spending significant sums on tickets requires confidence, but our previous design lacked essential trust-building elements and clear examples of social proof. Also, nowadays, users want to come to a homepage and not be immediately forced into being sold. 
 
-Additionally, trust and credibility were major challenges, especially for international tourists planning a once-in-a-lifetime New Year’s Eve in NYC. Spending significant sums on tickets requires confidence, but our previous design lacked essential trust-building elements like customer testimonials, venue credentials, transparent pricing, and clear social proof. Analytics revealed high abandonment rates during the consideration phase, suggesting users sought validation elsewhere, often not returning to complete their purchases.
 ## Solution
 
 ### Discovery & Planning
@@ -49,7 +48,7 @@ Using the insights from our analytics and customer feedback, I created user pers
 
 ### Technical Architecture Overhaul
 
-The first major decision was to maintain WordPress as our foundation while completely rebuilding the theme architecture. I designed a component-based structure that would separate concerns, making the codebase more maintainable and reducing overall technical complexity.
+The first major decision was continue to maintain WordPress as our foundation because of the overall SEO strength of our brand that existed for decades. What was decided though was to completely rebuild the theme architecture. With this in mind I designed a component-based structure that would separate concerns, making the codebase more maintainable and reducing overall technical complexity.
 
 ```
 Theme
@@ -61,15 +60,21 @@ Theme
  └── Location Navigation Component
 ```
 
-For the event management system, I created a custom database structure and corresponding admin interface that allowed team members to:
+For the actual post editing in the admin, the previous system was a lot of Custom Fields to be manually inputed with custom IDs, html embeds, and links. 
 
-- Update event details in a single location
-- Set various status flags (available, limited tickets, sold out)
-- Manage pricing tiers and special promotions
-- Upload optimized images for different device sizes
-- Schedule automatic status changes based on inventory
+![Custom Fields inputs that were confusing](/img/casestudy_nycnyOldCustomFields.webp)
+
+Instead, all that was removed and replaced with an actual user interface dropdowns and inputs for team members to go into and edit more easily without having to remember the custom field IDs.
+
+![Revised Event Details Admin Section](/img/casestudy_nycnyEventDetails.webp)
+
+Our previous site used actual Google Map embeds that worked well, but were taxing on actual page load time. Also, we would still have to input the venue name and address as well as the map embed via Custom Fields. Instead what was built was an actual interface in the admin section that would draw from Google Places and Google Maps API to show a static map with the Name and address of the venue with linkage to the google map page when clicked. This becomes a definite page load boost. 
+
+![New API-driven Map Interface](/img/casestudy_nycnyGMapInterface.webp)
 
 The most technically challenging aspect was integrating with multiple ticketing platforms (TicketSauce, Eventbrite, Tixr, and Crave) through a unified interface. I developed a standardized API wrapper that normalized data across these disparate systems, allowing us to maintain consistent user experience regardless of the backend ticketing provider.
+
+![New Unified Ticketing Interface](/img/casestudy_nycnyTicketing.webp)
 
 A key focus of our technical overhaul was reducing the actual code coverage to make the site more efficient. Through refactoring and component-based architecture, we significantly reduced the theme's file size and complexity. By eliminating redundant code and creating reusable components, we not only improved maintainability but also enhanced the site's performance and loading times.
 
@@ -84,10 +89,12 @@ For the frontend redesign, I started with mobile-first wireframes that prioritiz
 - Clear event categories and filtering options
 - Prominent date and pricing information
 - Venue highlights with visual indicators
-- Straightforward comparison capabilities
-- Streamlined checkout process with fewer steps
 
-Based on our Crazy Egg findings, we decided to completely change the homepage structure, transforming it into more of a landing page format. The new homepage featured a completely redesigned hero section with a fun, engaging statement about what we do, immediately communicating our value proposition and building credibility. Below this, we added social proof elements to ease visitors' concerns about legitimacy, showcasing the venues we work with to provide credibility to our inventory.
+Based on our Crazy Egg findings, we decided to completely change the homepage structure, transforming it into more of a landing page format. The new homepage featured a completely redesigned hero section with a fun, engaging statement about what we do, immediately communicating our value proposition and building credibility. On a design level we actually took numeric balloon images and dynamically made them represent the new year and animated them top float to create some visual flair. These ballons are programmatic - when the new year comes, they dynamically change to show next year in balloon form!
+
+![Dynamic floating New Years Balloons](/img/casestudy_nycnyBalloons.webp)
+
+Below this, we added a moving logo carousel of a select few of the many venues in our inventory as a display of social proof to ease visitors' concerns about legitimacy, showcasing them to provide credibility.
 
 Rather than keeping all events on the homepage as we had previously done, we moved them to a dedicated events page that maintained the familiar layout but without the descriptive copy that now appeared prominently on the homepage for all device sizes. I also implemented a location-based navigation system that allowed users to quickly filter events based on NYC neighborhoods, catering to both tourists familiar with the city and those who wanted events near their accommodations.
 
@@ -123,13 +130,11 @@ One particularly effective improvement was the implementation of a comparison fe
 
 Based on our customer interactions and the "Is this real?" questions we frequently received, creating a sense of social proof became a critical priority. To address the credibility challenge, I integrated several trust-building elements throughout the site:
 
-- Verified venue badges with years in operation to establish credibility
 - Prominent display of venue partnerships to show we have legitimate relationships with recognizable NYC establishments
 - Customer testimonials with demographic information to build peer trust
 - Transparency about pricing (clearly showing what's included)
 - Photo galleries from previous years' events showing real people at real venues
 - Clear FAQ sections addressing common concerns about legitimacy and ticket delivery
-- Trust signals (secure payment icons, reviews, years in business)
 
 These elements were strategically placed on both the homepage and throughout the user journey to continually reinforce credibility at key decision points. The goal was to give visitors confidence that they could look up our partner venues independently and verify our inventory's authenticity, easing concerns particularly for international customers making significant investments in their NYC New Year's Eve experience.
 
