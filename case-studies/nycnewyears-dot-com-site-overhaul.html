@@ -71,9 +71,9 @@
 
                     <p>From a customer perspective, our site was behind modern UX standards. Our research and heatmaps showed visitors struggled to compare different venues and event types. The mobile experience was especially problematic, with important info buried under multiple clicks and elements that didn't work well on phones. This was a big concern since over 83% of our traffic comes from mobile devices.</p>
 
-                    <figure>
-                        <img class="block__image" loading="lazy" decoding="async" src="/img/caseStudy_nycnyHomepageHeatmap1.webp" alt="Heatmap showing mobile vs desktop engagement patterns">
-                    </figure>
+                    <img class="block__image" loading="lazy" decoding="async" src="/img/caseStudy_nycnyHomepageHeatmap1.webp" alt="Heatmap showing mobile vs desktop engagement patterns">
+                    
+                    <p class="block__text--small">Heatmap showing mobile vs desktop engagement patterns.</p>
 
                     <p>The trust issue became clear through customer feedback, especially from mobile users who often asked, "Is this real?" This showed a basic credibility gap in our website. International tourists planning a once-in-a-lifetime New Year's Eve in NYC were being asked to spend a lot of money on tickets through a website that didn't look legitimate enough.</p>
 
@@ -131,10 +131,22 @@ Theme
 
                     </p>Instead, all that was removed and replaced with actual user interface dropdowns and inputs for team members to use more easily without having to remember the custom field IDs.</p>
 
+                    <img class="block__image" loading="lazy" decoding="async" src="/img/casestudy_nycnyEventDetails.webp" alt="Revised Event Details Admin Section">
+
+                    <p class="block__text--small">New Admin Event Details Interface.</p>
+
                     <p>Our old site used Google Map embeds that worked well, but slowed down page loading. Also, we would still have to input the venue name and address as well as the map embed via Custom Fields. Instead, I built an interface in the admin section that would use Google Places and Google Maps API to show a static map with the Name and address of the venue that links to google maps when clicked. This gives a definite page load boost.</p>
 
-                    <p>The trickiest part was connecting with multiple ticketing platforms (TicketSauce, Eventbrite, Tixr, and Crave) through one interface. I developed a standardized API wrapper that normalized data across these different systems, letting us keep a consistent user experience no matter which ticketing provider we used.</p>
+                    <img class="block__image" loading="lazy" decoding="async" src="/img/casestudy_nycnyGMapInterface.webp" alt="New API-driven Map Interface">
+
+                    <p class="block__text--small">New API-driven Map Admin Interface.</p>
+
+                    <p>The trickiest part was connecting with multiple ticketing platforms (TicketSauce, Eventbrite, Tixr, etc.) through one interface. I developed a standardized API wrapper that normalized data across these different systems, letting us keep a consistent user experience no matter which ticketing provider we used.</p>
                     
+                    <img class="block__image" loading="lazy" decoding="async" src="/img/casestudy_nycnyTicketing.webp" alt="New Unified Ticketing Interface">
+
+                    <p class="block__text--small">New Unified Ticketing Interface.</p>
+
                     <p>A key focus was reducing actual code to make the site more efficient. Through refactoring and component-based architecture, we significantly reduced the theme's file size and complexity. By removing redundant code and creating reusable components, we improved maintainability and enhanced the site's performance and loading times.</p>
 
                     <p>One big challenge we fixed was the inefficient structure of our category and status pages. Before, if we had events that were closed, sold out, or unavailable, we needed separate template pages for each category-status combination. This meant about 36 different page templates (twelve categories × 3 status types), creating unnecessary complexity and maintenance headaches.</p>
@@ -149,17 +161,21 @@ Theme
                         <li>Clear event categories and filtering options</li>
                         <li>Prominent date and pricing information</li>
                         <li>Venue highlights with visual indicators</li>
-                        <li>Straightforward comparison capabilities</li>
-                        <li>Streamlined checkout process with fewer steps</li>
                     </ul>
 
                     <p>Based on our Crazy Egg findings, we decided to completely change the homepage structure, turning it into more of a landing page format. The new homepage has a redesigned hero section with a fun, engaging statement about what we do, immediately showing our value and building credibility. On a design level we took numeric balloon images and dynamically made them represent the new year and animated them to float for some visual flair. These balloons are programmatic - when the new year comes, they automatically change to show next year in balloon form!</p>
+                    
+                    <img class="block__image" loading="lazy" decoding="async" src="/img/casestudy_nycnyBalloons.webp" alt="Dynamic floating New Years Balloons">
+
+                    <p class="block__text--small">Our dyanamic balloon numbers.</p>
 
                     <p>Rather than keeping all events on the homepage as we did before, we moved them to a dedicated events page that kept the familiar layout but without the descriptive copy that now appears prominently on the homepage for all device sizes. I also added a location-based navigation system that let users quickly filter events based on NYC neighborhoods, helping both tourists familiar with the city and those who wanted events near their hotels.</p>
 
                     <p>Another big challenge was the site's poor search functionality. Before, we only offered limited dropdown menus: "find by name," "find by location," and "find by type" on desktop, while mobile users had just "find by name" and "find by type" options. This created a confusing navigation experience, especially for mobile users who make up our largest audience.</p>
 
                     <img class="block__image" loading="lazy" decoding="async" src="/img/caseStudy_nycnyDropdownMess.webp" alt="Previous confusing dropdown navigation system">
+
+                    <p class="block__text--small">Previous Messy Dropdown on Desktop.</p>
 
                     <p>To fix this, we completely reimagined our search approach:</p>
                     
@@ -285,6 +301,8 @@ Theme
                     <p>We added a moving logo carousel featuring our venue partners prominently on the homepage. This immediately showed our legitimate relationships with recognizable NYC establishments that customers could independently verify.</p>
 
                     <img class="block__image" loading="lazy" decoding="async" src="/img/caseStudy_nycnySocial.webp" alt="Social proof through venue partnerships">
+
+                    <p class="block__text--small">Homepage logos for social proof.</p>
 
                     <h5 class="block__subtitle">Trust Signals Throughout</h5>
                     <p>Rather than putting social proof in just one section, we placed trust elements at key decision points across the purchase journey:</p>
