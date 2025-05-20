@@ -499,6 +499,12 @@ footer {
   border-radius: .5rem;
   margin: 1.5rem 0 0.5rem;
 }
+.block__picture {
+  display: block;
+  margin: 0;
+  width: 100%;
+  height: auto;
+}
 swiper-container, .block__slide {
   width:100%;
   height:auto;
