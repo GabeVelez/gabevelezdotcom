@@ -30,10 +30,9 @@ When analyzing our Crazy Egg heatmaps, we discovered an interesting pattern - we
 
 ![Heatmap showing mobile vs desktop engagement patterns](/img/caseStudy_nycnyHomepageHeatmap1.webp)
 
-The issue became clear when we spoke with prospective customers. Many mobile users would ask via phone or chat: "Is this real? Is this a real site? Does it sell real events?" We realized that on desktop, users saw a descriptive paragraph at the top of the homepage explaining our business, but for sales optimization reasons, we had previously removed this paragraph from the mobile view. This critical context was missing for our largest user segment.
+The issue became evident through customer feedback, particularly from mobile users who frequently asked, “Is this real?” This concern stemmed from the absence of a key descriptive paragraph on the mobile homepage, which had been removed for sales optimization purposes. This omission led to a lack of trust and context for our largest user segment.
 
-Our third challenge involved trust and credibility. For international tourists planning a once-in-a-lifetime New Year's Eve in NYC, spending hundreds or thousands of dollars on tickets requires significant trust. Our previous design lacked adequate social proof elements like customer testimonials, venue credentials, and transparent pricing. Analytics showed high abandonment rates during the consideration phase, indicating users were leaving to seek validation elsewhere before making purchasing decisions - with many never returning to complete their purchase.
-
+Additionally, trust and credibility were major challenges, especially for international tourists planning a once-in-a-lifetime New Year’s Eve in NYC. Spending significant sums on tickets requires confidence, but our previous design lacked essential trust-building elements like customer testimonials, venue credentials, transparent pricing, and clear social proof. Analytics revealed high abandonment rates during the consideration phase, suggesting users sought validation elsewhere, often not returning to complete their purchases.
 ## Solution
 
 ### Discovery & Planning
