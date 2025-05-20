@@ -182,6 +182,8 @@ The site redesign launched in May 2025, just as our early-bird sales period bega
 
 This file size reduction not only improved page load times but also made future maintenance and updates easier, making our development workflow more efficient for the long term.
 
+![Before and after mobile view of NYCNewYears.com homepage showing improved layout](/img/caseStudy_nycnyHomepageChangeMobile.webp) - note under image: Clear difference in website presentation.
+
 The team has been really happy with the new admin interface improvements, with the content editing experience transformed from a complex, error-prone process into a streamlined workflow. What previously required specialized knowledge of custom field IDs and HTML embedding is now accessible through an intuitive interface with dropdowns and visual controls.
 
 ### Expected Outcomes
