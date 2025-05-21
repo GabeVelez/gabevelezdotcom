@@ -26,10 +26,6 @@ Our old website was working, but it had a lot of messy code built up over the ye
 
 From a customer perspective, our site was behind modern UX standards. Our research and heatmaps showed visitors struggled to compare different venues and event types. The mobile experience was especially problematic, with important info buried under multiple clicks and elements that didn't work well on phones. This was a big concern since over 83% of our traffic comes from mobile devices.
 
-### The Trust Challenge
-
-When looking at our Crazy Egg heatmaps, we found an interesting pattern - we had more bounces on mobile compared to desktop, even though we had higher mobile engagement overall:
-
 ![Heatmap showing mobile vs desktop engagement patterns](/img/caseStudy_nycnyHomepageHeatmap1.webp)
 
 The trust issue became clear through customer feedback, especially from mobile users who often asked, "Is this real?" This showed a basic credibility gap in our website. International tourists planning a once-in-a-lifetime New Year's Eve in NYC were being asked to spend a lot of money on tickets through a website that didn't look legitimate enough.
@@ -75,7 +71,7 @@ Theme
 
 For the post editing in the admin, the old system was a bunch of Custom Fields that had to be manually input with custom IDs, html embeds, and links. 
 
-![Custom Fields inputs that were confusing](/img/casestudy_nycnyOldCustomFields.webp)
+![Previous custom fields for event management](/img/casestudy_nycnyOldCustomFields.webp)
 
 Instead, all that was removed and replaced with actual user interface dropdowns and inputs for team members to use more easily without having to remember the custom field IDs.
 
@@ -85,7 +81,7 @@ Our old site used Google Map embeds that worked well, but slowed down page loadi
 
 ![New API-driven Map Interface](/img/casestudy_nycnyGMapInterface.webp)
 
-The trickiest part was connecting with multiple ticketing platforms (TicketSauce, Eventbrite, Tixr, and Crave) through one interface. I developed a standardized API wrapper that normalized data across these different systems, letting us keep a consistent user experience no matter which ticketing provider we used.
+The trickiest part was connecting with multiple ticketing platforms (TicketSauce, Eventbrite, Tixr, etc.) through one interface. I developed a standardized API wrapper that normalized data across these different systems, letting us keep a consistent user experience no matter which ticketing provider we used.
 
 ![New Unified Ticketing Interface](/img/casestudy_nycnyTicketing.webp)
 
@@ -117,9 +113,11 @@ To fix this, we completely reimagined our search approach:
 
 1. We turned "find by type" into a prominent category bar that appears on nearly every page, with intuitive categories like "best cruises" or "fun rooftops" that match how users actually think about their event preferences.
 
-![New category navigation bar showing event type categories](/img/caseStudy_nycnyCategories.webp)
+![New category navigation bar](/img/caseStudy_nycnyCategories.webp)
 
 2. For mobile users, we implemented this category system as a carousel-style interface similar to Instagram's navigation bar, creating a familiar and touch-friendly experience.
+
+![Mobile category navigation](/img/caseStudy_nycnyCategoriesMobile.webp)
 
 3. We replaced the limited "find by name" dropdown with a full-featured search bar with fuzzy logic, making it much more likely users would find what they're looking for even with partial searches.
 
@@ -134,8 +132,6 @@ For the event listing pages, I created a card-based design with consistent infor
 - Visual badges for special features (ball drop views, open bar, etc.)
 - Availability status with urgency indicators when appropriate
 - High-quality venue images optimized for all devices
-
-One particularly effective improvement was adding a comparison feature that let users save events to a shortlist for side-by-side evaluation. This fixed a key pain point we'd identified in user interviews, where people struggled to remember details across multiple venues.
 
 ### Trust & Social Proof Improvements
 
@@ -158,7 +154,7 @@ These elements were designed to build trust as users moved through the site, ans
 
 ### Testing and Iteration
 
-Before full deployment, I set up A/B testing on critical conversion pathways to validate our design decisions. This let us make data-driven refinements to button placement, form fields, and call-to-action copy that measurably improved conversion rates.
+Before full deployment, I set up A/B testing on critical conversion pathways to validate our design decisions. This allowed us to make data-driven refinements to button placement, form fields, and call-to-action copy that measurably improved conversion rates.
 
 ### Development Process
 
@@ -176,13 +172,17 @@ This combo of rapid prototyping, team feedback, and AI-assisted development let 
 
 ## Results
 
-The site redesign launched in May 2025, just as our early-bird sales period began. The technical achievements were immediately obvious, with a significant 48% reduction in code size from 8.2 MB to 4.2 MB.
+The site redesign launched in May 2025, just as our early-bird sales period began. The technical achievements were immediately apparent, with a significant 48% reduction in code size from 8.2 MB to 4.2 MB.
 
-![Comparison of theme file size before and after optimization](/img/caseStudy_nycnyThemeFilesizeCompare.webp) - note under image: From 8.2 MB to 4.2 MB - a 48% percent in code reduction
+![Comparison of theme file size before and after optimization](/img/caseStudy_nycnyThemeFilesizeCompare.webp)
 
-This file size reduction not only improved page load times but also made future maintenance and updates easier, making our development workflow more efficient for the long term.
+*From 8.2 MB to 4.2 MB - a 48% percent in code reduction*
 
-![Before and after mobile view of NYCNewYears.com homepage showing improved layout](/img/caseStudy_nycnyHomepageChangeMobile.webp) - note under image: Clear difference in website presentation.
+This file size reduction not only improved page load times but also simplified future maintenance and updates, making our development workflow more efficient for the long term.
+
+![Before and after website presentation](/img/caseStudy_nycnyHomepageChange.webp)
+
+*Clear difference in website presentation.*
 
 The team has been really happy with the new admin interface improvements, with the content editing experience transformed from a complex, error-prone process into a streamlined workflow. What previously required specialized knowledge of custom field IDs and HTML embedding is now accessible through an intuitive interface with dropdowns and visual controls.
 
