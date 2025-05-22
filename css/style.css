@@ -460,7 +460,13 @@ footer {
   margin:2.25rem 1.5rem 3rem;  
 }
 .block {
-  padding:3rem 1.5rem;
+  padding: 3rem 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .block {
+    padding: 1.5rem 1.5rem 3rem;
+  }
 }
 .block__gray {
   background-color: var(--gabe-gray);
@@ -502,6 +508,11 @@ footer {
   margin: 2rem 0 0.25rem;
 }
 .block__listitem:first-child {
+  margin-bottom: 0.75rem;
+}
+
+/* Add spacing between list items in case studies for better readability */
+.block__container li {
   margin-bottom: 0.75rem;
 }
 .block__image {
