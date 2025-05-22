@@ -506,15 +506,22 @@ footer {
 }
 .block__image {
   width:100%;
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
   box-shadow: 2px 2px 6px rgb(0 0 0 / 20%);
   border-radius: .5rem;
   margin: 1.5rem 0 0.5rem;
+  display: block;
 }
 .block__picture {
   display: block;
   margin: 0;
   width: 100%;
+  max-width: 100%;
   height: auto;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 swiper-container, .block__slide {
   width:100%;
@@ -671,6 +678,9 @@ swiper-container, .block__slide {
 article, section, footer {
   position: relative;
   z-index: 1;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Ensure header stays on top with proper styling */
@@ -681,8 +691,14 @@ header {
 
 /* Add subtle separation between sections */
 .block__container {
-  padding: 3rem 1.5rem;
+  padding: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+@media (min-width: 600px) {
+  .block__container {
+    padding: 3rem 1.5rem;
+  }
 }
 
 /* Remove top border from hero and first content section */
@@ -696,6 +712,7 @@ article .block:first-child .block__container {
     margin: 2rem 0;
     overflow: hidden;
     max-width: 100%;
+    box-sizing: border-box;
 }
 
 .categories-demo-container figcaption {
@@ -711,6 +728,7 @@ article .block:first-child .block__container {
     width: 100%;
     overflow: hidden;
     max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* NYCNY Categories Component Styles */
@@ -823,5 +841,7 @@ article .block:first-child .block__container {
         width: 60px;
         height: 60px;
         font-size: 1.8rem;
+        box-sizing: border-box;
+        max-width: 100%;
     }
 }
