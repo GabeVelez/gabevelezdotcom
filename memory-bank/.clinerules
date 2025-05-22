@@ -20,6 +20,8 @@
 - Avoid !important declarations
 - Group related properties together
 - Use relative units (rem, em, %) over absolute units (px) where appropriate
+- For dynamic backgrounds, use transparent backgrounds on block elements
+- Use CSS transitions for smooth color changes (e.g., transition: background-color 1.2s ease)
 
 ### JavaScript Patterns
 - Use jQuery for DOM manipulation and AJAX
@@ -27,6 +29,7 @@
 - Use the jQuery document ready pattern: `$(function() { ... })`
 - Component loading handled through layout.js
 - Scroll-based interactions in scroll.js
+- Dynamic backgrounds for case studies controlled via dynamic-background.js
 
 ## Project Preferences
 
@@ -58,6 +61,7 @@
 - Case studies follow consistent pattern:
   - Hero section with title and dates
   - Role description
+  - Summary section with key points and metrics
   - Context explanation
   - Challenge section
   - Solution section with visuals
@@ -78,6 +82,9 @@
 3. Prepare images in multiple sizes (desktop, tablet, mobile) and formats
 4. Add card to index.html in the cases__container section
 5. For work-in-progress studies, add `disabled` class to card and include `card__banner` element
+6. Include `casestudy` class in the body tag to enable dynamic background functionality
+7. Add a summary section after the role description to provide a concise overview
+8. Ensure each section has the appropriate block color class (block__teal, block__gray, etc.)
 
 ### Updating Site Content
 1. Edit relevant HTML files directly

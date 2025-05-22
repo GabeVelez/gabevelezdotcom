@@ -10,6 +10,7 @@
 - [x] Typography integration with Adobe Fonts
 - [x] Responsive image strategy with WebP format
 - [x] Custom 404 error page
+- [x] Dynamic background transitions for case studies
 
 ### Content Pages
 - [x] Homepage with hero section and case study cards
@@ -22,9 +23,11 @@
 - [x] Responsive card component for case studies
 - [x] Mobile-first responsive layouts
 - [x] Custom hero section with overlay
-- [x] Block-based content sections for case studies
+- [x] Block-based content sections for case studies with summary section
 - [x] Consistent typography and color application
 - [x] Favicon and device icons
+- [x] NYCNY Categories Demo Component with swipeable mobile interface
+- [x] Enhanced styling for case study content with dynamic background colors
 
 ## In Progress
 

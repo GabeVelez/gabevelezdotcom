@@ -23,6 +23,7 @@
 - **Mobile-First Responsive Design**: Base styles for mobile with progressive enhancement
 - **Component-Based Structure**: Despite not using a framework, follows component principles
 - **Progressive Enhancement**: Core content works without JS, enhanced with JS
+- **Dynamic Visual Elements**: Scroll-based interactions for enhanced user experience
 
 ## Development Setup
 
@@ -42,6 +43,7 @@ The site is built using a simple static file structure that can be served locall
 ├── CNAME                    # DNS configuration for GitHub Pages
 ├── layout.js                # Component loading script
 ├── scroll.js                # Scroll-based interactions
+├── dynamic-background.js    # Background color transitions for case studies
 ├── case-studies/            # Case study pages
 │   ├── afterpromcentral-events-calendar.html
 │   ├── integrate-abm-web-analytics.html
@@ -95,6 +97,7 @@ The site is built using a simple static file structure that can be served locall
 ### Internal Dependencies
 - **layout.js**: Handles dynamic component loading
 - **scroll.js**: Manages scroll-based interactions and animations
+- **dynamic-background.js**: Controls background color transitions in case studies based on scroll position
 
 ## Deployment Strategy
 

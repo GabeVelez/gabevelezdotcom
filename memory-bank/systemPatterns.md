@@ -84,6 +84,8 @@ Custom properties define a consistent color system:
   --gabe-darkred: #240000;
   --gabe-teal: #235965;
   --gabe-gold: #e9c35c;
+  --gabe-forrest: #2A6E3F;
+  --gabe-sage: #5D7052;
 }
 ```
 
@@ -166,6 +168,42 @@ This creates:
 - Visual separation between content sections
 - Consistent spacing and layout
 - Themed sections (using color variations)
+- Standard summary section at the beginning of case studies
+
+The summary section provides a concise overview of the case study, highlighting key points and metrics before the detailed content sections.
+
+### 8. Dynamic Background Pattern
+
+Case studies implement a dynamic background color system that changes based on the user's scroll position:
+
+```javascript
+// Create a fixed background element
+const $backgroundElement = $('<div class="dynamic-background"></div>');
+$('body').prepend($backgroundElement);
+
+// Detect which section is in the middle of the viewport
+$(window).on('scroll', function() {
+    const viewportMiddle = $(window).scrollTop() + ($(window).height() / 2);
+    
+    $sections.each(function() {
+        const $section = $(this);
+        const sectionTop = $section.offset().top;
+        const sectionBottom = sectionTop + $section.outerHeight();
+        
+        if (viewportMiddle >= sectionTop && viewportMiddle <= sectionBottom) {
+            // Apply the appropriate color based on section class
+            // ...
+        }
+    });
+});
+```
+
+This pattern:
+- Creates a cohesive visual experience with smooth color transitions
+- Maintains the block-based structure while adding visual interest
+- Makes content sections more distinct
+- Requires individual blocks to have transparent backgrounds
+- Uses CSS transitions for smooth color changes
 
 ## Component Relationships
 
@@ -177,12 +215,15 @@ graph TD
     Hero[Hero Section]
     Cards[Case Study Cards]
     Content[Content Blocks]
+    DynamicBg[Dynamic Background]
     
     Page -->|contains| Header
     Page -->|contains| Hero
     Page -->|contains| Cards
     Page -->|contains| Content
     Page -->|contains| Footer
+    Page -->|contains| DynamicBg
+    DynamicBg -->|responds to| Content
     
     subgraph "Responsive Components"
         Header -->|adapts to| MobileNav[Mobile Nav]

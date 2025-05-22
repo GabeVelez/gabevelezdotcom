@@ -7,6 +7,7 @@ The Gabe Velez portfolio website is currently in a functional state with core fe
 1. **Completing Additional Case Studies** - Two case studies are currently active, while two others are marked as "Under Construction" in the codebase (commented out in the HTML).
 2. **Resume Updates** - The site includes a 2025 version of the resume (GabeVelezResume2025.pdf).
 3. **Maintaining Current Information** - The website reflects Gabe's current role as CTO at A&N Online Marketing.
+4. **Visual Enhancement of Case Studies** - Implementing dynamic backgrounds and style improvements to create a more engaging user experience.
 
 ## Recent Changes
 
@@ -15,6 +16,9 @@ Based on code analysis, recent changes include:
 1. **Case Study Implementation** - The AfterPromCentral Events Calendar case study was recently completed (dated January-March 2024).
 2. **jQuery Update** - The site uses jQuery 3.7.1, which is a recent version, suggesting an update to the library.
 3. **Resume Update** - The presence of a 2025-dated resume indicates recent content updates.
+4. **Dynamic Background Implementation** - Added dynamic-background.js to create smooth color transitions in case studies based on scroll position.
+5. **Style Enhancements** - Implemented NYCNY Categories Demo Component with swipeable mobile interface.
+6. **Case Study Structure Improvement** - Added standard summary sections to case studies to provide concise overviews of key points before detailed content.
 
 ## Active Decisions
 
@@ -25,7 +29,10 @@ The following decisions are actively shaping the site's development:
 3. **Case Study Selection** - Curating specific projects that best demonstrate skills and experience:
    - AfterPromCentral Events Calendar (WordPress plugin development)
    - Integrate Design System Audit (design language development)
-   - Two additional case studies in progress
+   - NYCNewYears.com Site Overhaul (site optimization and UX improvements)
+   - One additional case study in progress
+4. **Enhanced Visual Experience** - Decision to implement dynamic background color transitions to create a more engaging and cohesive case study reading experience.
+5. **Standardized Case Study Format** - Implementation of a consistent summary section format across case studies to improve readability and information retention.
 
 ## Next Steps
 
