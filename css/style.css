@@ -7,6 +7,8 @@
   --gabe-darkred: #240000;
   --gabe-teal: #235965;
   --gabe-gold: #e9c35c;
+  --gabe-forrest: #2A6E3F;
+  --gabe-sage: #5D7052;
 }
 html, body {
     margin: 0;
@@ -463,11 +465,20 @@ footer {
 .block__gray {
   background-color: var(--gabe-gray);
 }
+.block__black {
+  background-color: var(--gabe-black);
+}
 .block__red {
   background-color: var(--gabe-darkred);
 }
 .block__teal {
   background-color: var(--gabe-teal);
+}
+.block__forrest {
+  background-color: var(--gabe-forrest);
+}
+.block__sage {
+  background-color: var(--gabe-sage);
 }
 .block__container {
   width: 100%;
