@@ -650,6 +650,47 @@ swiper-container, .block__slide {
   }
 }
 
+/* Dynamic Background */
+.dynamic-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transition: background-color 1.2s ease;
+  opacity: 1;
+}
+
+/* Override any existing backgrounds on blocks to be transparent */
+.block {
+  background-color: transparent !important;
+}
+
+/* Make sure content stays above the dynamic background */
+article, section, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure header stays on top with proper styling */
+header {
+  position: fixed;
+  z-index: 10000;
+}
+
+/* Add subtle separation between sections */
+.block__container {
+  padding: 3rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Remove top border from hero and first content section */
+.content__wrapper .block__container,
+article .block:first-child .block__container {
+  border-top: none;
+}
+
 /* NYCNY Categories Demo Component */
 .categories-demo-container {
     margin: 2rem 0;
