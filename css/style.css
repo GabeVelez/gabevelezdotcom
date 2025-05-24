@@ -384,15 +384,18 @@ footer {
   }
 .card__image {
   width: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height:auto;
+  max-width: 100%;
+  display: block;
+  height: auto;
+  object-fit: cover;
   border-radius: .5rem .5rem 0 0;
+  box-sizing: border-box;
 }
 .card__textarea {
   width: 100%;
-  margin: 0 1rem 1rem;
+  margin: 0 2rem 2rem;
+  box-sizing: border-box;
+  text-align: center;
 }
 .card__title {
   font-size: 1rem;
@@ -632,30 +635,45 @@ swiper-container, .block__slide {
 
   /* Homepage__casestudy */
 
-   .cases {
-    padding: 1.5rem 0;
+  .cases {
+    padding: 3rem 0;
   }
   .cases__title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
   }
   .cases__container {
     display: flex;
     width: 60rem;
-    justify-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
+    max-width: 90%;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 0 auto;
   }
   .card {
+    margin-bottom: 3.5rem;
+    margin-top: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    display: block;
+  }
+  .card:last-child {
     margin-bottom: 2rem;
-    margin-top: 2rem;
-    width: 28rem;
   }
   .card__image {
-    width: 28rem;
-    border-radius: 0.5rem 0.5rem 0 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: .5rem .5rem 0 0;
   }
-  .card__textarea {
-    width: width: 26rem;
+  .card__title {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+  .card__description {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
   /* About Page Content */
