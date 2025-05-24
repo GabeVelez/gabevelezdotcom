@@ -392,8 +392,7 @@ footer {
   box-sizing: border-box;
 }
 .card__textarea {
-  width: 100%;
-  margin: 0 2rem 2rem;
+  margin: 0 1rem 1rem;
   box-sizing: border-box;
   text-align: center;
 }
@@ -666,6 +665,9 @@ swiper-container, .block__slide {
     width: 100%;
     max-width: 100%;
     border-radius: .5rem .5rem 0 0;
+  }
+  .card__textarea {
+  margin: 0 2rem 2rem;
   }
   .card__title {
     font-size: 1.25rem;
