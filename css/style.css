@@ -1048,3 +1048,14 @@ article .block:first-child .block__container {
     height: 1.75rem;
   }
 }
+
+/* Specific styling for Integrate logo to make it larger */
+.case-study-external__logo[src*="integratelogo"] {
+  height: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .case-study-external__logo[src*="integratelogo"] {
+    height: 1.75rem;
+  }
+}
