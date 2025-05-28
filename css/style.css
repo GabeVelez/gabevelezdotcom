@@ -1037,3 +1037,14 @@ article .block:first-child .block__container {
     border-top: none;
   }
 }
+
+/* Specific styling for AfterPromCentral logo to make it larger */
+.case-study-external__logo[src*="afterpromcentrallogo"] {
+  height: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .case-study-external__logo[src*="afterpromcentrallogo"] {
+    height: 1.75rem;
+  }
+}
