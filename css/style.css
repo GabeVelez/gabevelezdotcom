@@ -960,7 +960,8 @@ article .block:first-child .block__container {
 }
 
 .case-study-external .block__container {
-  padding: 0.5rem 0 0;
+  padding: 0;
+  border-top: none;
 }
 
 .case-study-external__link {
@@ -1008,7 +1009,8 @@ article .block:first-child .block__container {
   }
   
   .case-study-external .block__container {
-    padding: 1rem 0 0;
+    padding: 0;
+    border-top: none;
   }
   
   .case-study-external__link {
@@ -1031,6 +1033,7 @@ article .block:first-child .block__container {
   }
   
   .case-study-external .block__container {
-    padding: 1.5rem 0 0;
+    padding: 0;
+    border-top: none;
   }
 }
