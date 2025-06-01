@@ -469,21 +469,10 @@ footer {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: var(--gabe-gray);
   border: 2px solid var(--gabe-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
   flex-shrink: 0;
-}
-.testimonial-card__avatar::before {
-  content: "";
-  width: 20px;
-  height: 20px;
-  background-color: var(--gabe-white);
-  border-radius: 50%;
-  position: absolute;
+  object-fit: cover;
+  object-position: center;
 }
 .testimonial-card__details {
   display: flex;
