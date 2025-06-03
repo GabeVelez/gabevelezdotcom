@@ -53,30 +53,28 @@
 - CSS in /css directory
 - Layout components in /layout directory
 - Case studies in /case-studies directory
+- Side projects in /side-projects directory
 - Images in /img directory, with naming conventions:
   - Responsive variants: image.webp, image@2x.webp
   - Device-specific variants: image-desktop.webp, image-tablet.webp, image-mobile.webp
+  - Side project images: sideCard_[ProjectName].webp, sideCard_[ProjectName]@2x.webp
 
-### Content Structure
-- Case studies follow consistent pattern:
-  - Hero section with title and dates
-  - Role description
-  - Summary section with key points and metrics
-  - Context explanation
-  - Challenge section
-  - Solution section with visuals
-  - Results section
+### Content Structure Evolution
+The portfolio has evolved beyond traditional case studies to include:
+
+**Homepage Structure**:
+1. Hero section (professional introduction)
+2. Featured Projects (traditional client case studies)
+3. Side Projects (entrepreneurial work)
+4. Testimonials (social proof)
+
+**Case Study Types**:
+- **Traditional Case Studies**: Client work demonstrating professional expertise
+- **Side Projects**: Independent work showcasing entrepreneurial capability and technical leadership
 
 ## Critical Implementation Paths
 
-### Adding a New Page
-1. Create HTML file at appropriate location
-2. Include standard head section (meta tags, title, links to CSS and JS)
-3. Use proper body class for styling (e.g., `class="page"` or `class="home"`)
-4. Include empty header and footer elements to be populated by layout.js
-5. Add page to navigation in both nav.html and nav_index.html
-
-### Adding a New Case Study
+### Adding a New Traditional Case Study
 1. Create HTML file in /case-studies directory
 2. Follow existing case study template structure
 3. Prepare images in multiple sizes (desktop, tablet, mobile) and formats
@@ -85,6 +83,43 @@
 6. Include `casestudy` class in the body tag to enable dynamic background functionality
 7. Add a summary section after the role description to provide a concise overview
 8. Ensure each section has the appropriate block color class (block__teal, block__gray, etc.)
+
+### Adding a New Side Project
+1. Create HTML file in /side-projects directory
+2. Follow case study template but emphasize:
+   - Technical architecture and development approach
+   - Solo development challenges and solutions
+   - Business understanding and market context
+   - Complete product development lifecycle
+3. Add card to index.html in the side-projects__container section
+4. Use side project image naming convention (sideCard_[Name].webp)
+5. Include `casestudy` class in body tag for dynamic backgrounds
+6. Emphasize entrepreneurial and technical leadership aspects
+
+### Adding a New Testimonial
+1. Update index.html testimonials section
+2. Follow testimonial-card structure:
+   ```html
+   <div class="testimonial-card">
+       <blockquote class="testimonial-card__quote">[quote]</blockquote>
+       <div class="testimonial-card__author">
+           <img class="testimonial-card__avatar" src="img/[image].jpeg" alt="[Name]">
+           <div class="testimonial-card__details">
+               <div class="testimonial-card__name">[Name]</div>
+               <div class="testimonial-card__title">[Professional Title]</div>
+           </div>
+       </div>
+   </div>
+   ```
+3. Include professional headshot in img/ directory
+4. Ensure attribution includes full name and professional title
+
+### Adding a New Page
+1. Create HTML file at appropriate location
+2. Include standard head section (meta tags, title, links to CSS and JS)
+3. Use proper body class for styling (e.g., `class="page"` or `class="home"`)
+4. Include empty header and footer elements to be populated by layout.js
+5. Add page to navigation in both nav.html and nav_index.html
 
 ### Updating Site Content
 1. Edit relevant HTML files directly
@@ -98,6 +133,26 @@
 4. Desktop styles use `@media (min-width: 1060px)`
 5. Follow existing naming conventions when adding new classes
 
+## Portfolio Positioning Strategy
+
+### Unique Value Proposition
+The portfolio demonstrates a unique combination of:
+- **Proven Client Success**: Traditional case studies with measurable outcomes
+- **Entrepreneurial Innovation**: TokTix platform as flagship independent project
+- **Technical Versatility**: Full-stack development across mobile and web
+- **Social Proof**: Professional testimonials and endorsements
+
+### Content Balance
+- **70% Traditional Case Studies**: Demonstrate professional expertise and client success
+- **20% Side Projects**: Showcase entrepreneurial capability and technical leadership
+- **10% Social Proof**: Provide credibility through colleague testimonials
+
+### Target Audience Appeal
+- **Employers**: Evidence of both technical skills and professional collaboration
+- **Startup Founders**: Demonstration of independent development capability
+- **Consulting Clients**: Proven track record with clear business outcomes
+- **Professional Network**: Comprehensive view of capabilities and achievements
+
 ## Known Project Challenges
 
 ### Technical Considerations
@@ -105,13 +160,19 @@
 - No automated build process for optimization
 - Component reuse handled through jQuery loading rather than a component system
 - Limited separation of content and presentation
-- Two case studies marked as "Under Construction" to be completed
+- Two traditional case studies marked as "Under Construction" to be completed
 
 ### Content Priorities
+- Complete TokTix platform beta launch (June 2025) and document results
+- Finish remaining traditional case studies (Integrate Asset Library, Integrate ABM Web Analytics)
+- Collect additional testimonials from diverse professional sources
+- Implement contact form for improved lead generation
 - Keep professional information current and accurate
-- Complete the two in-progress case studies
-- Maintain resume PDF with current information
-- Ensure all links remain valid and active
+
+### Portfolio Evolution Tracking
+- **January 2025**: Added TokTix side project and testimonials section
+- **Upcoming**: Complete remaining case studies and beta launch documentation
+- **Future**: Potential additional side projects and expanded testimonials
 
 ## Workflow Notes
 
@@ -120,15 +181,50 @@
 - Test across various device sizes and browsers
 - Pay special attention to responsive breakpoints
 - Verify component loading works correctly
+- Maintain consistent design patterns across traditional and side project content
 
 ### Common Tasks
 - Update resume: Replace GabeVelezResume2025.pdf while maintaining the same filename
-- Add case study: Create new HTML file and add card to homepage
+- Add traditional case study: Create new HTML file and add card to Featured Projects section
+- Add side project: Create new HTML file and add card to Side Projects section
+- Add testimonial: Update testimonials section with new testimonial-card
 - Update professional info: Edit relevant sections in about.html and index.html
 - Fix navigation: Edit layout/nav.html and layout/nav_index.html
+
+### Quality Assurance
+- Ensure all new content maintains professional tone and accuracy
+- Verify responsive design works across all device sizes
+- Test dynamic background functionality on case study pages
+- Validate all links and image references
+- Confirm testimonial attributions are accurate and approved
+
+## Project Intelligence
+
+### TokTix Development Patterns
+- **Documentation Approach**: Comprehensive technical detail demonstrating full-stack capability
+- **Business Context**: Clear market positioning and competitive analysis
+- **Technical Architecture**: Service-based design preventing typical solo project technical debt
+- **Progress Tracking**: Regular updates on development progress and launch timeline
+- **Beta Launch Strategy**: Real user testing planned for June 2025 with results documentation
+
+### Content Effectiveness Insights
+- **Case Study Length**: Comprehensive case studies perform better than brief summaries
+- **Technical Detail**: Include sufficient technical depth for peer evaluation
+- **Business Impact**: Always include measurable outcomes and business context
+- **Visual Consistency**: Maintain design consistency across different content types
+- **Progressive Disclosure**: Use summary sections for quick overview, detailed sections for deep dive
+
+### Professional Positioning Evolution
+- **From**: Traditional designer/developer portfolio
+- **To**: Multi-dimensional professional showcasing both execution and innovation
+- **Key Differentiators**: Entrepreneurial projects, technical leadership, business understanding
+- **Audience Expansion**: Appeals to diverse opportunity types while maintaining focus
 
 ## Project Evolution Notes
 - Originally built with minimalist approach (no frameworks)
 - Continues to maintain this approach for simplicity and performance
 - Responsive design has been a priority from the beginning
-- Case studies section evolves as new professional work is completed
+- Portfolio scope has evolved to include entrepreneurial work alongside client projects
+- Social proof elements added to enhance credibility and professional positioning
+- Directory structure expanded to accommodate different project types
+- Content strategy evolved to appeal to broader range of professional opportunities

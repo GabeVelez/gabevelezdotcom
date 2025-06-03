@@ -2,277 +2,245 @@
 
 ## Architecture Overview
 
-The Gabe Velez portfolio website follows a component-based architecture with minimalist implementation. Its structure emphasizes simplicity, performance, and maintainability without relying on frameworks.
+The portfolio website follows a component-based architecture implemented with vanilla HTML, CSS, and minimal JavaScript, avoiding frameworks while maintaining reusable patterns.
 
-```mermaid
-graph TD
-    Root[Root HTML Structure]
-    CSS[CSS Files]
-    JS[JavaScript Files]
-    Comp[Component HTML]
-    
-    Root -->|references| CSS
-    Root -->|loads| JS
-    Root -->|contains| PageContent[Page Content]
-    JS -->|dynamically loads| Comp
-    Comp -->|inserted into| Root
-```
+## Core Technical Patterns
 
-## Key Design Patterns
+### Component Loading System
+**Pattern**: Dynamic content injection using jQuery
+**Implementation**: 
+- `layout.js` loads header and footer components into all pages
+- Shared navigation and footer markup prevents duplication
+- Enables site-wide updates through central component files
 
-### 1. Component Loading Pattern
-The site uses jQuery to dynamically load header and footer components instead of duplicating them across pages:
+**Files**:
+- `/layout/header.html` - Main navigation component
+- `/layout/footer.html` - Footer component  
+- `/layout.js` - Component loading logic
 
-```javascript
-// Dynamic component loading in layout.js
-$(function() {
-    if ($("body").hasClass("home")) {
-        $("header").load("/layout/nav_index.html");
-    } else {
-        $("header").load("/layout/nav.html");
-    }
-    $("footer").load("/layout/footer.html");
-});
-```
-
-This pattern:
-- Maintains consistent navigation/footer across the site
-- Reduces duplication and maintenance overhead
-- Allows page-specific header variations (home vs. other pages)
-
-### 2. Responsive Design Architecture
-
-The site follows a mobile-first responsive design pattern with three primary breakpoints:
-- Base styles (mobile): < 600px
-- Mid-range (tablet): 600px - 1059px 
-- Desktop: ≥ 1060px
-
-Media queries in the CSS cascade styles from mobile (default) up to larger screens:
-
-```css
-/* Base styles for mobile */
-.element {
-    /* Mobile-first default styles */
-}
-
-/* Tablet breakpoint */
-@media (min-width: 600px) {
-    .element {
-        /* Tablet-specific modifications */
-    }
-}
-
-/* Desktop breakpoint */
-@media (min-width: 1060px) {
-    .element {
-        /* Desktop-specific modifications */
-    }
-}
-```
-
-### 3. CSS Custom Properties (Variables) Pattern
-
-Custom properties define a consistent color system:
-
-```css
-:root {
-  --gabe-black: #1B2021;
-  --gabe-black-alpha: rgb(27 32 33 / 85%);
-  --gabe-white: #FFFFFF;
-  --gabe-gray: #364042;
-  --gabe-red: #800020;
-  --gabe-darkred: #240000;
-  --gabe-teal: #235965;
-  --gabe-gold: #e9c35c;
-  --gabe-forrest: #2A6E3F;
-  --gabe-sage: #5D7052;
-}
-```
-
-This enables:
-- Consistent color application
-- Single-point color modification
-- Semantic color naming
-
-### 4. Adaptive Navigation Pattern
-
-The navigation adapts between:
-- Mobile: Hamburger menu with fullscreen overlay
-- Desktop: Horizontal navigation bar
-
-This is controlled through CSS media queries and the checkbox-based toggle pattern for mobile:
-
+### Responsive Image Strategy
+**Pattern**: Progressive image loading with multiple formats and sizes
+**Implementation**:
 ```html
-<input id="menu__toggle" type="checkbox" />
-<label class="menu__btn" for="menu__toggle">
-    <span></span>
-</label>
+<picture>
+    <source type="image/webp" media="(min-width: 1060px)" srcset="image@2x.webp 1x, image@3x.webp 2x" />
+    <source type="image/webp" media="(min-width: 600px)" srcset="image@2x.webp" />
+    <img loading="lazy" src="image.webp" srcset="image.webp 1x, image@2x.webp 2x" alt="Description">
+</picture>
 ```
+- WebP format for better compression
+- Multiple breakpoints (mobile: <600px, tablet: 600-1059px, desktop: 1060px+)
+- Lazy loading for performance
+- Retina display support with 2x and 3x variants
 
-### 5. Card Component Pattern
+### CSS Architecture
+**Pattern**: Mobile-first responsive design with CSS custom properties
+**Structure**:
+- Root-level CSS variables for consistent theming
+- Block-Element-Modifier (BEM) naming conventions
+- Mobile-first media queries with progressive enhancement
+- Component-specific stylesheets when needed
 
-Case studies use a consistent card pattern for display:
+## Component Patterns
 
+### Card Component System
+**Pattern**: Reusable card layout for different content types
+**Variants**:
+1. **Case Study Cards** - Traditional portfolio work
+2. **Side Project Cards** - Entrepreneurial work 
+3. **Testimonial Cards** - Social proof content
+
+**Base Structure**:
 ```html
-<a class="card" href="case-studies/example.html">
-    <picture>
-        <!-- Responsive image sources -->
-    </picture>
+<a class="card" href="[link]">
+    <picture>[responsive image]</picture>
     <div class="card__textarea">
-        <h3 class="card__title">...</h3>
-        <p class="card__description">...</p>
+        <h3 class="card__title"><span class="company__link">[title]</span></h3>
+        <p class="card__description">[description]</p>
     </div>
 </a>
 ```
 
-This pattern:
-- Creates visual consistency
-- Encapsulates related content
-- Facilitates responsive layout adaptation
+**CSS Pattern**:
+- Consistent hover states and transitions
+- Responsive image handling within cards
+- Typography scaling across breakpoints
+- Semantic color usage through CSS variables
 
-### 6. Responsive Image Strategy
+### Case Study Layout Pattern
+**Pattern**: Structured content blocks with consistent styling
+**Components**:
+- `casestudy__hero` - Title and date section
+- `casestudy__image` - Full-width hero image
+- `block` system with semantic color variants
+- Summary sections for quick overview
 
-The site uses the `<picture>` element pattern for responsive, optimized images:
+**Block Variants**:
+- `block__black` - Role and key information
+- `block__gray` - Summary sections
+- `block__sage` - Context and background
+- `block__red` - Challenge definition
+- `block__teal` - Solution explanation
+- `block__forrest` - Results and outcomes
 
-```html
-<picture>
-    <source type="image/webp" media="(min-width: 1060px)" 
-            srcset="img/image.webp 1x, img/image@2x.webp 2x" />
-    <source type="image/webp" media="(min-width: 600px)" 
-            srcset="img/image-tablet.webp" />
-    <img loading="lazy" decoding="async" 
-         src="img/image-mobile.webp" alt="Description">
-</picture>
+### Navigation Pattern
+**Pattern**: Responsive navigation with mobile adaptation
+**Implementation**:
+- Desktop: Horizontal navigation with logo
+- Mobile: Simplified navigation structure
+- Active state management for current page
+- Scroll-based logo visibility controls
+
+## Content Organization Patterns
+
+### Homepage Section Structure
+**Pattern**: Progressive disclosure of capabilities and evidence
+
+1. **Hero Section**: Immediate value proposition and professional introduction
+2. **Featured Projects**: Traditional case studies demonstrating client work
+3. **Side Projects**: Entrepreneurial work showcasing independent capability
+4. **Testimonials**: Social proof and professional endorsements
+
+### Directory Structure Pattern
+**Pattern**: Content type organization
+```
+/case-studies/           # Traditional client work
+/side-projects/          # Entrepreneurial projects  
+/memory-bank/           # Documentation and context
+/layout/                # Shared components
+/css/                   # Styling
+/img/                   # Image assets
 ```
 
-This enables:
-- Device-appropriate image sizing
-- WebP format usage with fallbacks
-- Resolution-specific images (1x/2x)
-- Performance optimization via lazy loading
+### URL and Naming Conventions
+**Pattern**: Descriptive, SEO-friendly URLs
+- Case studies: `/case-studies/project-name.html`
+- Side projects: `/side-projects/project-name.html`
+- Consistent hyphenated naming
+- Semantic file structure
 
-### 7. Block-Based Content Pattern
+## New Component Patterns (Recent Additions)
 
-Case studies use a block-based content structure:
-
+### Side Projects Section
+**Pattern**: Entrepreneurial work showcase
+**Purpose**: Demonstrate independent development capability
+**Structure**:
 ```html
-<section class="block block__teal">
-    <div class="block__container">
-        <h3 class="block__title">Section Title</h3>
-        <p>Content...</p>
+<section class="side-projects">
+    <h2 class="side-projects__title">Side Projects</h2>
+    <div class="side-projects__container">
+        [card components for entrepreneurial work]
     </div>
 </section>
 ```
 
-This creates:
-- Visual separation between content sections
-- Consistent spacing and layout
-- Themed sections (using color variations)
-- Standard summary section at the beginning of case studies
+**Key Features**:
+- Same card component system as featured projects
+- Distinct section for non-client work
+- Emphasis on technical leadership and business understanding
 
-The summary section provides a concise overview of the case study, highlighting key points and metrics before the detailed content sections.
-
-### 8. Dynamic Background Pattern
-
-Case studies implement a dynamic background color system that changes based on the user's scroll position:
-
-```javascript
-// Create a fixed background element
-const $backgroundElement = $('<div class="dynamic-background"></div>');
-$('body').prepend($backgroundElement);
-
-// Detect which section is in the middle of the viewport
-$(window).on('scroll', function() {
-    const viewportMiddle = $(window).scrollTop() + ($(window).height() / 2);
-    
-    $sections.each(function() {
-        const $section = $(this);
-        const sectionTop = $section.offset().top;
-        const sectionBottom = sectionTop + $section.outerHeight();
-        
-        if (viewportMiddle >= sectionTop && viewportMiddle <= sectionBottom) {
-            // Apply the appropriate color based on section class
-            // ...
-        }
-    });
-});
+### Testimonials Section  
+**Pattern**: Social proof component system
+**Purpose**: Provide credibility through colleague endorsements
+**Structure**:
+```html
+<section class="testimonials">
+    <h2 class="testimonials__title">Kind Words</h2>
+    <div class="testimonials__container">
+        <div class="testimonial-card">
+            <blockquote class="testimonial-card__quote">[quote text]</blockquote>
+            <div class="testimonial-card__author">
+                <img class="testimonial-card__avatar" src="[image]" alt="[name]">
+                <div class="testimonial-card__details">
+                    <div class="testimonial-card__name">[name]</div>
+                    <div class="testimonial-card__title">[title]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 ```
 
-This pattern:
-- Creates a cohesive visual experience with smooth color transitions
-- Maintains the block-based structure while adding visual interest
-- Makes content sections more distinct
-- Requires individual blocks to have transparent backgrounds
-- Uses CSS transitions for smooth color changes
+**Design Principles**:
+- Clear attribution with photo and professional title
+- Quotation formatting for easy scanning
+- Responsive layout adapting to different screen sizes
+- Professional aesthetic consistent with overall site design
 
-## Component Relationships
+## Dynamic Behavior Patterns
 
-```mermaid
-graph TD
-    Page[Page Structure]
-    Header[Header/Navigation]
-    Footer[Footer]
-    Hero[Hero Section]
-    Cards[Case Study Cards]
-    Content[Content Blocks]
-    DynamicBg[Dynamic Background]
-    
-    Page -->|contains| Header
-    Page -->|contains| Hero
-    Page -->|contains| Cards
-    Page -->|contains| Content
-    Page -->|contains| Footer
-    Page -->|contains| DynamicBg
-    DynamicBg -->|responds to| Content
-    
-    subgraph "Responsive Components"
-        Header -->|adapts to| MobileNav[Mobile Nav]
-        Header -->|adapts to| DesktopNav[Desktop Nav]
-        Hero -->|adapts to| MobileHero[Mobile Hero]
-        Hero -->|adapts to| DesktopHero[Desktop Hero]
-        Cards -->|adapt to| MobileCards[Mobile Cards]
-        Cards -->|adapt to| DesktopCards[Desktop Cards]
-    end
-```
+### Scroll-Based Interactions
+**Pattern**: Progressive enhancement through scroll events
+**Implementations**:
+1. **Logo Visibility**: Logo appears/disappears based on scroll position
+2. **Dynamic Backgrounds**: Case study backgrounds transition based on scroll
+3. **Lazy Loading**: Images load as they enter viewport
 
-## State Management
+### Color Transition System
+**Pattern**: Dynamic background color changes in case studies
+**Implementation**: `dynamic-background.js` creates smooth transitions between sections
+**Purpose**: Enhanced visual experience and brand consistency
 
-The site uses minimal state management:
-- Menu toggle state for mobile navigation
-- Scroll position detection for header appearance
-- No complex application state
+## Performance Patterns
 
-Example of scroll-based state management:
-```javascript
-$(window).on("scroll", function() {
-    if($(window).scrollTop() > 10) {
-        $(".logo__gabe").removeClass("logo__gabe--remove");
-    } else {
-        $(".logo__gabe").addClass("logo__gabe--remove");
-    }
-});
-```
+### Image Optimization Strategy
+**Pattern**: Multi-format, multi-resolution image delivery
+**Implementation**:
+- WebP format as primary with fallbacks
+- Responsive image sizes based on viewport
+- Lazy loading for below-fold content
+- Retina display optimization
 
-## Code Organization
+### JavaScript Minimization
+**Pattern**: Selective JavaScript enhancement
+**Philosophy**: Progressive enhancement with minimal dependencies
+**Usage**:
+- jQuery for component loading (will be reconsidered for modernization)
+- Custom scripts for specific enhancements
+- No large framework dependencies
 
-```mermaid
-graph LR
-    subgraph "File Structure"
-        HTML[HTML Pages]
-        CSS[CSS Files]
-        JS[JavaScript]
-        Layouts[Layout Components]
-        Images[Images]
-    end
-    
-    HTML --> |references| CSS
-    HTML --> |loads| JS
-    JS --> |loads| Layouts
-    HTML --> |displays| Images
-```
+## Accessibility Patterns
 
-- HTML: Page templates with minimal content
-- CSS: Single style.css with all styles
-- JS: Minimal JavaScript for component loading and interactions
-- Layout components: Reusable header/footer templates
-- Images: Optimized for web with responsive variants
+### Semantic HTML Structure
+**Pattern**: Proper heading hierarchy and semantic elements
+**Implementation**:
+- Logical heading structure (h1 → h2 → h3)
+- Semantic sectioning elements
+- Proper alt text for all images
+- Keyboard navigation support
+
+### Screen Reader Considerations
+**Pattern**: Content structure optimized for assistive technologies
+**Implementation**:
+- Descriptive link text
+- Image alt attributes
+- Proper form labeling (when contact form is implemented)
+- Skip navigation options
+
+## Scalability Patterns
+
+### Content Management Approach
+**Current State**: Manual HTML editing
+**Consideration**: Template-based approach for easier content updates
+**Future Pattern**: Potential static site generator integration while maintaining current aesthetic
+
+### Component Extensibility
+**Pattern**: Modular component design allows for easy expansion
+**Examples**:
+- Additional card types for new content categories
+- New block types for different case study sections
+- Additional testimonial sources and formats
+
+## Technical Debt Management
+
+### Current Technical Choices
+**jQuery Dependency**: Used for component loading, targeted for future modernization
+**Manual Content Updates**: Direct HTML editing, manageable for current scale
+**No Build Process**: Intentional simplicity, may add optimization tooling
+
+### Future Modernization Considerations
+**Component Loading**: Transition from jQuery to vanilla JavaScript
+**Build Process**: Consider minimal build system for optimization
+**Content Management**: Evaluate static site generators or headless CMS options
+
+The system demonstrates careful balance between simplicity and sophistication, enabling rapid development while maintaining professional quality and scalability for future growth.
