@@ -449,8 +449,21 @@ footer {
   box-sizing: border-box;
 }
 .testimonial-card:hover {
+  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
   box-shadow: 4px 4px 12px rgb(0 0 0 / 40%);
   transform: translateY(-2px);
+}
+.testimonial-card:hover .testimonial-card__quote {
+  color: var(--gabe-black);
+}
+.testimonial-card:hover .testimonial-card__name {
+  color: var(--gabe-black);
+}
+.testimonial-card:hover .testimonial-card__title {
+  color: var(--gabe-black);
+}
+.testimonial-card:hover .testimonial-card__avatar {
+  border-color: var(--gabe-black);
 }
 .testimonial-card__quote {
   font-size: 1rem;
