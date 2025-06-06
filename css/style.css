@@ -411,7 +411,7 @@ footer {
 /* Homepage__testimonials */
 
 .testimonials {
-  padding: 0 1.5rem;
+  padding: 0 1.5rem 3rem;
   background-color: var(--gabe-gray);
   display: flex;
   flex-direction: column;
