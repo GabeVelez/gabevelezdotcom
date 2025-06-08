@@ -3,6 +3,7 @@
   --gabe-black-alpha: rgb(27 32 33 / 85%);
   --gabe-white: #FFFFFF;
   --gabe-gray: #364042;
+  --gabe-darkgray: #2f3839;
   --gabe-red: #800020;
   --gabe-darkred: #240000;
   --gabe-teal: #235965;
@@ -510,7 +511,7 @@ footer {
 
 .side-projects {
   padding: 0 1.5rem;
-  background-color: var(--gabe-sage);
+  background-color: var(--gabe-darkgray);
   display: flex;
   flex-direction: column;
   align-items: center;
