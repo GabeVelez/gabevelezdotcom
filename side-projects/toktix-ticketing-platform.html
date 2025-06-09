@@ -161,26 +161,30 @@
                     <h4 class="block__subtitle">Architecture Strategy</h4>
                     <p>I designed a dual-platform architecture that separates concerns while maintaining integration:</p>
 
-                    <pre class="block__code">
-Mobile App (React Native + Expo)
-├── Event creation and management
-├── Ticket scanning and verification  
-├── Real-time analytics dashboard
-└── Offline-capable operations
+                    <p><strong>Mobile App (React Native + Expo):</strong></p>
+                    <ul>
+                        <li>Event creation and management</li>
+                        <li>Ticket scanning and verification</li>
+                        <li>Real-time analytics dashboard</li>
+                        <li>Offline-capable operations</li>
+                    </ul>
 
-Web Platform (Next.js + TypeScript)
-├── Event landing pages (events.toktix.com)
-├── Checkout and payment processing
-├── Marketing site (toktix.com)
-└── SEO-optimized event discovery
+                    <p><strong>Web Platform (Next.js + TypeScript):</strong></p>
+                    <ul>
+                        <li>Event landing pages (events.toktix.com)</li>
+                        <li>Checkout and payment processing</li>
+                        <li>Marketing site (toktix.com)</li>
+                        <li>SEO-optimized event discovery</li>
+                    </ul>
 
-Backend Infrastructure (Firebase)
-├── Authentication and user management
-├── Real-time database with Firestore
-├── Cloud Functions for business logic
-├── Image storage and optimization
-└── Stripe Connect integration
-                    </pre>
+                    <p><strong>Backend Infrastructure (Firebase):</strong></p>
+                    <ul>
+                        <li>Authentication and user management</li>
+                        <li>Real-time database with Firestore</li>
+                        <li>Cloud Functions for business logic</li>
+                        <li>Image storage and optimization</li>
+                        <li>Stripe Connect integration</li>
+                    </ul>
 
                     <h4 class="block__subtitle">Service Architecture Design</h4>
                     <p>To prevent the technical debt that typically accumulates in solo projects, I implemented a clean service architecture with clear separation of concerns:</p>
@@ -193,6 +197,10 @@ Backend Infrastructure (Firebase)
                         <li><strong>Payment Service:</strong> Integrates Stripe Connect for promoter payouts</li>
                     </ul>
                     <p>This modular approach prevents circular dependencies and enables independent testing and maintenance of each system component.</p>
+
+                    <img class="block__image" loading="lazy" decoding="async" src="/img/toktixAuthFlow.webp" alt="TokTix Authentication Flow - Cross-platform user session management between mobile app and web platform">
+
+                    <p class="block__text--small">Diagraming the mobile authentication userflow.</p>
 
                     <h4 class="block__subtitle">Cross-Domain Web Architecture</h4>
                     <p>One of the most complex challenges was implementing a cross-domain setup that provides optimal user experience while maintaining technical flexibility:</p>
