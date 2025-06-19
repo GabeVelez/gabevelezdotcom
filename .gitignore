@@ -15,3 +15,8 @@ projects_WIP/
 *-oauth.keys.json
 service-account*.json
 gcp-*.json
+
+# Data files - prevent CSV and other data files from MCP work
+*.csv
+*.xlsx
+*.xls
