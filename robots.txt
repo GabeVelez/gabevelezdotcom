@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://gabevelez.com/sitemap.xml
+
+# Disallow access to certain directories and files
+Disallow: /projects_WIP/
+Disallow: /khanban/
+Disallow: /memory-bank/
+Disallow: /*.pdf$
+
+# Allow access to CSS and JS files
+Allow: /css/
+Allow: /js/
+Allow: /*.js$
+Allow: /*.css$
+
+# Allow images
+Allow: /img/
+
+# Crawl delay (optional - be respectful to search engines)
+Crawl-delay: 1
