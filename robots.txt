@@ -10,6 +10,10 @@ Disallow: /khanban/
 Disallow: /memory-bank/
 Disallow: /*.pdf$
 
+# Block work-in-progress case studies
+Disallow: /case-studies/integrate-asset-library-redesign.html
+Disallow: /case-studies/integrate-abm-web-analytics.html
+
 # Allow access to CSS and JS files
 Allow: /css/
 Allow: /js/
