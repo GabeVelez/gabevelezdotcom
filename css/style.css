@@ -855,17 +855,15 @@ swiper-container, .block__slide {
     margin-bottom: 2rem;
   }
   .testimonials__container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     width: 60rem;
     max-width: 90%;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
     margin: 0 auto;
     gap: 2rem;
   }
   .testimonial-card {
-    width: calc(33.333% - 1.333rem);
+    width: 100%;
     margin: 0;
   }
 
