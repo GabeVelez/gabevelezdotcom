@@ -9,7 +9,7 @@
 
 **Title:** "Gabe Velez - Senior Product Designer That Ships"
 **Hero Headline:** "Hi, My Name is Gabe - With 15 years of experience I solve real user problems and deliver products that work."
-**Supporting Text:** "Over 15 years helping companies turn complex challenges into simple, effective experiences. Currently leading design and engineering at A&N Online Marketing. Based in Queens, New York, working with teams who need someone who can design it, build it, and ship it."
+**Supporting Text:** "Over 15 years helping companies turn complex challenges into simple, effective experiences. Currently leading design and engineering at [A&N Online Marketing](https://anom.group/). Based in Queens, New York, working with teams who need someone who can design it, build it, and ship it."
 
 **Meta Description:** "Senior Product Designer with 15+ years solving complex user problems and shipping products that work. From user research to live deployment in Queens, NY."
 
@@ -17,7 +17,7 @@
 
 **Title:** "Gabe Velez - Senior Product Designer That Ships"
 **Hero Headline:** "Hi, My Name is Gabe - With 15 years of experience I design and deliver products that thousands of people actually use."
-**Supporting Text:** "From user research to live deployment - I handle the full journey. 15+ years spent turning messy problems into clean solutions. Currently Chief Technology Officer at A&N Online Marketing, where I run the entire design and engineering process. Based in Queens, New York."
+**Supporting Text:** "From user research to live deployment - I handle the full journey. 15+ years spent turning messy problems into clean solutions. Currently Chief Technology Officer at [A&N Online Marketing](https://anom.group/), where I run the entire design and engineering process. Based in Queens, New York."
 
 **Meta Description:** "Senior Product Designer shipping products used by thousands. 15+ years experience from user research to deployment. Based in Queens, NY."
 
@@ -25,7 +25,7 @@
 
 **Title:** "Gabe Velez - Senior Product Designer That Ships"
 **Hero Headline:** "Hi, My Name is Gabe - With 15 years of experience I get products from idea to user's hands."
-**Supporting Text:** "Multi-disciplined designer and developer who's been solving complex UX challenges for over 15 years. Right now I serve as Chief Technology Officer for A&N Online Marketing, working as their complete design and engineering department. Based in Queens, New York."
+**Supporting Text:** "Multi-disciplined designer and developer who's been solving complex UX challenges for over 15 years. Right now I serve as Chief Technology Officer for [A&N Online Marketing](https://anom.group/), working as their complete design and engineering department. Based in Queens, New York."
 
 **Meta Description:** "Senior Product Designer & developer getting products from idea to users' hands. 15+ years solving complex UX challenges in Queens, NY."
 
