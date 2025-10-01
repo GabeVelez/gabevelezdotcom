@@ -25,222 +25,172 @@
 
 ## 🎯 Week 1: Prove Resume Claims on Homepage
 
-### Phase 1: Impact-First Card Descriptions ⏳ IN PROGRESS
+### Phase 1: Impact-First Card Descriptions ✅ COMPLETE
 
 **Goal:** Show metrics/results in card descriptions before visitors click
 
 #### NYCNewYears.com Card
-- [ ] **Read current description** (index.html line 108)
-- [ ] **Rewrite to impact-first:**
-  - [ ] Include "48% code reduction (8.2MB → 4.2MB)"
-  - [ ] Include "83% mobile traffic"
-  - [ ] Mention "thousands of international tourists"
-  - [ ] Keep under 200 characters
-- [ ] **Add `<strong>` tags** to key metrics
-- [ ] **Test on mobile/tablet/desktop** for readability
+- [x] **Read current description** (index.html line 108)
+- [x] **Rewrite to impact-first:**
+  - [x] Include "48% code reduction (8.2MB → 4.2MB)"
+  - [x] Include "83% mobile traffic" → CHANGED: "thousands of tourists"
+  - [x] Mention "thousands of international tourists"
+  - [x] Keep under 200 characters
+  - **Final:** "Slashing 48% of code to keep one of NYC's biggest NYE sites running smoothly for thousands of tourists"
+- [ ] **Add `<strong>` tags** to key metrics (deferred - not needed for now)
+- [x] **Test on mobile/tablet/desktop** for readability
 
 #### AfterPromCentral Card
-- [ ] **Read current description** (index.html line 119)
-- [ ] **Rewrite to impact-first:**
-  - [ ] Include "3-month end-to-end launch"
-  - [ ] Include "boosting conversions"
-  - [ ] Mention "eliminated content errors"
-  - [ ] Reference "20-30 seasonal events"
-  - [ ] Keep under 200 characters
-- [ ] **Add `<strong>` tags** to key metrics
-- [ ] **Test on mobile/tablet/desktop** for readability
+- [x] **Read current description** (index.html line 119)
+- [x] **Rewrite to impact-first:**
+  - [x] Include "3-month end-to-end launch"
+  - [x] Include "boosting conversions"
+  - [x] Mention "eliminated content errors"
+  - [x] Reference "20-30 seasonal events"
+  - [x] Keep under 200 characters
+  - **Final:** "A custom calendar plugin Built in under 3 months that boosted conversions and eliminated content errors across 20-30 seasonal events"
+- [ ] **Add `<strong>` tags** to key metrics (deferred - not needed for now)
+- [x] **Test on mobile/tablet/desktop** for readability
 
 #### Integrate Design System Card
-- [ ] **Read current description** (index.html line 130)
-- [ ] **Rewrite to impact-first:**
-  - [ ] Include "55% color reduction (103→46)"
-  - [ ] Include "33% typography simplification"
-  - [ ] Mention "unified 3 acquired companies"
-  - [ ] Include "WCAG accessibility compliance"
-  - [ ] Keep under 200 characters
-- [ ] **Add `<strong>` tags** to key metrics
-- [ ] **Test on mobile/tablet/desktop** for readability
+- [x] **Read current description** (index.html line 130)
+- [x] **Rewrite to impact-first:**
+  - [x] Include "55% color reduction (103→46)"
+  - [x] Include "33% typography simplification" → CHANGED: "Typography audit"
+  - [x] Mention "unified 3 acquired companies"
+  - [x] Include "WCAG accessibility compliance"
+  - [x] Keep under 200 characters
+  - **Final:** "Unified the design language of 3 companies. 55% fewer colors. Typography audit with WCAG compliance"
+- [ ] **Add `<strong>` tags** to key metrics (deferred - not needed for now)
+- [x] **Test on mobile/tablet/desktop** for readability
 
 #### TokTix Card
-- [ ] **Read current description** (index.html line 171)
-- [ ] **Rewrite to impact-first:**
-  - [ ] Include "95% beta-ready in 9 months"
-  - [ ] Include "solo development"
-  - [ ] Mention "React Native + Next.js + Firebase"
-  - [ ] Include "Stripe integration"
-  - [ ] Reference "0→1 product"
-  - [ ] Keep under 200 characters
-- [ ] **Add `<strong>` tags** to key metrics
-- [ ] **Test on mobile/tablet/desktop** for readability
+- [x] **Read current description** (index.html line 171)
+- [x] **Rewrite to impact-first:**
+  - [x] Include "95% beta-ready in 9 months" → CHANGED: "9 months"
+  - [x] Include "solo development" → "Solo-launched"
+  - [x] Mention "React Native + Next.js + Firebase"
+  - [x] Include "Stripe integration"
+  - [x] Reference "0→1 product" (implied in "Solo-launched")
+  - [x] Keep under 200 characters
+  - **Final:** "Solo-launched a complete mobile/web events platform in 9 months with React Native, Next.js, Firebase, and Stripe integration"
+- [ ] **Add `<strong>` tags** to key metrics (deferred - not needed for now)
+- [x] **Test on mobile/tablet/desktop** for readability
 
 #### PostHog Tracking Enhancement
-- [ ] **Add hover time tracking** for cards
+- [ ] **Add hover time tracking** for cards (deferred to Phase 2+)
   - [ ] Track how long users hover over each card
   - [ ] Track by A/B test variant
   - [ ] Track which card gets most hovers
-- [ ] **Update case study click tracking** to include card type
-  - [ ] Add `card_name` parameter to existing tracking
-  - [ ] Track click position in list (1st, 2nd, 3rd, 4th)
+- [x] **Update case study click tracking** to include side projects
+  - [x] Updated selector to `.cases a, .side-projects a`
+  - [x] All case study clicks now tracked consistently
 
 #### Testing & Validation
-- [ ] **Visual QA:**
-  - [ ] Desktop (Chrome, Firefox, Safari)
-  - [ ] Tablet (iPad, Android tablet)
-  - [ ] Mobile (iPhone, Android phone)
-- [ ] **Content QA:**
-  - [ ] All numbers accurate (match case studies)
-  - [ ] No typos
-  - [ ] Descriptions fit within card layout
-- [ ] **Analytics QA:**
-  - [ ] PostHog events firing correctly
-  - [ ] Hover tracking working
-  - [ ] Click tracking includes new parameters
+- [x] **Visual QA:**
+  - [x] Desktop (Chrome, Firefox, Safari) - tested locally
+  - [x] Tablet (iPad, Android tablet) - responsive
+  - [x] Mobile (iPhone, Android phone) - responsive
+- [x] **Content QA:**
+  - [x] All numbers accurate (match case studies)
+  - [x] No typos
+  - [x] Descriptions fit within card layout
+- [x] **Analytics QA:**
+  - [x] PostHog events firing correctly
+  - [ ] Hover tracking working (deferred)
+  - [x] Click tracking includes case studies + side projects
 
 #### Success Criteria (Phase 1)
-- [ ] **All 4 card descriptions rewritten** ✅
-- [ ] **Metrics visible before clicking** ✅
-- [ ] **Mobile responsive** ✅
-- [ ] **PostHog tracking enhanced** ✅
-- [ ] **Baseline data collected** (48 hours)
-- [ ] **Click-through rate increases by >5%** (10% → 15%+)
+- [x] **All 4 card descriptions rewritten** ✅
+- [x] **Metrics visible before clicking** ✅
+- [x] **Mobile responsive** ✅
+- [x] **PostHog tracking working** ✅
+- [ ] **Baseline data collected** (48 hours) - PENDING
+- [ ] **Click-through rate increases by >5%** (10% → 15%+) - PENDING
 
 ---
 
-### Phase 2: Impact Badges on Cards 📋 PENDING
+### Phase 2: Category Badges on Cards ✅ COMPLETE (Modified Approach)
 
-**Goal:** Make metrics scannable at a glance with colored badges
+**Goal:** Make work categories scannable at a glance with badges
+**Change:** Instead of impact metric badges (48% Code Reduction), used category badges (Product Design, Engineering, Systems, 0→1/Founder)
 
 #### Badge HTML Structure
-- [ ] **Create badge HTML template**
-  - [ ] Define `<div class="card__badges">` container
-  - [ ] Define `<span class="card__badge card__badge--TYPE">` element
-  - [ ] Plan badge types: metric, timeline, scale, quality, stage
-- [ ] **Add badges to NYCNewYears card** (before description)
-  - [ ] Badge 1: "48% Code Reduction" (metric - gold)
-  - [ ] Badge 2: "83% Mobile Traffic" (scale - sage green)
-- [ ] **Add badges to APCE card** (before description)
-  - [ ] Badge 1: "3-Month Launch" (timeline - teal)
-  - [ ] Badge 2: "Eliminated Errors" (quality - forest green)
-- [ ] **Add badges to Integrate card** (before description)
-  - [ ] Badge 1: "55% Color Reduction" (metric - gold)
-  - [ ] Badge 2: "WCAG Compliant" (quality - forest green)
-- [ ] **Add badges to TokTix card** (before description)
-  - [ ] Badge 1: "9 Months, Solo" (timeline - teal)
-  - [ ] Badge 2: "95% Beta-Ready" (stage - red)
+- [x] **Create badge HTML template**
+  - [x] Define `<div class="card__badges">` container
+  - [x] Define `<span class="card__badge">` element (no type variants needed)
+  - [x] Changed approach: Category badges instead of metric badges
+- [x] **Add badges to NYCNewYears card** (above title)
+  - [x] Product Design
+  - [x] Engineering
+  - [x] Systems
+- [x] **Add badges to APCE card** (above title)
+  - [x] Product Design
+  - [x] Engineering
+- [x] **Add badges to Integrate card** (above title)
+  - [x] Product Design
+  - [x] Systems
+- [x] **Add badges to TokTix card** (above title)
+  - [x] Product Design
+  - [x] Engineering
+  - [x] 0→1/Founder
 
 #### Badge CSS Styling
-- [ ] **Create base badge styles** (css/style.css)
-  - [ ] `.card__badges` container (flexbox, gap, wrap)
-  - [ ] `.card__badge` base styles (padding, font, border-radius)
-- [ ] **Create badge type variants**
-  - [ ] `.card__badge--metric` (gold background, black text)
-  - [ ] `.card__badge--timeline` (teal background, white text)
-  - [ ] `.card__badge--scale` (sage background, white text)
-  - [ ] `.card__badge--quality` (forest background, white text)
-  - [ ] `.card__badge--stage` (red background, white text)
-- [ ] **Mobile responsive adjustments**
-  - [ ] Smaller font size on mobile
-  - [ ] Adjust padding for smaller screens
-  - [ ] Ensure badges wrap properly
+- [x] **Create base badge styles** (css/style.css)
+  - [x] `.card__badges` container (flexbox, gap, wrap, center)
+  - [x] `.card__badge` base styles (padding, font, border-radius)
+  - [x] Subtle background: `rgba(255, 255, 255, 0.1)`
+  - [x] Uppercase, small text, letter spacing
+- [x] **Mobile responsive adjustments**
+  - [x] Font size: 0.75rem (responsive)
+  - [x] Padding: 0.25rem 0.625rem
+  - [x] Badges wrap properly with gap: 0.5rem
 
 #### PostHog Tracking for Badges
-- [ ] **Track badge visibility** (scroll depth to badges)
-- [ ] **Track badge clicks** (if we make them clickable)
-- [ ] **A/B test:** Badges vs No Badges (split traffic)
+- [x] **No tracking needed** - badges are informational, not interactive
 
 #### Testing & Validation
-- [ ] **Visual QA:**
-  - [ ] Badge colors match design system
-  - [ ] Badges readable on all devices
-  - [ ] Badges don't overlap with text
-- [ ] **Layout QA:**
-  - [ ] Badges display before description
-  - [ ] Proper spacing between badges and title/description
-  - [ ] Badges wrap correctly on narrow screens
-- [ ] **Analytics QA:**
-  - [ ] Badge visibility tracked
-  - [ ] Impact on click-through rate measured
+- [x] **Visual QA:**
+  - [x] Badges readable on all devices
+  - [x] Badges don't overlap with text
+  - [x] Consistent styling across all cards
+- [x] **Layout QA:**
+  - [x] Badges display above title (best practice for card patterns)
+  - [x] Proper spacing: 0.75rem margin-bottom
+  - [x] Badges wrap correctly on narrow screens
+- [x] **Analytics QA:**
+  - [x] No tracking needed (passive information display)
 
 #### Success Criteria (Phase 2)
-- [ ] **All 4 cards have impact badges** ✅
-- [ ] **Badges color-coded by type** ✅
-- [ ] **Mobile responsive** ✅
-- [ ] **Click-through rate >20%** (from baseline 10%)
+- [x] **All 4 cards have category badges** ✅
+- [x] **Badges clearly identify work type** ✅
+- [x] **Mobile responsive** ✅
+- [ ] **Click-through rate >20%** (from baseline 10%) - PENDING MEASUREMENT
 
 ---
 
-### Phase 2.5: Category Filter Tiles 📋 PENDING
+### Phase 2.5: Category Filter Tiles ❌ CANCELLED
 
 **Goal:** Allow visitors to filter case studies by category (Product Design, Engineering, Systems, 0→1/Founder)
+**Status:** Attempted, then removed and replaced with static category badges
 
-#### Filter Tiles HTML
-- [ ] **Create filter section** (before Featured Projects heading)
-  - [ ] Add `<div class="cases__filters">` container
-  - [ ] Add filter buttons: All Work, Product Design 🎨, Engineering 💻, Systems 🧩, 0→1/Founder 🚀
-  - [ ] Set "All Work" as default active state
-- [ ] **Add data-categories to case study cards**
-  - [ ] NYCNewYears: `data-categories="design,engineering,systems"`
-  - [ ] APCE: `data-categories="design,engineering"`
-  - [ ] Integrate: `data-categories="design,systems"`
-  - [ ] TokTix: `data-categories="design,engineering,founder"`
+#### Reason for Cancellation:
+- Filter buttons only affected "Featured Projects" section, not "Side Projects"
+- Would require moving TokTix from Side Projects to Featured Projects
+- Dynamic filtering created confusing UX (cards disappearing/appearing)
+- **Better solution:** Static category badges (implemented in Phase 2) provide same information without interaction complexity
 
-#### Filter CSS Styling
-- [ ] **Create `.cases__filters` container styles**
-  - [ ] Flexbox layout with gap
-  - [ ] Center alignment
-  - [ ] Margin bottom for spacing from cards
-- [ ] **Create `.filter-button` base styles**
-  - [ ] Padding, border-radius, font-size
-  - [ ] Background color (dark with opacity)
-  - [ ] Hover state (gold border or background)
-  - [ ] Active state (gold background, black text)
-- [ ] **Mobile responsive adjustments**
-  - [ ] Wrap buttons on smaller screens
-  - [ ] Smaller font size on mobile
-  - [ ] Touch-friendly button sizing
+#### What Was Built & Removed:
+- [x] Built filter HTML with 5 buttons (All Work, Product Design, Engineering, Systems, 0→1/Founder)
+- [x] Built filter CSS (gold active state, hover effects)
+- [x] Built JavaScript filtering logic with active state management
+- [x] Built PostHog tracking for filter interactions
+- [x] **All code removed** - replaced with static category badges instead
 
-#### JavaScript Filtering Logic
-- [ ] **Add filter click event listeners**
-  - [ ] Attach to all `.filter-button` elements
-  - [ ] Get `data-filter` attribute from clicked button
-- [ ] **Implement filtering logic**
-  - [ ] If "all" → show all cards
-  - [ ] Else → show only cards with matching `data-categories`
-  - [ ] Hide/show cards with CSS class toggle (`.card--hidden`)
-- [ ] **Update active button state**
-  - [ ] Remove `.filter-button--active` from all buttons
-  - [ ] Add `.filter-button--active` to clicked button
-
-#### PostHog Tracking
-- [ ] **Track filter clicks**
-  - [ ] Event: `category_filter_clicked`
-  - [ ] Parameters: `filter_type`, `variant`, `timestamp`
-- [ ] **Track filtered card clicks**
-  - [ ] Add `active_filter` parameter to existing `case_study_clicked` event
-  - [ ] Measure which filters lead to most clicks
-
-#### Testing & Validation
-- [ ] **Visual QA:**
-  - [ ] Filters display correctly above case studies
-  - [ ] Active state clearly visible
-  - [ ] Hover states work on desktop
-  - [ ] Mobile layout responsive (buttons wrap)
-- [ ] **Functionality QA:**
-  - [ ] "All Work" shows all 4 cards
-  - [ ] "Product Design" shows all 4 cards (all have design)
-  - [ ] "Engineering" shows NYCNewYears, APCE, TokTix (3 cards)
-  - [ ] "Systems" shows NYCNewYears, Integrate (2 cards)
-  - [ ] "0→1/Founder" shows TokTix only (1 card)
-  - [ ] Active state switches correctly
-- [ ] **Analytics QA:**
-  - [ ] Filter clicks tracked in PostHog
-  - [ ] Filtered card clicks include filter context
-
-#### Success Criteria (Phase 2.5)
-- [ ] **Filter tiles functional and responsive** ✅
-- [ ] **Filtering works correctly for all categories** ✅
-- [ ] **PostHog tracking captures filter usage** ✅
-- [ ] **No negative impact on CTR** ✅
+#### Lessons Learned:
+- Interactive filtering works best when all filterable items are in same container
+- For small portfolios (4 cards), static badges > dynamic filters
+- Simplicity > complexity when information is already scannable
 
 ---
 
@@ -553,19 +503,24 @@
 
 ## ✅ Completion Criteria
 
-### Phase 1: COMPLETE when...
+### Phase 1: COMPLETE ✅
 - [x] All 4 card descriptions rewritten
 - [x] Metrics visible on all cards
 - [x] Mobile responsive
 - [x] PostHog tracking working
-- [x] 48 hours of data collected
-- [x] CTR improvement >5% measured
+- [ ] 48 hours of data collected - PENDING
+- [ ] CTR improvement >5% measured - PENDING
 
-### Phase 2: COMPLETE when...
-- [ ] All 4 cards have badges
-- [ ] Badges color-coded correctly
-- [ ] Mobile responsive
-- [ ] CTR >20% measured
+### Phase 2: COMPLETE ✅ (Modified - Category Badges)
+- [x] All 4 cards have category badges
+- [x] Badges clearly identify work type
+- [x] Mobile responsive
+- [ ] CTR >20% measured - PENDING
+
+### Phase 2.5: CANCELLED ❌
+- [x] Filter functionality built and tested
+- [x] Determined static badges are better UX
+- [x] All filter code removed cleanly
 
 ### Phase 3: COMPLETE when...
 - [ ] Featured card visually distinct
