@@ -104,8 +104,13 @@
                     <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_nycnewyears-site.webp" srcset="img/caseCard_nycnewyears-site.webp 1x, img/caseCard_nycnewyears-site@2x.webp 2x" alt="NYCNewYears.com site overhaul">
                 </picture>
                     <div class="card__textarea">
+                        <div class="card__badges">
+                            <span class="card__badge">Product Design</span>
+                            <span class="card__badge">Engineering</span>
+                            <span class="card__badge">Systems</span>
+                        </div>
                         <h3 class="card__title"><span class="company__link">NYCNewYears.com site Overhaul</span></h3>
-                        <p class="card__description">Complete inside and outside rethink of how the website performs.</p>
+                        <p class="card__description">Slashing 48% of code to keep one of NYC's biggest NYE sites running smoothly for thousands of tourists</p>
                     </div>
                 </a>
                 <a class="card" href="case-studies/afterpromcentral-events-calendar.html">
@@ -115,19 +120,27 @@
                         <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_afterpromcentral.webp" srcset="img/caseCard_afterpromcentral.webp 1x, img/caseCard_afterpromcentral@2x.webp 2x" alt="AfterPromCentral Calendar list view on iPhone with cheering prom crowd in background.">
                     </picture>
                     <div class="card__textarea">
+                        <div class="card__badges">
+                            <span class="card__badge">Product Design</span>
+                            <span class="card__badge">Engineering</span>
+                        </div>
                         <h3 class="card__title"><span class="company__link">AfterProm Events Calendar</span></h3>
-                        <p class="card__description">A custom plugin built for internal use, leading to a better user experience and increased sales.</p>
+                        <p class="card__description">A custom calendar plugin Built in under 3 months that boosted conversions and eliminated content errors across 20-30 seasonal events</p>
                     </div>
                 </a>
-                <a class="card " href="case-studies/integrate-design-system-audit.html">
+                <a class="card" href="case-studies/integrate-design-system-audit.html">
                     <picture>
                         <source type="image/webp" media="(min-width: 1060px)" srcset="img/caseCard_intSystem@2x.webp 1x, img/caseCard_intSystem@3x.webp 2x" />
                         <source type="image/webp" media="(min-width: 600px)" srcset="img/caseCard_intSystem@2x.webp" />
                         <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_intSystem.webp" srcset="img/caseCard_intSystem.webp 1x, img/caseCard_intSystem@2x.webp 2x" alt="Integrate Design System logo">
                     </picture>
                     <div class="card__textarea">
+                        <div class="card__badges">
+                            <span class="card__badge">Product Design</span>
+                            <span class="card__badge">Systems</span>
+                        </div>
                         <h3 class="card__title"><span class="company__link">Integrate Design System Audit</span></h3>
-                        <p class="card__description">New design language that both ignited deep conversations within design & engineering.</p>
+                        <p class="card__description">Unified the design language of 3 companies. 55% fewer colors. Typography audit with WCAG compliance</p>
                     </div>
                 </a>
                 <!-- <a class="card disabled" href="case-studies/integrate-asset-library-redesign.html">
@@ -167,8 +180,13 @@
                         <img class="card__image" loading="lazy" decoding="async" src="img/sideCard_TokTix.webp" srcset="img/sideCard_TokTix.webp 1x, img/sideCard_TokTix@2x.webp 2x" alt="TokTix Ticketing Platform">
                     </picture>
                     <div class="card__textarea">
+                        <div class="card__badges">
+                            <span class="card__badge">Product Design</span>
+                            <span class="card__badge">Engineering</span>
+                            <span class="card__badge">0→1/Founder</span>
+                        </div>
                         <h3 class="card__title"><span class="company__link">TokTix Ticketing Platform</span></h3>
-                        <p class="card__description">Complete mobile/web events solution I founded and created</p>
+                        <p class="card__description">Solo-launched a complete mobile/web events platform in 9 months with React Native, Next.js, Firebase, and Stripe integration</p>
                     </div>
                 </a>
             </div>
@@ -311,7 +329,7 @@
 
             // Track case study clicks (primary conversion metric)
             document.addEventListener('DOMContentLoaded', function() {
-                const caseStudyLinks = document.querySelectorAll('.cases a');
+                const caseStudyLinks = document.querySelectorAll('.cases a, .side-projects a');
                 caseStudyLinks.forEach(function(link) {
                     link.addEventListener('click', function() {
                         posthog.capture('case_study_clicked', {

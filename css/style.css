@@ -397,6 +397,23 @@ footer {
   box-sizing: border-box;
   text-align: center;
 }
+.card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+.card__badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--gabe-white);
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
 .card__title {
   font-size: 1rem;
   line-height: 1.25rem;
