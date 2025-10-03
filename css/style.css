@@ -419,6 +419,7 @@ footer {
   line-height: 1.25rem;
   font-weight: 400;
   margin-bottom: 1.125rem;
+  color: var(--gabe-gold);
 }
 .card__description {
   font-size: 1rem;
