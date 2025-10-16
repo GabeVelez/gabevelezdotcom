@@ -98,7 +98,8 @@ header {
 .navbar {
   display: flex;
   justify-content: flex-start;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  align-items: center;
 }
 .nav__active {
   background: rgb(27,32,33);
@@ -128,12 +129,17 @@ header {
 }
 .menu__btn {
   position: relative;
-  top: 16px;
+  top: 5px;
   left: 0;
-  width: 26px;
-  height: 26px;
+  width: 48px;
+  height: 48px;
   cursor: pointer;
   z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Add visual feedback for better UX */
+  -webkit-tap-highlight-color: rgba(233, 197, 92, 0.3);
 }
 .menu__btn > span,
 .menu__btn > span::before,
