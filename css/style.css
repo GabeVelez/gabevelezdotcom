@@ -1046,13 +1046,6 @@ article .block:first-child .block__container {
 /* Remove top border from impact section to prevent double border with stats */
 .block__impact .block__container {
   border-top: none;
-  padding-top: 1rem;
-}
-
-@media (min-width: 600px) {
-  .block__impact .block__container {
-    padding-top: 3rem;
-  }
 }
 
 /* NYCNY Categories Demo Component */
