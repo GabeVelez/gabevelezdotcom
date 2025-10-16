@@ -66,49 +66,76 @@
     <body class="page casestudy">
     	<header>
     	</header>
-        <section class="content__wrapper">
+        <section class="content__wrapper block block__black">
             <div class="block__container">
                 <div class="casestudy__hero">
                     <h1 class="casestudy__title">NYCNewYears.com Site Overhaul</h1>
-                <h2 class="casestudy__dates">March 2025 - May 2025</h2>
+                    <h2 class="casestudy__dates"><a href="https://nycnewyears.com" target="_blank" rel="noopener noreferrer">Visit ↗</a> <span class="casestudy__date">MAR. - MAY 2025</span></h2>
+                    <p class="casestudy__tldr">
+                        Rebuilt tourism site serving thousands of annual visitors, reducing code 48% while creating mobile-optimized experience and CMS that eliminated manual HTML editing for non-technical team
+                    </p>
                 </div>
             </div>
         </section>
+
         <picture>
             <source type="image/webp" media="(min-width: 600px)" srcset="/img/casestudy_hero_nycnewyears-site_desktop.webp 1x, /img/casestudy_hero_nycnewyears-site_desktop@2x.webp 2x" />
             <source type="image/webp" media="(max-width: 599px)" srcset="/img/caseStudy_nycnewyearsSite.webp 1x, /img/caseStudy_nycnewyearsSite@2x.webp 2x" />
             <img class="casestudy__image" loading="eager" decoding="async" src="/img/caseStudy_nycnewyearsSite.webp" alt="NYCNewYears.com Site Overhaul">
         </picture>
+
         <article>
-            <section class="block block__black">
+            <section class="casestudy__stats block block__black">
                 <div class="block__container">
-                    <h3 class="block__title">My Role</h3>
-                    <p>As their sole dedicated Design & Development head, I work closely with the CEO & COO to make sure the product meets what they want. I also talk with actual customers during our sales season to better understand what they need directly.</p>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="stat__label">Role</span>
+                            <span class="stat__value">Lead Designer & Engineer</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__label">Timeline</span>
+                            <span class="stat__value">3 months</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__label">Team</span>
+                            <span class="stat__value">Solo (with CEO/COO review)</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__label">Tools</span>
+                            <span class="stat__value">WordPress, Claude AI, Netlify, Figma</span>
+                        </div>
+                    </div>
                 </div>
             </section>
-            <section class="case-study-external">
+            <section class="block block__impact block__forrest">
                 <div class="block__container">
-                    <a href="https://nycnewyears.com" target="_blank" rel="noopener noreferrer" class="case-study-external__link">
-                        <img src="/img/nycnewyearslogo.svg" alt="NYCNewYears.com" class="case-study-external__logo">
-                        <span class="case-study-external__visit">Visit →</span>
-                    </a>
+                    <h3 class="block__title">Impact</h3>
+                    <div class="impact-grid">
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">48%</div>
+                            <div class="impact-stat__label">Code Reduction</div>
+                            <div class="impact-stat__detail">8.2MB → 4.2MB</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">83%</div>
+                            <div class="impact-stat__label">Mobile Traffic</div>
+                            <div class="impact-stat__detail">Optimized with swipeable navigation</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">65%</div>
+                            <div class="impact-stat__label">International Customers</div>
+                            <div class="impact-stat__detail">Enhanced trust signals</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">36</div>
+                            <div class="impact-stat__label">Templates Eliminated</div>
+                            <div class="impact-stat__detail">Reduced CMS complexity</div>
+                        </div>
+                    </div>
                 </div>
             </section>
-            <section class="block block__gray">
-                <div class="block__container">
-                    <h3 class="block__title">Summary</h3>
-                    <p>Led the redesign of NYCNewYears dot com, transforming a legacy tourism website into a high-converting, mobile-optimized platform serving thousands of international tourists annually.</p>
-                    
-                    <ul>
-                        <li><strong>Technical Performance:</strong> 48% code reduction (8.2MB → 4.2MB) through component-based architecture and elimination of 36 redundant template pages</li>
-                        <li><strong>Mobile Experience:</strong> Reimagined navigation for 83% of users with swipeable category system and location-based filtering</li>
-                        <li><strong>Trust Enhancement:</strong> Addressed "Is this real?" customer concerns with strategic social proof for international audience (65% of customers)</li>
-                        <li><strong>Admin Interface:</strong> Created intuitive CMS interfaces eliminating error-prone HTML editing for non-technical staff</li>
-                        <li><strong>Development Approach:</strong> Implemented lean prototyping workflow with AI-assisted development (VS Code, Netlify, WordPress)</li>
-                    </ul>
-                </div>
-            </section>
-            <section class="block block__sage">
+
+            <section class="block block--context block__sage">
                 <div class="block__container">
                     <h3 class="block__title">Context</h3>
                     <p>As our flagship business, NYCNewYears.com sells tickets to thousands of tourists each year for New Year's Eve events in New York City.</p>
@@ -402,14 +429,25 @@ Theme
                     <p class="block__text--small">From 8.2 MB to 4.2 MB - a 48% percent in code reduction</p>
 
                     <p>This file size reduction not only improved page load times but also simplified future maintenance and updates, making our development workflow more efficient for the long term.</p>
-                    
-                    <picture class="block__picture">
-                        <source type="image/webp" media="(min-width: 460px)" srcset="/img/caseStudy_nycnyHomepageChange.webp 1x, /img/caseStudy_nycnyHomepageChange@2x.webp 2x" />
-                        <source type="image/webp" media="(max-width: 459px)" srcset="/img/caseStudy_nycnyHomepageChangeMobile.webp 1x, /img/caseStudy_nycnyHomepageChangeMobile@2x.webp 2x" />
-                        <img class="block__image" loading="lazy" decoding="async" src="/img/caseStudy_nycnyHomepageChangeMobile.webp" alt="Before and after mobile view of NYCNewYears.com homepage showing improved layout" >
-                    </picture>
 
-                    <p class="block__text--small">Clear difference in website presentation.</p>
+                    <div class="comparison-grid">
+                        <div class="comparison-column">
+                            <h4 class="comparison-subtitle">Before</h4>
+                            <picture class="block__picture">
+                                <source type="image/webp" media="(min-width: 460px)" srcset="/img/caseStudy_nycnyHomepageChange.webp 1x" />
+                                <source type="image/webp" media="(max-width: 459px)" srcset="/img/caseStudy_nycnyHomepageChangeMobile.webp 1x" />
+                                <img class="block__image" loading="lazy" decoding="async" src="/img/caseStudy_nycnyHomepageChangeMobile.webp" alt="Old homepage design" style="object-position: left top;">
+                            </picture>
+                        </div>
+                        <div class="comparison-column">
+                            <h4 class="comparison-subtitle">After</h4>
+                            <picture class="block__picture">
+                                <source type="image/webp" media="(min-width: 460px)" srcset="/img/caseStudy_nycnyHomepageChange.webp 1x" />
+                                <source type="image/webp" media="(max-width: 459px)" srcset="/img/caseStudy_nycnyHomepageChangeMobile.webp 1x" />
+                                <img class="block__image" loading="lazy" decoding="async" src="/img/caseStudy_nycnyHomepageChangeMobile.webp" alt="New homepage design" style="object-position: right top;">
+                            </picture>
+                        </div>
+                    </div>
 
                     <p>The team has been really happy with the new admin interface improvements, with the content editing experience transformed from a complex, error-prone process into a streamlined workflow. What previously required specialized knowledge of custom field IDs and HTML embedding is now accessible through an intuitive interface with dropdowns and visual controls.</p>
 

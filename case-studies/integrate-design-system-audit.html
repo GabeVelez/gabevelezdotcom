@@ -52,49 +52,77 @@
     <body class="page casestudy">
     	<header>
     	</header>
-        <section class="content__wrapper">
+        <section class="content__wrapper block block__black">
             <div class="block__container">
                 <div class="casestudy__hero">
                     <h1 class="casestudy__title">Integrate Design System Audit</h1>
-                <h2 class="casestudy__dates">May 2020 - February 2021</h2>
+                    <h2 class="casestudy__dates"><a href="https://www.integrate.com/" target="_blank" rel="noopener noreferrer">Visit ↗</a> <span class="casestudy__date">MAY 2020 - FEB. 2021</span></h2>
+                    <p class="casestudy__tldr">
+                        Led design system unification for 3 acquired companies, reducing design complexity 55% while ensuring WCAG accessibility and establishing Figma + Storybook libraries for engineering teams
+                    </p>
                 </div>
             </div>
         </section>
+
         <picture>
             <source type="image/webp" media="(min-width: 600px)" srcset="/img/casestudy_hero_int_desktop.webp 1x, /img/casestudy_hero_int_desktop@2x.webp 2x" />
             <source type="image/webp" media="(max-width: 599px)" srcset="/img/caseStudy_IntegrateDesignSystem.webp 1x, /img/caseStudy_IntegrateDesignSystem@2x.webp 2x" />
             <img class="casestudy__image" loading="eager" decoding="async" src="/img/caseStudy_IntegrateDesignSystem.webp" alt="Integrate Design System logo">
         </picture>
+
+        <section class="casestudy__stats block block__black">
+            <div class="block__container">
+                <div class="stats-grid">
+                    <div class="stat">
+                        <span class="stat__label">Role</span>
+                        <span class="stat__value">Product Designer (Design System Lead)</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__label">Timeline</span>
+                        <span class="stat__value">9 months</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__label">Team</span>
+                        <span class="stat__value">5 designers across 3 companies</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__label">Tools</span>
+                        <span class="stat__value">Figma, Storybook, Adobe XD, HTML/CSS</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <article>
-            <section class="block block__black">
+            <section class="block block__impact block__forrest">
                 <div class="block__container">
-                    <h3 class="block__title">My Role</h3>
-                    <p>I served as one of five product designers on the Integrate Design Team. The role I took on was to audit the existing product setup, and work to find solutions for improvement.</p>
+                    <h3 class="block__title">Impact</h3>
+                    <div class="impact-grid">
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">55%</div>
+                            <div class="impact-stat__label">Color Reduction</div>
+                            <div class="impact-stat__detail">103 → 46 colors</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">33%</div>
+                            <div class="impact-stat__label">Typography Simplified</div>
+                            <div class="impact-stat__detail">Fewer variants across platforms</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">100%</div>
+                            <div class="impact-stat__label">WCAG Compliant</div>
+                            <div class="impact-stat__detail">Full accessibility achieved</div>
+                        </div>
+                        <div class="impact-stat">
+                            <div class="impact-stat__number">3</div>
+                            <div class="impact-stat__label">Platforms Unified</div>
+                            <div class="impact-stat__detail">Single design system</div>
+                        </div>
+                    </div>
                 </div>
             </section>
-            <section class="case-study-external">
-                <div class="block__container">
-                    <a href="https://www.integrate.com/" target="_blank" rel="noopener noreferrer" class="case-study-external__link">
-                        <img src="/img/integratelogo.svg" alt="Integrate.com" class="case-study-external__logo">
-                        <span class="case-study-external__visit">Visit →</span>
-                    </a>
-                </div>
-            </section>
-            <section class="block block__gray">
-                <div class="block__container">
-                    <h3 class="block__title">Summary</h3>
-                    <p>Led critical components of "Hedgehog" Design System creation, unifying UI/UX across three acquired companies with divergent tech stacks (Angular, React, PHP).</p>
-                    
-                    <ul>
-                        <li><strong>Color System:</strong> Reduced palette from 103 to 46 colors (55% reduction) while ensuring WCAG accessibility compliance</li>
-                        <li><strong>Typography:</strong> Standardized font sizes and weights across platforms, reducing variants by 33% without visual compromise</li>
-                        <li><strong>Component Design:</strong> Created cross-platform form fields and badge system replacing 15+ confusing state icons</li>
-                        <li><strong>Collaboration:</strong> Facilitated consensus among 5 designers from different product cultures and development backgrounds</li>
-                        <li><strong>Documentation:</strong> Established Figma design library and Storybook component repository for engineering implementation</li>
-                    </ul>
-                </div>
-            </section>
-            <section class="block block__sage">
+
+            <section class="block block--context block__sage">
                 <div class="block__container">
                     <h3 class="block__title">Context</h3>
                     <p>As a fast-growing business, Integrate was looking to move away from its humble Material Design beginnings. It had acquired two companies (Akkroo & ListenLoop, where I came from) and needed to unify the different design languages.</p>
@@ -292,6 +320,21 @@
                             <li class="block__listitem">A Design System is no easy feat, with constant changes and reiteration needing to be done. This unified language created by this audit was healthy as a valid starting point for a unified vision that energized everyone throughout all parts of the org.</li>
                         </ol>
                     </p>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-column">
+                            <h4 class="comparison-subtitle">Before</h4>
+                            <object class="block__image" data="/img/audit-colorstart.svg" type="image/svg+xml">
+                                <img loading="lazy" decoding="async" src="/img/audit-colorstart.png" alt="Integrate's Original Color Palette"/>
+                            </object>
+                        </div>
+                        <div class="comparison-column">
+                            <h4 class="comparison-subtitle">After</h4>
+                            <object class="block__image" data="/img/audit-colorend.svg" type="image/svg+xml">
+                                <img loading="lazy" decoding="async" src="/img/audit-colorend.png" alt="Final resulting colors based on audit"/>
+                            </object>
+                        </div>
+                    </div>
                 </div>
             </section>
             <section class="block case-study-nav">

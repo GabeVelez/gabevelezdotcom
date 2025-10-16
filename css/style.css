@@ -600,16 +600,42 @@ footer {
 /* Case Study Content */
 
 .casestudy__hero {
-  margin:5rem 1.5rem 1rem;
+  margin:4rem 1.5rem 1rem;
 }
 .casestudy__title {
   font-weight: 400;
   line-height: 2.5rem;
 }
 .casestudy__dates {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 400;
   font-size: .875rem;
 }
+
+.casestudy__date {
+  margin-top: 4px;
+}
+
+.casestudy__dates a {
+  display: inline-block;
+  padding: 0.25rem 0.3rem 0.08rem;
+  background-color: var(--gabe-white);
+  color: var(--gabe-black);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.casestudy__dates a:hover {
+  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
+  color: var(--gabe-black);
+}
+
 .casestudy__image {
   object-fit: contain;
   width: 100%;
@@ -775,7 +801,7 @@ swiper-container, .block__slide {
   /* Case Study Content */
 
   .casestudy__hero {
-    margin: 7rem 1.5rem 2rem;
+    margin: 4rem 1.5rem 2rem;
   }
   .casestudy__title {
     font-size: 2rem;
@@ -1001,11 +1027,20 @@ header {
   .block__container {
     padding: 3rem 1.5rem;
   }
+
+  .block--context .block__container {
+    padding-bottom: 1.5rem;
+  }
 }
 
 /* Remove top border from hero and first content section */
 .content__wrapper .block__container,
 article .block:first-child .block__container {
+  border-top: none;
+}
+
+/* Remove top border from impact section to prevent double border with stats */
+.block__impact .block__container {
   border-top: none;
 }
 
@@ -1331,5 +1366,233 @@ article .block:first-child .block__container {
 @media (min-width: 600px) {
   .case-study-external__logo[src*="integratelogo"] {
     height: 1.75rem;
+  }
+}
+
+/* Case Study Improvements - Impact Badge & TL;DR */
+
+.casestudy__impact-badge {
+  display: inline-block;
+  background: var(--gabe-forrest);
+  color: var(--gabe-white);
+  padding: 12px 24px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 2px 2px 6px rgb(0 0 0 / 20%);
+}
+
+.impact-badge__number {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.impact-badge__label {
+  font-size: 1rem;
+  font-weight: 400;
+  display: inline-block;
+}
+
+.casestudy__tldr {
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  margin: 2rem 0 0;
+  color: var(--gabe-gold);
+}
+
+/* Quick Stats Bar */
+
+.casestudy__stats {
+  background-color: transparent !important;
+  padding: 0 1.5rem;
+}
+
+.casestudy__stats .block__container {
+  border-top: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 100%;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat__label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--gabe-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.stat__value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--gabe-white);
+  line-height: 1.5rem;
+}
+
+/* Impact Grid */
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.impact-stat {
+  text-align: center;
+}
+
+.impact-stat__number {
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--gabe-gold);
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.impact-stat__label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--gabe-white);
+}
+
+.impact-stat__detail {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1rem;
+}
+
+/* Before/After Comparison */
+
+.block__comparison {
+  background-color: transparent !important;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.comparison-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-subtitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  margin-bottom: 1rem;
+  color: var(--gabe-white);
+}
+
+.comparison-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comparison-item {
+  font-size: 1rem;
+  line-height: 1.75rem;
+  padding: 0.75rem 0;
+  padding-left: 2rem;
+  position: relative;
+}
+
+.comparison-item--negative::before {
+  content: "✕";
+  position: absolute;
+  left: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--gabe-black);
+}
+
+.comparison-item--positive::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  font-size: 1rem;
+  color: var(--gabe-gold);
+}
+
+/* Tablet and Desktop Styles */
+
+@media (min-width: 600px) {
+  .casestudy__impact-badge {
+    padding: 16px 32px;
+  }
+
+  .impact-badge__number {
+    font-size: 3rem;
+  }
+
+  .impact-badge__label {
+    font-size: 1.125rem;
+  }
+
+  .casestudy__tldr {
+    font-size: 1rem;
+    line-height: 1.75rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat__label {
+    font-size: 0.875rem;
+  }
+
+  .stat__value {
+    font-size: 1rem;
+  }
+
+  .impact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .impact-stat__number {
+    font-size: 3.5rem;
+  }
+
+  .impact-stat__label {
+    font-size: 1.125rem;
+  }
+
+  .comparison-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+
+  .comparison-subtitle {
+    font-size: 1.25rem;
+  }
+
+  .comparison-item {
+    font-size: 0.875rem;
+    line-height: 1rem;
   }
 }
