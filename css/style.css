@@ -1043,11 +1043,6 @@ article .block:first-child .block__container {
   border-top: none;
 }
 
-/* Remove top border from impact section to prevent double border with stats */
-.block__impact .block__container {
-  border-top: none;
-}
-
 /* NYCNY Categories Demo Component */
 .categories-demo-container {
     margin: 2rem 0;
