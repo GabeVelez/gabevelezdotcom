@@ -55,16 +55,19 @@ $(function() {
             const sectionBottom = sectionTop + $section.outerHeight();
             
             if (viewportMiddle >= sectionTop && viewportMiddle <= sectionBottom) {
-                // Find block class
-                const blockClass = Array.from($section[0].classList)
-                    .find(className => className.startsWith('block__'));
-                
+                // Find all block classes and use the first one that has a color mapping
+                const blockClasses = Array.from($section[0].classList)
+                    .filter(className => className.startsWith('block__'));
+
+                // Find the first class that has a color defined
+                const colorClass = blockClasses.find(className => colorMap[className]);
+
                 // Apply color
-                if (blockClass && colorMap[blockClass]) {
-                    $backgroundElement.css('background-color', colorMap[blockClass]);
-                    console.log("Setting background to " + blockClass + " color");
+                if (colorClass) {
+                    $backgroundElement.css('background-color', colorMap[colorClass]);
+                    console.log("Setting background to " + colorClass + " color");
                 }
-                
+
                 // Only process the first matching section
                 return false;
             }
