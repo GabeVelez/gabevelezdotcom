@@ -1407,7 +1407,7 @@ article .block:first-child .block__container {
 
 .casestudy__stats {
   background-color: transparent !important;
-  padding: 0 1.5rem 3rem;
+  padding: 0 1.5rem;
 }
 
 .casestudy__stats .block__container {
