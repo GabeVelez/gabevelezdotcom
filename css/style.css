@@ -1046,6 +1046,13 @@ article .block:first-child .block__container {
 /* Remove top border from impact section to prevent double border with stats */
 .block__impact .block__container {
   border-top: none;
+  padding-top: 3rem;
+}
+
+@media (min-width: 600px) {
+  .block__impact .block__container {
+    padding-top: 3rem;
+  }
 }
 
 /* NYCNY Categories Demo Component */
@@ -1412,12 +1419,13 @@ article .block:first-child .block__container {
 
 .casestudy__stats {
   background-color: transparent !important;
-  padding: 0 1.5rem;
+  padding: 0 1.5rem 3rem;
 }
 
 .casestudy__stats .block__container {
   border-top: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 3rem;
 }
 
 .stats-grid {
