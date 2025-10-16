@@ -1038,8 +1038,7 @@ header {
 }
 
 /* Remove top border from hero and first content section */
-.content__wrapper .block__container,
-article .block:first-child .block__container {
+.content__wrapper .block__container {
   border-top: none;
 }
 
@@ -1412,7 +1411,6 @@ article .block:first-child .block__container {
 
 .casestudy__stats .block__container {
   border-top: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   padding-top: 1rem;
   padding-bottom: 2rem;
 }
