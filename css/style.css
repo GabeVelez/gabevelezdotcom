@@ -1046,7 +1046,7 @@ article .block:first-child .block__container {
 /* Remove top border from impact section to prevent double border with stats */
 .block__impact .block__container {
   border-top: none;
-  padding-top: 3rem;
+  padding-top: 1rem;
 }
 
 @media (min-width: 600px) {
@@ -1425,7 +1425,8 @@ article .block:first-child .block__container {
 .casestudy__stats .block__container {
   border-top: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 3rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 }
 
 .stats-grid {
