@@ -1403,7 +1403,9 @@ article .block:first-child .block__container {
   line-height: 1.75rem;
   font-weight: 400;
   margin: 2rem 0 0;
-  color: var(--gabe-gold);
+  color: var(--gabe-white);
+  border-left: 4px solid var(--gabe-gold);
+  padding-left: 1rem;
 }
 
 /* Quick Stats Bar */
