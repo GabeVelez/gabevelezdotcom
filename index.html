@@ -292,6 +292,24 @@
                 defaults: '2025-05-24',
                 person_profiles: 'identified_only'
             })
+
+            // Capture JavaScript errors
+            window.addEventListener('error', function(event) {
+                posthog.captureException(event.error, {
+                    message: event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
+                    colno: event.colno
+                });
+            });
+
+            // Capture unhandled promise rejections
+            window.addEventListener('unhandledrejection', function(event) {
+                posthog.captureException(event.reason, {
+                    type: 'unhandledrejection',
+                    promise: event.promise
+                });
+            });
         </script>
 
         <!-- Homepage A/B Testing -->
