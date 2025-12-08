@@ -4,7 +4,7 @@ gabevelez.com • gabe.velez@gmail.com • linkedin.com/in/gabevelez • 347.661
 
 PROFESSIONAL SUMMARY
 
-Senior Product Designer and Engineer with 10+ years of experience designing analytics dashboards, data visualization systems, and digital platforms serving 200K+ annual users. Combines deep UX/UI design expertise with full-stack development skills (React, Next.js, React Native, Firebase) to transform complex datasets into intuitive, conversion-optimized experiences. Specialized in 0-1 product ownership from design concept to full deployment, with proven ability to drive measurable business impact through data-driven design decisions and analytics product design.
+Senior Product Designer and Engineer with 10+ years specializing in analytics dashboard design, data visualization, and conversion-optimized digital products. Designed B2B SaaS platforms for Fortune 500 clients (Integrate/ListenLoop) and scaled consumer event platforms to 200K+ users (A&N). Product leader who combines deep UX/UI expertise with full-stack capabilities and cross-functional influence across product, engineering, and business teams—driving innovation and measurable business impact from concept through deployment.
 
 CORE COMPETENCIES
 
@@ -31,7 +31,7 @@ APR 2022 - PRESENT (REMOTE)
 
 • Increased conversion rates 69% YoY and user engagement 15% YoY via data-driven design iterations, A/B testing, and conversion-focused user flows
 
-• Own complete product lifecycle: user research, UX/UI design, front-end development (React, Next.js, WordPress, Firebase), deployment, and analytics optimization
+• Own complete product lifecycle: user research, UX/UI design, front-end development (React, Next.js, WordPress), deployment, and analytics optimization
 
 • Manage technical infrastructure, SEO strategy, and site performance across multi-property ecosystem generating 900+ annual conversions
 
@@ -51,15 +51,15 @@ JAN 2019 - JUL 2021 (REMOTE)
 ListenLoop / Principal Product Designer
 AUG 2017 - JAN 2019 (LONG ISLAND, NY / REMOTE)
 
-• Designed web analytics and insights dashboards for Account-Based Marketing (ABM) platform, transforming complex visitor tracking data into actionable account intelligence for B2B sales teams
+• Sole product designer for Account-Based Marketing (ABM) platform serving B2B sales teams; owned full product UX, analytics dashboard design, brand identity, and frontend development
 
-• Created data visualization systems displaying account engagement scores, visitor behavior patterns, conversion funnel analytics, and multi-touch attribution across client accounts
+• Designed analytics dashboard and insights tools transforming visitor tracking data into actionable account intelligence, including engagement scoring, behavior analytics, conversion funnels, and multi-touch attribution
 
-• Designed and prototyped web personalization tool enabling marketers to create dynamic, data-driven content experiences based on real-time visitor attributes and account-level signals
+• Built web personalization module enabling marketers to create dynamic, data-driven content experiences based on real-time visitor attributes and account-level signals
 
-• Built Agency Mode module for multi-account management, allowing agencies to monitor analytics, manage campaigns, and track performance across 10-50+ client accounts from unified dashboard interface
+• Created Agency Mode for multi-account management, allowing agencies to monitor analytics and campaigns across 10-50+ client accounts from unified interface
 
-• Sole product designer collaborating directly with data engineers and product managers to translate complex data models and tracking events into intuitive B2B analytics experiences
+• Improved customer onboarding and sales enablement through product demos and user-facing flows that directly supported revenue growth
 
 DesignOnCue / Freelance Designer & Developer
 DEC 2014 - JUL 2017 (YONKERS, NY)
