@@ -20,7 +20,7 @@ Tools: Figma, VS Code, Vercel, GitHub, NPM, Jira, Asana, Trello, Adobe Creative 
 
 AI Tools: ChatGPT, Claude Code, Copilot, Cursor, Windsurf, Cline
 
-Other: WCAG Accessibility, Stripe Connect Integration, A/B Testing, Responsive Design, QR Code Integration
+Other: WCAG Accessibility, Stripe Integration, A/B Testing, Responsive Design
 
 PROFESSIONAL EXPERIENCE
 
@@ -33,14 +33,14 @@ APR 2022 - PRESENT (REMOTE)
 
 • Own complete product lifecycle: user research, UX/UI design, front-end development (React, Next.js, WordPress), deployment, and analytics optimization
 
-• Manage technical infrastructure, SEO strategy, and site performance across multi-property ecosystem generating 900+ annual conversions
+• Manage technical infrastructure, SEO strategy, and website performance across multi-property ecosystem generating 900+ annual conversions
 
 • Reduced site launch time 30% through modular design systems and streamlined deployment processes
 
 Integrate / Product Designer
 JAN 2019 - JUL 2021 (REMOTE)
 
-• Supported post-acquisition UX integration of ListenLoop into Integrate Demand Cloud, serving Fortune 500 clients including Microsoft, Oracle, and SAP
+• Supported post-acquisition UX integration of ListenLoop into Integrate Demand Cloud, serving Fortune 500 clients including Microsoft and Cloudflare
 
 • Led enterprise redesign of Asset Library leveraging feedback from major clients; improved discoverability and reduced time-to-asset by 40%
 
@@ -89,15 +89,6 @@ Lootfeed / Co-founder & Head of Design and Development
 • Managed agile team sprints, database architecture, and launch strategy using Firebase and React Native
 
 • Led user research and usability testing to validate product-market fit and iterate on core features
-
-Gamechat / Co-founder & Head of Design and Development
-2015 - 2018
-
-• Led design and product vision for Gamechat, a mobile messaging app for gamers
-
-• Created complete visual identity, explainer video, QA testing protocols, and design systems
-
-• Coordinated with development team to ensure design fidelity and user experience consistency
 
 EDUCATION
 
