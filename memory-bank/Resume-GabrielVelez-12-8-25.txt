@@ -1,0 +1,55 @@
+Gabriel Velez
+Product Design + Product Development
+gabevelez.com • gabe.velez@gmail.com • linkedin.com/in/gabevelez • 347.661.3842
+
+PROFESSIONAL SUMMARY
+
+Senior Product Designer and Engineer with 10+ years specializing in analytics dashboard design, data visualization, and conversion-optimized digital products. Designed B2B SaaS platforms for Fortune 500 clients and scaled consumer event platforms to 200K+ users. Product leader combining deep UX/UI expertise with full-stack capabilities and cross-functional influence, driving business results from concept to deployment.
+
+CORE COMPETENCIES
+
+Product Design • UX/UI • Analytics Dashboard Design • Data Visualization • Design Systems • Prototyping • User Research • Usability Testing • Conversion Optimization • A/B Testing
+• B2B SaaS • Full-Stack Development • 0-1 Product Ownership
+
+TECHNICAL SKILLS
+
+Design & Prototyping:         Figma, Adobe Creative Cloud, Canva
+Development:             HTML5, CSS3, JavaScript, PHP, PHPMyAdmin, React.js,
+                        React Native, Expo, Firebase, VS Code, Vercel, Next.js, NPM,                             GitHub, Github Pages, GitLab, Asana, Trello, Jira
+Analytics & Optimization:     Google Analytics, Google Tag Manager, Semrush,
+                        Crazy Egg, PostHog, Stripe Integration, A/B Testing,
+                        WCAG Accessibility
+
+PROFESSIONAL EXPERIENCE
+
+A&N Online Marketing / Senior Product Designer & Engineering Lead         APR 2022 - PRESENT (REMOTE)
+Scaled company portfolio of 7 event platforms to over 200K annual active users across US, Europe, and Asian-Pacific markets by optimizing customer user experience and site performance improvements.
+Increased conversion rates 60% year-over-year (YoY) and user engagement by 15% YoY with data-driven design iterations, A/B testing experiments, and conversion-focused user flows.
+Owned complete product lifecycle: user research, UX/UI design, full-stack development (JavaScript, PHP, WordPress, PHPMyAdmin), deployment, and analytics optimization across multi-property ecosystem generating 900+ annual conversions.
+Reduced site launch time 30% through building out modular design systems and streamlining the deployment processes.
+
+Integrate / Product Designer                                     JAN 2019 - JUL 2021 (REMOTE)
+Owned product design and UX improvements across Account-Based Marketing (ABM) division (post-ListenLoop acquisition) and Integrate Lead Generation Marketplace, serving Fortune 500 clients including Microsoft and Cloudflare.
+Led enterprise redesign of Asset Library using direct feedback from major clients which improved discoverability and reduced time-to-asset by 30%.
+Refined the Integrate Design System for WCAG 2.0 accessibility compliance and delivered production-ready HTML/CSS/JS prototypes to engineering teams.
+Collaborated with cross-functional teams across product, engineering, and sales to align design strategy with business goals.
+
+ListenLoop / Principal Product Designer                    AUG 2017 - JAN 2019 (LONG ISLAND, NY / REMOTE)
+Sole product designer for the self-serve Account-Based Marketing (ABM) platform serving B2B sales teams: owning the full product user experience, analytics dashboard design, brand identity, and frontend development.
+Designed analytics dashboard and insights tools transforming visitor tracking data into actionable account insights, including engagement scoring, behavior analytics, conversion funnels, and multi-touch attribution.
+Built web personalization module letting marketers create dynamic, personalized content based on real-time visitor attributes and account-level signals.
+Designed, prototyped and tested our Agency Mode for multi-account management which allowed our agency customers to monitor analytics and campaigns across 10-50 of their clients' accounts, all from a single interface.
+Improved customer onboarding and sales enablement through direct product demos and user-facing flows that directly supported revenue growth.
+
+SELECTED PROJECTS & STARTUPS
+
+TokTix / Founder & Development Engineer                                  SEP 2024 - PRESENT
+Built complete ticketing platform from 0-1 using React Native, Expo, Firebase, Next.js, and Stripe Connect with Google Maps API, real-time event data synchronization, and QR code scanning for mobile ticket validation.
+Designed full brand identity and product experience end-to-end; handled both iOS and Android deployment with secure payment processing and real-time Firebase backend architecture.
+
+Lootfeed / Co-founder & Head of Design and Development                          2019 - 2023
+Directed entire product design and engineering for the gamified fintech application, managed an agile team of independent React development contractors, developed the database architecture (Firestore), and devised the overall product strategy.
+
+EDUCATION
+
+CUNY - City College of New York         Bachelor of Arts — Communications / PR & Advertising
