@@ -125,11 +125,15 @@
   - Summary: Use LinkedIn summary format
   - Fix TikTok/TokTix error if not already done
 
-- [ ] **Update Amazon career profile:**
+- [x] **Update Amazon career profile:** ✅ COMPLETED
+  - Resume updated with analytics dashboard positioning
   - Headline: Same as Google Careers
   - Role preferences: "IC" not "Both/IC/Manager"
 
-- [ ] **Update any other job boards** you're active on (Indeed, Glassdoor, etc.)
+- [x] **Update Glassdoor profile:** ✅ COMPLETED
+  - Resume updated with new positioning
+
+- [ ] **Update any other job boards** you're active on (Indeed, etc.)
 
 **Success Metric:** No more confusion about TikTok vs TokTix, clearer IC positioning
 

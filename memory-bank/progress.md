@@ -73,8 +73,9 @@
 - [x] LinkedIn profile update guide (complete rewrite)
 - [x] Y Combinator profile updated (analytics dashboard positioning)
 - [x] Google Careers profile updated with new resume
+- [x] Amazon career profile updated with new resume
+- [x] Glassdoor profile updated with new resume
 - [ ] LinkedIn profile implementation (guide ready, needs to be applied)
-- [ ] Amazon career profile update
 - [ ] Additional cover letter templates for other companies
 
 ### Technical Enhancements
@@ -162,9 +163,8 @@ The website has significantly expanded beyond traditional portfolio format to sh
 
 ## Next Actions
 
-1. **Short-term (Current Sprint):**
-   - Update LinkedIn profile with new positioning guide
-   - Implement Y Combinator profile optimizations
+1. **Short-term (Current Sprint - Week 1 FINAL PRIORITY):**
+   - 🔴 **Update LinkedIn profile with new positioning guide** (HIGHEST PRIORITY - only Week 1 task remaining)
    - Complete Integrate Asset Library Redesign case study
    - Complete Integrate ABM Web Analytics case study
    - Implement contact form
