@@ -1,0 +1,23 @@
+Gabriel Velez
+Product Design + Product Development
+gabe.velez@gmail.com | linkedin.com/in/gabevelez | 347.661.3842
+
+
+Dear Google Hiring Team,
+
+I'm writing to express my interest in product design opportunities at Google. With 10+ years designing analytics dashboards, data visualization tools, and conversion-optimized products for both Fortune 500 clients and consumer platforms serving 200K+ users, I'm excited about the opportunity to bring my experience to Google's mission of organizing the world's information and making it universally accessible.
+
+At ListenLoop (later acquired by Integrate), I was the sole product designer for an Account-Based Marketing platform serving enterprise B2B sales teams, including Microsoft and Cloudflare. I designed analytics dashboards and insights tools that transformed visitor tracking data into actionable account intelligence, complete with engagement scoring, behavior analytics, conversion funnels, and multi-touch attribution. I also built a web personalization module that let marketers create dynamic, personalized content based on real-time visitor attributes. This work required balancing complex data visualization with intuitive UX, a challenge I find deeply rewarding.
+
+What sets me apart is my full-stack capability combined with design expertise. I own the complete product lifecycle: user research, UX/UI design, frontend development (React, Next.js, JavaScript), deployment, and analytics optimization. At A&N Online Marketing, I scaled a portfolio of 7 event platforms to over 200K annual active users, increasing conversion rates 60% year-over-year through data-driven design iterations and A/B testing. I also built modular design systems that reduced site launch time by 30%, and I've consistently delivered production-ready prototypes to engineering teams, which helps bridge the gap between design and development.
+
+I'm drawn to Google's user-centered approach and commitment to accessibility. In my work at Integrate, I refined our design system for WCAG 2.0 compliance and collaborated with cross-functional teams across product, engineering, and sales to align design strategy with business goals. I thrive in environments where I can work closely with engineers, PMs, and stakeholders to solve complex problems at scale.
+
+Beyond my professional work, I recently built TokTix, a complete ticketing platform from 0-1 using React Native, Firebase, and Stripe Connect. This project reinforced my passion for creating products that solve real user problems while handling the technical complexity behind the scenes.
+
+I'd love to discuss how my experience designing analytics tools, scaling products, and collaborating across disciplines could contribute to Google's teams. You can see examples of my work at gabevelez.com, including case studies from my time at ListenLoop and A&N. I'm particularly interested in roles where I can combine my design and engineering skills to create data-rich, user-friendly experiences.
+
+Thank you for considering my application. I look forward to the opportunity to speak with you.
+
+Sincerely,
+Gabriel Velez
