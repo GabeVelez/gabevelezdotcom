@@ -72,7 +72,9 @@
 - [x] Google cover letter template
 - [x] LinkedIn profile update guide (complete rewrite)
 - [x] Y Combinator profile updated (analytics dashboard positioning)
+- [x] Google Careers profile updated with new resume
 - [ ] LinkedIn profile implementation (guide ready, needs to be applied)
+- [ ] Amazon career profile update
 - [ ] Additional cover letter templates for other companies
 
 ### Technical Enhancements

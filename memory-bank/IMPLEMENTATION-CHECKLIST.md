@@ -108,7 +108,7 @@
 - Font: Increased from 8pt to 10pt for readability
 
 - [x] **Created multiple versions:** Standard (Resume-GabrielVelez-12-8-25.txt) and Condensed
-- [ ] **Update on Google Careers profile** - NEXT STEP
+- [x] **Updated on Google Careers profile** ✅ COMPLETED
 - [ ] **Update on LinkedIn as featured document** (optional)
 
 **Success Metric:** Application → phone screen rate should improve to 5-10% (was 0%)
@@ -119,7 +119,8 @@
 
 **Estimated Time:** 15-20 minutes
 
-- [ ] **Update Google Careers profile:**
+- [x] **Update Google Careers profile:** ✅ COMPLETED
+  - Resume updated with analytics dashboard positioning
   - Headline: "Senior Product Designer & Engineer | 200K+ Users"
   - Summary: Use LinkedIn summary format
   - Fix TikTok/TokTix error if not already done
