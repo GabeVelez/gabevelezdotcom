@@ -21,13 +21,15 @@ This document serves as a reference for the LinkedIn profile updates executed in
 - [ ] A&N experience description (expand with metrics)
 - [ ] Integrate experience description (add Fortune 500 clients)
 - [ ] ListenLoop experience description (emphasize analytics dashboard work)
-- [ ] Update Skills section (add Analytics Dashboard Design, Data Visualization, reorder top 3)
+- [ ] Request recommendations from former colleagues (3-5 total)
+- [ ] Enable Creator Mode and add hashtags
 
 **Completed Status:**
 - ✅ Education section: Graduation dates (1994-1999) **not visible** on profile (verified December 12, 2025)
 - ✅ Featured section: Added 3 case studies (Portfolio, TokTix, Integrate Design System) (completed December 12, 2025)
 - ✅ Custom LinkedIn URL: `/gabevelez` (verified December 12, 2025)
 - ✅ Open to Work badge: Enabled (verified December 12, 2025)
+- ✅ Skills section: Analytics dashboard keywords added (completed December 12, 2025)
 
 ---
 

@@ -82,9 +82,11 @@
 - [x] DesignOnCue removed from LinkedIn (archived for future freelance)
 - [x] GitHub bio updated to match LinkedIn positioning
 - [x] LinkedIn education dates verified not visible (1994-1999 dates not displayed on profile)
+- [x] LinkedIn Skills section: Analytics dashboard keywords added (Analytics Dashboard Design, Data Visualization, etc.)
+- [x] LinkedIn Featured section: 3 case studies added (Portfolio, TokTix, Integrate Design System)
+- [x] Portfolio case study OG images: Created and deployed 4 case-study-specific images (1200x630)
 - [ ] LinkedIn experience descriptions (A&N, Integrate, ListenLoop - optional enhancement)
-- [ ] LinkedIn Skills section optimization (optional enhancement)
-- [ ] LinkedIn Featured section with case studies (optional enhancement)
+- [ ] LinkedIn recommendations from former colleagues (optional enhancement)
 - [ ] Additional cover letter templates for other companies
 
 ### Technical Enhancements
