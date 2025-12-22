@@ -422,7 +422,7 @@ footer {
 .card__badge {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--gabe-white);
-  padding: 0.25rem 0.375rem;
+  padding: 0.25rem 0.375rem 0;
   border-radius: 0.25rem;
   font-size: 0.625rem;
   font-weight: 500;
@@ -437,9 +437,10 @@ footer {
   color: var(--gabe-white);
 }
 .card__description {
-  font-size: 1rem;
-  line-height: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   margin-top: 0;
+  margin-bottom: 0.5rem;
   color: var(--gabe-gold);
 }
 .card__button {
@@ -930,9 +931,9 @@ swiper-container, .block__slide {
     line-height: 2.5rem;
   }
   .card__description {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-bottom: 0.5rem;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -1277,6 +1278,54 @@ header {
   }
 }
 
+/* Related Projects Section */
+.related-projects {
+  background-color: transparent !important;
+  margin-top: 0;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.related-projects .block__container {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 2rem 0 0;
+}
+
+.related-projects__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.125rem;
+}
+
+.related-projects__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card--related {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.card--related .card__title {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+
+.card--related .card__button {
+  display: inline-block;
+  padding: 0.25rem 0.3rem 0.08rem;
+  background-color: var(--gabe-white);
+  color: var(--gabe-black);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: auto;
+}
+
 /* External Link Button */
 .case-study-external {
   background-color: transparent !important;
@@ -1612,5 +1661,55 @@ header {
   .comparison-item {
     font-size: 0.875rem;
     line-height: 1rem;
+  }
+
+  /* Related Projects */
+  .related-projects__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+
+  .card--related {
+    width: 100%;
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .card--related picture {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .card--related .card__image {
+    border-radius: .5rem .5rem 0 0;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card--related .card__textarea {
+    width: auto;
+    margin: 1rem;
+    text-align: center;
+    display: block;
+  }
+
+  .card--related .card__badges {
+    justify-content: center;
+  }
+
+  .card--related .card__title {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    text-align: center;
+  }
+
+  .card--related .card__button {
+    display: inline-block;
   }
 }
