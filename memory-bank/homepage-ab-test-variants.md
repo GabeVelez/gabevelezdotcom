@@ -34,7 +34,7 @@
 ### Feature Flag Setup
 ```javascript
 // Add to PostHog configuration
-const variant = posthog.getFeatureFlag('homepage-redesign-test')
+const variant = posthog.getFeatureFlag('homepage-herotext-test')
 
 if (variant === 'variant-a') {
     // Show Problem-Solver version

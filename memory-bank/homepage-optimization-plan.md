@@ -274,7 +274,7 @@ const resumeCTA = document.getElementById('resume-cta-primary');
 if (resumeCTA) {
     resumeCTA.addEventListener('click', function() {
         posthog.capture('resume_cta_clicked', {
-            variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+            variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
             location: 'homepage-primary',
             timestamp: new Date().toISOString()
         });
@@ -368,7 +368,7 @@ const stickyResumeBtn = document.getElementById('sticky-resume-btn');
 if (stickyResumeBtn) {
     stickyResumeBtn.addEventListener('click', function() {
         posthog.capture('resume_cta_clicked', {
-            variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+            variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
             location: 'sticky-nav',
             timestamp: new Date().toISOString()
         });
@@ -560,7 +560,7 @@ Show quantified achievements immediately, give visitors "proof points" to click.
 document.querySelectorAll('.impact-item').forEach(function(item) {
     item.addEventListener('click', function(e) {
         posthog.capture('impact_bullet_clicked', {
-            variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+            variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
             metric: this.getAttribute('data-metric'),
             case_study: this.getAttribute('data-case'),
             tags: this.getAttribute('data-tags'),
@@ -980,7 +980,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Track the click
             posthog.capture('segment_tile_clicked', {
-                variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+                variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
                 segment: this.getAttribute('data-segment'),
                 filter: filter,
                 timestamp: new Date().toISOString()
@@ -1086,7 +1086,7 @@ Comprehensive tracking to measure success of all homepage changes.
             if (scrollPercent >= depthNum && !scrollDepthTracked[depth]) {
                 scrollDepthTracked[depth] = true;
                 posthog.capture('homepage_scroll_depth', {
-                    variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+                    variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
                     depth_percent: depthNum,
                     timestamp: new Date().toISOString()
                 });
@@ -1118,7 +1118,7 @@ Comprehensive tracking to measure success of all homepage changes.
         const timeOnPage = Math.round((Date.now() - startTime) / 1000); // seconds
 
         posthog.capture('homepage_time_spent', {
-            variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+            variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
             seconds: timeOnPage,
             timestamp: new Date().toISOString()
         });
@@ -1131,7 +1131,7 @@ Comprehensive tracking to measure success of all homepage changes.
         // Track every 30 seconds
         if (timeOnPage % 30 === 0) {
             posthog.capture('homepage_time_interval', {
-                variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+                variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
                 seconds: timeOnPage,
                 timestamp: new Date().toISOString()
             });
@@ -1166,7 +1166,7 @@ Comprehensive tracking to measure success of all homepage changes.
         // Check for rage click
         if (clickCounts[selector].length >= rageThreshold) {
             posthog.capture('rage_click_detected', {
-                variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+                variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
                 element: selector,
                 click_count: clickCounts[selector].length,
                 timestamp: new Date().toISOString()
@@ -1196,7 +1196,7 @@ Comprehensive tracking to measure success of all homepage changes.
             const timeOnPage = Math.round((Date.now() - performance.timing.navigationStart) / 1000);
 
             posthog.capture('exit_intent_detected', {
-                variant: posthog.getFeatureFlag('homepage-redesign-test') || 'control',
+                variant: posthog.getFeatureFlag('homepage-herotext-test') || 'control',
                 time_on_page_seconds: timeOnPage,
                 timestamp: new Date().toISOString()
             });
