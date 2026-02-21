@@ -15,6 +15,8 @@ export class VisionSystem {
     this.alertRadius = 200; // How far the alert reaches (tune this)
     this.alertActive = false; // Track if an alert is currently active
     this.alertingGuard = null; // Which guard triggered the alert
+    this.alertCooldown = 0; // Cooldown timer before alert can reset (ms)
+    this.minAlertDuration = 3000; // Minimum alert duration (3 seconds)
   }
 
   initGuard(guard, config = {}) {
@@ -35,6 +37,11 @@ export class VisionSystem {
   }
 
   update(dt) {
+    // Update alert cooldown
+    if (this.alertCooldown > 0) {
+      this.alertCooldown -= dt;
+    }
+
     let anyDetecting = false;
     let anyAlerted = false;
 
@@ -71,11 +78,13 @@ export class VisionSystem {
       if (!trig.detected && next > 0.05 && meter <= 0.05) {
         trig.detected = true;
 
-        // Play alert sound immediately when detection starts
-        if (!this.alertPlayed && this.scene.registry.get("soundEnabled")) {
+        // Play alert sound only if no alert is currently active
+        if (!this.alertActive && this.scene.registry.get("soundEnabled")) {
           const alertSound = this.scene.sound.add("alert", { volume: 0.7 });
           alertSound.play();
-          this.alertPlayed = true;
+          this.alertActive = true;
+          this.alertingGuard = g;
+          this.alertCooldown = this.minAlertDuration; // Start cooldown timer
         }
 
         // Broadcast alert to nearby guards immediately
@@ -104,8 +113,11 @@ export class VisionSystem {
 
       // Track if any guard is detecting or in alert state
       if (next > 0.05) anyDetecting = true;
-      if (g.stateMachine && g.stateMachine.currentState !== GuardStates.PATROL) {
-        anyAlerted = true;
+      if (g.stateMachine) {
+        const patrolState = g.stateMachine.possibleStates[GuardStates.PATROL];
+        if (g.stateMachine.state !== patrolState) {
+          anyAlerted = true;
+        }
       }
     }
 
@@ -146,8 +158,9 @@ export class VisionSystem {
         // Only regular guards and lead guards respond by moving
         // Overseers stay in place (they're stationary)
         if (guard.guardType !== "overseer") {
-          // Only transition to RESPONDING if currently in PATROL state
-          if (guard.stateMachine.currentState === GuardStates.PATROL) {
+          // Check if guard is in PATROL state by comparing state object
+          const patrolState = guard.stateMachine.possibleStates[GuardStates.PATROL];
+          if (guard.stateMachine.state === patrolState) {
             guard.stateMachine.transition(GuardStates.RESPONDING, {
               position: playerPosition,
               sourceGuard: sourceGuard.id
