@@ -87,8 +87,10 @@ export class WarehouseScene extends Phaser.Scene {
       color: "#ffffff"
     }).setScrollFactor(0);
 
+    // Controls at bottom of screen
+    const { height } = this.scale;
     this.add.text(
-      8, 22,
+      8, height - 35,
       "WASD/Arrows move | Shift crouch | E box(toggle) | Space interact\n" +
       "Interact: KO behind, drag KO'd, drop, hide in locker/shadow\n" +
       "V vision debug | C collision debug | B body debug | ESC ending",

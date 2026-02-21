@@ -7,7 +7,9 @@ import { createTouchControls } from "./ui/touchControls.js";
 
 import { BootScene } from "./scenes/BootScene.js";
 import { IntroScene } from "./scenes/IntroScene.js";
-import { WarehouseScene } from "./scenes/WarehouseScene.js";
+import { CellScene } from "./scenes/rooms/CellScene.js";
+import { CorridorScene } from "./scenes/rooms/CorridorScene.js";
+import { WarehouseMainScene } from "./scenes/rooms/WarehouseMainScene.js";
 import { EndingScene } from "./scenes/EndingScene.js";
 
 // Landscape-only overlay
@@ -25,7 +27,14 @@ const touchRef = createTouchControls();
 let game;
 document.fonts.ready.then(() => {
   // Create game after fonts are loaded
-  game = new Phaser.Game(createGameConfig([BootScene, IntroScene, WarehouseScene, EndingScene]));
+  game = new Phaser.Game(createGameConfig([
+    BootScene,
+    IntroScene,
+    CellScene,
+    CorridorScene,
+    WarehouseMainScene,
+    EndingScene
+  ]));
 
   // Share touch state with scenes via registry
   game.registry.set("touchRef", touchRef);

@@ -48,8 +48,8 @@ export class IntroScene extends Phaser.Scene {
       ease: 'Sine.easeInOut'
     });
 
-    // Start game on SPACE or tap/click
-    this.input.keyboard.once("keydown-SPACE", () => this.scene.start("WarehouseScene"));
-    this.input.once("pointerdown", () => this.scene.start("WarehouseScene"));
+    // Start game on SPACE or tap/click - now starts in Cell
+    this.input.keyboard.once("keydown-SPACE", () => this.scene.start("CellScene"));
+    this.input.once("pointerdown", () => this.scene.start("CellScene"));
   }
 }
