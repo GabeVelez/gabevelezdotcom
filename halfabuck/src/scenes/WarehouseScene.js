@@ -89,16 +89,19 @@ export class WarehouseScene extends Phaser.Scene {
       8, 22,
       "WASD/Arrows move | Shift crouch | E box(toggle) | Space interact\n" +
       "Interact: KO behind, drag KO'd, drop, hide in locker/shadow\n" +
-      "F2 vision debug | F1 collision debug | ESC ending",
+      "V vision debug | C collision debug | B body debug | ESC ending",
       { fontFamily: "monospace", fontSize: "9px", color: "#ffffff" }
     ).setScrollFactor(0);
 
     this._collisionDebug = null;
     this._visionDebug = this.add.graphics().setDepth(999).setAlpha(0.9);
     this._visionDebugOn = true;
+    this._bodyDebug = this.add.graphics().setDepth(1000);
+    this._bodyDebugOn = false;
 
-    this.input.keyboard.on("keydown-F1", () => this._toggleCollisionDebug(ground));
-    this.input.keyboard.on("keydown-F2", () => { this._visionDebugOn = !this._visionDebugOn; });
+    this.input.keyboard.on("keydown-C", () => this._toggleCollisionDebug(ground));
+    this.input.keyboard.on("keydown-V", () => { this._visionDebugOn = !this._visionDebugOn; });
+    this.input.keyboard.on("keydown-B", () => { this._bodyDebugOn = !this._bodyDebugOn; });
     this.input.keyboard.on("keydown-ESC", () => this.scene.start("EndingScene"));
 
     this.groundLayer = ground;
@@ -130,6 +133,20 @@ export class WarehouseScene extends Phaser.Scene {
       this.vision.renderDebug(this._visionDebug);
     } else {
       this._visionDebug.clear();
+    }
+
+    // F3: Draw player collision box
+    if (this._bodyDebugOn) {
+      this._bodyDebug.clear();
+      this._bodyDebug.lineStyle(2, 0x00ff00, 1);
+      this._bodyDebug.strokeRect(
+        this.player.body.x,
+        this.player.body.y,
+        this.player.body.width,
+        this.player.body.height
+      );
+    } else {
+      this._bodyDebug.clear();
     }
   }
 

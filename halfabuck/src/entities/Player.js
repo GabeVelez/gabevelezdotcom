@@ -18,15 +18,19 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Scale to show sprite detail - larger than original 16x24 spec
     this.setScale(0.15); // ~210 * 0.15 ≈ 32 pixels (shows more detail)
 
-    // Anchor sprite at bottom-center (feet position) to eliminate waddle
-    this.setOrigin(0.5, 1.0); // x: center, y: bottom
+    // Center origin for balanced collision
+    this.setOrigin(0.5, 0.5);
 
-    // Center the physics body to reduce waddle effect
-    // Use smaller collision box centered on character
-    this.body.setSize(16, 20, false);
+    // Extra wide collision box for maximum wall separation
+    const collisionWidth = 80;
+    const collisionHeight = 48;
+
+    this.body.setSize(collisionWidth, collisionHeight);
+
+    // Center the collision box on the sprite
     this.body.setOffset(
-      (this.width - 16) / 2,  // Center horizontally
-      this.height - 22         // Bottom-aligned for feet
+      (this.width - collisionWidth) / 2,
+      (this.height - collisionHeight) / 2
     );
 
     this.setCollideWorldBounds(true);
