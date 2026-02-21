@@ -13,22 +13,31 @@ export class VisionSystem {
 
     // Alert system
     this.alertRadius = 200; // How far the alert reaches (tune this)
-    this.alertPlayed = false; // Track if alert sound has been played
+    this.alertActive = false; // Track if an alert is currently active
+    this.alertingGuard = null; // Which guard triggered the alert
   }
 
   initGuard(guard, config = {}) {
+    // Vision distance: default is 70% of specified size (normal patrol)
+    // Expands to 100% when alerted
+    const baseDistance = config.distance ?? 88;
     guard.vision = {
-      distance: config.distance ?? 88,
+      distance: baseDistance * 0.7, // Start at 70% (normal patrol)
+      baseDistance: baseDistance,    // Store full distance for alert state
       angleDeg: config.angleDeg ?? 80,
       fillMs: config.fillMs ?? 1200,
       drainMs: config.drainMs ?? 900,
       facing: config.facing ?? 0,
+      isAlerted: false, // Track if this guard is in alert state
     };
     this.meters.set(guard, 0);
-    this.triggered.set(guard, { suspicious: false, alert: false });
+    this.triggered.set(guard, { detected: false, suspicious: false, alert: false });
   }
 
   update(dt) {
+    let anyDetecting = false;
+    let anyAlerted = false;
+
     for (const g of this.guards) {
       if (!g.active || g.isHidden || g.isKnockedOut) continue;
 
@@ -92,6 +101,17 @@ export class VisionSystem {
       }
 
       this.triggered.set(g, trig);
+
+      // Track if any guard is detecting or in alert state
+      if (next > 0.05) anyDetecting = true;
+      if (g.stateMachine && g.stateMachine.currentState !== GuardStates.PATROL) {
+        anyAlerted = true;
+      }
+    }
+
+    // Reset alert when all guards are back to patrol and no one is detecting
+    if (this.alertActive && !anyDetecting && !anyAlerted) {
+      this.resetAlert();
     }
   }
 
@@ -119,15 +139,90 @@ export class VisionSystem {
       );
 
       if (distance <= this.alertRadius) {
-        // Only transition to RESPONDING if currently in PATROL state
-        if (guard.stateMachine.currentState === GuardStates.PATROL) {
-          guard.stateMachine.transition(GuardStates.RESPONDING, {
-            position: playerPosition,
-            sourceGuard: sourceGuard.id
-          });
+        // Expand vision cone to alert state
+        guard.vision.isAlerted = true;
+        guard.vision.distance = guard.vision.baseDistance;
+
+        // Only regular guards and lead guards respond by moving
+        // Overseers stay in place (they're stationary)
+        if (guard.guardType !== "overseer") {
+          // Only transition to RESPONDING if currently in PATROL state
+          if (guard.stateMachine.currentState === GuardStates.PATROL) {
+            guard.stateMachine.transition(GuardStates.RESPONDING, {
+              position: playerPosition,
+              sourceGuard: sourceGuard.id
+            });
+          }
         }
       }
     }
+  }
+
+  resetAlert() {
+    // Reset alert system when guards return to normal
+    this.alertActive = false;
+    this.alertingGuard = null;
+
+    // Reset all guards' vision cones to normal size
+    for (const guard of this.guards) {
+      if (guard.vision.isAlerted) {
+        guard.vision.isAlerted = false;
+        guard.vision.distance = guard.vision.baseDistance * 0.7; // Back to 70%
+      }
+    }
+  }
+
+  _showExclamation(guard) {
+    // Create exclamation mark sprite above guard's head
+    if (guard.exclamationMark) {
+      guard.exclamationMark.destroy();
+    }
+
+    // Create text exclamation mark
+    const exclamation = this.scene.add.text(guard.x, guard.y - 35, "!", {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "16px",
+      color: "#ff0000",
+      stroke: "#000000",
+      strokeThickness: 3
+    }).setOrigin(0.5);
+
+    guard.exclamationMark = exclamation;
+
+    // Bounce animation
+    this.scene.tweens.add({
+      targets: exclamation,
+      y: guard.y - 40,
+      duration: 150,
+      yoyo: true,
+      repeat: 2,
+      ease: 'Sine.easeInOut',
+      onComplete: () => {
+        // Fade out after bounce
+        this.scene.tweens.add({
+          targets: exclamation,
+          alpha: 0,
+          duration: 500,
+          delay: 500,
+          onComplete: () => {
+            exclamation.destroy();
+            guard.exclamationMark = null;
+          }
+        });
+      }
+    });
+
+    // Update exclamation position as guard moves
+    const updateExclamation = () => {
+      if (exclamation.active && guard.active) {
+        exclamation.x = guard.x;
+      }
+    };
+
+    this.scene.events.on('update', updateExclamation);
+    exclamation.once('destroy', () => {
+      this.scene.events.off('update', updateExclamation);
+    });
   }
 
   canSeePoint(guard, x, y) {
@@ -189,10 +284,14 @@ export class VisionSystem {
       if (!guard.active || guard.isHidden) continue;
 
       const meter = this.getMeter(guard);
+      // Color based on detection level:
+      // Green = normal patrol (< 33%)
+      // Yellow = suspicious/investigating (33% - 66%)
+      // Red = high alert/pursuit (>= 66%)
       const color =
-        meter >= 0.66 ? 0xff3333 :
-        meter >= 0.33 ? 0xffcc33 :
-        0x33ff66;
+        meter >= 0.66 ? 0xff3333 :  // Red
+        meter >= 0.33 ? 0xffcc33 :  // Yellow
+        0x33ff66;                    // Green
 
       const a = Phaser.Math.DegToRad(guard.vision.angleDeg);
       const half = a / 2;
