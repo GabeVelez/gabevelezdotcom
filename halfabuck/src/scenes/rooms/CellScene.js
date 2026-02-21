@@ -57,9 +57,10 @@ export class CellScene extends BaseRoomScene {
     // Setup vision system
     this.setupVisionSystem(ground);
 
-    // Create exit zone at bottom door (aligned with door tiles)
+    // Create exit zone at bottom door (fully within door opening)
     // Door tiles are at (9,10) and (10,10) = pixels (144,160) to (176,176)
-    this.createExit(160, 165, 40, 20, "CorridorScene", "north");
+    // Exit centered at (160, 168) to fit within walkable door area
+    this.createExit(160, 168, 32, 16, "CorridorScene", "north");
 
     // Setup physics
     this.physics.add.collider(this.player, ground);

@@ -28,7 +28,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(collisionWidth, collisionHeight);
     this.body.setOffset(0, 0);
 
-    this.setCollideWorldBounds(true);
+    // Don't constrain to world bounds - let tilemap walls provide boundaries
+    // this.setCollideWorldBounds(true);
 
     this.walkSpeed = 80;
     this.crouchSpeed = 48;

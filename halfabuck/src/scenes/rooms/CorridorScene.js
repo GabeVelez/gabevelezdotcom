@@ -61,10 +61,11 @@ export class CorridorScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
+    // Spawn well away from exit zones to avoid immediate re-triggering
     let playerX = 160;
-    let playerY = 32;
+    let playerY = 50; // Coming from Cell (top entrance) - spawn below exit zone
     if (this.entryDirection === "south") {
-      playerY = 288; // Coming from bottom
+      playerY = 270; // Coming from Warehouse (bottom entrance) - spawn above exit zone
     }
     this.createPlayer(playerX, playerY);
 
@@ -79,9 +80,11 @@ export class CorridorScene extends BaseRoomScene {
 
     this.setupVisionSystem(ground);
 
-    // Exits
-    this.createExit(144, 0, 32, 16, "CellScene", "south");
-    this.createExit(144, 304, 32, 16, "WarehouseMainScene", "north");
+    // Exits - positioned to extend into walkable area for easier triggering
+    // Top exit: extends from door into corridor
+    this.createExit(160, 20, 32, 32, "CellScene", "south");
+    // Bottom exit: extends from door into corridor
+    this.createExit(160, 300, 32, 32, "WarehouseMainScene", "north");
 
     // Physics
     this.physics.add.collider(this.player, ground);

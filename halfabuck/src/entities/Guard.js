@@ -25,8 +25,8 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(collisionWidth, collisionHeight);
     this.body.setOffset(0, 0);
 
-    // Enable collision
-    this.body.setCollideWorldBounds(true);
+    // Enable collision - don't constrain to world bounds, let tilemap walls provide boundaries
+    // this.body.setCollideWorldBounds(true);
     this.body.setImmovable(false);
 
     this.speed = 42;
