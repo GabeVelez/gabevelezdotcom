@@ -25,8 +25,8 @@ export class GameOverScene extends Phaser.Scene {
     gameoverImg.x = (width - gameoverImg.width * scale) / 2;
     gameoverImg.y = (height - gameoverImg.height * scale) / 2;
 
-    // "CONTINUE" and "END" buttons underneath
-    const continueText = this.add.text(width / 2 - 40, height - 20, "CONTINUE", {
+    // "CONTINUE" and "EXIT" buttons underneath
+    const continueText = this.add.text(width / 2 - 44, height - 20, "CONTINUE", {
       fontFamily: "'Press Start 2P', monospace",
       fontSize: "10px",
       color: "#ffffff",
@@ -34,7 +34,7 @@ export class GameOverScene extends Phaser.Scene {
       padding: { x: 6, y: 3 }
     }).setOrigin(0.5);
 
-    const endText = this.add.text(width / 2 + 40, height - 20, "END", {
+    const exitText = this.add.text(width / 2 + 44, height - 20, "EXIT", {
       fontFamily: "'Press Start 2P', monospace",
       fontSize: "10px",
       color: "#ffffff",
@@ -48,9 +48,9 @@ export class GameOverScene extends Phaser.Scene {
       this.scene.start("CellScene");
     });
 
-    // Make END clickable - go back to intro screen
-    endText.setInteractive({ useHandCursor: true });
-    endText.on("pointerdown", () => {
+    // Make EXIT clickable - go back to intro screen
+    exitText.setInteractive({ useHandCursor: true });
+    exitText.on("pointerdown", () => {
       this.scene.start("IntroScene");
     });
 
