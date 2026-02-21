@@ -208,21 +208,24 @@ export class VisionSystem {
       guard.exclamationMark.destroy();
     }
 
-    // Create text exclamation mark
-    const exclamation = this.scene.add.text(guard.x, guard.y - 35, "!", {
+    // Create larger, more visible exclamation mark
+    // Guard sprite origin is at (0.5, 1.0) - bottom center
+    // Guard sprite is scaled 0.15, original ~300px height = ~45px displayed
+    // Place exclamation well above guard's head
+    const exclamation = this.scene.add.text(guard.x, guard.y - 55, "!", {
       fontFamily: "'Press Start 2P', monospace",
-      fontSize: "16px",
+      fontSize: "20px",
       color: "#ff0000",
-      stroke: "#000000",
-      strokeThickness: 3
-    }).setOrigin(0.5);
+      stroke: "#ffffff",
+      strokeThickness: 4
+    }).setOrigin(0.5).setDepth(10000); // Always on top
 
     guard.exclamationMark = exclamation;
 
-    // Bounce animation
+    // Bounce animation (above sprite)
     this.scene.tweens.add({
       targets: exclamation,
-      y: guard.y - 40,
+      y: guard.y - 60,
       duration: 150,
       yoyo: true,
       repeat: 2,
@@ -337,15 +340,15 @@ export class VisionSystem {
       for (let i = 0; i < gradientSteps; i++) {
         const ratio = (gradientSteps - i) / gradientSteps; // 1.0 to 0.1
         const radius = guard.vision.distance * ratio;
-        const alpha = 0.25 * (1 - ratio); // Subtle gradient from center to edge
+        const alpha = 0.30 * (1 - ratio); // Slightly more visible gradient
 
         g.fillStyle(color, alpha);
         g.slice(centerX, centerY, radius, start, end, false);
         g.fillPath();
       }
 
-      // Optional: Add subtle edge line for definition
-      g.lineStyle(1, color, 0.15);
+      // Add clear edge line for precise detection boundary
+      g.lineStyle(2, color, 0.4); // Thicker, more visible edge
       g.beginPath();
       g.arc(centerX, centerY, guard.vision.distance, start, end, false);
       g.strokePath();
