@@ -21,11 +21,18 @@ enforceLandscape();
 // Touch controls (DOM overlay)
 const touchRef = createTouchControls();
 
-// Create game
-const game = new Phaser.Game(createGameConfig([BootScene, IntroScene, WarehouseScene, EndingScene]));
+// Wait for fonts to load before starting game
+let game;
+document.fonts.ready.then(() => {
+  // Create game after fonts are loaded
+  game = new Phaser.Game(createGameConfig([BootScene, IntroScene, WarehouseScene, EndingScene]));
 
-// Share touch state with scenes via registry
-game.registry.set("touchRef", touchRef);
+  // Share touch state with scenes via registry
+  game.registry.set("touchRef", touchRef);
+
+  // Do initial resize after game is created
+  resize();
+});
 
 /**
  * Pixel-perfect integer scaling:
@@ -36,6 +43,9 @@ game.registry.set("touchRef", touchRef);
 function resize() {
   // If portrait, keep overlay; game can remain running but user can't comfortably play
   enforceLandscape();
+
+  // Only resize if game exists (fonts loaded)
+  if (!game) return;
 
   const zoom = getIntegerZoom();
   game.scale.resize(BASE_W, BASE_H);
@@ -49,4 +59,3 @@ function resize() {
 }
 
 window.addEventListener("resize", resize);
-resize();

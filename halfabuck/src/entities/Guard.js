@@ -144,13 +144,14 @@ class PatrolState {
     const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(guard.speed);
     guard.setVelocity(v.x, v.y);
 
-    // Play appropriate walk animation based on direction
+    // Play appropriate walk animation based on direction and guard type
+    const animPrefix = guard.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
     if (Math.abs(v.x) > Math.abs(v.y)) {
       // Horizontal movement
-      guard.anims.play(v.x > 0 ? "guard_walk_right" : "guard_walk_left", true);
+      guard.anims.play(animPrefix + (v.x > 0 ? "right" : "left"), true);
     } else {
       // Vertical movement
-      guard.anims.play(v.y > 0 ? "guard_walk_down" : "guard_walk_up", true);
+      guard.anims.play(animPrefix + (v.y > 0 ? "down" : "up"), true);
     }
   }
 }

@@ -28,6 +28,7 @@ export class WarehouseScene extends Phaser.Scene {
     const spawn = byName.get("player_spawn") ?? { x: 32, y: 32 };
 
     this.player = new Player(this, spawn.x, spawn.y);
+    this.player.setDepth(10); // Above vision cones
     this._createPlaceholderAnims();
 
     this.guards = [];
@@ -47,6 +48,7 @@ export class WarehouseScene extends Phaser.Scene {
       else if (obj.type === "overseer") g = new Overseer(this, obj.x, obj.y, pathPoints);
       else g = new Guard(this, obj.x, obj.y, pathPoints);
 
+      g.setDepth(10); // Above vision cones
       this.guards.push(g);
     }
 
@@ -94,7 +96,7 @@ export class WarehouseScene extends Phaser.Scene {
     ).setScrollFactor(0);
 
     this._collisionDebug = null;
-    this._visionDebug = this.add.graphics().setDepth(999).setAlpha(0.9);
+    this._visionDebug = this.add.graphics().setDepth(5).setAlpha(0.9); // Above tilemap, below sprites
     this._visionDebugOn = true;
     this._bodyDebug = this.add.graphics().setDepth(1000);
     this._bodyDebugOn = false;
@@ -279,5 +281,11 @@ export class WarehouseScene extends Phaser.Scene {
     this.anims.create({ key: "guard_walk_up", frames: this.anims.generateFrameNumbers("guard-back", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
     this.anims.create({ key: "guard_walk_left", frames: this.anims.generateFrameNumbers("guard-left", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
     this.anims.create({ key: "guard_walk_right", frames: this.anims.generateFrameNumbers("guard-right", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+
+    // Overseer animations
+    this.anims.create({ key: "overseer_walk_down", frames: this.anims.generateFrameNumbers("overseer-front", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+    this.anims.create({ key: "overseer_walk_up", frames: this.anims.generateFrameNumbers("overseer-back", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+    this.anims.create({ key: "overseer_walk_left", frames: this.anims.generateFrameNumbers("overseer-left", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+    this.anims.create({ key: "overseer_walk_right", frames: this.anims.generateFrameNumbers("overseer-right", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
   }
 }

@@ -30,7 +30,10 @@ export class VisionSystem {
 
       const gv = g.body?.velocity;
       if (gv && (Math.abs(gv.x) + Math.abs(gv.y) > 1)) {
-        g.vision.facing = Math.atan2(gv.y, gv.x);
+        // Snap to cardinal directions (up/down/left/right)
+        const angle = Math.atan2(gv.y, gv.x);
+        const snapAngle = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2);
+        g.vision.facing = snapAngle;
       }
 
       const inside = this._isPlayerInCone(g);
@@ -82,7 +85,11 @@ export class VisionSystem {
   canSeePoint(guard, x, y) {
     if (!guard.active || guard.isHidden || guard.isKnockedOut) return false;
     if (!this._pointInCone(guard, x, y)) return false;
-    if (this.wallLayer && this._rayHitsWall(guard.x, guard.y, x, y)) return false;
+
+    // Ray from guard's center (fixed offset)
+    const guardCenterX = guard.x;
+    const guardCenterY = guard.y - 16;
+    if (this.wallLayer && this._rayHitsWall(guardCenterX, guardCenterY, x, y)) return false;
     return true;
   }
 
@@ -100,8 +107,12 @@ export class VisionSystem {
   }
 
   _pointInCone(guard, x, y) {
-    const dx = x - guard.x;
-    const dy = y - guard.y;
+    // Vision cone originates from guard's center (fixed offset)
+    const guardCenterX = guard.x;
+    const guardCenterY = guard.y - 16;
+
+    const dx = x - guardCenterX;
+    const dy = y - guardCenterY;
     const dist = Math.hypot(dx, dy);
     if (dist > guard.vision.distance) return false;
 
@@ -140,19 +151,29 @@ export class VisionSystem {
       const start = guard.vision.facing - half;
       const end = guard.vision.facing + half;
 
-      g.lineStyle(1, color, 0.85);
+      // Position cone at guard's center (fixed offset from bottom)
+      const centerX = guard.x;
+      const centerY = guard.y - 16; // Fixed offset upward to torso area
+
+      // Draw gradient cone - multiple layers with decreasing opacity
+      const gradientSteps = 10;
+      for (let i = 0; i < gradientSteps; i++) {
+        const ratio = (gradientSteps - i) / gradientSteps; // 1.0 to 0.1
+        const radius = guard.vision.distance * ratio;
+        const alpha = 0.25 * (1 - ratio); // Subtle gradient from center to edge
+
+        g.fillStyle(color, alpha);
+        g.slice(centerX, centerY, radius, start, end, false);
+        g.fillPath();
+      }
+
+      // Optional: Add subtle edge line for definition
+      g.lineStyle(1, color, 0.15);
       g.beginPath();
-      g.arc(guard.x, guard.y, guard.vision.distance, start, end, false);
+      g.arc(centerX, centerY, guard.vision.distance, start, end, false);
       g.strokePath();
 
-      const x1 = guard.x + Math.cos(start) * guard.vision.distance;
-      const y1 = guard.y + Math.sin(start) * guard.vision.distance;
-      const x2 = guard.x + Math.cos(end) * guard.vision.distance;
-      const y2 = guard.y + Math.sin(end) * guard.vision.distance;
-
-      g.lineBetween(guard.x, guard.y, x1, y1);
-      g.lineBetween(guard.x, guard.y, x2, y2);
-
+      // Detection meter bar (keep as is)
       const w = 18, h = 3;
       const bx = guard.x - w / 2;
       const by = guard.y - 18;

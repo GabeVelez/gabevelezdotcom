@@ -49,9 +49,26 @@ export class BootScene extends Phaser.Scene {
       frameHeight: 305
     });
 
+    // --- Overseer sprite sheets (5 frames each) ---
+    this.load.spritesheet("overseer-front", "assets/overseer-front.png", {
+      frameWidth: 252,
+      frameHeight: 332
+    });
+    this.load.spritesheet("overseer-back", "assets/overseer-back.png", {
+      frameWidth: 250,
+      frameHeight: 275
+    });
+    this.load.spritesheet("overseer-left", "assets/overseer-left.png", {
+      frameWidth: 250,
+      frameHeight: 319
+    });
+    this.load.spritesheet("overseer-right", "assets/overseer-right.png", {
+      frameWidth: 250,
+      frameHeight: 319
+    });
+
     // --- Placeholder entity textures ---
     this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
-    this._makePlaceholderTexture("overseer", 16, 24, 0xff0000);
     this._makePlaceholderTexture("box", 16, 16, 0xffffff);
   }
 

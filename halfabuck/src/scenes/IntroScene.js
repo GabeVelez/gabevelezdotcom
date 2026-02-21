@@ -22,7 +22,8 @@ export class IntroScene extends Phaser.Scene {
     bg.y = (height - bg.height * scale) / 2;
 
     // "MISSION: BROOKLYN" text (static, orange color from the design)
-    this.add.text(width / 2, height - 30, "MISSION: BROOKLYN", {
+    // Positioned closer to bottom edge, away from face
+    this.add.text(width / 2, height - 15, "MISSION: BROOKLYN", {
       fontFamily: "'Orbitron', sans-serif",
       fontSize: "10px",
       color: "#ff8800",
@@ -30,7 +31,8 @@ export class IntroScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     // "PRESS START" text with flashing effect (arcade style)
-    const pressStart = this.add.text(width / 2, height - 45, "PRESS START", {
+    // Positioned closer to bottom edge, away from face
+    const pressStart = this.add.text(width / 2, height - 30, "PRESS START", {
       fontFamily: "'Press Start 2P', monospace",
       fontSize: "10px",
       color: "#ffffff"
