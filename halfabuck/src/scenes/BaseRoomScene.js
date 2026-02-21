@@ -29,10 +29,20 @@ export class BaseRoomScene extends Phaser.Scene {
   createBaseSystems() {
     const { width, height } = this.scale;
 
-    // Restart intro music if it exists and sound is enabled
-    const music = this.registry.get("intro_music");
-    if (music && this.registry.get("soundEnabled") && !music.isPlaying) {
-      music.play();
+    // Start intro music during gameplay if sound is enabled
+    if (!this.registry.get("intro_music")) {
+      const music = this.sound.add("intro_music", { loop: true, volume: 0.5 });
+      this.game.sound.pauseOnBlur = false; // Keep playing when window loses focus
+      this.registry.set("intro_music", music);
+
+      if (this.registry.get("soundEnabled")) {
+        music.play();
+      }
+    } else {
+      const music = this.registry.get("intro_music");
+      if (this.registry.get("soundEnabled") && !music.isPlaying) {
+        music.play();
+      }
     }
 
     // Create animations if not already created
