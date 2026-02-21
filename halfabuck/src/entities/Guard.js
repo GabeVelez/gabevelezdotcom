@@ -5,6 +5,7 @@ export const GuardStates = {
   PATROL: "patrol",
   SUSPICIOUS: "suspicious",
   ALERT: "alert",
+  RESPONDING: "responding",
   SEARCHING: "searching",
   RETURNING: "returning",
 };
@@ -30,6 +31,7 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     this.body.setImmovable(false);
 
     this.speed = 42;
+    this.guardType = "regular"; // Can be overridden by subclasses
 
     this.path = pathPoints;
     this.pathIndex = 0;
@@ -48,6 +50,7 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
       [GuardStates.PATROL]: new PatrolState(),
       [GuardStates.SUSPICIOUS]: new SuspiciousState(),
       [GuardStates.ALERT]: new AlertState(),
+      [GuardStates.RESPONDING]: new RespondingState(),
       [GuardStates.SEARCHING]: new SearchingState(),
       [GuardStates.RETURNING]: new ReturningState(),
     }, [this]);
@@ -194,6 +197,62 @@ class SearchingState {
       return guard.stateMachine.transition(GuardStates.RETURNING);
     }
     guard.setVelocity(0,0);
+  }
+}
+
+class RespondingState {
+  enter(guard, alertData) {
+    guard.alertTarget = alertData?.position ?? guard.lastKnownPlayer;
+    guard.responseTimeout = alertData?.timeout ?? 5000; // ms before giving up
+    guard.responseTimer = 0;
+
+    // Different response speeds based on guard type
+    if (guard.guardType === "lead") {
+      guard.responseSpeed = 90; // Fast and aggressive
+      guard.responseTimeout = 7000;
+    } else if (guard.guardType === "overseer") {
+      guard.responseSpeed = 45; // Slow but persistent
+      guard.responseTimeout = 8000;
+    } else {
+      guard.responseSpeed = 60; // Regular guard - moderate
+      guard.responseTimeout = 5000;
+    }
+  }
+
+  execute(guard, dt) {
+    guard.responseTimer += dt;
+
+    // Timeout - give up and return to patrol
+    if (guard.responseTimer >= guard.responseTimeout) {
+      return guard.stateMachine.transition(GuardStates.RETURNING);
+    }
+
+    // Move toward alert target
+    if (guard.alertTarget) {
+      const dx = guard.alertTarget.x - guard.x;
+      const dy = guard.alertTarget.y - guard.y;
+      const dist = Math.hypot(dx, dy);
+
+      // Reached alert location - transition to searching
+      if (dist < 16) {
+        return guard.stateMachine.transition(GuardStates.SEARCHING);
+      }
+
+      // Move toward target at response speed
+      const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(guard.responseSpeed);
+      guard.setVelocity(v.x, v.y);
+
+      // Play appropriate walk animation
+      const animPrefix = guard.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
+      if (Math.abs(v.x) > Math.abs(v.y)) {
+        guard.anims.play(animPrefix + (v.x > 0 ? "right" : "left"), true);
+      } else {
+        guard.anims.play(animPrefix + (v.y > 0 ? "down" : "up"), true);
+      }
+    } else {
+      // No target - return to patrol
+      guard.stateMachine.transition(GuardStates.RETURNING);
+    }
   }
 }
 

@@ -10,6 +10,10 @@ export class VisionSystem {
     this.meters = new Map();
     this.triggered = new Map();
     this.debugEnabled = true;
+
+    // Alert system
+    this.alertRadius = 200; // How far the alert reaches (tune this)
+    this.alertPlayed = false; // Track if alert sound has been played
   }
 
   initGuard(guard, config = {}) {
@@ -67,6 +71,16 @@ export class VisionSystem {
       if (!trig.alert && next >= 1.0) {
         trig.alert = true;
         g.stateMachine?.transition?.(GuardStates.ALERT, { x: p.x, y: p.y });
+
+        // Play alert sound once (only when first guard detects)
+        if (!this.alertPlayed && this.scene.registry.get("soundEnabled")) {
+          const alertSound = this.scene.sound.add("alert", { volume: 0.7 });
+          alertSound.play();
+          this.alertPlayed = true;
+        }
+
+        // Broadcast alert to nearby guards
+        this.broadcastAlert(g, { x: p.x, y: p.y });
       }
 
       this.triggered.set(g, trig);
@@ -80,6 +94,32 @@ export class VisionSystem {
   resetMeter(guard) {
     this.meters.set(guard, 0);
     this.triggered.set(guard, { suspicious: false, alert: false });
+  }
+
+  broadcastAlert(sourceGuard, playerPosition) {
+    // Broadcast alert to all guards within radius
+    for (const guard of this.guards) {
+      // Skip source guard, inactive guards, and knocked out guards
+      if (guard === sourceGuard || !guard.active || guard.isKnockedOut || guard.isHidden) {
+        continue;
+      }
+
+      // Check if guard is within alert radius
+      const distance = Phaser.Math.Distance.Between(
+        sourceGuard.x, sourceGuard.y,
+        guard.x, guard.y
+      );
+
+      if (distance <= this.alertRadius) {
+        // Only transition to RESPONDING if currently in PATROL state
+        if (guard.stateMachine.currentState === GuardStates.PATROL) {
+          guard.stateMachine.transition(GuardStates.RESPONDING, {
+            position: playerPosition,
+            sourceGuard: sourceGuard.id
+          });
+        }
+      }
+    }
   }
 
   canSeePoint(guard, x, y) {
