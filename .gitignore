@@ -8,6 +8,7 @@ projects_WIP/
 !package.json
 !package-lock.json
 !tsconfig.json
+!halfabuck/**/*.json
 *.key
 *.pem
 .env

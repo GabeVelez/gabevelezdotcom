@@ -1,0 +1,10 @@
+# Development
+node_modules/
+dist/
+
+# Vite
+.vite/
+
+# Editor
+.vscode/
+.idea/

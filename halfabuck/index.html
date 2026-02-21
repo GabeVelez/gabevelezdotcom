@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Half-a-Buck — Mission: Brooklyn</title>
+
+    <!-- Retro arcade fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="game"></div>
+
+    <!-- Landscape-only overlay -->
+    <div id="rotate-overlay" aria-hidden="true">
+      <div class="rotate-card">
+        <div class="rotate-title">Rotate to Play</div>
+        <div class="rotate-sub">Half-a-Buck is landscape-only.</div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
