@@ -33,6 +33,10 @@ export function createGameConfig(scenes) {
         debug: false,
       },
     },
+    audio: {
+      disableWebAudio: false,
+      noAudio: false,
+    },
     scene: scenes,
   };
 }

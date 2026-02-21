@@ -13,11 +13,20 @@ export class IntroScene extends Phaser.Scene {
       this.registry.set("soundEnabled", true);
     }
 
-    // Start intro music (loop)
+    // Start intro music (loop) - don't pause on blur
     if (!this.registry.get("intro_music")) {
       const music = this.sound.add("intro_music", { loop: true, volume: 0.5 });
+      this.game.sound.pauseOnBlur = false; // Keep playing when window loses focus
       this.registry.set("intro_music", music);
+
+      // Try to autoplay music on load (will start on first user interaction if blocked)
       if (this.registry.get("soundEnabled")) {
+        music.play();
+      }
+    } else {
+      // Music already exists, make sure it's playing if sound is enabled
+      const music = this.registry.get("intro_music");
+      if (this.registry.get("soundEnabled") && !music.isPlaying) {
         music.play();
       }
     }
@@ -52,6 +61,12 @@ export class IntroScene extends Phaser.Scene {
       color: "#ffffff"
     }).setOrigin(0.5);
 
+    // Make PRESS START clickable
+    pressStart.setInteractive({ useHandCursor: true });
+    pressStart.on("pointerdown", () => {
+      this.scene.start("CellScene");
+    });
+
     // Classic arcade flashing effect - fade between visible and slightly dim
     this.tweens.add({
       targets: pressStart,
@@ -65,15 +80,8 @@ export class IntroScene extends Phaser.Scene {
     // Sound toggle button (top-right corner)
     this._createSoundToggle(width - 20, 10);
 
-    // Start game on SPACE or tap/click - now starts in Cell
+    // Start game on SPACE key
     this.input.keyboard.once("keydown-SPACE", () => this.scene.start("CellScene"));
-    this.input.once("pointerdown", (pointer) => {
-      // Ignore clicks on sound toggle
-      if (this._soundToggle && Phaser.Geom.Rectangle.Contains(this._soundToggle.getBounds(), pointer.x, pointer.y)) {
-        return;
-      }
-      this.scene.start("CellScene");
-    });
   }
 
   _createSoundToggle(x, y) {
@@ -93,7 +101,10 @@ export class IntroScene extends Phaser.Scene {
 
     // Make interactive
     bg.setInteractive({ useHandCursor: true });
-    bg.on("pointerdown", () => {
+    bg.on("pointerdown", (pointer, localX, localY, event) => {
+      // Stop event propagation so this doesn't trigger scene start
+      event.stopPropagation();
+
       const currentState = this.registry.get("soundEnabled");
       this.registry.set("soundEnabled", !currentState);
       this._updateSoundIcon();
