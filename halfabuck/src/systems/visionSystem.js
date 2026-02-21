@@ -56,31 +56,39 @@ export class VisionSystem {
 
       this.meters.set(g, next);
 
-      const trig = this.triggered.get(g) ?? { suspicious: false, alert: false };
+      const trig = this.triggered.get(g) ?? { detected: false, suspicious: false, alert: false };
 
-      if (next < 0.15) {
-        trig.suspicious = false;
-        trig.alert = false;
-      }
+      // Detection just started (GREEN alert) - immediate alert broadcast
+      if (!trig.detected && next > 0.05 && meter <= 0.05) {
+        trig.detected = true;
 
-      if (!trig.suspicious && next >= 0.33) {
-        trig.suspicious = true;
-        g.stateMachine?.transition?.(GuardStates.SUSPICIOUS, { x: p.x, y: p.y });
-      }
-
-      if (!trig.alert && next >= 1.0) {
-        trig.alert = true;
-        g.stateMachine?.transition?.(GuardStates.ALERT, { x: p.x, y: p.y });
-
-        // Play alert sound once (only when first guard detects)
+        // Play alert sound immediately when detection starts
         if (!this.alertPlayed && this.scene.registry.get("soundEnabled")) {
           const alertSound = this.scene.sound.add("alert", { volume: 0.7 });
           alertSound.play();
           this.alertPlayed = true;
         }
 
-        // Broadcast alert to nearby guards
+        // Broadcast alert to nearby guards immediately
         this.broadcastAlert(g, { x: p.x, y: p.y });
+      }
+
+      if (next < 0.15) {
+        trig.detected = false;
+        trig.suspicious = false;
+        trig.alert = false;
+      }
+
+      // YELLOW alert - guard investigates
+      if (!trig.suspicious && next >= 0.33) {
+        trig.suspicious = true;
+        g.stateMachine?.transition?.(GuardStates.SUSPICIOUS, { x: p.x, y: p.y });
+      }
+
+      // RED alert - full detection, game over
+      if (!trig.alert && next >= 1.0) {
+        trig.alert = true;
+        g.stateMachine?.transition?.(GuardStates.ALERT, { x: p.x, y: p.y });
       }
 
       this.triggered.set(g, trig);
@@ -93,7 +101,7 @@ export class VisionSystem {
 
   resetMeter(guard) {
     this.meters.set(guard, 0);
-    this.triggered.set(guard, { suspicious: false, alert: false });
+    this.triggered.set(guard, { detected: false, suspicious: false, alert: false });
   }
 
   broadcastAlert(sourceGuard, playerPosition) {
