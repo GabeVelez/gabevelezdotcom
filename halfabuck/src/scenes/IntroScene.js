@@ -13,21 +13,11 @@ export class IntroScene extends Phaser.Scene {
       this.registry.set("soundEnabled", true);
     }
 
-    // Start intro music (loop) - don't pause on blur
-    if (!this.registry.get("intro_music")) {
-      const music = this.sound.add("intro_music", { loop: true, volume: 0.5 });
-      this.game.sound.pauseOnBlur = false; // Keep playing when window loses focus
-      this.registry.set("intro_music", music);
-
-      // Try to autoplay music on load (will start on first user interaction if blocked)
-      if (this.registry.get("soundEnabled")) {
-        music.play();
-      }
-    } else {
-      // Music already exists, make sure it's playing if sound is enabled
+    // Stop intro music if playing (music plays during gameplay, not on intro screen)
+    if (this.registry.get("intro_music")) {
       const music = this.registry.get("intro_music");
-      if (this.registry.get("soundEnabled") && !music.isPlaying) {
-        music.play();
+      if (music.isPlaying) {
+        music.stop();
       }
     }
 
@@ -44,9 +34,9 @@ export class IntroScene extends Phaser.Scene {
     bg.x = (width - bg.width * scale) / 2;
     bg.y = (height - bg.height * scale) / 2;
 
-    // "MISSION: BROOKLYN" text (static, orange color from the design)
+    // "MISSION: CRITICAL" text (static, orange color from the design)
     // Positioned closer to bottom edge, away from face
-    this.add.text(width / 2, height - 15, "MISSION: BROOKLYN", {
+    this.add.text(width / 2, height - 15, "MISSION: CRITICAL", {
       fontFamily: "'Orbitron', sans-serif",
       fontSize: "10px",
       color: "#ff8800",
@@ -109,15 +99,8 @@ export class IntroScene extends Phaser.Scene {
       this.registry.set("soundEnabled", !currentState);
       this._updateSoundIcon();
 
-      // Toggle music
-      const music = this.registry.get("intro_music");
-      if (music) {
-        if (this.registry.get("soundEnabled")) {
-          music.play();
-        } else {
-          music.pause();
-        }
-      }
+      // Note: Music plays during gameplay, not on intro screen
+      // Sound toggle only affects game sounds when playing
     });
 
     this._soundToggle.setDepth(200);
