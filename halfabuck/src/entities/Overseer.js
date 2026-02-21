@@ -7,6 +7,7 @@ export class Overseer extends Guard {
     // Change to overseer sprite
     this.setTexture("overseer-front", 0);
 
+    this.baseSpeed = 34;
     this.speed = 34;
     this.guardType = "overseer";
   }

@@ -1,6 +1,14 @@
 import Phaser from "phaser";
 import { GuardStates } from "../entities/Guard.js";
 
+// Helper function for random timing variation (±20%)
+function randomTiming(baseMs) {
+  const variation = 0.2; // 20% variation
+  const min = baseMs * (1 - variation);
+  const max = baseMs * (1 + variation);
+  return Phaser.Math.Between(min, max);
+}
+
 export class VisionSystem {
   constructor(scene, guards, player, wallLayer = null) {
     this.scene = scene;
@@ -78,9 +86,12 @@ export class VisionSystem {
 
       const trig = this.triggered.get(g) ?? { detected: false, suspicious: false, alert: false };
 
-      // Detection just started (GREEN alert) - immediate alert broadcast
+      // Detection just started - immediate alert broadcast
       if (!trig.detected && next > 0.05 && meter <= 0.05) {
         trig.detected = true;
+
+        // Record detection in guard's memory
+        g.recordDetection(p.x, p.y, next);
 
         // Play alert sound only if no alert is currently active
         if (!this.alertActive && this.scene.registry.get("soundEnabled")) {
@@ -88,7 +99,7 @@ export class VisionSystem {
           alertSound.play();
           this.alertActive = true;
           this.alertingGuard = g;
-          this.alertCooldown = this.minAlertDuration; // Start cooldown timer
+          this.alertCooldown = randomTiming(this.minAlertDuration); // Random cooldown
         }
 
         // Expand vision cone to yellow/red state (125%)
@@ -117,7 +128,17 @@ export class VisionSystem {
       // YELLOW alert - guard investigates (more persistent)
       if (!trig.suspicious && next >= 0.33) {
         trig.suspicious = true;
-        g.stateMachine?.transition?.(GuardStates.SUSPICIOUS, { x: p.x, y: p.y });
+
+        // Contextual response based on detection % and guard memory
+        const detectionContext = {
+          x: p.x,
+          y: p.y,
+          percent: next,
+          detectionCount: g.detectionCount,
+          awarenessLevel: g.awarenessLevel
+        };
+
+        g.stateMachine?.transition?.(GuardStates.SUSPICIOUS, detectionContext);
       }
 
       // RED alert - full detection, game over
