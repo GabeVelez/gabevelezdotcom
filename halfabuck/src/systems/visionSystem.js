@@ -20,12 +20,16 @@ export class VisionSystem {
   }
 
   initGuard(guard, config = {}) {
-    // Vision distance: normal size, expands slightly when alerted
+    // Vision distance sizing:
+    // Green (normal): base + 20%
+    // Yellow (suspicious): base + 25%
+    // Red (alert): base + 25% (same as yellow)
     const baseDistance = config.distance ?? 88;
     guard.vision = {
-      distance: baseDistance,        // Normal patrol at 100%
-      baseDistance: baseDistance,    // Store base distance
-      alertDistance: baseDistance * 1.15, // Expand to 115% when alerted
+      distance: baseDistance * 1.20,     // Green state: 120% of base
+      baseDistance: baseDistance,        // Store original base
+      greenDistance: baseDistance * 1.20,   // Green: +20%
+      yellowRedDistance: baseDistance * 1.25, // Yellow/Red: +25%
       angleDeg: config.angleDeg ?? 80,
       fillMs: config.fillMs ?? 1200,
       drainMs: config.drainMs ?? 900,
@@ -87,9 +91,9 @@ export class VisionSystem {
           this.alertCooldown = this.minAlertDuration; // Start cooldown timer
         }
 
-        // Expand vision cone slightly (alert state)
+        // Expand vision cone to yellow/red state (125%)
         g.vision.isAlerted = true;
-        g.vision.distance = g.vision.alertDistance;
+        g.vision.distance = g.vision.yellowRedDistance;
 
         // Show exclamation mark above guard
         this._showExclamation(g);
@@ -164,9 +168,9 @@ export class VisionSystem {
       );
 
       if (distance <= this.alertRadius) {
-        // Expand vision cone to alert state
+        // Expand vision cone to yellow/red state (125%)
         guard.vision.isAlerted = true;
-        guard.vision.distance = guard.vision.baseDistance;
+        guard.vision.distance = guard.vision.yellowRedDistance;
 
         // Only regular guards and lead guards respond by moving
         // Overseers stay in place (they're stationary)
@@ -189,11 +193,11 @@ export class VisionSystem {
     this.alertActive = false;
     this.alertingGuard = null;
 
-    // Reset all guards' vision cones to normal size
+    // Reset all guards' vision cones to green state (120%)
     for (const guard of this.guards) {
       if (guard.vision.isAlerted) {
         guard.vision.isAlerted = false;
-        guard.vision.distance = guard.vision.baseDistance * 0.7; // Back to 70%
+        guard.vision.distance = guard.vision.greenDistance; // Back to green (120%)
       }
     }
   }
