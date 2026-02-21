@@ -20,12 +20,12 @@ export class VisionSystem {
   }
 
   initGuard(guard, config = {}) {
-    // Vision distance: default is 70% of specified size (normal patrol)
-    // Expands to 100% when alerted
+    // Vision distance: normal size, expands slightly when alerted
     const baseDistance = config.distance ?? 88;
     guard.vision = {
-      distance: baseDistance * 0.7, // Start at 70% (normal patrol)
-      baseDistance: baseDistance,    // Store full distance for alert state
+      distance: baseDistance,        // Normal patrol at 100%
+      baseDistance: baseDistance,    // Store base distance
+      alertDistance: baseDistance * 1.15, // Expand to 115% when alerted
       angleDeg: config.angleDeg ?? 80,
       fillMs: config.fillMs ?? 1200,
       drainMs: config.drainMs ?? 900,
@@ -87,17 +87,30 @@ export class VisionSystem {
           this.alertCooldown = this.minAlertDuration; // Start cooldown timer
         }
 
+        // Expand vision cone slightly (alert state)
+        g.vision.isAlerted = true;
+        g.vision.distance = g.vision.alertDistance;
+
+        // Show exclamation mark above guard
+        this._showExclamation(g);
+
         // Broadcast alert to nearby guards immediately
         this.broadcastAlert(g, { x: p.x, y: p.y });
       }
 
-      if (next < 0.15) {
+      // Only reset triggers if detection drops very low
+      // Keep suspicious flag until they fully investigate
+      if (next < 0.05) {
         trig.detected = false;
+      }
+
+      // Reset alert flag only when meter is completely drained
+      if (next < 0.01) {
         trig.suspicious = false;
         trig.alert = false;
       }
 
-      // YELLOW alert - guard investigates
+      // YELLOW alert - guard investigates (more persistent)
       if (!trig.suspicious && next >= 0.33) {
         trig.suspicious = true;
         g.stateMachine?.transition?.(GuardStates.SUSPICIOUS, { x: p.x, y: p.y });

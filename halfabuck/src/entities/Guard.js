@@ -162,7 +162,7 @@ class PatrolState {
 class SuspiciousState {
   enter(guard, point) {
     guard.lastKnownPlayer = point ?? guard.lastKnownPlayer;
-    guard.suspicionTimer = 1200; // ms
+    guard.suspicionTimer = 2500; // ms - increased for more realistic reaction
   }
   execute(guard, dt) {
     guard.suspicionTimer -= dt;
