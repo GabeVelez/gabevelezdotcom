@@ -31,8 +31,27 @@ export class BootScene extends Phaser.Scene {
       frameHeight: 213
     });
 
+    // --- Guard sprite sheets (soldier1, 5 frames each) ---
+    this.load.spritesheet("guard-front", "assets/soldier1-front.png", {
+      frameWidth: 256,
+      frameHeight: 339
+    });
+    this.load.spritesheet("guard-back", "assets/soldier1-back.png", {
+      frameWidth: 256,
+      frameHeight: 333
+    });
+    this.load.spritesheet("guard-left", "assets/soldier1-left.png", {
+      frameWidth: 249,
+      frameHeight: 305
+    });
+    this.load.spritesheet("guard-right", "assets/soldier1-right.png", {
+      frameWidth: 249,
+      frameHeight: 305
+    });
+
     // --- Placeholder entity textures ---
-    this._makePlaceholderTexture("guard", 16, 24, 0xffffff);
+    this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
+    this._makePlaceholderTexture("overseer", 16, 24, 0xff0000);
     this._makePlaceholderTexture("box", 16, 16, 0xffffff);
   }
 

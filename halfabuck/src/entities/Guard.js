@@ -11,18 +11,34 @@ export const GuardStates = {
 
 export class Guard extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, pathPoints = []) {
-    super(scene, x, y, "guard", 0);
+    super(scene, x, y, "guard-front", 0);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.setSize(12, 18, true);
-    this.setOffset(2, 6);
+    // Match player scale and setup
+    this.setScale(0.15);
+    this.setOrigin(0.5, 1.0);
+
+    // Full sprite collision box
+    const collisionWidth = this.width;
+    const collisionHeight = this.height;
+    this.body.setSize(collisionWidth, collisionHeight);
+    this.body.setOffset(0, 0);
+
+    // Enable collision
+    this.body.setCollideWorldBounds(true);
+    this.body.setImmovable(false);
+
     this.speed = 42;
 
     this.path = pathPoints;
     this.pathIndex = 0;
 
     this.lastKnownPlayer = null;
+
+    // Stuck detection
+    this.stuckTimer = 0;
+    this.lastPosition = { x: this.x, y: this.y };
 
     // Knockout & hiding
     this.isKnockedOut = false;
@@ -74,6 +90,21 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.stateMachine.step(dt);
+
+    // Adjust collision box based on movement direction for consistency
+    if (this.body.velocity.y < 0 && Math.abs(this.body.velocity.y) > Math.abs(this.body.velocity.x)) {
+      // Moving up - tighter collision to reduce jitter
+      this.body.setSize(this.width * 0.85, this.height * 0.85);
+      this.body.setOffset(this.width * 0.075, this.height * 0.075);
+    } else if (Math.abs(this.body.velocity.x) > Math.abs(this.body.velocity.y)) {
+      // Moving left/right - uniform height
+      this.body.setSize(this.width, this.height * 0.94);
+      this.body.setOffset(0, this.height * 0.03);
+    } else {
+      // Moving down or stationary - full collision
+      this.body.setSize(this.width, this.height);
+      this.body.setOffset(0, 0);
+    }
   }
 }
 
@@ -85,14 +116,42 @@ class PatrolState {
     const dy = target.y - guard.y;
     const dist = Math.hypot(dx, dy);
 
-    if (dist < 2) {
+    // Reached waypoint - larger threshold to stop earlier
+    if (dist < 8) {
       guard.pathIndex = (guard.pathIndex + 1) % guard.path.length;
       guard.setVelocity(0,0);
+      guard.stuckTimer = 0;
+      guard.lastPosition = { x: guard.x, y: guard.y };
       return;
+    }
+
+    // Aggressive stuck detection - if guard hasn't moved much, skip waypoint quickly
+    const movedDist = Math.hypot(guard.x - guard.lastPosition.x, guard.y - guard.lastPosition.y);
+    if (movedDist < 0.5) {
+      guard.stuckTimer += dt;
+      if (guard.stuckTimer > 500) { // Stuck for 0.5 seconds - skip immediately
+        // Skip to next waypoint
+        guard.pathIndex = (guard.pathIndex + 1) % guard.path.length;
+        guard.stuckTimer = 0;
+        guard.setVelocity(0, 0); // Stop trying to move
+        return;
+      }
+    } else {
+      guard.stuckTimer = 0;
+      guard.lastPosition = { x: guard.x, y: guard.y };
     }
 
     const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(guard.speed);
     guard.setVelocity(v.x, v.y);
+
+    // Play appropriate walk animation based on direction
+    if (Math.abs(v.x) > Math.abs(v.y)) {
+      // Horizontal movement
+      guard.anims.play(v.x > 0 ? "guard_walk_right" : "guard_walk_left", true);
+    } else {
+      // Vertical movement
+      guard.anims.play(v.y > 0 ? "guard_walk_down" : "guard_walk_up", true);
+    }
   }
 }
 

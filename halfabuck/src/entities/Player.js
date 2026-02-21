@@ -21,17 +21,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Anchor at bottom-center (eliminates waddle from earlier)
     this.setOrigin(0.5, 1.0);
 
-    // Collision box sized to sprite (sprite is ~32x35 after scaling)
-    const collisionWidth = 28;
-    const collisionHeight = 30;
+    // Full sprite collision box
+    const collisionWidth = this.width;
+    const collisionHeight = this.height;
 
     this.body.setSize(collisionWidth, collisionHeight);
-
-    // Center collision box, accounting for bottom-anchor origin
-    this.body.setOffset(
-      (this.width - collisionWidth) / 2,    // Center horizontally
-      this.height - collisionHeight         // Bottom-aligned to match origin
-    );
+    this.body.setOffset(0, 0);
 
     this.setCollideWorldBounds(true);
 
@@ -71,6 +66,21 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.stateMachine.step(input);
+
+    // Adjust collision box based on facing direction for consistency
+    if (this.facing === "up") {
+      // Tighter collision for up-facing to reduce jitter
+      this.body.setSize(this.width * 0.85, this.height * 0.85);
+      this.body.setOffset(this.width * 0.075, this.height * 0.075);
+    } else if (this.facing === "left" || this.facing === "right") {
+      // Uniform height for left/right to match
+      this.body.setSize(this.width, this.height * 0.94);
+      this.body.setOffset(0, this.height * 0.03);
+    } else {
+      // Full collision for down
+      this.body.setSize(this.width, this.height);
+      this.body.setOffset(0, 0);
+    }
 
     // Keep dragged body attached behind player
     if (this.isDragging && this.dragTarget) {
