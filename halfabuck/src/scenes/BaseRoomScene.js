@@ -81,6 +81,9 @@ export class BaseRoomScene extends Phaser.Scene {
       { fontFamily: "Arial, sans-serif", fontSize: "10px", fontStyle: "bold", color: "#ffffff", backgroundColor: "#000000", padding: { x: 4, y: 2 } }
     ).setScrollFactor(0).setDepth(100);
 
+    // Sound toggle button (top-right corner)
+    this._createSoundToggle(width - 10, 10);
+
     // Debug graphics
     this._collisionDebug = null;
     this._visionDebug = this.add.graphics().setDepth(5).setAlpha(0.9);
@@ -289,6 +292,80 @@ export class BaseRoomScene extends Phaser.Scene {
           faceColor: new Phaser.Display.Color(0, 255, 0, 50)
         });
       }
+    }
+  }
+
+  /**
+   * Create sound toggle button
+   */
+  _createSoundToggle(x, y) {
+    const soundEnabled = this.registry.get("soundEnabled");
+
+    // Container for sound toggle
+    this._soundToggle = this.add.container(x, y);
+
+    // Background
+    const bg = this.add.rectangle(0, 0, 24, 24, 0x000000, 0.7);
+    this._soundToggle.add(bg);
+
+    // Sound icon
+    this._soundIcon = this.add.graphics();
+    this._updateSoundIcon();
+    this._soundToggle.add(this._soundIcon);
+
+    // Make interactive
+    bg.setInteractive({ useHandCursor: true });
+    bg.on("pointerdown", () => {
+      const currentState = this.registry.get("soundEnabled");
+      this.registry.set("soundEnabled", !currentState);
+      this._updateSoundIcon();
+
+      // Toggle music
+      const music = this.registry.get("intro_music");
+      if (music) {
+        if (this.registry.get("soundEnabled")) {
+          if (!music.isPlaying) music.resume();
+        } else {
+          music.pause();
+        }
+      }
+    });
+
+    this._soundToggle.setScrollFactor(0).setDepth(200);
+  }
+
+  /**
+   * Update sound icon based on current state
+   */
+  _updateSoundIcon() {
+    this._soundIcon.clear();
+
+    if (this.registry.get("soundEnabled")) {
+      // Speaker ON - filled speaker with waves
+      this._soundIcon.fillStyle(0xffffff, 1);
+      this._soundIcon.fillRect(-8, -3, 4, 6); // Speaker body
+      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, 3); // Speaker cone
+      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, -3); // Speaker cone
+
+      // Sound waves (arcs)
+      this._soundIcon.lineStyle(2, 0xffffff, 1);
+      this._soundIcon.beginPath();
+      this._soundIcon.arc(0, 0, 4, -Math.PI/4, Math.PI/4, false);
+      this._soundIcon.strokePath();
+      this._soundIcon.beginPath();
+      this._soundIcon.arc(0, 0, 7, -Math.PI/4, Math.PI/4, false);
+      this._soundIcon.strokePath();
+    } else {
+      // Speaker OFF - filled speaker with X
+      this._soundIcon.fillStyle(0xff0000, 1);
+      this._soundIcon.fillRect(-8, -3, 4, 6); // Speaker body
+      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, 3); // Speaker cone
+      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, -3); // Speaker cone
+
+      // Red X
+      this._soundIcon.lineStyle(2, 0xff0000, 1);
+      this._soundIcon.strokeLineShape(new Phaser.Geom.Line(2, -4, 6, 0));
+      this._soundIcon.strokeLineShape(new Phaser.Geom.Line(6, -4, 2, 0));
     }
   }
 

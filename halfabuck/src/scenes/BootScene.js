@@ -9,6 +9,9 @@ export class BootScene extends Phaser.Scene {
     // --- Title screen ---
     this.load.image("titlescreen", "assets/titlescreen.png");
 
+    // --- Audio ---
+    this.load.audio("intro_music", "assets/moodmode-that-8-bit-music-322062.mp3");
+
     // --- Tilemap assets (Tiled JSON + tileset image) ---
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");
     this.load.tilemapTiledJSON("warehouse_map", "assets/maps/warehouse.json");
