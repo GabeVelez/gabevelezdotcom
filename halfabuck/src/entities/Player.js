@@ -11,12 +11,24 @@ export const PlayerStates = {
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "player", 0);
+    super(scene, x, y, "gabe-front", 0);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.setSize(12, 18, true);
-    this.setOffset(2, 6);
+    // Scale to show sprite detail - larger than original 16x24 spec
+    this.setScale(0.15); // ~210 * 0.15 ≈ 32 pixels (shows more detail)
+
+    // Anchor sprite at bottom-center (feet position) to eliminate waddle
+    this.setOrigin(0.5, 1.0); // x: center, y: bottom
+
+    // Center the physics body to reduce waddle effect
+    // Use smaller collision box centered on character
+    this.body.setSize(16, 20, false);
+    this.body.setOffset(
+      (this.width - 16) / 2,  // Center horizontally
+      this.height - 22         // Bottom-aligned for feet
+    );
+
     this.setCollideWorldBounds(true);
 
     this.walkSpeed = 80;

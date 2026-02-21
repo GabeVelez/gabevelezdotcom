@@ -13,8 +13,25 @@ export class BootScene extends Phaser.Scene {
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");
     this.load.tilemapTiledJSON("warehouse_map", "assets/maps/warehouse.json");
 
-    // --- Placeholder entity textures so the game runs immediately ---
-    this._makePlaceholderTexture("player", 16, 24, 0xffffff);
+    // --- Player sprite sheets (5 frames each, separate files per direction) ---
+    this.load.spritesheet("gabe-front", "assets/gabe-front.png", {
+      frameWidth: 213,
+      frameHeight: 265
+    });
+    this.load.spritesheet("gabe-back", "assets/gabe-back.png", {
+      frameWidth: 202,
+      frameHeight: 169
+    });
+    this.load.spritesheet("gabe-left", "assets/gabe-left.png", {
+      frameWidth: 208,
+      frameHeight: 227
+    });
+    this.load.spritesheet("gabe-right", "assets/gabe-right.png", {
+      frameWidth: 211,
+      frameHeight: 213
+    });
+
+    // --- Placeholder entity textures ---
     this._makePlaceholderTexture("guard", 16, 24, 0xffffff);
     this._makePlaceholderTexture("box", 16, 16, 0xffffff);
   }
