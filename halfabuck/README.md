@@ -1,83 +1,203 @@
-# Half-a-Buck (Phaser) — Starter Skeleton
+# Half-a-Buck
 
-## Requirements
-- Node 18+ recommended
+**A 16-bit pure stealth game built with Phaser.js**
 
-## Install
+You wake up in a compound controlled by the HATE Brigade. Your mission: escape using pure stealth tactics.
+
+**Mission: Critical**
+
+Play at: [gabevelez.com/halfabuck](https://gabevelez.com/halfabuck)
+
+---
+
+## Features
+
+### Current Implementation
+
+- **Pure Stealth Gameplay** — Avoid guard vision cones to progress through rooms
+- **Detection System** — Dynamic detection meters that fill when spotted, drain when hidden
+- **Guard AI** — Three enemy types with distinct behaviors and patrol patterns
+- **Multi-Room Levels** — Navigate from prison cell → corridor → warehouse
+- **Cardboard Box** — Hide in a box to avoid detection
+- **Game Over Mechanics** — Full detection triggers game over with sound effects
+- **Mobile Support** — Landscape-only touch controls with virtual D-pad
+- **Sound System** — Intro music and sound effects with toggle button
+- **Debug Tools** — Collision, vision, and help overlays for development
+
+### In Development & Testing Needed
+
+- **Alert broadcast system** — Guards respond when another guard detects you
+- **Guard response behavior** — Different aggression levels based on guard type
+- Additional levels with increasing difficulty
+- Tuning and balancing detection/alert mechanics
+
+---
+
+## Controls
+
+### Desktop
+- **WASD / Arrow Keys** — Move
+- **E** — Toggle cardboard box
+- **Space** — Interact (reserved for future use)
+
+### Debug Keys (Desktop)
+- **C** — Toggle collision overlay
+- **V** — Toggle vision cone overlay
+- **B** — Toggle body debug overlay
+- **H** — Toggle help overlay
+- **R** — Restart scene
+- **ESC** — Skip to ending
+
+### Mobile
+- **Virtual D-pad** — Move in 8 directions
+- **Button X** — Toggle box
+- **Buttons A, B, Y** — Reserved for future use
+
+**Note:** Mobile requires landscape orientation.
+
+---
+
+## Installation
+
+### Requirements
+- Node.js 18+ recommended
+
+### Setup
 ```bash
+# Install dependencies
 npm install
-```
 
-## Run locally
-```bash
+# Run development server
 npm run dev
-```
 
-## Build
-```bash
+# Build for production
 npm run build
+
+# Preview production build
+npm run preview
 ```
 
-## Deploy to GitHub Pages
-This starter is configured with `base: "./"` for easy deployment.
+---
 
-### Option A: GitHub Pages from `/dist`
-1. Run: `npm run build`
-2. Push the `dist/` folder to a `gh-pages` branch (or configure Pages to serve from `docs/` and copy dist → docs).
-3. In GitHub repo settings → Pages, choose the correct branch/folder.
+## Project Structure
 
-### Option B (simple): Use `docs/` folder
-1. Run: `npm run build`
-2. Copy `dist/*` into `docs/` (create docs if needed)
-3. Commit and push
-4. GitHub Pages → Branch: `main`, Folder: `/docs`
-
-## Mobile
-Landscape-only is enforced. Portrait shows a rotate overlay.
+```
+halfabuck/
+├── public/assets/           # Game assets (sprites, audio, maps)
+├── src/
+│   ├── main.js              # Entry point
+│   ├── config/              # Phaser configuration
+│   ├── scenes/              # Game scenes (intro, rooms, endings)
+│   │   └── rooms/           # Individual room scenes
+│   ├── entities/            # Player and guard classes
+│   ├── systems/             # Core systems (vision, AI, input)
+│   └── ui/                  # Touch controls and overlays
+├── DESIGN.md                # Game design document
+├── TECHNICAL.md             # Technical specification
+└── DEPLOY.md                # Deployment guide
+```
 
 ---
 
-## Tiled Map Editing (Warehouse)
-This skeleton includes a working Tiled JSON map and a tiny tileset:
+## Game Design
 
-- `public/assets/maps/warehouse.json`
-- `public/assets/tiles/warehouse_tiles.png`
+### Stealth Mechanics
 
-### Recommended Tiled settings
-- Orientation: Orthogonal
-- Tile size: 16×16
-- Map size: start with 40×22 (already provided)
-- Add layers:
-  - `Ground` (tile layer)
-  - `Objects` (object layer)
+**Detection System:**
+- Guards have cone-shaped vision based on facing direction
+- Detection meter fills when player is in view
+- Box mechanic: Guards ignore stationary boxes (move slowly while boxed)
+- Walls block line of sight using ray-casting
 
-### Objects layer conventions
-- **player_spawn** (type: `spawn`)
-- **guards** (type: `guard`) with a string property `path` containing patrol point names (comma-separated)
-- **patrol points** (type: `patrol`) named like `g1p1`, `g1p2`, etc.
+**Alert System (In Development):**
+- When one guard fully detects you, other guards are alerted
+- Guards move toward the alert location
+- Different guard types respond with different aggression levels
 
-Example:
-- guard object has property: `path = g1p1,g1p2,g1p3,g1p4`
+**Enemy Types:**
+- **Regular Guard** — Moderate speed and vision
+- **Lead Guard** — Faster movement, wider vision cone
+- **Overseer** — Slowest but longest vision range, most aggressive detection
 
-### Collision
-In the sample tileset:
-- Tile ID **2** is the wall tile. `WarehouseScene` sets collision on `[2]`.
+**AI States:**
+- **Patrol** — Follow waypoint paths
+- **Suspicious** — Investigate player (33% detection)
+- **Alert** — Player fully detected (100%) → Game Over + Alert broadcast
+- **Responding** — Move to alert location (in development)
 
-Press **F1** in-game to toggle collision debug overlay.
+### Current Levels
+
+1. **The Cell** — Tutorial room with no guards
+2. **Corridor** — First stealth challenge with 1 guard
+3. **Warehouse Main** — 3 guards with overlapping patrol routes
+
+### Planned Levels
+
+Additional stealth levels with increasing guard density and patrol complexity to be designed.
 
 ---
 
-## Stealth Loop (MVP)
-Implemented in `WarehouseScene`:
+## Technical Details
 
-- **Knockout:** get behind a guard and press **Interact**
-- **Drag:** press **Interact** near a knocked-out guard
-- **Drop:** press **Interact** again
-- **Hide body:**
-  - Drag into a **locker zone** (object type `locker` / `hide_zone`)
-  - OR drag into **shadow tiles** (tile ID 3 in the sample tileset)
+- **Engine:** Phaser.js 3.90.0
+- **Resolution:** 320×180 (16:9) with integer scaling
+- **Tile Size:** 16×16 pixels
+- **Sprite Size:** 16×24 pixels (player and guards)
+- **Platform:** HTML5 (browser-based)
+- **Mobile:** Landscape-only with touch controls
 
-## Debug Keys
-- **F1:** collision debug overlay
-- **F2:** vision cone + meter debug overlay
-- **ESC:** jump to ending scene
+See [TECHNICAL.md](TECHNICAL.md) for complete technical specification.
+
+---
+
+## Design Philosophy
+
+**Pure Stealth** — No combat, no knockouts—only evasion
+**Simplified Mechanics** — Walk and hide in boxes, nothing more
+**Minimal Scope** — 10-20 minute playtime when complete
+**Retro Aesthetic** — 16-bit pixel art inspired by SNES-era stealth games
+**Mission-Focused** — Straightforward escape mission with no narrative twists
+
+See [DESIGN.md](DESIGN.md) for complete game design document.
+
+---
+
+## Deployment
+
+The game is configured for GitHub Pages deployment at `/halfabuck/` path.
+
+See [DEPLOY.md](DEPLOY.md) for deployment instructions.
+
+---
+
+## Development Status
+
+### ✅ Complete
+- Core stealth loop (detection, vision, movement)
+- Multi-room architecture with transitions
+- Guard AI with patrol behaviors
+- Player state machine (walk, box)
+- Sound system and mobile controls
+- Game over and victory conditions
+
+### 🚧 In Progress
+- Alert broadcast system (guards respond to alerts)
+- Guard response behaviors based on type
+- Balancing and tuning detection mechanics
+
+### 📋 Planned
+- Additional stealth levels
+- Performance-based rankings
+- Speed run mode
+- Hard mode with tighter patrols
+
+---
+
+## License
+
+Personal project by Gabe Velez
+
+---
+
+**HALF-A-BUCK**
+*Mission: Critical*
