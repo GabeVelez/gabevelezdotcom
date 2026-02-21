@@ -77,8 +77,13 @@ export class WarehouseMainScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn
-    this.createPlayer(240, 32);
+    // Player spawn position depends on entry direction
+    // Spawn well away from exit zones to avoid immediate re-triggering
+    let playerX = 240;
+    let playerY = 50; // Coming from Corridor (north entrance) - spawn below exit zone
+    // TODO: Add spawn logic for wine cellar entrance when that scene is created
+
+    this.createPlayer(playerX, playerY);
 
     // Create multiple guards (harder encounter)
     this.createGuards();
