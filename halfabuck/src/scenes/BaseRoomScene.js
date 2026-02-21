@@ -29,6 +29,12 @@ export class BaseRoomScene extends Phaser.Scene {
   createBaseSystems() {
     const { width, height } = this.scale;
 
+    // Restart intro music if it exists and sound is enabled
+    const music = this.registry.get("intro_music");
+    if (music && this.registry.get("soundEnabled") && !music.isPlaying) {
+      music.play();
+    }
+
     // Create animations if not already created
     this._ensureAnimationsExist();
 
@@ -54,9 +60,9 @@ export class BaseRoomScene extends Phaser.Scene {
     // Controls - toggleable with H key, hidden by default
     this._controlsText = this.add.text(
       8, height - 35,
-      "WASD/Arrows move | Shift crouch | E box(toggle) | Space interact\n" +
-      "Interact: KO behind, drag KO'd, drop, hide in locker/shadow\n" +
-      "V vision debug | C collision debug | B body debug | ESC ending",
+      "WASD/Arrows to move | Avoid guard vision cones\n" +
+      "Detection meter fills = GAME OVER\n" +
+      "V vision debug | C collision debug | B body debug",
       { fontFamily: "Arial, sans-serif", fontSize: "10px", fontStyle: "bold", color: "#ffffff" }
     ).setScrollFactor(0).setDepth(100).setVisible(false);
 
@@ -144,13 +150,17 @@ export class BaseRoomScene extends Phaser.Scene {
 
   /**
    * Get vision config based on guard type
+   * Faster fillMs = more aggressive detection
    */
   _getVisionConfig(guardType) {
     if (guardType === "lead") {
-      return { distance: 100, angleDeg: 100, fillMs: 1000, drainMs: 800 };
+      // Lead guard - more aggressive detection
+      return { distance: 100, angleDeg: 100, fillMs: 800, drainMs: 1000 };
     } else if (guardType === "overseer") {
-      return { distance: 120, angleDeg: 60, fillMs: 800, drainMs: 600 };
+      // Overseer - most aggressive detection
+      return { distance: 120, angleDeg: 60, fillMs: 600, drainMs: 1200 };
     }
+    // Regular guard - baseline detection
     return { distance: 88, angleDeg: 80, fillMs: 1200, drainMs: 900 };
   }
 
@@ -258,7 +268,7 @@ export class BaseRoomScene extends Phaser.Scene {
   }
 
   /**
-   * Render detection meter
+   * Render detection meter and check for game over
    */
   _renderDetectionMeter() {
     this.detectionMeter.clear();
@@ -267,6 +277,18 @@ export class BaseRoomScene extends Phaser.Scene {
       const m = this.vision?.getMeter(g) ?? 0;
       if (m > maxMeter) maxMeter = m;
     }
+
+    // Game over when detection reaches 100%
+    if (maxMeter >= 1.0) {
+      // Stop intro music
+      const music = this.registry.get("intro_music");
+      if (music && music.isPlaying) {
+        music.stop();
+      }
+      this.scene.start("GameOverScene");
+      return;
+    }
+
     const w = 60, h = 6;
     const x = 8, y = 18;
     const color = maxMeter >= 0.66 ? 0xff3333 : maxMeter >= 0.33 ? 0xffcc33 : 0x33ff66;
