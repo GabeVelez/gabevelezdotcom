@@ -56,6 +56,7 @@ export class CellScene extends BaseRoomScene {
 
     // Setup vision system
     this.setupVisionSystem(ground);
+    this.buildWaypointNetwork(ground);
 
     // Create exit zone at bottom door (fully within door opening)
     // Door tiles are at (9,10) and (10,10) = pixels (144,160) to (176,176)

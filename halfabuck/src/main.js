@@ -10,6 +10,7 @@ import { IntroScene } from "./scenes/IntroScene.js";
 import { CellScene } from "./scenes/rooms/CellScene.js";
 import { CorridorScene } from "./scenes/rooms/CorridorScene.js";
 import { WarehouseMainScene } from "./scenes/rooms/WarehouseMainScene.js";
+import { SurroundedScene } from "./scenes/SurroundedScene.js";
 import { GameOverScene } from "./scenes/GameOverScene.js";
 import { EndingScene } from "./scenes/EndingScene.js";
 
@@ -34,6 +35,7 @@ document.fonts.ready.then(() => {
     CellScene,
     CorridorScene,
     WarehouseMainScene,
+    SurroundedScene,
     GameOverScene,
     EndingScene
   ]));

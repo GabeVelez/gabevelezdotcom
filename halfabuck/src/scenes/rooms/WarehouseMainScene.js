@@ -115,6 +115,7 @@ export class WarehouseMainScene extends BaseRoomScene {
     this.guards.push(guard3);
 
     this.setupVisionSystem(ground);
+    this.buildWaypointNetwork(ground);
 
     // Exits - positioned at center of door tiles
     // Top exit: tiles (14,0) and (15,0) = pixels (224,0) to (256,16), center at (240, 20)

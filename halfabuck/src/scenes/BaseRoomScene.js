@@ -159,6 +159,87 @@ export class BaseRoomScene extends Phaser.Scene {
   }
 
   /**
+   * Build waypoint network from all guard patrol paths
+   * Creates a shared navigation graph for intelligent pathfinding
+   */
+  buildWaypointNetwork(wallLayer = null) {
+    const waypoints = [];
+    const waypointConnections = new Map(); // waypoint index -> connected waypoint indices
+
+    // Collect all unique waypoints from all guards
+    for (const guard of this.guards) {
+      for (const point of guard.path) {
+        // Check if this waypoint already exists (within 5px tolerance)
+        const existing = waypoints.find(wp =>
+          Math.hypot(wp.x - point.x, wp.y - point.y) < 5
+        );
+
+        if (!existing) {
+          waypoints.push({ x: point.x, y: point.y });
+        }
+      }
+    }
+
+    // Build connections between nearby waypoints (within 150px)
+    for (let i = 0; i < waypoints.length; i++) {
+      waypointConnections.set(i, []);
+
+      for (let j = 0; j < waypoints.length; j++) {
+        if (i === j) continue;
+
+        const dist = Math.hypot(
+          waypoints[i].x - waypoints[j].x,
+          waypoints[i].y - waypoints[j].y
+        );
+
+        // Connect if within range and no wall blocking
+        if (dist <= 150) {
+          // Check for wall obstruction if wallLayer provided
+          if (wallLayer) {
+            if (!this._rayHitsWall(
+              waypoints[i].x, waypoints[i].y,
+              waypoints[j].x, waypoints[j].y,
+              wallLayer
+            )) {
+              waypointConnections.get(i).push(j);
+            }
+          } else {
+            waypointConnections.get(i).push(j);
+          }
+        }
+      }
+    }
+
+    // Store network for guards to use
+    this.waypointNetwork = {
+      waypoints,
+      connections: waypointConnections
+    };
+
+    // Give each guard reference to the network
+    for (const guard of this.guards) {
+      guard.waypointNetwork = this.waypointNetwork;
+    }
+
+    console.log(`Waypoint network built: ${waypoints.length} waypoints, ${Array.from(waypointConnections.values()).reduce((sum, arr) => sum + arr.length, 0)} connections`);
+  }
+
+  /**
+   * Check if ray between two points hits a wall
+   */
+  _rayHitsWall(x0, y0, x1, y1, wallLayer) {
+    const steps = 10;
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      const x = Phaser.Math.Linear(x0, x1, t);
+      const y = Phaser.Math.Linear(y0, y1, t);
+      const tile = wallLayer.getTileAtWorldXY(x, y, true);
+      if (tile && tile.collides) return true;
+    }
+    return false;
+  }
+
+  /**
    * Get vision config based on guard type
    * Faster fillMs = more aggressive detection
    */
@@ -295,7 +376,7 @@ export class BaseRoomScene extends Phaser.Scene {
       if (music && music.isPlaying) {
         music.stop();
       }
-      this.scene.start("GameOverScene");
+      this.scene.start("SurroundedScene");
       return;
     }
 

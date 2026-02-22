@@ -79,6 +79,7 @@ export class CorridorScene extends BaseRoomScene {
     this.guards.push(guard1);
 
     this.setupVisionSystem(ground);
+    this.buildWaypointNetwork(ground);
 
     // Exits - positioned to extend into walkable area for easier triggering
     // Top exit: extends from door into corridor

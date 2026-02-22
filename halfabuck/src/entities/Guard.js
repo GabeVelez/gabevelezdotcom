@@ -181,6 +181,170 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
       this.suspiciousAreas.shift();
     }
   }
+
+  /**
+   * Find nearest waypoint to given position
+   * Returns waypoint index, or null if network not available
+   */
+  findNearestWaypoint(x, y) {
+    if (!this.waypointNetwork) return null;
+
+    let nearestIndex = null;
+    let nearestDist = Infinity;
+
+    for (let i = 0; i < this.waypointNetwork.waypoints.length; i++) {
+      const wp = this.waypointNetwork.waypoints[i];
+      const dist = Math.hypot(wp.x - x, wp.y - y);
+
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearestIndex = i;
+      }
+    }
+
+    return nearestIndex;
+  }
+
+  /**
+   * Find path through waypoint network using breadth-first search
+   * Returns array of waypoint positions [{x, y}, ...], or null if no path
+   */
+  findPath(startWaypointIndex, endWaypointIndex) {
+    if (!this.waypointNetwork) return null;
+    if (startWaypointIndex === endWaypointIndex) return [];
+
+    const network = this.waypointNetwork;
+    const queue = [[startWaypointIndex]]; // Queue of paths
+    const visited = new Set([startWaypointIndex]);
+
+    while (queue.length > 0) {
+      const path = queue.shift();
+      const current = path[path.length - 1];
+
+      // Found the target
+      if (current === endWaypointIndex) {
+        // Convert waypoint indices to positions
+        return path.map(idx => network.waypoints[idx]);
+      }
+
+      // Explore neighbors
+      const neighbors = network.connections.get(current) || [];
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push([...path, neighbor]);
+        }
+      }
+    }
+
+    return null; // No path found
+  }
+
+  /**
+   * Hybrid navigation: use waypoints for far targets, direct movement for near
+   * Returns true if moving, false if reached target
+   */
+  navigateToTarget(targetX, targetY, dt, threshold = 100) {
+    const dx = targetX - this.x;
+    const dy = targetY - this.y;
+    const dist = Math.hypot(dx, dy);
+
+    // Already at target
+    if (dist < 10) {
+      this.setVelocity(0, 0);
+      this.currentNavigationPath = null;
+      return false;
+    }
+
+    // Near target - use direct movement
+    if (dist < threshold) {
+      const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.speed);
+      this.setVelocity(v.x, v.y);
+      this.currentNavigationPath = null;
+
+      // Play walk animation
+      const animPrefix = this.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
+      if (Math.abs(v.x) > Math.abs(v.y)) {
+        this.anims.play(animPrefix + (v.x > 0 ? "right" : "left"), true);
+      } else {
+        this.anims.play(animPrefix + (v.y > 0 ? "down" : "up"), true);
+      }
+
+      return true;
+    }
+
+    // Far target - use waypoint pathfinding
+    if (!this.waypointNetwork) {
+      // Fallback to direct movement if no network
+      const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.speed);
+      this.setVelocity(v.x, v.y);
+      return true;
+    }
+
+    // Build or reuse path
+    if (!this.currentNavigationPath || this.navigationTarget?.x !== targetX || this.navigationTarget?.y !== targetY) {
+      const startWP = this.findNearestWaypoint(this.x, this.y);
+      const endWP = this.findNearestWaypoint(targetX, targetY);
+
+      if (startWP !== null && endWP !== null) {
+        this.currentNavigationPath = this.findPath(startWP, endWP);
+        this.navigationPathIndex = 0;
+        this.navigationTarget = { x: targetX, y: targetY };
+      } else {
+        // No waypoints found - fallback to direct
+        const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.speed);
+        this.setVelocity(v.x, v.y);
+        return true;
+      }
+    }
+
+    // Follow waypoint path
+    if (this.currentNavigationPath && this.currentNavigationPath.length > 0) {
+      const currentWaypoint = this.currentNavigationPath[this.navigationPathIndex];
+      const wpDx = currentWaypoint.x - this.x;
+      const wpDy = currentWaypoint.y - this.y;
+      const wpDist = Math.hypot(wpDx, wpDy);
+
+      // Reached current waypoint - advance to next
+      if (wpDist < 10) {
+        this.navigationPathIndex++;
+
+        // Reached end of path - switch to direct movement
+        if (this.navigationPathIndex >= this.currentNavigationPath.length) {
+          this.currentNavigationPath = null;
+          const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.speed);
+          this.setVelocity(v.x, v.y);
+        } else {
+          // Move to next waypoint
+          const nextWP = this.currentNavigationPath[this.navigationPathIndex];
+          const nextDx = nextWP.x - this.x;
+          const nextDy = nextWP.y - this.y;
+          const v = new Phaser.Math.Vector2(nextDx, nextDy).normalize().scale(this.speed);
+          this.setVelocity(v.x, v.y);
+        }
+      } else {
+        // Move toward current waypoint
+        const v = new Phaser.Math.Vector2(wpDx, wpDy).normalize().scale(this.speed);
+        this.setVelocity(v.x, v.y);
+      }
+
+      // Play walk animation
+      const vel = this.body.velocity;
+      const animPrefix = this.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
+      if (Math.abs(vel.x) > Math.abs(vel.y)) {
+        this.anims.play(animPrefix + (vel.x > 0 ? "right" : "left"), true);
+      } else {
+        this.anims.play(animPrefix + (vel.y > 0 ? "down" : "up"), true);
+      }
+
+      return true;
+    }
+
+    // Fallback to direct movement
+    const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.speed);
+    this.setVelocity(v.x, v.y);
+    return true;
+  }
 }
 
 class PatrolState {
@@ -283,9 +447,13 @@ class SuspiciousState {
       const dist = Math.hypot(dx, dy);
 
       if (dist > 10 && guard.investigationStepTimer < 1000) {
-        // Move slowly toward position
-        const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(guard.speed * 0.5);
-        guard.setVelocity(v.x, v.y);
+        // Use hybrid navigation (slower speed for investigation)
+        const moving = guard.navigateToTarget(guard.lastKnownPlayer.x, guard.lastKnownPlayer.y, 0, 80);
+
+        // Slow down investigation movement
+        if (moving && guard.body.velocity) {
+          guard.setVelocity(guard.body.velocity.x * 0.5, guard.body.velocity.y * 0.5);
+        }
       } else {
         guard.setVelocity(0, 0);
       }
@@ -371,16 +539,12 @@ class SearchingState {
           guard.searchStepTimer = 0;
         }
       } else {
-        // Move to point
-        const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(guard.speed * 0.6);
-        guard.setVelocity(v.x, v.y);
+        // Use hybrid navigation to move to search point (slower speed)
+        const moving = guard.navigateToTarget(targetPoint.x, targetPoint.y, dt, 80);
 
-        // Play walk animation
-        const animPrefix = guard.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
-        if (Math.abs(v.x) > Math.abs(v.y)) {
-          guard.anims.play(animPrefix + (v.x > 0 ? "right" : "left"), true);
-        } else {
-          guard.anims.play(animPrefix + (v.y > 0 ? "down" : "up"), true);
+        // Slow down search movement
+        if (moving && guard.body.velocity) {
+          guard.setVelocity(guard.body.velocity.x * 0.6, guard.body.velocity.y * 0.6);
         }
       }
     } else {
@@ -419,7 +583,7 @@ class RespondingState {
       return guard.stateMachine.transition(GuardStates.RETURNING);
     }
 
-    // Move toward alert target
+    // Move toward alert target using hybrid navigation
     if (guard.alertTarget) {
       const dx = guard.alertTarget.x - guard.x;
       const dy = guard.alertTarget.y - guard.y;
@@ -430,17 +594,8 @@ class RespondingState {
         return guard.stateMachine.transition(GuardStates.SEARCHING);
       }
 
-      // Move toward target at current speed (awareness-modified)
-      const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(guard.speed);
-      guard.setVelocity(v.x, v.y);
-
-      // Play appropriate walk animation
-      const animPrefix = guard.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
-      if (Math.abs(v.x) > Math.abs(v.y)) {
-        guard.anims.play(animPrefix + (v.x > 0 ? "right" : "left"), true);
-      } else {
-        guard.anims.play(animPrefix + (v.y > 0 ? "down" : "up"), true);
-      }
+      // Use hybrid navigation (waypoints for far, direct for near)
+      guard.navigateToTarget(guard.alertTarget.x, guard.alertTarget.y, dt, 100);
     } else {
       // No target - return to patrol
       guard.stateMachine.transition(GuardStates.RETURNING);
