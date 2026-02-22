@@ -8,6 +8,12 @@ export class IntroScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
 
+    // Hide HTML UI overlay (not needed on title screen)
+    const gameUI = this.registry.get("gameUI");
+    if (gameUI) {
+      gameUI.setVisible(false);
+    }
+
     // Initialize sound state in registry if not set
     if (!this.registry.has("soundEnabled")) {
       this.registry.set("soundEnabled", true);

@@ -15,6 +15,40 @@
   <body>
     <div id="game"></div>
 
+    <!-- Game UI Overlay -->
+    <div id="game-ui">
+      <!-- Bottom left: Detection meter -->
+      <div id="detection-container">
+        <div id="detection-label">DETECTION:</div>
+        <div id="detection-meter-bg">
+          <div id="detection-meter-fill"></div>
+        </div>
+      </div>
+
+      <!-- Bottom right: Controls -->
+      <div id="controls-container">
+        <div id="help-text">Press H for help</div>
+        <button id="sound-toggle" aria-label="Toggle sound">
+          <span id="sound-icon">🔊</span>
+        </button>
+      </div>
+
+      <!-- Help overlay (toggled with H key) -->
+      <div id="help-overlay" style="display: none;">
+        <div id="help-content">
+          <h3>Controls</h3>
+          <p><strong>WASD / Arrow Keys</strong> - Move</p>
+          <p><strong>Goal</strong> - Avoid guard vision cones</p>
+          <p><strong>Detection meter fills = GAME OVER</strong></p>
+          <hr>
+          <p class="help-debug"><strong>V</strong> - Vision debug</p>
+          <p class="help-debug"><strong>C</strong> - Collision debug</p>
+          <p class="help-debug"><strong>B</strong> - Body debug</p>
+          <p class="help-close">Press <strong>H</strong> to close</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Landscape-only overlay -->
     <div id="rotate-overlay" aria-hidden="true">
       <div class="rotate-card">

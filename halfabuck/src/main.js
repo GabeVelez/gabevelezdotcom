@@ -4,6 +4,7 @@ import Phaser from "phaser";
 import { createGameConfig, BASE_W, BASE_H, getIntegerZoom } from "./config/gameConfig.js";
 import { updateOrientationOverlay, isPortrait } from "./utils/orientation.js";
 import { createTouchControls } from "./ui/touchControls.js";
+import { GameUI } from "./ui/gameUI.js";
 
 import { BootScene } from "./scenes/BootScene.js";
 import { IntroScene } from "./scenes/IntroScene.js";
@@ -42,6 +43,27 @@ document.fonts.ready.then(() => {
 
   // Share touch state with scenes via registry
   game.registry.set("touchRef", touchRef);
+
+  // Initialize HTML UI overlay
+  const gameUI = new GameUI();
+  game.registry.set("gameUI", gameUI);
+
+  // Listen for sound toggle events from HTML button
+  window.addEventListener('toggleSound', () => {
+    const currentState = game.registry.get("soundEnabled");
+    game.registry.set("soundEnabled", !currentState);
+    gameUI.updateSoundIcon(!currentState);
+
+    // Toggle music
+    const music = game.registry.get("intro_music");
+    if (music) {
+      if (!currentState) {
+        if (!music.isPlaying) music.resume();
+      } else {
+        music.pause();
+      }
+    }
+  });
 
   // Do initial resize after game is created
   resize();

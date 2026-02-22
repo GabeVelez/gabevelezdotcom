@@ -8,6 +8,12 @@ export class GameOverScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
 
+    // Hide HTML UI overlay
+    const gameUI = this.registry.get("gameUI");
+    if (gameUI) {
+      gameUI.setVisible(false);
+    }
+
     // Play game over sound
     const gameoverSound = this.sound.add("gameover_sound", { volume: 0.7 });
     gameoverSound.play();

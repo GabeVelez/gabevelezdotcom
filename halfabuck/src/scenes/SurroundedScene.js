@@ -8,6 +8,12 @@ export class SurroundedScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
 
+    // Hide HTML UI overlay
+    const gameUI = this.registry.get("gameUI");
+    if (gameUI) {
+      gameUI.setVisible(false);
+    }
+
     // Display surrounded image
     const bg = this.add.image(width / 2, height / 2, "surrounded");
     bg.setDisplaySize(width, height);

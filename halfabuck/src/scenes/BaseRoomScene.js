@@ -51,54 +51,13 @@ export class BaseRoomScene extends Phaser.Scene {
     // Input manager
     this.inputManager = createInputManager(this, this.registry.get("touchRef"));
 
-    // UI - Detection meter with background overlay
-    this.detectionMeter = this.add.graphics().setScrollFactor(0).setDepth(100);
-
-    // Black overlay for detection text (more opaque for readability)
-    const detectionBg = this.add.rectangle(8, 8, 80, 24, 0x000000, 0.6);
-    detectionBg.setOrigin(0, 0);
-    detectionBg.setScrollFactor(0);
-    detectionBg.setDepth(99);
-
-    this.add.text(8, 8, "Detection:", {
-      fontFamily: "Arial, sans-serif",
-      fontSize: "12px",
-      fontStyle: "bold",
-      color: "#ffffff"
-    }).setScrollFactor(0).setDepth(100);
-
-    // Controls - toggleable with H key, hidden by default
-    this._controlsText = this.add.text(
-      8, height - 35,
-      "WASD/Arrows to move | Avoid guard vision cones\n" +
-      "Detection meter fills = GAME OVER\n" +
-      "V vision debug | C collision debug | B body debug",
-      { fontFamily: "Arial, sans-serif", fontSize: "10px", fontStyle: "bold", color: "#ffffff" }
-    ).setScrollFactor(0).setDepth(100).setVisible(false);
-
-    // Black overlay behind controls (more opaque for readability)
-    const controlsBounds = this._controlsText.getBounds();
-    this._controlsBg = this.add.rectangle(
-      controlsBounds.x - 2,
-      controlsBounds.y - 2,
-      controlsBounds.width + 4,
-      controlsBounds.height + 4,
-      0x000000,
-      0.6
-    );
-    this._controlsBg.setOrigin(0, 0);
-    this._controlsBg.setScrollFactor(0);
-    this._controlsBg.setDepth(99).setVisible(false);
-
-    // Help indicator (always visible)
-    this.add.text(
-      width - 85, height - 12,
-      "Press H for help",
-      { fontFamily: "Arial, sans-serif", fontSize: "10px", fontStyle: "bold", color: "#ffffff", backgroundColor: "#000000", padding: { x: 4, y: 2 } }
-    ).setScrollFactor(0).setDepth(100);
-
-    // Sound toggle button (top-right corner)
-    this._createSoundToggle(width - 10, 10);
+    // Get HTML UI overlay reference
+    this.gameUI = this.registry.get("gameUI");
+    if (this.gameUI) {
+      this.gameUI.setVisible(true);
+      // Update sound icon to match current state
+      this.gameUI.updateSoundIcon(this.registry.get("soundEnabled"));
+    }
 
     // Debug graphics
     this._collisionDebug = null;
@@ -112,9 +71,9 @@ export class BaseRoomScene extends Phaser.Scene {
     this.input.keyboard.on("keydown-V", () => { this._visionDebugOn = !this._visionDebugOn; });
     this.input.keyboard.on("keydown-B", () => { this._bodyDebugOn = !this._bodyDebugOn; });
     this.input.keyboard.on("keydown-H", () => {
-      const visible = !this._controlsText.visible;
-      this._controlsText.setVisible(visible);
-      this._controlsBg.setVisible(visible);
+      if (this.gameUI) {
+        this.gameUI.toggleHelp();
+      }
     });
     this.input.keyboard.on("keydown-ESC", () => this.scene.start("EndingScene"));
   }
@@ -362,11 +321,15 @@ export class BaseRoomScene extends Phaser.Scene {
    * Render detection meter and check for game over
    */
   _renderDetectionMeter() {
-    this.detectionMeter.clear();
     let maxMeter = 0;
     for (const g of this.guards) {
       const m = this.vision?.getMeter(g) ?? 0;
       if (m > maxMeter) maxMeter = m;
+    }
+
+    // Update HTML UI meter
+    if (this.gameUI) {
+      this.gameUI.updateDetectionMeter(maxMeter);
     }
 
     // Game over when detection reaches 100%
@@ -379,14 +342,6 @@ export class BaseRoomScene extends Phaser.Scene {
       this.scene.start("SurroundedScene");
       return;
     }
-
-    const w = 60, h = 6;
-    const x = 8, y = 18;
-    const color = maxMeter >= 0.66 ? 0xff3333 : maxMeter >= 0.33 ? 0xffcc33 : 0x33ff66;
-    this.detectionMeter.fillStyle(0x000000, 0.7);
-    this.detectionMeter.fillRect(x - 1, y - 1, w + 2, h + 2);
-    this.detectionMeter.fillStyle(color, 0.9);
-    this.detectionMeter.fillRect(x, y, w * maxMeter, h);
   }
 
   /**
@@ -405,80 +360,6 @@ export class BaseRoomScene extends Phaser.Scene {
           faceColor: new Phaser.Display.Color(0, 255, 0, 50)
         });
       }
-    }
-  }
-
-  /**
-   * Create sound toggle button
-   */
-  _createSoundToggle(x, y) {
-    const soundEnabled = this.registry.get("soundEnabled");
-
-    // Container for sound toggle
-    this._soundToggle = this.add.container(x, y);
-
-    // Background
-    const bg = this.add.rectangle(0, 0, 24, 24, 0x000000, 0.7);
-    this._soundToggle.add(bg);
-
-    // Sound icon
-    this._soundIcon = this.add.graphics();
-    this._updateSoundIcon();
-    this._soundToggle.add(this._soundIcon);
-
-    // Make interactive
-    bg.setInteractive({ useHandCursor: true });
-    bg.on("pointerdown", () => {
-      const currentState = this.registry.get("soundEnabled");
-      this.registry.set("soundEnabled", !currentState);
-      this._updateSoundIcon();
-
-      // Toggle music
-      const music = this.registry.get("intro_music");
-      if (music) {
-        if (this.registry.get("soundEnabled")) {
-          if (!music.isPlaying) music.resume();
-        } else {
-          music.pause();
-        }
-      }
-    });
-
-    this._soundToggle.setScrollFactor(0).setDepth(200);
-  }
-
-  /**
-   * Update sound icon based on current state
-   */
-  _updateSoundIcon() {
-    this._soundIcon.clear();
-
-    if (this.registry.get("soundEnabled")) {
-      // Speaker ON - filled speaker with waves
-      this._soundIcon.fillStyle(0xffffff, 1);
-      this._soundIcon.fillRect(-8, -3, 4, 6); // Speaker body
-      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, 3); // Speaker cone
-      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, -3); // Speaker cone
-
-      // Sound waves (arcs)
-      this._soundIcon.lineStyle(2, 0xffffff, 1);
-      this._soundIcon.beginPath();
-      this._soundIcon.arc(0, 0, 4, -Math.PI/4, Math.PI/4, false);
-      this._soundIcon.strokePath();
-      this._soundIcon.beginPath();
-      this._soundIcon.arc(0, 0, 7, -Math.PI/4, Math.PI/4, false);
-      this._soundIcon.strokePath();
-    } else {
-      // Speaker OFF - filled speaker with X
-      this._soundIcon.fillStyle(0xff0000, 1);
-      this._soundIcon.fillRect(-8, -3, 4, 6); // Speaker body
-      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, 3); // Speaker cone
-      this._soundIcon.fillTriangle(-4, -5, -4, 5, 0, -3); // Speaker cone
-
-      // Red X
-      this._soundIcon.lineStyle(2, 0xff0000, 1);
-      this._soundIcon.strokeLineShape(new Phaser.Geom.Line(2, -4, 6, 0));
-      this._soundIcon.strokeLineShape(new Phaser.Geom.Line(6, -4, 2, 0));
     }
   }
 
