@@ -37,92 +37,65 @@ export class SewerScene extends BaseRoomScene {
     ground.y = sewerOffsetY;
     ground.setVisible(false);
 
-    // FILL EVERYTHING WITH COLLISION (red background)
-    ground.fill(2, 0, 0, 18, 11);
+    // Load collision data from sewercollision.jpg image
+    // Red pixels = collision (tile 2), Gray/dark pixels = walkable (tile 1), Green pixels = exit walkable (tile 1)
+    const collisionImage = this.textures.get('sewer_collision').getSourceImage();
+    const canvas = document.createElement('canvas');
+    canvas.width = collisionImage.width;
+    canvas.height = collisionImage.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(collisionImage, 0, 0);
 
-    // CARVE OUT GRAY WALKABLE AREAS from sewercollision.jpg:
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const tileWidth = canvas.width / 18;
+    const tileHeight = canvas.height / 11;
 
-    // Top-left gray walkable block (columns 1-5, rows 2-3)
-    for (let x = 1; x <= 5; x++) {
-      for (let y = 2; y <= 3; y++) {
-        ground.putTileAt(1, x, y);
+    let exitZone = null;
+
+    // Sample center of each tile to determine type
+    for (let tileY = 0; tileY < 11; tileY++) {
+      for (let tileX = 0; tileX < 18; tileX++) {
+        const pixelX = Math.floor((tileX + 0.5) * tileWidth);
+        const pixelY = Math.floor((tileY + 0.5) * tileHeight);
+        const index = (pixelY * canvas.width + pixelX) * 4;
+
+        const r = imageData.data[index];
+        const g = imageData.data[index + 1];
+        const b = imageData.data[index + 2];
+
+        // Detect green exit area (STRICT: green must be very dominant and bright)
+        if (g > 200 && g > r * 2 && g > b * 2) {
+          ground.putTileAt(1, tileX, tileY); // Walkable
+          if (!exitZone) {
+            exitZone = { minX: tileX, maxX: tileX, minY: tileY, maxY: tileY };
+          } else {
+            exitZone.minX = Math.min(exitZone.minX, tileX);
+            exitZone.maxX = Math.max(exitZone.maxX, tileX);
+            exitZone.minY = Math.min(exitZone.minY, tileY);
+            exitZone.maxY = Math.max(exitZone.maxY, tileY);
+          }
+        }
+        // Detect gray/dark walkable areas (low RGB values, all similar, not too bright)
+        else if (r < 120 && g < 120 && b < 120 && Math.abs(r - g) < 40 && Math.abs(g - b) < 40) {
+          ground.putTileAt(1, tileX, tileY); // Walkable
+        }
+        // Red areas and everything else = collision
+        else {
+          ground.putTileAt(2, tileX, tileY); // Collision
+        }
       }
     }
 
-    // Top-center gray walkable area (columns 6-10, rows 2-3)
-    for (let x = 6; x <= 10; x++) {
-      for (let y = 2; y <= 3; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Top-right gray walkable block (columns 11-13, rows 2-3)
-    for (let x = 11; x <= 13; x++) {
-      for (let y = 2; y <= 3; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Left-middle gray walkable area (columns 1-2, rows 4-7)
-    for (let x = 1; x <= 2; x++) {
-      for (let y = 4; y <= 7; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Center large gray walkable area (columns 3-13, rows 4-7)
-    for (let x = 3; x <= 13; x++) {
-      for (let y = 4; y <= 7; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Right-middle gray walkable area (columns 14-16, rows 4-7)
-    for (let x = 14; x <= 16; x++) {
-      for (let y = 4; y <= 7; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Bottom-left gray walkable (columns 1-5, rows 8-9)
-    for (let x = 1; x <= 5; x++) {
-      for (let y = 8; y <= 9; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Bottom-center gray walkable passage (columns 6-11, rows 8-9)
-    for (let x = 6; x <= 11; x++) {
-      for (let y = 8; y <= 9; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Bottom-right gray walkable (columns 12-16, rows 8-9)
-    for (let x = 12; x <= 16; x++) {
-      for (let y = 8; y <= 9; y++) {
-        ground.putTileAt(1, x, y);
-      }
-    }
-
-    // Bottom passage gap (columns 5-7, row 10)
-    for (let x = 5; x <= 7; x++) {
-      ground.putTileAt(1, x, 10);
-    }
-
-    // GREEN LADDER - walkable exit (column 17, all rows)
-    for (let y = 0; y <= 10; y++) {
-      ground.putTileAt(1, 17, y);
-    }
+    console.log('Exit zone detected:', exitZone);
 
     ground.setCollisionByExclusion([1]);
     this.groundLayer = ground;
 
     this.createBaseSystems();
 
-    // Player spawn in center walkable area
-    let playerX = sewerOffsetX + (8 * 16);
-    let playerY = sewerOffsetY + (6 * 16);
+    // Player spawn on left walkable platform (at X location)
+    let playerX = sewerOffsetX + (2.5 * 16);
+    let playerY = sewerOffsetY + (4.5 * 16);
 
     this.createPlayer(playerX, playerY);
 
@@ -130,10 +103,24 @@ export class SewerScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Green ladder exit (column 17, full height)
-    const ladderX = sewerOffsetX + (17 * 16) + 8;
-    const ladderY = sewerOffsetY + (5.5 * 16);
-    this.createExit(ladderX, ladderY, 16, 176, "WarehouseCorridorScene", "south");
+    // Create exit zone based on detected green area from collision image
+    if (exitZone) {
+      const exitCenterX = (exitZone.minX + exitZone.maxX + 1) / 2;
+      const exitCenterY = (exitZone.minY + exitZone.maxY + 1) / 2;
+      const exitWidth = (exitZone.maxX - exitZone.minX + 1) * 16;
+      const exitHeight = (exitZone.maxY - exitZone.minY + 1) * 16;
+
+      const exitX = sewerOffsetX + (exitCenterX * 16);
+      const exitY = sewerOffsetY + (exitCenterY * 16);
+      console.log('Creating exit at:', exitX, exitY, 'size:', exitWidth, exitHeight);
+      this.createExit(exitX, exitY, exitWidth, exitHeight, "WarehouseCorridorScene", "east");
+    } else {
+      console.error('No green exit zone detected! Using fallback exit.');
+      // Fallback exit in top-right corner
+      const exitX = sewerOffsetX + (17 * 16);
+      const exitY = sewerOffsetY + (2 * 16);
+      this.createExit(exitX, exitY, 32, 64, "WarehouseCorridorScene", "east");
+    }
 
     this.physics.add.collider(this.player, ground);
 
