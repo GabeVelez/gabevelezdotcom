@@ -31,6 +31,9 @@ export class BootScene extends Phaser.Scene {
     // --- Cell background ---
     this.load.image("cell_layout", "assets/cell/cell-layout.png");
 
+    // --- Sewer background ---
+    this.load.image("sewer_layout", "assets/sewer/sewer-layout.png");
+
     // --- Player sprite sheets (5 frames each, separate files per direction) ---
     this.load.spritesheet("gabe-front", "assets/gabe-front.png", {
       frameWidth: 213,

@@ -12,27 +12,40 @@ export class SewerScene extends BaseRoomScene {
   create() {
     const { width, height } = this.scale;
 
-    // Create sewer layout - wider than cell, short transitional space
-    // 18 tiles wide × 12 tiles tall (288×192 pixels)
+    // Sewer is 288x176 (18 tiles × 11 tiles)
+    // Center on 320x180 canvas: offset (16, 2)
+    const sewerOffsetX = 16;
+    const sewerOffsetY = 2;
+
+    // Add sewer background image (scale to 288×176)
+    const sewerBg = this.add.image(sewerOffsetX, sewerOffsetY, "sewer_layout");
+    sewerBg.setOrigin(0, 0);
+    sewerBg.setDisplaySize(288, 176); // 18 tiles × 11 tiles at 16px each
+    sewerBg.setDepth(0);
+
+    // Create invisible tilemap for collision only
     const map = this.make.tilemap({
       tileWidth: 16,
       tileHeight: 16,
       width: 18,
-      height: 12
+      height: 11
     });
 
     const tiles = map.addTilesetImage("warehouse_tiles");
     const ground = map.createBlankLayer("ground", tiles);
+    ground.x = sewerOffsetX;
+    ground.y = sewerOffsetY;
+    ground.setVisible(false); // Invisible - only used for collision
 
-    // Fill floor with darker tile (temporary - will be replaced with background image)
-    ground.fill(1, 0, 0, 18, 12);
+    // Setup collision tiles (matching background layout)
+    ground.fill(1, 0, 0, 18, 11); // Fill with walkable
 
-    // Create walls for sewer boundaries
+    // Walls around perimeter
     for (let x = 0; x < 18; x++) {
       ground.putTileAt(2, x, 0); // Top wall
-      ground.putTileAt(2, x, 11); // Bottom wall
+      ground.putTileAt(2, x, 10); // Bottom wall
     }
-    for (let y = 0; y < 12; y++) {
+    for (let y = 0; y < 11; y++) {
       ground.putTileAt(2, 0, y); // Left wall
       ground.putTileAt(2, 17, y); // Right wall
     }
@@ -42,11 +55,10 @@ export class SewerScene extends BaseRoomScene {
     ground.putTileAt(1, 15, 0);
     ground.putTileAt(1, 16, 0);
 
-    // Add some pipe obstacles in center (placeholder until background image)
+    // Central pipe obstacles (adjust based on actual background layout)
+    // These can be refined once we see the generated image
     ground.putTileAt(2, 8, 5);
     ground.putTileAt(2, 9, 5);
-    ground.putTileAt(2, 8, 6);
-    ground.putTileAt(2, 9, 6);
 
     ground.setCollisionByExclusion([1, 3]);
     this.groundLayer = ground;
@@ -54,9 +66,9 @@ export class SewerScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn at bottom-center (falling from cell above)
-    // Center horizontally, near bottom
-    let playerX = 144; // Center of 18-tile width (9 * 16)
-    let playerY = 160; // Near bottom, spawn from fall
+    // Account for offset
+    let playerX = sewerOffsetX + (9 * 16); // Center of 18-tile width
+    let playerY = sewerOffsetY + (9 * 16); // Near bottom
 
     this.createPlayer(playerX, playerY);
 
@@ -67,14 +79,21 @@ export class SewerScene extends BaseRoomScene {
     this.buildWaypointNetwork(ground);
 
     // Exit at top-right: ladder leading up to warehouse corridor
-    // Position at tiles (15-16, 0) center = (248, 8)
-    this.createExit(248, 20, 32, 32, "WarehouseCorridorScene", "south");
+    // Position at tiles (15-16, 0) center, accounting for offset
+    const ladderX = sewerOffsetX + (15.5 * 16); // Center of tiles 15-16
+    const ladderY = sewerOffsetY + (1 * 16); // Just below top wall
+    this.createExit(ladderX, ladderY, 32, 32, "WarehouseCorridorScene", "south");
 
     // Physics
     this.physics.add.collider(this.player, ground);
 
-    // Camera
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    // Camera - bounds match tilemap size with offset
+    this.cameras.main.setBounds(
+      sewerOffsetX,
+      sewerOffsetY,
+      map.widthInPixels,
+      map.heightInPixels
+    );
     this.cameras.main.startFollow(this.player, true);
   }
 
