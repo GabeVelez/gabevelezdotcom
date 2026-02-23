@@ -37,42 +37,59 @@ export class SewerScene extends BaseRoomScene {
     ground.y = sewerOffsetY;
     ground.setVisible(false); // Invisible - only used for collision
 
-    // Setup collision tiles (matching background layout)
+    // Setup collision tiles (matching background layout from image)
     ground.fill(1, 0, 0, 18, 11); // Fill with walkable
 
-    // Top wall - triple height (rows 0, 1, 2)
-    for (let x = 0; x < 18; x++) {
-      ground.putTileAt(2, x, 0);
-      ground.putTileAt(2, x, 1);
-      ground.putTileAt(2, x, 2);
+    // Top-left pipe block (columns 0-5, rows 0-3)
+    for (let x = 0; x <= 5; x++) {
+      for (let y = 0; y <= 3; y++) {
+        ground.putTileAt(2, x, y);
+      }
     }
 
-    // Bottom wall - reduced by 60% (only 40% width = ~7 tiles on left side)
-    for (let x = 0; x < 7; x++) {
+    // Top-right pipe block (columns 12-17, rows 0-3)
+    for (let x = 12; x <= 17; x++) {
+      for (let y = 0; y <= 3; y++) {
+        ground.putTileAt(2, x, y);
+      }
+    }
+
+    // Left wall pipes (columns 0-2, rows 4-9)
+    for (let x = 0; x <= 2; x++) {
+      for (let y = 4; y <= 9; y++) {
+        ground.putTileAt(2, x, y);
+      }
+    }
+
+    // Right wall pipes - top segment (columns 15-17, rows 4-6)
+    for (let x = 15; x <= 17; x++) {
+      for (let y = 4; y <= 6; y++) {
+        ground.putTileAt(2, x, y);
+      }
+    }
+
+    // Right wall pipes - bottom segment (columns 15-17, rows 7-10)
+    for (let x = 15; x <= 17; x++) {
+      for (let y = 7; y <= 10; y++) {
+        ground.putTileAt(2, x, y);
+      }
+    }
+
+    // Bottom-left pipes (columns 0-6, row 10)
+    for (let x = 0; x <= 6; x++) {
       ground.putTileAt(2, x, 10);
     }
 
-    // Left wall - full height
-    for (let y = 0; y < 11; y++) {
-      ground.putTileAt(2, 0, y);
+    // Bottom-right pipes (columns 11-17, row 10)
+    for (let x = 11; x <= 17; x++) {
+      ground.putTileAt(2, x, 10);
     }
 
-    // Right wall - reduced by 70% (only 30% height = ~3 tiles at top)
-    for (let y = 0; y < 3; y++) {
-      ground.putTileAt(2, 17, y);
+    // Green ladder exit area (column 17, full height)
+    // Clear the rightmost column for ladder passage
+    for (let y = 0; y <= 10; y++) {
+      ground.putTileAt(3, 17, y); // Use tile 3 (shadow/walkable) for ladder
     }
-
-    // Ladder exit area at top-right (tiles 15-16, rows 0-2) - lined up next to right wall
-    // Clear tiles for ladder passage through triple-height top wall
-    for (let row = 0; row < 3; row++) {
-      ground.putTileAt(1, 15, row);
-      ground.putTileAt(1, 16, row);
-    }
-
-    // Central pipe obstacles (adjust based on actual background layout)
-    // These can be refined once we see the generated image
-    ground.putTileAt(2, 8, 5);
-    ground.putTileAt(2, 9, 5);
 
     ground.setCollisionByExclusion([1, 3]);
     this.groundLayer = ground;
@@ -92,11 +109,11 @@ export class SewerScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exit at top-right: ladder leading up to warehouse corridor
-    // Position at tiles (15-16, rows 0-2) center, accounting for offset
-    const ladderX = sewerOffsetX + (15.5 * 16); // Center of tiles 15-16
-    const ladderY = sewerOffsetY + (1.5 * 16); // Center of 3-row ladder area (rows 0-2)
-    this.createExit(ladderX, ladderY, 32, 48, "WarehouseCorridorScene", "south"); // Taller exit (48px = 3 tiles)
+    // Exit at right edge: green ladder leading up to warehouse corridor
+    // Position at column 17 (rightmost), full height
+    const ladderX = sewerOffsetX + (17 * 16) + 8; // Center of column 17
+    const ladderY = sewerOffsetY + (5.5 * 16); // Center vertically (middle of 11 rows)
+    this.createExit(ladderX, ladderY, 16, 176, "WarehouseCorridorScene", "south"); // Full height (11 tiles = 176px)
 
     // Physics
     this.physics.add.collider(this.player, ground);
