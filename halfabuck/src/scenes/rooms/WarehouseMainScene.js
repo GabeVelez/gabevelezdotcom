@@ -79,8 +79,10 @@ export class WarehouseMainScene extends BaseRoomScene {
 
     // Player spawn position depends on entry direction
     // Spawn well away from exit zones to avoid immediate re-triggering
+    // Note: player origin is (0.5, 1.0), so y position is at player's feet
+    // Player center = y - height, so need extra clearance
     let playerX = 240;
-    let playerY = 50; // Coming from Corridor (north entrance) - spawn below exit zone
+    let playerY = 80; // Coming from Corridor (north entrance) - spawn below exit zone (was 50, too close)
     // TODO: Add spawn logic for wine cellar entrance when that scene is created
 
     this.createPlayer(playerX, playerY);
