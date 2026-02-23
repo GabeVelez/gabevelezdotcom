@@ -64,7 +64,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   update(input) {
     // Toggle box on edge-trigger (only if player has cardboard box in inventory)
-    if (input.justBox) {
+    if (input.justSlot1) {
       const inventory = this.scene.registry.get("inventory");
 
       // Only allow boxing if player has the cardboard box

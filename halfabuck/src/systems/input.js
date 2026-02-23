@@ -14,11 +14,12 @@ export function createInputManager(scene, touchRef) {
     right2: "RIGHT",
     interact: "G",
     crouch: "SHIFT",
-    box: "Q",
-    item: "F",
+    slot1: "ONE",
+    slot2: "TWO",
+    slot3: "THREE",
   });
 
-  const prev = { interact: false, crouch: false, box: false, item: false };
+  const prev = { interact: false, crouch: false, slot1: false, slot2: false, slot3: false };
 
   function compute() {
     const t = touchRef?.state;
@@ -31,23 +32,26 @@ export function createInputManager(scene, touchRef) {
 
     const interact = keys.interact.isDown || (touchEnabled && t.a);
     const crouch = keys.crouch.isDown || (touchEnabled && t.b);
-    const box = keys.box.isDown || (touchEnabled && t.x);
-    const item = keys.item.isDown || (touchEnabled && t.y);
+    const slot1 = keys.slot1.isDown || (touchEnabled && t.x);
+    const slot2 = keys.slot2.isDown || (touchEnabled && t.y);
+    const slot3 = keys.slot3.isDown;
 
     const justInteract = interact && !prev.interact;
     const justCrouch = crouch && !prev.crouch;
-    const justBox = box && !prev.box;
-    const justItem = item && !prev.item;
+    const justSlot1 = slot1 && !prev.slot1;
+    const justSlot2 = slot2 && !prev.slot2;
+    const justSlot3 = slot3 && !prev.slot3;
 
     prev.interact = interact;
     prev.crouch = crouch;
-    prev.box = box;
-    prev.item = item;
+    prev.slot1 = slot1;
+    prev.slot2 = slot2;
+    prev.slot3 = slot3;
 
     return {
       up, down, left, right,
-      interact, crouch, box, item,
-      justInteract, justCrouch, justBox, justItem
+      interact, crouch, slot1, slot2, slot3,
+      justInteract, justCrouch, justSlot1, justSlot2, justSlot3
     };
   }
 
