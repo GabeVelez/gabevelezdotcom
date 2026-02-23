@@ -50,12 +50,6 @@ export class Item extends Phaser.GameObjects.Image {
 
     this.collected = true;
 
-    // Play pickup sound if available
-    if (scene.registry.get("soundEnabled")) {
-      // Use alert sound as pickup sound
-      scene.sound.play('alert', { volume: 0.3 });
-    }
-
     // Hide the item (don't destroy in case we need to restore it)
     this.setVisible(false);
     this.setActive(false);
