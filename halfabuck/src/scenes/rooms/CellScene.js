@@ -82,7 +82,7 @@ export class CellScene extends BaseRoomScene {
     // Hole is at bottom-right corner
     const holeX = cellOffsetX + (12 * 16); // Moved right
     const holeY = cellOffsetY + (8.5 * 16);
-    this.createExit(holeX, holeY, 28, 28, "SewerScene", "north");
+    this.createExit(holeX, holeY, 28, 28, "SewerScene", "south"); // "south" = falling down from above
 
     // Mark this exit as a "hole" type for special animation
     if (this._exits && this._exits.length > 0) {

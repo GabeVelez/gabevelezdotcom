@@ -61,10 +61,14 @@ export class WarehouseCorridorScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
-    let playerX = 48; // Left side, near ladder entrance
-    let playerY = 50; // Coming from sewer (top entrance) - spawn below exit zone
+    let playerX = 64; // Aligned with top exit
+    let playerY = 70; // Below the exit zone with clearance
 
-    if (this.entryDirection === "north") {
+    if (this.entryDirection === "east") {
+      // Coming from sewer (east entry = ladder from right side)
+      playerX = 64; // Aligned with exit at X=64
+      playerY = 70; // Below exit with enough clearance to avoid immediate re-trigger
+    } else if (this.entryDirection === "north") {
       // Coming back from warehouse main (bottom entrance)
       playerX = 160;
       playerY = 270; // Spawn above exit zone
@@ -85,8 +89,8 @@ export class WarehouseCorridorScene extends BaseRoomScene {
     this.buildWaypointNetwork(ground);
 
     // Exits
-    // Top-left: back to sewer (ladder down)
-    this.createExit(40, 20, 32, 32, "SewerScene", "north");
+    // Top: back to sewer (ladder down) - aligned to top, moved right
+    this.createExit(64, 16, 32, 32, "SewerScene", "north");
 
     // Bottom: to warehouse main
     this.createExit(160, 300, 32, 32, "WarehouseMainScene", "north");
