@@ -71,15 +71,15 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         if (this.isBoxed) {
           this.stateMachine.transition(PlayerStates.BOX);
-          // Play sound feedback for entering box
+          // Play paper slide sound for entering box
           if (this.scene.registry.get("soundEnabled")) {
-            this.scene.sound.play("alert", { volume: 0.3 });
+            this.scene.sound.play("box_toggle", { volume: 0.5 });
           }
         } else {
           this.stateMachine.transition(PlayerStates.IDLE);
-          // Play sound feedback for exiting box
+          // Play paper slide sound for exiting box
           if (this.scene.registry.get("soundEnabled")) {
-            this.scene.sound.play("alert", { volume: 0.2 });
+            this.scene.sound.play("box_toggle", { volume: 0.5 });
           }
         }
       } else if (!this.isBoxed) {

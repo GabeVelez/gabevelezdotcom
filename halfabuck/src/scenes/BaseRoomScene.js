@@ -584,6 +584,11 @@ export class BaseRoomScene extends Phaser.Scene {
     const success = item.collect(this.player, this);
 
     if (success) {
+      // Play pickup sound
+      if (this.registry.get("soundEnabled")) {
+        this.sound.play("item_pickup", { volume: 0.4 });
+      }
+
       // Add to inventory
       this.inventory.addItem(item);
 
