@@ -1,12 +1,15 @@
 import Phaser from "phaser";
 import { StateMachine } from "../systems/stateMachine.js";
+import EasyStar from "easystarjs";
 
 export const GuardStates = {
   PATROL: "patrol",
   SUSPICIOUS: "suspicious",
+  INVESTIGATE: "investigate",
+  CHASE: "chase",
+  SEARCH: "search",
   ALERT: "alert",
   RESPONDING: "responding",
-  SEARCHING: "searching",
   RETURNING: "returning",
 };
 
@@ -56,14 +59,161 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     this.suspiciousAreas = []; // Areas where player was detected
     this.lastDetectionPercent = 0; // How much % when player escaped
 
+    // A* Pathfinding setup
+    this.pathfinder = new EasyStar.js();
+    this.pathfinderGrid = null;
+    this.currentPath = [];
+    this.currentPathIndex = 0;
+    this.lastPathCalculation = 0;
+    this.pathRecalculationInterval = 500; // Recalculate every 500ms
+
+    // Last known position tracking
+    this.lastKnownPlayerPos = null;
+    this.timeSinceLastSeen = 0;
+    this.searchRadius = 0;
+    this.canSeePlayer = false; // Track if player is currently visible
+
     this.stateMachine = new StateMachine(GuardStates.PATROL, {
       [GuardStates.PATROL]: new PatrolState(),
       [GuardStates.SUSPICIOUS]: new SuspiciousState(),
+      [GuardStates.INVESTIGATE]: new InvestigateState(),
+      [GuardStates.CHASE]: new ChaseState(),
+      [GuardStates.SEARCH]: new SearchState(),
       [GuardStates.ALERT]: new AlertState(),
       [GuardStates.RESPONDING]: new RespondingState(),
-      [GuardStates.SEARCHING]: new SearchingState(),
       [GuardStates.RETURNING]: new ReturningState(),
     }, [this]);
+  }
+
+  /**
+   * Initialize pathfinding grid from tilemap layer
+   */
+  initializePathfinding(tilemapLayer) {
+    if (!tilemapLayer) return;
+
+    const map = tilemapLayer.tilemap;
+    const grid = [];
+
+    // Create grid from tilemap (0 = walkable, 1 = blocked)
+    for (let y = 0; y < map.height; y++) {
+      grid[y] = [];
+      for (let x = 0; x < map.width; x++) {
+        const tile = tilemapLayer.getTileAt(x, y);
+        // Walkable if no tile or tile doesn't collide
+        grid[y][x] = (!tile || !tile.collides) ? 0 : 1;
+      }
+    }
+
+    this.pathfinderGrid = grid;
+    this.pathfinder.setGrid(grid);
+    this.pathfinder.setAcceptableTiles([0]); // Only walk on 0 tiles
+    this.pathfinder.enableDiagonals();
+    this.pathfinder.enableCornerCutting();
+  }
+
+  /**
+   * Calculate A* path to a world position
+   */
+  calculatePathTo(targetX, targetY, onPathFound) {
+    if (!this.pathfinderGrid || !this.scene.groundLayer) return;
+
+    const layer = this.scene.groundLayer;
+    const map = layer.tilemap;
+
+    // Convert world positions to grid coordinates
+    const startTile = layer.worldToTileXY(this.x, this.y);
+    const endTile = layer.worldToTileXY(targetX, targetY);
+
+    if (!startTile || !endTile) return;
+
+    // Bounds check
+    if (startTile.x < 0 || startTile.x >= map.width ||
+        startTile.y < 0 || startTile.y >= map.height ||
+        endTile.x < 0 || endTile.x >= map.width ||
+        endTile.y < 0 || endTile.y >= map.height) {
+      return;
+    }
+
+    this.pathfinder.findPath(startTile.x, startTile.y, endTile.x, endTile.y, (path) => {
+      if (path && path.length > 0) {
+        // Convert grid path to world coordinates
+        this.currentPath = path.map(node => {
+          return layer.tileToWorldXY(node.x, node.y);
+        });
+        this.currentPathIndex = 0;
+        if (onPathFound) onPathFound(this.currentPath);
+      } else {
+        this.currentPath = [];
+      }
+    });
+
+    this.pathfinder.calculate();
+    this.lastPathCalculation = Date.now();
+  }
+
+  /**
+   * Follow the current A* path
+   */
+  followPath() {
+    if (!this.currentPath || this.currentPath.length === 0) {
+      return false;
+    }
+
+    const target = this.currentPath[this.currentPathIndex];
+    if (!target) {
+      this.currentPath = [];
+      return false;
+    }
+
+    const dx = target.x - this.x;
+    const dy = target.y - this.y;
+    const dist = Math.hypot(dx, dy);
+
+    // Reached current waypoint
+    if (dist < 8) {
+      this.currentPathIndex++;
+
+      // Reached end of path
+      if (this.currentPathIndex >= this.currentPath.length) {
+        this.currentPath = [];
+        this.setVelocity(0, 0);
+        return false;
+      }
+    }
+
+    // Move toward current waypoint
+    const v = new Phaser.Math.Vector2(dx, dy).normalize().scale(this.speed);
+    this.setVelocity(v.x, v.y);
+
+    // Play walk animation
+    const animPrefix = this.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
+    if (Math.abs(v.x) > Math.abs(v.y)) {
+      this.anims.play(animPrefix + (v.x > 0 ? "right" : "left"), true);
+    } else {
+      this.anims.play(animPrefix + (v.y > 0 ? "down" : "up"), true);
+    }
+
+    return true;
+  }
+
+  /**
+   * Check if there's a clear path ahead (for obstacle avoidance)
+   */
+  checkClearPath(fromX, fromY, toX, toY) {
+    if (!this.scene.groundLayer) return true;
+
+    const layer = this.scene.groundLayer;
+    const steps = 10;
+
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      const x = Phaser.Math.Linear(fromX, toX, t);
+      const y = Phaser.Math.Linear(fromY, toY, t);
+      const tile = layer.getTileAtWorldXY(x, y, true);
+      if (tile && tile.collides) return false;
+    }
+
+    return true;
   }
 
   knockOut(ms = 7000) {
@@ -350,6 +500,10 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
 class PatrolState {
   execute(guard, dt) {
     if (!guard.path.length) return;
+
+    // Reset player visibility tracking
+    guard.canSeePlayer = false;
+
     const target = guard.path[guard.pathIndex];
     const dx = target.x - guard.x;
     const dy = target.y - guard.y;
@@ -364,15 +518,31 @@ class PatrolState {
       return;
     }
 
+    // Check if path is clear, if not use A* pathfinding
+    const pathClear = guard.checkClearPath(guard.x, guard.y, target.x, target.y);
+
+    if (!pathClear && guard.pathfinderGrid) {
+      // Use A* to navigate around obstacle
+      if (!guard.currentPath || guard.currentPath.length === 0) {
+        guard.calculatePathTo(target.x, target.y);
+      }
+
+      if (!guard.followPath()) {
+        // Path following failed, skip to next waypoint
+        guard.pathIndex = (guard.pathIndex + 1) % guard.path.length;
+        guard.stuckTimer = 0;
+      }
+      return;
+    }
+
     // Aggressive stuck detection - if guard hasn't moved much, skip waypoint quickly
     const movedDist = Math.hypot(guard.x - guard.lastPosition.x, guard.y - guard.lastPosition.y);
     if (movedDist < 0.5) {
       guard.stuckTimer += dt;
-      if (guard.stuckTimer > 500) { // Stuck for 0.5 seconds - skip immediately
-        // Skip to next waypoint
+      if (guard.stuckTimer > 500) {
         guard.pathIndex = (guard.pathIndex + 1) % guard.path.length;
         guard.stuckTimer = 0;
-        guard.setVelocity(0, 0); // Stop trying to move
+        guard.setVelocity(0, 0);
         return;
       }
     } else {
@@ -386,10 +556,8 @@ class PatrolState {
     // Play appropriate walk animation based on direction and guard type
     const animPrefix = guard.guardType === "overseer" ? "overseer_walk_" : "guard_walk_";
     if (Math.abs(v.x) > Math.abs(v.y)) {
-      // Horizontal movement
       guard.anims.play(animPrefix + (v.x > 0 ? "right" : "left"), true);
     } else {
-      // Vertical movement
       guard.anims.play(animPrefix + (v.y > 0 ? "down" : "up"), true);
     }
   }
@@ -398,112 +566,136 @@ class PatrolState {
 class SuspiciousState {
   enter(guard, context) {
     const point = context || {};
-    guard.lastKnownPlayer = { x: point.x, y: point.y } ?? guard.lastKnownPlayer;
-
-    // Contextual investigation time based on detection % and awareness
-    const baseTime = 2500;
-    const awarenessMultiplier = 1 + (guard.awarenessLevel * 0.3); // +30% per level
-    const detectionMultiplier = (context.percent || 0.33) > 0.6 ? 1.5 : 1.0; // Longer if saw clearly
-
-    // Random variation ±20%
-    const totalTime = baseTime * awarenessMultiplier * detectionMultiplier;
-    const min = totalTime * 0.8;
-    const max = totalTime * 1.2;
-    guard.suspicionTimer = Phaser.Math.Between(min, max);
-
-    // Investigation behavior setup
-    guard.investigationPhase = 0; // 0 = pause, 1 = look around, 2 = move toward
-    guard.investigationStepTimer = 0;
-    guard.rotationDirection = Phaser.Math.Between(0, 1) === 0 ? -1 : 1; // Random direction
+    guard.lastKnownPlayerPos = { x: point.x, y: point.y } ?? guard.lastKnownPlayerPos;
+    guard.suspicionTimer = 1500; // Short pause to look around
+    guard.rotationDirection = Phaser.Math.Between(0, 1) === 0 ? -1 : 1;
   }
 
   execute(guard, dt) {
     guard.suspicionTimer -= dt;
+
+    // Slow down and look around
+    guard.setVelocity(0, 0);
+    if (guard.vision) {
+      guard.vision.facing += guard.rotationDirection * 0.02;
+    }
+
+    // If detection increases (player still visible), move to INVESTIGATE
+    // This is handled by visionSystem, but we check timer for timeout
     if (guard.suspicionTimer <= 0) {
       return guard.stateMachine.transition(GuardStates.RETURNING);
     }
+  }
+}
 
-    guard.investigationStepTimer += dt;
+class InvestigateState {
+  enter(guard, context) {
+    const point = context || {};
+    guard.lastKnownPlayerPos = { x: point.x, y: point.y };
+    guard.investigateTimer = 3000; // 3 seconds to investigate
+    guard.timeSinceLastSeen = 0;
+  }
 
-    // Phase-based investigation (look around, move a bit)
-    if (guard.investigationPhase === 0 && guard.investigationStepTimer > 500) {
-      // Phase 0: Initial pause (500ms)
-      guard.investigationPhase = 1;
-      guard.investigationStepTimer = 0;
-      guard.setVelocity(0, 0);
-    } else if (guard.investigationPhase === 1 && guard.investigationStepTimer > 800) {
-      // Phase 1: Look around (rotate vision cone)
-      guard.vision.facing += guard.rotationDirection * 0.02; // Slow rotation
-      guard.setVelocity(0, 0);
+  execute(guard, dt) {
+    guard.investigateTimer -= dt;
+    guard.timeSinceLastSeen += dt;
 
-      if (guard.investigationStepTimer > 1500) {
-        guard.investigationPhase = 2;
-        guard.investigationStepTimer = 0;
-      }
-    } else if (guard.investigationPhase === 2 && guard.lastKnownPlayer) {
-      // Phase 2: Take a few steps toward last known position
-      const dx = guard.lastKnownPlayer.x - guard.x;
-      const dy = guard.lastKnownPlayer.y - guard.y;
+    // Move to last known position
+    if (guard.lastKnownPlayerPos) {
+      const dx = guard.lastKnownPlayerPos.x - guard.x;
+      const dy = guard.lastKnownPlayerPos.y - guard.y;
       const dist = Math.hypot(dx, dy);
 
-      if (dist > 10 && guard.investigationStepTimer < 1000) {
-        // Use hybrid navigation (slower speed for investigation)
-        const moving = guard.navigateToTarget(guard.lastKnownPlayer.x, guard.lastKnownPlayer.y, 0, 80);
+      if (dist > 15) {
+        // Use A* pathfinding to reach last known position
+        const shouldRecalculate = Date.now() - guard.lastPathCalculation > guard.pathRecalculationInterval;
 
-        // Slow down investigation movement
-        if (moving && guard.body.velocity) {
-          guard.setVelocity(guard.body.velocity.x * 0.5, guard.body.velocity.y * 0.5);
+        if (shouldRecalculate || !guard.currentPath || guard.currentPath.length === 0) {
+          guard.calculatePathTo(guard.lastKnownPlayerPos.x, guard.lastKnownPlayerPos.y);
+        }
+
+        if (!guard.followPath()) {
+          // Can't reach, try navigating to target
+          guard.navigateToTarget(guard.lastKnownPlayerPos.x, guard.lastKnownPlayerPos.y, dt, 100);
         }
       } else {
-        guard.setVelocity(0, 0);
+        // Reached last known position, transition to SEARCH
+        return guard.stateMachine.transition(GuardStates.SEARCH);
       }
-    } else {
-      guard.setVelocity(0, 0);
+    }
+
+    // Timeout or if player becomes visible again
+    if (guard.investigateTimer <= 0) {
+      return guard.stateMachine.transition(GuardStates.SEARCH);
     }
   }
 }
 
-class AlertState {
-  enter(guard, point) {
-    guard.lastKnownPlayer = point ?? guard.lastKnownPlayer;
-    guard.alertTimer = 2000;
-  }
-  execute(guard, dt) {
-    guard.alertTimer -= dt;
-    if (guard.alertTimer <= 0) {
-      return guard.stateMachine.transition(GuardStates.SEARCHING);
-    }
-    guard.setVelocity(0,0);
-  }
-}
-
-class SearchingState {
+class ChaseState {
   enter(guard) {
-    // Random search time based on awareness (3-6 seconds base)
+    guard.chaseTimer = 0;
+    guard.lastChaseUpdate = Date.now();
+  }
+
+  execute(guard, dt) {
+    guard.chaseTimer += dt;
+
+    // Get player position from scene
+    const player = guard.scene.player;
+    if (!player) {
+      return guard.stateMachine.transition(GuardStates.SEARCH);
+    }
+
+    // Update last known position
+    guard.lastKnownPlayerPos = { x: player.x, y: player.y };
+    guard.timeSinceLastSeen = 0;
+
+    // Calculate path to player using A*
+    const shouldRecalculate = Date.now() - guard.lastPathCalculation > guard.pathRecalculationInterval;
+
+    if (shouldRecalculate || !guard.currentPath || guard.currentPath.length === 0) {
+      guard.calculatePathTo(player.x, player.y);
+    }
+
+    // Follow the path or use direct navigation as fallback
+    if (!guard.followPath()) {
+      // Fallback to waypoint navigation
+      guard.navigateToTarget(player.x, player.y, dt, 100);
+    }
+
+    // If player is no longer visible (handled by visionSystem transitioning state)
+    // we'll transition to SEARCH
+    if (!guard.canSeePlayer && guard.chaseTimer > 500) {
+      return guard.stateMachine.transition(GuardStates.SEARCH);
+    }
+  }
+}
+
+class SearchState {
+  enter(guard) {
     const baseTime = 4000;
-    const awarenessMultiplier = 1 + (guard.awarenessLevel * 0.4); // +40% per level
+    const awarenessMultiplier = 1 + (guard.awarenessLevel * 0.4);
     const totalTime = baseTime * awarenessMultiplier;
     guard.searchTimer = Phaser.Math.Between(totalTime * 0.75, totalTime * 1.25);
 
-    // Set up search pattern (patrol around alert area)
     guard.searchPhase = 0;
     guard.searchStepTimer = 0;
     guard.searchPoints = this._generateSearchPoints(guard);
     guard.currentSearchPoint = 0;
+    guard.searchRadius = 60; // Expanding search radius
   }
 
   _generateSearchPoints(guard) {
-    // Generate 3-4 points around alert location to check
-    const center = guard.alertTarget || guard.lastKnownPlayer || { x: guard.x, y: guard.y };
+    // Generate search points in expanding circle around last known position
+    const center = guard.lastKnownPlayerPos || { x: guard.x, y: guard.y };
     const points = [];
-    const radius = 40;
-    const numPoints = Phaser.Math.Between(3, 4);
+    const numPoints = 4;
 
     for (let i = 0; i < numPoints; i++) {
       const angle = (Math.PI * 2 * i) / numPoints;
       points.push({
-        x: center.x + Math.cos(angle) * radius,
-        y: center.y + Math.sin(angle) * radius
+        x: center.x + Math.cos(angle) * guard.searchRadius,
+        y: center.y + Math.sin(angle) * guard.searchRadius
       });
     }
 
@@ -512,6 +704,8 @@ class SearchingState {
 
   execute(guard, dt) {
     guard.searchTimer -= dt;
+    guard.timeSinceLastSeen += dt;
+
     if (guard.searchTimer <= 0) {
       return guard.stateMachine.transition(GuardStates.RETURNING);
     }
@@ -525,79 +719,112 @@ class SearchingState {
       const dy = targetPoint.y - guard.y;
       const dist = Math.hypot(dx, dy);
 
-      if (dist < 10) {
+      if (dist < 15) {
         // Reached point - pause and look around
         guard.setVelocity(0, 0);
-        guard.searchStepTimer += dt;
 
-        // Rotate vision cone slowly (looking around)
-        guard.vision.facing += 0.015;
+        // Rotate vision cone slowly
+        if (guard.vision) {
+          guard.vision.facing += 0.015;
+        }
 
         if (guard.searchStepTimer > 800) {
-          // Move to next point
           guard.currentSearchPoint = (guard.currentSearchPoint + 1) % guard.searchPoints.length;
           guard.searchStepTimer = 0;
+
+          // Expand search radius after each cycle
+          if (guard.currentSearchPoint === 0) {
+            guard.searchRadius += 20;
+            guard.searchPoints = this._generateSearchPoints(guard);
+          }
         }
       } else {
-        // Use hybrid navigation to move to search point (slower speed)
-        const moving = guard.navigateToTarget(targetPoint.x, targetPoint.y, dt, 80);
+        // Use A* to move to search point
+        if (!guard.currentPath || guard.currentPath.length === 0) {
+          guard.calculatePathTo(targetPoint.x, targetPoint.y);
+        }
 
-        // Slow down search movement
-        if (moving && guard.body.velocity) {
-          guard.setVelocity(guard.body.velocity.x * 0.6, guard.body.velocity.y * 0.6);
+        if (!guard.followPath()) {
+          // Fallback navigation
+          const moving = guard.navigateToTarget(targetPoint.x, targetPoint.y, dt, 80);
+          if (moving && guard.body.velocity) {
+            guard.setVelocity(guard.body.velocity.x * 0.6, guard.body.velocity.y * 0.6);
+          }
+        } else {
+          // Slow down search movement if using path
+          if (guard.body.velocity) {
+            guard.setVelocity(guard.body.velocity.x * 0.7, guard.body.velocity.y * 0.7);
+          }
         }
       }
     } else {
-      // No search points - just rotate and look around
       guard.setVelocity(0, 0);
-      guard.vision.facing += 0.02;
+      if (guard.vision) {
+        guard.vision.facing += 0.02;
+      }
     }
   }
 }
 
+class AlertState {
+  enter(guard, point) {
+    guard.lastKnownPlayerPos = point ?? guard.lastKnownPlayerPos;
+    guard.alertTimer = 2000;
+  }
+  execute(guard, dt) {
+    guard.alertTimer -= dt;
+    if (guard.alertTimer <= 0) {
+      return guard.stateMachine.transition(GuardStates.SEARCH);
+    }
+    guard.setVelocity(0,0);
+  }
+}
+
+
 class RespondingState {
   enter(guard, alertData) {
-    guard.alertTarget = alertData?.position ?? guard.lastKnownPlayer;
+    guard.alertTarget = alertData?.position ?? guard.lastKnownPlayerPos;
+    guard.lastKnownPlayerPos = guard.alertTarget;
     guard.responseTimer = 0;
 
-    // Different response timeouts based on guard type + awareness
     const baseTimeout = guard.guardType === "lead" ? 7000 :
                         guard.guardType === "overseer" ? 8000 : 5000;
 
-    // Higher awareness = longer response/search
     const awarenessMultiplier = 1 + (guard.awarenessLevel * 0.2);
     guard.responseTimeout = Phaser.Math.Between(
       baseTimeout * awarenessMultiplier * 0.8,
       baseTimeout * awarenessMultiplier * 1.2
     );
-
-    // Use current speed (already modified by awareness in update())
-    guard.responseSpeed = guard.speed;
   }
 
   execute(guard, dt) {
     guard.responseTimer += dt;
 
-    // Timeout - give up and return to patrol
     if (guard.responseTimer >= guard.responseTimeout) {
       return guard.stateMachine.transition(GuardStates.RETURNING);
     }
 
-    // Move toward alert target using hybrid navigation
     if (guard.alertTarget) {
       const dx = guard.alertTarget.x - guard.x;
       const dy = guard.alertTarget.y - guard.y;
       const dist = Math.hypot(dx, dy);
 
-      // Reached alert location - transition to searching
       if (dist < 20) {
-        return guard.stateMachine.transition(GuardStates.SEARCHING);
+        return guard.stateMachine.transition(GuardStates.SEARCH);
       }
 
-      // Use hybrid navigation (waypoints for far, direct for near)
-      guard.navigateToTarget(guard.alertTarget.x, guard.alertTarget.y, dt, 100);
+      // Use A* pathfinding for smarter navigation
+      const shouldRecalculate = Date.now() - guard.lastPathCalculation > guard.pathRecalculationInterval;
+
+      if (shouldRecalculate || !guard.currentPath || guard.currentPath.length === 0) {
+        guard.calculatePathTo(guard.alertTarget.x, guard.alertTarget.y);
+      }
+
+      if (!guard.followPath()) {
+        // Fallback to waypoint navigation
+        guard.navigateToTarget(guard.alertTarget.x, guard.alertTarget.y, dt, 100);
+      }
     } else {
-      // No target - return to patrol
       guard.stateMachine.transition(GuardStates.RETURNING);
     }
   }

@@ -45,7 +45,13 @@ export class VisionSystem {
       isAlerted: false, // Track if this guard is in alert state
     };
     this.meters.set(guard, 0);
-    this.triggered.set(guard, { detected: false, suspicious: false, alert: false });
+    this.triggered.set(guard, {
+      detected: false,
+      suspicious: false,
+      investigate: false,
+      chase: false,
+      alert: false
+    });
   }
 
   update(dt) {
@@ -86,6 +92,15 @@ export class VisionSystem {
 
       const trig = this.triggered.get(g) ?? { detected: false, suspicious: false, alert: false };
 
+      // Track if guard can see player
+      g.canSeePlayer = inside;
+
+      // Update last known position when player is visible
+      if (inside && next > 0.05) {
+        g.lastKnownPlayerPos = { x: p.x, y: p.y };
+        g.timeSinceLastSeen = 0;
+      }
+
       // Detection just started - immediate alert broadcast
       if (!trig.detected && next > 0.05 && meter <= 0.05) {
         trig.detected = true;
@@ -99,7 +114,7 @@ export class VisionSystem {
           alertSound.play();
           this.alertActive = true;
           this.alertingGuard = g;
-          this.alertCooldown = randomTiming(this.minAlertDuration); // Random cooldown
+          this.alertCooldown = randomTiming(this.minAlertDuration);
         }
 
         // Expand vision cone to yellow/red state (125%)
@@ -114,7 +129,6 @@ export class VisionSystem {
       }
 
       // Only reset triggers if detection drops very low
-      // Keep suspicious flag until they fully investigate
       if (next < 0.05) {
         trig.detected = false;
       }
@@ -122,26 +136,46 @@ export class VisionSystem {
       // Reset alert flag only when meter is completely drained
       if (next < 0.01) {
         trig.suspicious = false;
+        trig.investigate = false;
+        trig.chase = false;
         trig.alert = false;
       }
 
-      // YELLOW alert - guard investigates (more persistent)
-      if (!trig.suspicious && next >= 0.33) {
+      // State transitions based on detection level
+      // 0.1-0.3: SUSPICIOUS (heard noise)
+      if (!trig.suspicious && next >= 0.1 && next < 0.3) {
         trig.suspicious = true;
-
-        // Contextual response based on detection % and guard memory
-        const detectionContext = {
-          x: p.x,
-          y: p.y,
-          percent: next,
-          detectionCount: g.detectionCount,
-          awarenessLevel: g.awarenessLevel
-        };
-
-        g.stateMachine?.transition?.(GuardStates.SUSPICIOUS, detectionContext);
+        const patrolState = g.stateMachine.possibleStates[GuardStates.PATROL];
+        if (g.stateMachine.state === patrolState) {
+          g.stateMachine?.transition?.(GuardStates.SUSPICIOUS, {
+            x: p.x,
+            y: p.y,
+            percent: next
+          });
+        }
       }
 
-      // RED alert - full detection, game over
+      // 0.3-0.6: INVESTIGATE (saw movement)
+      if (!trig.investigate && next >= 0.3 && next < 0.6) {
+        trig.investigate = true;
+        g.stateMachine?.transition?.(GuardStates.INVESTIGATE, {
+          x: p.x,
+          y: p.y,
+          percent: next
+        });
+      }
+
+      // 0.6-1.0: CHASE (clear sighting)
+      if (!trig.chase && next >= 0.6 && next < 1.0) {
+        trig.chase = true;
+        g.stateMachine?.transition?.(GuardStates.CHASE, {
+          x: p.x,
+          y: p.y,
+          percent: next
+        });
+      }
+
+      // 1.0: ALERT (game over)
       if (!trig.alert && next >= 1.0) {
         trig.alert = true;
         g.stateMachine?.transition?.(GuardStates.ALERT, { x: p.x, y: p.y });
@@ -171,7 +205,13 @@ export class VisionSystem {
 
   resetMeter(guard) {
     this.meters.set(guard, 0);
-    this.triggered.set(guard, { detected: false, suspicious: false, alert: false });
+    this.triggered.set(guard, {
+      detected: false,
+      suspicious: false,
+      investigate: false,
+      chase: false,
+      alert: false
+    });
   }
 
   broadcastAlert(sourceGuard, playerPosition) {
@@ -199,6 +239,9 @@ export class VisionSystem {
           // Check if guard is in PATROL state by comparing state object
           const patrolState = guard.stateMachine.possibleStates[GuardStates.PATROL];
           if (guard.stateMachine.state === patrolState) {
+            // Record the alert position as last known player position
+            guard.lastKnownPlayerPos = playerPosition;
+
             guard.stateMachine.transition(GuardStates.RESPONDING, {
               position: playerPosition,
               sourceGuard: sourceGuard.id

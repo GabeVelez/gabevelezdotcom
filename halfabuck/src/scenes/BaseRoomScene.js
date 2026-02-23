@@ -179,10 +179,15 @@ export class BaseRoomScene extends Phaser.Scene {
   setupVisionSystem(wallLayer = null) {
     this.vision = new VisionSystem(this, this.guards, this.player, wallLayer);
 
-    // Initialize vision for all guards
+    // Initialize vision and pathfinding for all guards
     for (const guard of this.guards) {
       const visionConfig = this._getVisionConfig(guard.guardType);
       this.vision.initGuard(guard, visionConfig);
+
+      // Initialize pathfinding grid from tilemap
+      if (wallLayer) {
+        guard.initializePathfinding(wallLayer);
+      }
     }
   }
 
