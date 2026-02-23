@@ -91,7 +91,7 @@ export class CellScene extends BaseRoomScene {
       this._exits[0].triggered = true;
     }
 
-    // Create cardboard box as interactable item
+    // Create cardboard box as interactable item with collision
     const cardboardBox = new Item(this, holeX, holeY, {
       id: "cardboard_box",
       name: "Cardboard Box",
@@ -100,6 +100,7 @@ export class CellScene extends BaseRoomScene {
       displaySize: 32,
       depth: 5,
       interactionRange: 45,
+      hasCollision: true, // Enable physics collision
       onCollect: (player, scene) => {
         // Enable the hole exit when box is collected
         if (scene._exits && scene._exits.length > 0) {
@@ -114,6 +115,9 @@ export class CellScene extends BaseRoomScene {
 
     // Setup physics
     this.physics.add.collider(this.player, ground);
+
+    // Add collision between player and cardboard box
+    this.physics.add.collider(this.player, cardboardBox);
 
     // Bottom wall - custom half-height collision (8 pixels tall)
     const bottomWall = this.add.rectangle(
