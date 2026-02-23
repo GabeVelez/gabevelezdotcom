@@ -44,9 +44,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.isBoxed = false;
 
     // Create cardboard box sprite (initially hidden)
+    // Match the exact size of the collectible item (32x32 pixels)
     this.boxSprite = scene.add.image(x, y, "cardboardbox");
     this.boxSprite.setOrigin(0.5, 1.0); // Match player origin
-    this.boxSprite.setScale(0.12); // Slightly smaller than player
+    this.boxSprite.setDisplaySize(32, 32); // Same as collectible item
     this.boxSprite.setDepth(this.depth + 1); // Above player
     this.boxSprite.setVisible(false);
 
