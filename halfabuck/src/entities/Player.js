@@ -70,13 +70,16 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.isBoxed = !this.isBoxed;
 
         if (this.isBoxed) {
+          // Hide player sprite and show box
+          this.setAlpha(0);
           this.stateMachine.transition(PlayerStates.BOX);
           // Play paper slide sound for entering box
           if (this.scene.registry.get("soundEnabled")) {
             this.scene.sound.play("box_toggle", { volume: 0.5 });
           }
         } else {
-          // Hide box sprite when toggling off
+          // Show player sprite and hide box
+          this.setAlpha(1);
           if (this.boxSprite) {
             this.boxSprite.setVisible(false);
           }
