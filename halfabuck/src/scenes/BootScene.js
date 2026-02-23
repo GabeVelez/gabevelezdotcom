@@ -20,6 +20,7 @@ export class BootScene extends Phaser.Scene {
     this.load.audio("gameover_sound", "assets/universfield-game-over-deep-male-voice-clip-352695.mp3");
     this.load.audio("surrounded_sound", "assets/among-us-role-reveal-sound.mp3");
     this.load.audio("alert", "assets/alert.mp3");
+    this.load.audio("ground_impact", "assets/universfield-ground-impact-352053.mp3");
 
     // --- Tilemap assets (Tiled JSON + tileset image) ---
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");

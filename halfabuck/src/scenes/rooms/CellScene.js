@@ -83,6 +83,11 @@ export class CellScene extends BaseRoomScene {
     const holeY = cellOffsetY + (8.5 * 16);
     this.createExit(holeX, holeY, 28, 28, "CorridorScene", "north");
 
+    // Mark this exit as a "hole" type for special animation
+    if (this._exits && this._exits.length > 0) {
+      this._exits[0].isHole = true;
+    }
+
     // Setup physics
     this.physics.add.collider(this.player, ground);
 

@@ -93,7 +93,61 @@ export class BaseRoomScene extends Phaser.Scene {
       this.player.isBoxed = this.playerData.isBoxed;
     }
 
+    // Play landing animation if player fell through a hole
+    if (this.playerData.isFalling) {
+      this._playLandingAnimation();
+    }
+
     return this.player;
+  }
+
+  /**
+   * Play landing animation after falling through hole
+   */
+  _playLandingAnimation() {
+    // Start small (like coming up from hole) - 0.15 * 0.3 = 0.045
+    this.player.setScale(0.045);
+    this.player.body.enable = false;
+
+    // Fade in from black
+    this.cameras.main.fadeIn(100, 0, 0, 0);
+
+    // Wait a moment, then pop up with bounce
+    this.time.delayedCall(100, () => {
+      // Camera shake on landing
+      this.cameras.main.shake(100, 0.003);
+
+      // Pop up to normal size (0.15) with bounce
+      this.tweens.add({
+        targets: this.player,
+        scaleX: 0.15,
+        scaleY: 0.15,
+        duration: 200,
+        ease: 'Back.easeOut',
+        onComplete: () => {
+          // Re-enable player movement
+          this.player.body.enable = true;
+        }
+      });
+
+      // Dust particle effect
+      const particles = this.add.particles(this.player.x, this.player.y, 'warehouse_tiles', {
+        frame: 1,
+        lifespan: 400,
+        speed: { min: 20, max: 40 },
+        scale: { start: 0.3, end: 0 },
+        gravityY: 50,
+        quantity: 8,
+        alpha: { start: 0.6, end: 0 },
+        emitting: false
+      });
+      particles.explode();
+
+      // Play ground impact sound
+      if (this.registry.get("soundEnabled")) {
+        this.sound.play('ground_impact', { volume: 0.4 });
+      }
+    });
   }
 
   /**
@@ -253,6 +307,45 @@ export class BaseRoomScene extends Phaser.Scene {
   }
 
   /**
+   * Special transition for falling through a hole
+   */
+  transitionThroughHole(targetScene, entryDirection) {
+    // Prevent player movement during animation
+    this.player.body.setVelocity(0, 0);
+    this.player.body.enable = false;
+
+    // Camera shake
+    this.cameras.main.shake(150, 0.005);
+
+    // Player shrinks and rotates into hole (from 0.15 to 0.045)
+    this.tweens.add({
+      targets: this.player,
+      scaleX: 0.045,
+      scaleY: 0.045,
+      angle: 360,
+      duration: 200,
+      ease: 'Power2',
+      onComplete: () => {
+        // Quick fade to black
+        this.cameras.main.fadeOut(150, 0, 0, 0);
+
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+          // Save player state with fall flag
+          const playerState = {
+            isDragging: this.player.isDragging,
+            isBoxed: this.player.isBoxed,
+            entryDirection: entryDirection,
+            isFalling: true // Flag to trigger landing animation
+          };
+
+          // Transition to new scene
+          this.scene.start(targetScene, playerState);
+        });
+      }
+    });
+  }
+
+  /**
    * Common update loop logic
    */
   updateBase(_, dtMs) {
@@ -276,7 +369,13 @@ export class BaseRoomScene extends Phaser.Scene {
           if (inBounds) {
             console.log(`Player in exit zone! Transitioning to ${exit.targetScene}`);
             exit.triggered = true;
-            this.transitionToRoom(exit.targetScene, exit.entryDirection);
+
+            // Use special hole transition if this is a hole exit
+            if (exit.isHole) {
+              this.transitionThroughHole(exit.targetScene, exit.entryDirection);
+            } else {
+              this.transitionToRoom(exit.targetScene, exit.entryDirection);
+            }
             return;
           }
         }
