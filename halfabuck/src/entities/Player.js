@@ -21,12 +21,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Anchor at bottom-center (eliminates waddle from earlier)
     this.setOrigin(0.5, 1.0);
 
-    // Full sprite collision box
-    const collisionWidth = this.width;
-    const collisionHeight = this.height;
+    // Custom collision box: 90% width (trimmed on right), 50% height at bottom
+    // This ensures consistent collision across all directions
+    const collisionWidth = this.width * 0.9;  // 90% width, 10% off right side
+    const collisionHeight = this.height * 0.5;  // 50% height
+    const offsetY = this.height * 0.5;  // Position at bottom half
 
     this.body.setSize(collisionWidth, collisionHeight);
-    this.body.setOffset(0, 0);
+    this.body.setOffset(0, offsetY);
 
     // Don't constrain to world bounds - let tilemap walls provide boundaries
     // this.setCollideWorldBounds(true);
@@ -108,20 +110,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       this.boxSprite.setPosition(this.x, this.y);
     }
 
-    // Adjust collision box based on facing direction for consistency
-    if (this.facing === "up") {
-      // Tighter collision for up-facing to reduce jitter
-      this.body.setSize(this.width * 0.85, this.height * 0.85);
-      this.body.setOffset(this.width * 0.075, this.height * 0.075);
-    } else if (this.facing === "left" || this.facing === "right") {
-      // Uniform height for left/right to match
-      this.body.setSize(this.width, this.height * 0.94);
-      this.body.setOffset(0, this.height * 0.03);
-    } else {
-      // Full collision for down
-      this.body.setSize(this.width, this.height);
-      this.body.setOffset(0, 0);
-    }
+    // Maintain custom collision box: 90% width (trimmed on right), 50% height at bottom
+    // Same for all directions to ensure consistent collision behavior
+    const collisionWidth = this.width * 0.9;
+    const collisionHeight = this.height * 0.5;
+    const offsetY = this.height * 0.5;
+
+    this.body.setSize(collisionWidth, collisionHeight);
+    this.body.setOffset(0, offsetY);
 
     // Keep dragged body attached behind player
     if (this.isDragging && this.dragTarget) {
