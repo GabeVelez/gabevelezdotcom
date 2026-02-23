@@ -12,7 +12,7 @@ export function createInputManager(scene, touchRef) {
     down2: "DOWN",
     left2: "LEFT",
     right2: "RIGHT",
-    interact: "E",
+    interact: "G",
     crouch: "SHIFT",
     box: "Q",
     item: "F",

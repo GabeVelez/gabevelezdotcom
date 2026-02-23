@@ -93,7 +93,7 @@ export class GameUI {
    */
   showInteractionPrompt(itemName) {
     if (!this.interactionPrompt) return;
-    this.interactionPrompt.textContent = `Press E to pick up ${itemName}`;
+    this.interactionPrompt.textContent = `Press G to pick up ${itemName}`;
     this.interactionPrompt.style.display = 'block';
   }
 

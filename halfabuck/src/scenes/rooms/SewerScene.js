@@ -94,6 +94,19 @@ export class SewerScene extends BaseRoomScene {
 
     this.physics.add.collider(this.player, ground);
 
+    // Right wall - custom narrow collision (40% width = 6.4px) below exit area
+    // Positioned at right edge, spanning rows 4-10 (7 tiles = 112px tall)
+    const rightWall = this.add.rectangle(
+      sewerOffsetX + 288 - 3.2, // Right edge minus half width
+      sewerOffsetY + 64 + 56,   // Start at row 4, center of 7-tile height
+      6.4,  // 40% of tile width (60% reduction)
+      112,  // 7 tiles tall (rows 4-10)
+      0x000000,
+      0
+    );
+    this.physics.add.existing(rightWall, true); // true = static body
+    this.physics.add.collider(this.player, rightWall);
+
     this.cameras.main.setBounds(sewerOffsetX, sewerOffsetY, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(this.player, true);
   }
