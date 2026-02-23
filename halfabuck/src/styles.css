@@ -291,7 +291,7 @@ canvas {
 .slot-key {
   position: absolute;
   bottom: 2px;
-  right: 3px;
+  left: 3px;
   font-size: 8px;
   font-family: 'Press Start 2P', monospace;
   color: rgba(255, 255, 255, 0.6);

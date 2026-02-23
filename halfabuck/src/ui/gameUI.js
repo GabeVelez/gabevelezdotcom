@@ -116,9 +116,13 @@ export class GameUI {
     // Get all 3 slots
     const slots = this.inventoryItems.querySelectorAll('.inventory-slot');
 
-    // Clear all slots
+    // Clear all slots (but preserve the slot-key number indicators)
     slots.forEach(slot => {
-      slot.innerHTML = '';
+      // Remove only the item icon, keep the slot-key number
+      const icon = slot.querySelector('i');
+      if (icon) {
+        icon.remove();
+      }
       slot.classList.remove('filled');
       slot.classList.add('empty');
       slot.removeAttribute('title');
