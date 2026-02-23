@@ -25,9 +25,8 @@ export class BootScene extends Phaser.Scene {
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");
     this.load.tilemapTiledJSON("warehouse_map", "assets/maps/warehouse.json");
 
-    // --- Cell tiles ---
-    this.load.image("concrete-floor", "assets/concrete-floor.png");
-    this.load.image("concrete-floor-alt", "assets/concrete-floor-alt.png");
+    // --- Cell background ---
+    this.load.image("cell_layout", "assets/cell/cell-layout.png");
 
     // --- Player sprite sheets (5 frames each, separate files per direction) ---
     this.load.spritesheet("gabe-front", "assets/gabe-front.png", {
@@ -86,6 +85,13 @@ export class BootScene extends Phaser.Scene {
     // --- Placeholder entity textures ---
     this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
     this._makePlaceholderTexture("box", 16, 16, 0xffffff);
+
+    // --- Cell placeholder tiles for layout ---
+    this._makePlaceholderTexture("cell_floor", 16, 16, 0xadd8e6); // light blue
+    this._makePlaceholderTexture("cell_wall_bottom", 16, 16, 0xff8800); // orange
+    this._makePlaceholderTexture("cell_wall_left", 16, 16, 0xd2b48c); // tan
+    this._makePlaceholderTexture("cell_wall_right", 16, 16, 0xffc0cb); // pink
+    this._makePlaceholderTexture("cell_wall_top", 16, 16, 0xb8860b); // dark yellow
   }
 
   create() {

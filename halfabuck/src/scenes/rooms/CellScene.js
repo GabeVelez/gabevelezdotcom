@@ -12,8 +12,18 @@ export class CellScene extends BaseRoomScene {
   create() {
     const { width, height } = this.scale;
 
-    // Create 14x10 cell (including walls)
-    // Interior: 12x8 tiles = 6x4 floor panels (each panel is 2x2 tiles/32x32px)
+    // Cell is 224x160 (14 tiles × 10 tiles)
+    // Center on 320x180 canvas: offset (48, 10)
+    const cellOffsetX = 48;
+    const cellOffsetY = 10;
+
+    // Add cell background image (scale to 224×160)
+    const cellBg = this.add.image(cellOffsetX, cellOffsetY, "cell_layout");
+    cellBg.setOrigin(0, 0);
+    cellBg.setDisplaySize(224, 160); // 14 tiles × 10 tiles at 16px each
+    cellBg.setDepth(0);
+
+    // Create invisible tilemap for collision only
     const map = this.make.tilemap({
       tileWidth: 16,
       tileHeight: 16,
@@ -23,41 +33,55 @@ export class CellScene extends BaseRoomScene {
 
     const tiles = map.addTilesetImage("warehouse_tiles");
     const ground = map.createBlankLayer("ground", tiles);
+    ground.x = cellOffsetX;
+    ground.y = cellOffsetY;
+    ground.setVisible(false); // Invisible - only used for collision
 
-    // Center the tilemap on canvas (320x180)
-    // Cell is 224x160, so offset by (320-224)/2 = 48 horizontal, (180-160)/2 = 10 vertical
-    ground.x = 48;
-    ground.y = 10;
+    // Setup collision tiles
+    ground.fill(1, 0, 0, 14, 10); // Fill with walkable
 
-    // Fill floor with tile 1 (walkable)
-    ground.fill(1, 0, 0, 14, 10);
-
-    // Create walls (tile 2) around perimeter
+    // Top wall - 3 rows deep (rows 0-2)
     for (let x = 0; x < 14; x++) {
-      ground.putTileAt(2, x, 0); // Top wall
-      ground.putTileAt(2, x, 9); // Bottom wall
+      ground.putTileAt(2, x, 0);
+      ground.putTileAt(2, x, 1);
+      ground.putTileAt(2, x, 2);
     }
+
+    // Bottom wall - 1 row (row 9)
+    for (let x = 0; x < 14; x++) {
+      ground.putTileAt(2, x, 9);
+    }
+
+    // Left wall - 2 columns deep (columns 0-1)
     for (let y = 0; y < 10; y++) {
-      ground.putTileAt(2, 0, y); // Left wall
-      ground.putTileAt(2, 13, y); // Right wall
+      ground.putTileAt(2, 0, y);
+      ground.putTileAt(2, 1, y);
     }
 
-    // Create exit door on bottom wall (center)
-    ground.putTileAt(1, 6, 9); // Door opening at center
-    ground.putTileAt(1, 7, 9); // Door opening (2 tiles wide)
+    // Right wall - 2 columns deep (columns 12-13)
+    for (let y = 0; y < 10; y++) {
+      ground.putTileAt(2, 12, y);
+      ground.putTileAt(2, 13, y);
+    }
 
-    // Set collision on walls
-    ground.setCollisionByExclusion([1, 3]); // Everything except floor(1) and shadows(3)
+    // Cot bed collision (left side, tiles x:2-3, y:4-7)
+    for (let y = 4; y <= 7; y++) {
+      ground.putTileAt(2, 2, y);
+      ground.putTileAt(2, 3, y);
+    }
+
+    // Toilet/sink collision (upper right, tiles x:11-12, y:2-3)
+    ground.putTileAt(2, 11, 2);
+    ground.putTileAt(2, 11, 3);
+
+    ground.setCollisionByExclusion([1, 3]);
     this.groundLayer = ground;
-
-    // Overlay concrete floor panels (6x4 panels, each 32x32px)
-    this._addConcreteFloor(ground);
 
     // Create base systems
     this.createBaseSystems();
 
-    // Create player in center of cell (tile 7,5 = center of 14x10)
-    this.createPlayer(48 + 112, 10 + 80);
+    // Create player in center of walkable floor area
+    this.createPlayer(cellOffsetX + 112, cellOffsetY + 80);
 
     // Create guards array (no guards in cell - it's a prison cell)
     this.createGuards();
@@ -66,8 +90,11 @@ export class CellScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Create exit zone at bottom door
-    this.createExit(160, 154, 32, 16, "CorridorScene", "north");
+    // Create exit zone at hole in bottom-right corner (player falls through)
+    // Hole is at bottom-right corner
+    const holeX = cellOffsetX + (12 * 16); // Moved right
+    const holeY = cellOffsetY + (8.5 * 16);
+    this.createExit(holeX, holeY, 28, 28, "CorridorScene", "north");
 
     // Setup physics
     this.physics.add.collider(this.player, ground);
@@ -80,32 +107,5 @@ export class CellScene extends BaseRoomScene {
 
   update(time, delta) {
     this.updateBase(time, delta);
-  }
-
-  /**
-   * Add concrete floor tiles as sprites over walkable areas
-   */
-  _addConcreteFloor(layer) {
-    // Place 6x4 floor panels (each panel is 32x32 pixels = 2x2 game tiles)
-    const offsetX = layer.x;
-    const offsetY = layer.y;
-
-    // Start at tile (1,1) to skip walls, place 6 panels across by 4 down
-    for (let row = 0; row < 4; row++) {
-      for (let col = 0; col < 6; col++) {
-        // Each panel starts at: tile (1 + col*2, 1 + row*2)
-        const tileX = 1 + (col * 2);
-        const tileY = 1 + (row * 2);
-
-        // Convert to world pixels (center of 2x2 tile area)
-        const worldX = offsetX + (tileX * 16) + 16;
-        const worldY = offsetY + (tileY * 16) + 16;
-
-        const sprite = this.add.image(worldX, worldY, "concrete-floor");
-        sprite.setOrigin(0.5, 0.5);
-        sprite.setDisplaySize(32, 32); // Each panel is 32x32 pixels
-        sprite.setDepth(0); // Below player and guards
-      }
-    }
   }
 }
