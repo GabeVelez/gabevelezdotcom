@@ -37,58 +37,64 @@ export class SewerScene extends BaseRoomScene {
     ground.y = sewerOffsetY;
     ground.setVisible(false); // Invisible - only used for collision
 
-    // Setup collision tiles (matching background layout from image)
-    ground.fill(1, 0, 0, 18, 11); // Fill with walkable
+    // Setup collision tiles based on sewercollision.jpg red overlay
+    // Fill all with walkable first
+    ground.fill(1, 0, 0, 18, 11);
 
-    // Top-left pipe block (columns 0-5, rows 0-3)
-    for (let x = 0; x <= 5; x++) {
-      for (let y = 0; y <= 3; y++) {
+    // TOP RED STRIP (rows 0-1, full width except ladder)
+    for (let x = 0; x <= 16; x++) {
+      ground.putTileAt(2, x, 0);
+      ground.putTileAt(2, x, 1);
+    }
+
+    // TOP-LEFT RED BLOCK (columns 1-5, rows 2-3)
+    for (let x = 1; x <= 5; x++) {
+      for (let y = 2; y <= 3; y++) {
         ground.putTileAt(2, x, y);
       }
     }
 
-    // Top-right pipe block (columns 12-17, rows 0-3)
-    for (let x = 12; x <= 17; x++) {
-      for (let y = 0; y <= 3; y++) {
+    // TOP-RIGHT RED BLOCK (columns 11-13, rows 2-3)
+    for (let x = 11; x <= 13; x++) {
+      for (let y = 2; y <= 3; y++) {
         ground.putTileAt(2, x, y);
       }
     }
 
-    // Left wall pipes (columns 0-2, rows 4-9)
-    for (let x = 0; x <= 2; x++) {
-      for (let y = 4; y <= 9; y++) {
-        ground.putTileAt(2, x, y);
-      }
-    }
-
-    // Right wall pipes - top segment (columns 15-17, rows 4-6)
-    for (let x = 15; x <= 17; x++) {
+    // CENTER LARGE RED RECTANGLE (columns 5-12, rows 4-6)
+    for (let x = 5; x <= 12; x++) {
       for (let y = 4; y <= 6; y++) {
         ground.putTileAt(2, x, y);
       }
     }
 
-    // Right wall pipes - bottom segment (columns 15-17, rows 7-10)
-    for (let x = 15; x <= 17; x++) {
-      for (let y = 7; y <= 10; y++) {
+    // LEFT VERTICAL RED SECTIONS (columns 1-2, rows 4-9)
+    for (let x = 1; x <= 2; x++) {
+      for (let y = 4; y <= 9; y++) {
         ground.putTileAt(2, x, y);
       }
     }
 
-    // Bottom-left pipes (columns 0-6, row 10)
-    for (let x = 0; x <= 6; x++) {
+    // RIGHT VERTICAL RED SECTIONS (columns 14-16, rows 4-9)
+    for (let x = 14; x <= 16; x++) {
+      for (let y = 4; y <= 9; y++) {
+        ground.putTileAt(2, x, y);
+      }
+    }
+
+    // BOTTOM LEFT RED (columns 0-4, row 10)
+    for (let x = 0; x <= 4; x++) {
       ground.putTileAt(2, x, 10);
     }
 
-    // Bottom-right pipes (columns 11-17, row 10)
-    for (let x = 11; x <= 17; x++) {
+    // BOTTOM RIGHT RED (columns 8-17, row 10)
+    for (let x = 8; x <= 17; x++) {
       ground.putTileAt(2, x, 10);
     }
 
-    // Green ladder exit area (column 17, full height)
-    // Clear the rightmost column for ladder passage
+    // GREEN LADDER AREA - keep as walkable (column 17, rows 0-10)
     for (let y = 0; y <= 10; y++) {
-      ground.putTileAt(3, 17, y); // Use tile 3 (shadow/walkable) for ladder
+      ground.putTileAt(3, 17, y); // Shadow tile (walkable)
     }
 
     ground.setCollisionByExclusion([1, 3]);
@@ -96,29 +102,27 @@ export class SewerScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn at bottom-center (falling from cell above)
-    // Account for offset
-    let playerX = sewerOffsetX + (9 * 16); // Center of 18-tile width
-    let playerY = sewerOffsetY + (9 * 16); // Near bottom
+    // Player spawn at bottom-center passage (between bottom red areas)
+    let playerX = sewerOffsetX + (6 * 16); // Column 6 (center of gap)
+    let playerY = sewerOffsetY + (9.5 * 16); // Row 9.5 (near bottom)
 
     this.createPlayer(playerX, playerY);
 
     // No guards in sewer - safe transitional space
-    this.createGuards(); // Initialize empty guards array
+    this.createGuards();
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exit at right edge: green ladder leading up to warehouse corridor
-    // Position at column 17 (rightmost), full height
+    // Green ladder exit at far right (column 17, full height)
     const ladderX = sewerOffsetX + (17 * 16) + 8; // Center of column 17
-    const ladderY = sewerOffsetY + (5.5 * 16); // Center vertically (middle of 11 rows)
-    this.createExit(ladderX, ladderY, 16, 176, "WarehouseCorridorScene", "south"); // Full height (11 tiles = 176px)
+    const ladderY = sewerOffsetY + (5.5 * 16); // Center vertically
+    this.createExit(ladderX, ladderY, 16, 176, "WarehouseCorridorScene", "south");
 
     // Physics
     this.physics.add.collider(this.player, ground);
 
-    // Camera - bounds match tilemap size with offset
+    // Camera
     this.cameras.main.setBounds(
       sewerOffsetX,
       sewerOffsetY,
