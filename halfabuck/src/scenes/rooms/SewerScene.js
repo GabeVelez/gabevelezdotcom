@@ -107,6 +107,18 @@ export class SewerScene extends BaseRoomScene {
     this.physics.add.existing(rightWall, true); // true = static body
     this.physics.add.collider(this.player, rightWall);
 
+    // Bottom UI barrier - prevents player from walking behind UI overlay
+    const uiBarrier = this.add.rectangle(
+      160,  // Center of canvas width (320 / 2)
+      170,  // Bottom 20 pixels (180 - 10)
+      320,  // Full canvas width
+      20,   // Barrier height
+      0x000000,
+      0
+    );
+    this.physics.add.existing(uiBarrier, true);
+    this.physics.add.collider(this.player, uiBarrier);
+
     this.cameras.main.setBounds(sewerOffsetX, sewerOffsetY, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(this.player, true);
   }
