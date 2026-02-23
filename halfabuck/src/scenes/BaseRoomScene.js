@@ -392,14 +392,7 @@ export class BaseRoomScene extends Phaser.Scene {
                           py >= exit.bounds.y &&
                           py <= exit.bounds.y + exit.bounds.height;
 
-          // Debug logging
-          if (Math.abs(px - (exit.bounds.x + exit.bounds.width/2)) < 50 &&
-              Math.abs(py - (exit.bounds.y + exit.bounds.height/2)) < 50) {
-            console.log(`Near exit: px=${px.toFixed(0)}, py=${py.toFixed(0)}, exit x=${exit.bounds.x.toFixed(0)}-${(exit.bounds.x + exit.bounds.width).toFixed(0)}, y=${exit.bounds.y.toFixed(0)}-${(exit.bounds.y + exit.bounds.height).toFixed(0)}`);
-          }
-
           if (inBounds) {
-            console.log(`Player in exit zone! Transitioning to ${exit.targetScene}`);
             exit.triggered = true;
 
             // Use special hole transition if this is a hole exit
