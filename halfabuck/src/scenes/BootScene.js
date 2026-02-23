@@ -25,6 +25,10 @@ export class BootScene extends Phaser.Scene {
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");
     this.load.tilemapTiledJSON("warehouse_map", "assets/maps/warehouse.json");
 
+    // --- Cell tiles ---
+    this.load.image("concrete-floor", "assets/concrete-floor.png");
+    this.load.image("concrete-floor-alt", "assets/concrete-floor-alt.png");
+
     // --- Player sprite sheets (5 frames each, separate files per direction) ---
     this.load.spritesheet("gabe-front", "assets/gabe-front.png", {
       frameWidth: 213,
