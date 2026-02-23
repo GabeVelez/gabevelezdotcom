@@ -83,6 +83,9 @@ export class BootScene extends Phaser.Scene {
       frameHeight: 319
     });
 
+    // --- Cell props ---
+    this.load.image("cardboardbox", "assets/cardboardbox.png");
+
     // --- Placeholder entity textures ---
     this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
     this._makePlaceholderTexture("box", 16, 16, 0xffffff);

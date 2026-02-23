@@ -88,6 +88,12 @@ export class CellScene extends BaseRoomScene {
       this._exits[0].isHole = true;
     }
 
+    // Add cardboard box covering the hole
+    const cardboardBox = this.add.image(holeX, holeY, "cardboardbox");
+    cardboardBox.setOrigin(0.5, 0.5);
+    cardboardBox.setDisplaySize(32, 32); // Scale to fit hole area
+    cardboardBox.setDepth(5); // Above floor, below player
+
     // Setup physics
     this.physics.add.collider(this.player, ground);
 
