@@ -48,7 +48,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.boxSprite = scene.add.image(x, y, "cardboardbox");
     this.boxSprite.setOrigin(0.5, 1.0); // Match player origin
     this.boxSprite.setDisplaySize(32, 32); // Same as collectible item
-    this.boxSprite.setDepth(this.depth + 1); // Above player
+    this.boxSprite.setDepth(100); // High depth to ensure it covers player
     this.boxSprite.setVisible(false);
 
     this.stateMachine = new StateMachine(PlayerStates.IDLE, {
