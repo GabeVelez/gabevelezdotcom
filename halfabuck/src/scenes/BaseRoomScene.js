@@ -547,10 +547,8 @@ export class BaseRoomScene extends Phaser.Scene {
 
     this._nearbyItem = nearestItem;
 
-    // Update tooltip display
+    // Update tooltip display (HTML overlay only, no in-game label)
     if (this._nearbyItem) {
-      this._renderInteractionTooltip();
-
       // Update UI to show interaction prompt
       if (this.gameUI) {
         this.gameUI.showInteractionPrompt(this._nearbyItem.itemName);
@@ -561,8 +559,6 @@ export class BaseRoomScene extends Phaser.Scene {
         this._collectItem(this._nearbyItem);
       }
     } else {
-      this._clearInteractionTooltip();
-
       // Hide UI interaction prompt
       if (this.gameUI) {
         this.gameUI.hideInteractionPrompt();
@@ -591,77 +587,4 @@ export class BaseRoomScene extends Phaser.Scene {
     }
   }
 
-  /**
-   * Render interaction tooltip
-   */
-  _renderInteractionTooltip() {
-    if (!this._nearbyItem) return;
-
-    this._tooltipGraphics.clear();
-
-    const item = this._nearbyItem;
-    const text = `Press E to pick up ${item.itemName}`;
-
-    // Position tooltip above the item
-    const tooltipX = item.x;
-    const tooltipY = item.y - 30;
-
-    // Draw background box
-    const padding = 6;
-    const fontSize = 10;
-    const textWidth = text.length * 6; // Approximate width
-    const textHeight = fontSize + 4;
-
-    this._tooltipGraphics.fillStyle(0x000000, 0.8);
-    this._tooltipGraphics.fillRoundedRect(
-      tooltipX - textWidth/2 - padding,
-      tooltipY - textHeight/2 - padding,
-      textWidth + padding * 2,
-      textHeight + padding * 2,
-      4
-    );
-
-    // Draw border
-    this._tooltipGraphics.lineStyle(2, 0xffff00, 1);
-    this._tooltipGraphics.strokeRoundedRect(
-      tooltipX - textWidth/2 - padding,
-      tooltipY - textHeight/2 - padding,
-      textWidth + padding * 2,
-      textHeight + padding * 2,
-      4
-    );
-
-    // Draw line to item
-    this._tooltipGraphics.lineStyle(2, 0xffff00, 0.5);
-    this._tooltipGraphics.beginPath();
-    this._tooltipGraphics.moveTo(tooltipX, tooltipY + textHeight/2);
-    this._tooltipGraphics.lineTo(item.x, item.y);
-    this._tooltipGraphics.strokePath();
-
-    // Create text object if not exists
-    if (!this._tooltipText) {
-      this._tooltipText = this.add.text(0, 0, '', {
-        fontSize: '10px',
-        fontFamily: 'Arial',
-        color: '#ffff00',
-        align: 'center'
-      });
-      this._tooltipText.setDepth(1002);
-      this._tooltipText.setOrigin(0.5, 0.5);
-    }
-
-    this._tooltipText.setText(text);
-    this._tooltipText.setPosition(tooltipX, tooltipY);
-    this._tooltipText.setVisible(true);
-  }
-
-  /**
-   * Clear interaction tooltip
-   */
-  _clearInteractionTooltip() {
-    this._tooltipGraphics.clear();
-    if (this._tooltipText) {
-      this._tooltipText.setVisible(false);
-    }
-  }
 }

@@ -66,19 +66,27 @@ canvas {
   color: white;
 }
 
-/* Detection meter - bottom left */
-#detection-container {
+/* Bottom UI container - centered with border */
+#bottom-ui {
   position: absolute;
   bottom: 16px;
-  left: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
   pointer-events: none;
+}
+
+/* Detection meter */
+#detection-container {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 #detection-label {
@@ -112,49 +120,41 @@ canvas {
   background: #ff3333;
 }
 
-/* Controls - bottom right */
-#controls-container {
-  position: absolute;
-  bottom: 16px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  pointer-events: auto;
-}
 
 #help-text {
   font-size: 14px;
   font-weight: 700;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 8px 12px;
-  border-radius: 4px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
   pointer-events: none;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 #sound-toggle {
-  width: 36px;
-  height: 36px;
-  background: rgba(0, 0, 0, 0.7);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  transition: background 0.2s ease;
+  transition: opacity 0.2s ease;
+  pointer-events: auto;
+  padding: 0;
 }
 
 #sound-toggle:hover {
-  background: rgba(0, 0, 0, 0.9);
-  border-color: rgba(255, 255, 255, 0.5);
+  opacity: 0.7;
 }
 
 #sound-toggle:active {
-  transform: scale(0.95);
+  opacity: 0.5;
+}
+
+#sound-icon {
+  color: white;
+  font-size: 20px;
 }
 
 /* Help overlay (toggled with H key) */
@@ -250,42 +250,38 @@ canvas {
   50% { opacity: 0.7; }
 }
 
-/* Inventory - top left */
+/* Inventory - 3 slot system */
 #inventory-container {
-  position: absolute;
-  top: 16px;
-  left: 20px;
-  background: rgba(0, 0, 0, 0.7);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   pointer-events: none;
-  min-width: 140px;
-}
-
-#inventory-label {
-  font-size: 14px;
-  font-weight: 900;
-  color: #00ff88;
-  text-shadow: 2px 2px 4px rgba(0, 255, 136, 0.3);
-  letter-spacing: 1px;
-  margin-bottom: 8px;
 }
 
 #inventory-items {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-direction: row;
+  gap: 8px;
 }
 
-.inventory-item {
-  background: rgba(0, 255, 136, 0.15);
-  border: 1px solid rgba(0, 255, 136, 0.4);
+/* Inventory slots */
+.inventory-slot {
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
-  padding: 6px 10px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffffff;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
-  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.inventory-slot.empty {
+  border-style: solid;
+}
+
+.inventory-slot.filled {
+  background: rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 255, 255, 0.5);
 }

@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   </head>
   <body>
     <div id="game"></div>
@@ -20,26 +23,32 @@
       <!-- Top center: Interaction prompt -->
       <div id="interaction-prompt" style="display: none;"></div>
 
-      <!-- Top left: Inventory -->
-      <div id="inventory-container" style="display: none;">
-        <div id="inventory-label">INVENTORY:</div>
-        <div id="inventory-items"></div>
-      </div>
-
-      <!-- Bottom left: Detection meter -->
-      <div id="detection-container">
-        <div id="detection-label">DETECTION:</div>
-        <div id="detection-meter-bg">
-          <div id="detection-meter-fill"></div>
-        </div>
-      </div>
-
-      <!-- Bottom right: Controls -->
-      <div id="controls-container">
-        <div id="help-text">Press H for help</div>
+      <!-- Bottom center: All controls -->
+      <div id="bottom-ui">
+        <!-- Sound toggle -->
         <button id="sound-toggle" aria-label="Toggle sound">
-          <span id="sound-icon">🔊</span>
+          <i id="sound-icon" class="bi bi-volume-up-fill"></i>
         </button>
+
+        <!-- Detection meter -->
+        <div id="detection-container">
+          <div id="detection-label">DETECTION:</div>
+          <div id="detection-meter-bg">
+            <div id="detection-meter-fill"></div>
+          </div>
+        </div>
+
+        <!-- Inventory (always visible with 3 slots) -->
+        <div id="inventory-container">
+          <div id="inventory-items">
+            <div class="inventory-slot empty"></div>
+            <div class="inventory-slot empty"></div>
+            <div class="inventory-slot empty"></div>
+          </div>
+        </div>
+
+        <!-- Help text -->
+        <div id="help-text">Press H for help</div>
       </div>
 
       <!-- Help overlay (toggled with H key) -->

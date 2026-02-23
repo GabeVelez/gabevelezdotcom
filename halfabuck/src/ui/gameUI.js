@@ -52,7 +52,11 @@ export class GameUI {
    * Update sound button icon
    */
   updateSoundIcon(enabled) {
-    this.soundIcon.textContent = enabled ? '🔊' : '🔇';
+    if (enabled) {
+      this.soundIcon.className = 'bi bi-volume-up-fill';
+    } else {
+      this.soundIcon.className = 'bi bi-volume-mute-fill';
+    }
   }
 
   /**
@@ -102,28 +106,39 @@ export class GameUI {
   }
 
   /**
-   * Update inventory display
+   * Update inventory display (3-slot system)
    */
   updateInventory(items) {
     if (!this.inventoryItems) return;
 
-    // Clear current items
-    this.inventoryItems.innerHTML = '';
+    console.log('Updating inventory with items:', items);
 
-    // Show inventory container if there are items
-    if (items.length > 0) {
-      this.inventoryContainer.style.display = 'block';
+    // Get all 3 slots
+    const slots = this.inventoryItems.querySelectorAll('.inventory-slot');
 
-      // Add each item
-      items.forEach(item => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'inventory-item';
-        itemDiv.textContent = item.name;
-        itemDiv.title = item.description || item.name;
-        this.inventoryItems.appendChild(itemDiv);
-      });
-    } else {
-      this.inventoryContainer.style.display = 'none';
-    }
+    // Clear all slots
+    slots.forEach(slot => {
+      slot.innerHTML = '';
+      slot.classList.remove('filled');
+      slot.classList.add('empty');
+      slot.removeAttribute('title');
+    });
+
+    // Fill slots with collected items
+    items.forEach((item, index) => {
+      if (index >= 3) return; // Only 3 slots
+
+      const slot = slots[index];
+      slot.classList.remove('empty');
+      slot.classList.add('filled');
+      slot.title = item.description || item.name;
+
+      // Add Bootstrap icon based on item ID (note: inventory uses 'id' not 'itemId')
+      if (item.id === 'cardboard_box') {
+        const icon = document.createElement('i');
+        icon.className = 'bi bi-box-seam-fill';
+        slot.appendChild(icon);
+      }
+    });
   }
 }
