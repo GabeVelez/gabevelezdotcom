@@ -43,6 +43,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.isBoxed = false;
 
+    // Create cardboard box sprite (initially hidden)
+    this.boxSprite = scene.add.image(x, y, "cardboardbox");
+    this.boxSprite.setOrigin(0.5, 1.0); // Match player origin
+    this.boxSprite.setScale(0.12); // Slightly smaller than player
+    this.boxSprite.setDepth(this.depth + 1); // Above player
+    this.boxSprite.setVisible(false);
+
     this.stateMachine = new StateMachine(PlayerStates.IDLE, {
       [PlayerStates.IDLE]: new IdleState(),
       [PlayerStates.WALK]: new WalkState(),
@@ -53,11 +60,31 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(input) {
-    // Toggle box on edge-trigger
+    // Toggle box on edge-trigger (only if player has cardboard box in inventory)
     if (input.justBox) {
-      this.isBoxed = !this.isBoxed;
-      if (this.isBoxed) this.stateMachine.transition(PlayerStates.BOX);
-      else this.stateMachine.transition(PlayerStates.IDLE);
+      const inventory = this.scene.registry.get("inventory");
+
+      // Only allow boxing if player has the cardboard box
+      if (inventory && inventory.hasItem("cardboard_box")) {
+        this.isBoxed = !this.isBoxed;
+
+        if (this.isBoxed) {
+          this.stateMachine.transition(PlayerStates.BOX);
+          // Play sound feedback for entering box
+          if (this.scene.registry.get("soundEnabled")) {
+            this.scene.sound.play("alert", { volume: 0.3 });
+          }
+        } else {
+          this.stateMachine.transition(PlayerStates.IDLE);
+          // Play sound feedback for exiting box
+          if (this.scene.registry.get("soundEnabled")) {
+            this.scene.sound.play("alert", { volume: 0.2 });
+          }
+        }
+      } else if (!this.isBoxed) {
+        // Optional: Play a different sound or show message that box is not available
+        console.log("You don't have a cardboard box!");
+      }
     }
 
     // Dragging cancels box
@@ -67,6 +94,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.stateMachine.step(input);
+
+    // Update box sprite position to follow player
+    if (this.boxSprite) {
+      this.boxSprite.setPosition(this.x, this.y);
+    }
 
     // Adjust collision box based on facing direction for consistency
     if (this.facing === "up") {
@@ -168,11 +200,17 @@ class CrouchState {
 class BoxState {
   enter(player) {
     player.setVelocity(0, 0);
-    player.setTexture("box", 0);
+    // Show box sprite over player
+    if (player.boxSprite) {
+      player.boxSprite.setVisible(true);
+    }
   }
   execute(player, input) {
     if (!player.isBoxed) {
-      player.setTexture("player", 0);
+      // Hide box sprite and return to idle
+      if (player.boxSprite) {
+        player.boxSprite.setVisible(false);
+      }
       player.anims.play(`idle_${player.facing}`, true);
       return player.stateMachine.transition(PlayerStates.IDLE);
     }
@@ -186,6 +224,7 @@ class BoxState {
       return;
     }
 
+    // Use slower box speed for movement
     const speed = player.getMoveSpeed(player.boxSpeed);
     v.normalize().scale(speed);
     player.setVelocity(v.x, v.y);
