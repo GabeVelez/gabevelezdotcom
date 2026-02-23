@@ -105,8 +105,9 @@ export class BaseRoomScene extends Phaser.Scene {
    * Play landing animation after falling through hole
    */
   _playLandingAnimation() {
-    // Start small (like coming up from hole) - 0.15 * 0.3 = 0.045
-    this.player.setScale(0.045);
+    // Start small (like coming up from hole)
+    this.player.setScale(0.01);
+    this.player.setAlpha(1); // Reset alpha
     this.player.body.enable = false;
 
     // Fade in from black
@@ -317,14 +318,15 @@ export class BaseRoomScene extends Phaser.Scene {
     // Camera shake
     this.cameras.main.shake(150, 0.005);
 
-    // Player shrinks and rotates into hole (from 0.15 to 0.045)
+    // Player shrinks and drops vertically into hole (from 0.15 to invisible)
     this.tweens.add({
       targets: this.player,
-      scaleX: 0.045,
-      scaleY: 0.045,
-      angle: 360,
-      duration: 200,
-      ease: 'Power2',
+      scaleX: 0.01,
+      scaleY: 0.01,
+      y: this.player.y + 40, // Drop down 40 pixels into hole
+      alpha: 0.3, // Fade out as falling
+      duration: 250,
+      ease: 'Cubic.easeIn', // Accelerating fall
       onComplete: () => {
         // Quick fade to black
         this.cameras.main.fadeOut(150, 0, 0, 0);
@@ -359,8 +361,10 @@ export class BaseRoomScene extends Phaser.Scene {
     if (this._exits) {
       for (const exit of this._exits) {
         if (!exit.triggered) {
+          // Use player's center position (origin is 0.5, 1.0)
           const px = this.player.x;
-          const py = this.player.y;
+          const py = this.player.y - (this.player.displayHeight / 2); // Adjust for bottom-center origin
+
           const inBounds = px >= exit.bounds.x &&
                           px <= exit.bounds.x + exit.bounds.width &&
                           py >= exit.bounds.y &&

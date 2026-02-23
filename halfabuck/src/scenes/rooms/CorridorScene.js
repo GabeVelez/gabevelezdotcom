@@ -82,8 +82,7 @@ export class CorridorScene extends BaseRoomScene {
     this.buildWaypointNetwork(ground);
 
     // Exits - positioned to extend into walkable area for easier triggering
-    // Top exit: extends from door into corridor
-    this.createExit(160, 20, 32, 32, "CellScene", "south");
+    // No return to cell - one-way escape through hole
     // Bottom exit: extends from door into corridor
     this.createExit(160, 300, 32, 32, "WarehouseMainScene", "north");
 
