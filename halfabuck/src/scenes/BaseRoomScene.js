@@ -110,21 +110,21 @@ export class BaseRoomScene extends Phaser.Scene {
     this.player.setAlpha(1); // Reset alpha
     this.player.body.enable = false;
 
-    // Fade in from black
-    this.cameras.main.fadeIn(100, 0, 0, 0);
+    // Slower fade in from black
+    this.cameras.main.fadeIn(250, 0, 0, 0);
 
-    // Wait a moment, then pop up with bounce
-    this.time.delayedCall(100, () => {
+    // Wait longer before pop-up (player stays small momentarily)
+    this.time.delayedCall(350, () => {
       // Camera shake on landing
-      this.cameras.main.shake(100, 0.003);
+      this.cameras.main.shake(150, 0.004);
 
-      // Pop up to normal size (0.15) with bounce
+      // Slower, more pronounced pop-up with elastic bounce
       this.tweens.add({
         targets: this.player,
         scaleX: 0.15,
         scaleY: 0.15,
-        duration: 200,
-        ease: 'Back.easeOut',
+        duration: 450,
+        ease: 'Elastic.easeOut',
         onComplete: () => {
           // Re-enable player movement
           this.player.body.enable = true;
