@@ -40,39 +40,26 @@ export class CellScene extends BaseRoomScene {
     // Setup collision tiles
     ground.fill(1, 0, 0, 14, 10); // Fill with walkable
 
-    // Top wall - 3 rows deep (rows 0-2)
+    // Top wall - 2 rows deep (rows 0-1)
     for (let x = 0; x < 14; x++) {
       ground.putTileAt(2, x, 0);
       ground.putTileAt(2, x, 1);
-      ground.putTileAt(2, x, 2);
     }
 
-    // Bottom wall - 1 row (row 9)
-    for (let x = 0; x < 14; x++) {
-      ground.putTileAt(2, x, 9);
-    }
+    // Bottom wall - half tile height (custom physics body instead of tilemap)
+    // Will add custom collision below
 
-    // Left wall - 2 columns deep (columns 0-1)
+    // Left wall - 1 column (column 0)
     for (let y = 0; y < 10; y++) {
       ground.putTileAt(2, 0, y);
-      ground.putTileAt(2, 1, y);
     }
 
-    // Right wall - 2 columns deep (columns 12-13)
+    // Right wall - 1 column (column 13)
     for (let y = 0; y < 10; y++) {
-      ground.putTileAt(2, 12, y);
       ground.putTileAt(2, 13, y);
     }
 
-    // Cot bed collision (left side, tiles x:2-3, y:4-7)
-    for (let y = 4; y <= 7; y++) {
-      ground.putTileAt(2, 2, y);
-      ground.putTileAt(2, 3, y);
-    }
-
-    // Toilet/sink collision (upper right, tiles x:11-12, y:2-3)
-    ground.putTileAt(2, 11, 2);
-    ground.putTileAt(2, 11, 3);
+    // Cot bed collision - will use custom physics body for 1.5 tile width
 
     ground.setCollisionByExclusion([1, 3]);
     this.groundLayer = ground;
@@ -98,6 +85,30 @@ export class CellScene extends BaseRoomScene {
 
     // Setup physics
     this.physics.add.collider(this.player, ground);
+
+    // Bottom wall - custom half-height collision (8 pixels tall)
+    const bottomWall = this.add.rectangle(
+      cellOffsetX + 112, // Center of cell width
+      cellOffsetY + 156, // Bottom of cell (160 - 4 pixels)
+      224, // Full width
+      8,   // Half tile height
+      0x000000,
+      0
+    );
+    this.physics.add.existing(bottomWall, true); // true = static body
+    this.physics.add.collider(this.player, bottomWall);
+
+    // Cot bed - custom 1.5 tile width collision (24 pixels wide, 64 pixels tall)
+    const cotBed = this.add.rectangle(
+      cellOffsetX + 28,  // Column 1.75 center (1.5 tiles wide starting at column 1)
+      cellOffsetY + 88,  // Row 5.5 center (rows 4-7)
+      24,  // 1.5 tiles wide
+      64,  // 4 tiles tall
+      0x000000,
+      0
+    );
+    this.physics.add.existing(cotBed, true);
+    this.physics.add.collider(this.player, cotBed);
 
     // Camera - don't follow player, keep view centered on full canvas
     this.cameras.main.setBounds(0, 0, width, height);
