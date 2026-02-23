@@ -16,12 +16,14 @@ Play at: [gabevelez.com/halfabuck](https://gabevelez.com/halfabuck)
 
 - **Pure Stealth Gameplay** — Avoid guard vision cones to progress through rooms
 - **Detection System** — Dynamic detection meters that fill when spotted, drain when hidden
-- **Guard AI** — Three enemy types with distinct behaviors and patrol patterns
+- **Guard AI** — Three enemy types with distinct behaviors, A* pathfinding, and coordinated patrols
 - **Multi-Room Levels** — Navigate from prison cell → corridor → warehouse
-- **Cardboard Box** — Hide in a box to avoid detection
+- **Item Collection** — 3-slot inventory system with collectible items
+- **Cardboard Box Mechanic** — Find and collect a cardboard box, then hide inside to avoid detection
+- **Hole Escape** — Fall through a hole in the cell floor to escape (with landing animation)
 - **Game Over Mechanics** — Full detection triggers game over with sound effects
 - **Mobile Support** — Landscape-only touch controls with virtual D-pad
-- **Sound System** — Intro music and sound effects with toggle button
+- **Sound System** — Intro music, item pickup, box toggle, and ambient sound effects with toggle button
 - **Debug Tools** — Collision, vision, and help overlays for development
 
 ### In Development & Testing Needed
@@ -37,8 +39,9 @@ Play at: [gabevelez.com/halfabuck](https://gabevelez.com/halfabuck)
 
 ### Desktop
 - **WASD / Arrow Keys** — Move
-- **E** — Toggle cardboard box
-- **Space** — Interact (reserved for future use)
+- **E** — Pick up items
+- **Q** — Toggle cardboard box (when collected)
+- **Space** — Reserved for future use
 
 ### Debug Keys (Desktop)
 - **C** — Toggle collision overlay
@@ -50,8 +53,9 @@ Play at: [gabevelez.com/halfabuck](https://gabevelez.com/halfabuck)
 
 ### Mobile
 - **Virtual D-pad** — Move in 8 directions
-- **Button X** — Toggle box
-- **Buttons A, B, Y** — Reserved for future use
+- **Button X** — Toggle cardboard box (when collected)
+- **Button A** — Pick up items
+- **Buttons B, Y** — Reserved for future use
 
 **Note:** Mobile requires landscape orientation.
 
@@ -106,8 +110,15 @@ halfabuck/
 **Detection System:**
 - Guards have cone-shaped vision based on facing direction
 - Detection meter fills when player is in view
-- Box mechanic: Guards ignore stationary boxes (move slowly while boxed)
+- Cardboard box mechanic: Find and collect a box, then hide inside (guards ignore stationary boxes)
+- Move slowly while boxed (32 px/sec vs 80 px/sec walking)
 - Walls block line of sight using ray-casting
+
+**Item System:**
+- 3-slot inventory displayed in bottom UI
+- Press E to pick up items (with visual prompt)
+- Cardboard box: Collectible item found in the cell, used for hiding from guards
+- Sound effects: Confirm-tap for pickup, paper-slide for box toggle
 
 **Alert System (In Development):**
 - When one guard fully detects you, other guards are alerted
@@ -127,9 +138,9 @@ halfabuck/
 
 ### Current Levels
 
-1. **The Cell** — Tutorial room with no guards
-2. **Corridor** — First stealth challenge with 1 guard
-3. **Warehouse Main** — 3 guards with overlapping patrol routes
+1. **The Cell** — Starting prison cell with a hole in the floor covered by a cardboard box. Collect the box to reveal the escape hole, then fall through to the corridor below (with cinematic landing animation).
+2. **Corridor** — First stealth challenge with 1 guard using A* pathfinding
+3. **Warehouse Main** — 3 guards (Regular, Lead, Overseer) with overlapping patrol routes and coordinated AI
 
 ### Planned Levels
 
@@ -175,9 +186,12 @@ See [DEPLOY.md](DEPLOY.md) for deployment instructions.
 ### ✅ Complete
 - Core stealth loop (detection, vision, movement)
 - Multi-room architecture with transitions
-- Guard AI with patrol behaviors
-- Player state machine (walk, box)
-- Sound system and mobile controls
+- Guard AI with A* pathfinding and enhanced states
+- Player state machine (walk, crouch, box, detected)
+- Item collection system (3-slot inventory)
+- Cardboard box mechanic (collectible + hiding)
+- Hole escape from cell with fall/landing animations
+- Sound system with pickup/toggle effects and mobile controls
 - Game over and victory conditions
 
 ### 🚧 In Progress

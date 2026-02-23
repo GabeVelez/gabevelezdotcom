@@ -62,12 +62,18 @@ Top-down stealth view
 
 **Movement:**
 - Walk (normal speed: 80 px/sec)
-- Cardboard box concealment (slower: 32 px/sec)
+- Crouch (slower: 48 px/sec) - hold Shift
+- Cardboard box concealment (slowest: 32 px/sec)
+
+**Item Collection:**
+- 3-slot inventory system
+- Press E to pick up items (visual prompt appears when near)
+- Cardboard box: Must be found and collected before use
 
 **Stealth Tactics:**
 - Avoid guard vision cones
-- Use cardboard box to hide (guards ignore stationary boxes)
-- Navigate patrol patterns
+- Collect and use cardboard box to hide (guards ignore stationary boxes)
+- Navigate patrol patterns and use A* pathfinding-aware guard behavior
 - Stay out of sight
 
 **Core Rule:** Pure evasion. No combat, no knockouts—just stealth.
@@ -151,20 +157,26 @@ Transition state back to patrol route after alert timeout.
 ### Current Implementation
 
 **Level 1: The Cell**
-- Starting room with bed
-- Tutorial for movement controls
-- Single exit to corridor
-- No guards
+- Starting prison cell with single background image
+- Hole in floor covered by a cardboard box collectible
+- Tutorial for movement and item collection
+- Collect the cardboard box to reveal the escape hole
+- Fall through hole with cinematic animation (shrink, fade, delay, pop-up landing)
+- No guards - safe tutorial space
 
 **Level 2: Corridor**
 - Long hallway connecting cell to warehouse
-- 1 Regular Guard patrol
+- 1 Regular Guard with A* pathfinding patrol
 - First stealth challenge
+- Teaches cardboard box hiding mechanic
 
 **Level 3: Warehouse Main**
 - Large warehouse area with room divisions
-- 3 Guards (Regular, Lead, Overseer)
+- 3 Guards (Regular, Lead, Overseer) with enhanced AI
+- A* pathfinding with obstacle avoidance
+- Waypoint network navigation
 - Multiple patrol paths and vision overlaps
+- Guards coordinate and track last known player position
 - Exit leads to wine cellar (planned)
 
 ### Planned Levels
@@ -207,11 +219,18 @@ Simple, clean victory.
 
 ### ✅ Implemented
 - Multi-room level architecture with transitions
-- Guard patrol AI with waypoint following
+- Guard AI with A* pathfinding (easystarjs library)
+- Enhanced guard states: PATROL, SUSPICIOUS, INVESTIGATE, CHASE, SEARCH, ALERT
+- Obstacle avoidance and waypoint network navigation
+- Last known position tracking and guard coordination
 - Detection meter system (visual + text feedback)
 - Vision cone system with wall ray-casting
 - Multiple guard types with distinct behaviors
-- Player movement states (walk, box)
+- Player movement states (walk, crouch, box, detected)
+- 3-slot inventory system with item collection
+- Cardboard box mechanic (collectible item + hiding)
+- Hole escape from cell with fall/landing animations
+- Sound effects: item pickup (confirm-tap), box toggle (paper-slide)
 - Sound system with toggle control
 - Touch controls for mobile (landscape-only)
 - Game over condition on full detection
@@ -219,18 +238,17 @@ Simple, clean victory.
 - Debug overlays (collision, vision, help)
 
 ### 🧪 Needs Implementation & Testing
-- **Alert broadcast system:** Guards respond to alerts from other guards
+- **Alert broadcast system:** Guards respond to alerts from other guards (partially implemented)
 - **Guard response behavior:** Different movement patterns based on guard type
 - **Alert aggression tuning:** Balance response speed and behavior
-- Cardboard box mechanic refinement (currently exists but may need tuning)
+- Cardboard box detection tuning (guards should ignore stationary boxes)
+- Additional inventory items and interactive objects
 
 ### ❌ Removed from Scope
 - Knockout mechanics (not part of pure stealth vision)
 - Body dragging (removed)
-- Crouching (removed—simplified to walk + box only)
 - Birthday narrative (simplified to pure escape mission)
 - Environmental puzzles (Molotov, lighter mechanics)
-- Inventory system
 
 ---
 
