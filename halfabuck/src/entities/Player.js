@@ -76,6 +76,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             this.scene.sound.play("box_toggle", { volume: 0.5 });
           }
         } else {
+          // Hide box sprite when toggling off
+          if (this.boxSprite) {
+            this.boxSprite.setVisible(false);
+          }
           this.stateMachine.transition(PlayerStates.IDLE);
           // Play paper slide sound for exiting box
           if (this.scene.registry.get("soundEnabled")) {
