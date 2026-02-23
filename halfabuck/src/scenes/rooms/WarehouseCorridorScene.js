@@ -2,12 +2,12 @@ import { BaseRoomScene } from "../BaseRoomScene.js";
 import { Guard } from "../../entities/Guard.js";
 
 /**
- * Corridor - Long hallway connecting cell to warehouse rooms
- * First guard encounter
+ * Warehouse Corridor - First guard encounter after climbing from sewer
+ * Long hallway with 1 patrolling guard
  */
-export class CorridorScene extends BaseRoomScene {
+export class WarehouseCorridorScene extends BaseRoomScene {
   constructor() {
-    super("CorridorScene");
+    super("WarehouseCorridorScene");
   }
 
   create() {
@@ -37,11 +37,11 @@ export class CorridorScene extends BaseRoomScene {
       ground.putTileAt(2, 19, y); // Right wall
     }
 
-    // Exit to cell (top)
-    ground.putTileAt(1, 9, 0);
-    ground.putTileAt(1, 10, 0);
+    // Entry from sewer (top-left, ladder comes up here)
+    ground.putTileAt(1, 2, 0);
+    ground.putTileAt(1, 3, 0);
 
-    // Exit to warehouse rooms (bottom)
+    // Exit to warehouse main (bottom)
     ground.putTileAt(1, 9, 19);
     ground.putTileAt(1, 10, 19);
 
@@ -61,15 +61,18 @@ export class CorridorScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
-    // Spawn well away from exit zones to avoid immediate re-triggering
-    let playerX = 160;
-    let playerY = 50; // Coming from Cell (top entrance) - spawn below exit zone
-    if (this.entryDirection === "south") {
-      playerY = 270; // Coming from Warehouse (bottom entrance) - spawn above exit zone
+    let playerX = 48; // Left side, near ladder entrance
+    let playerY = 50; // Coming from sewer (top entrance) - spawn below exit zone
+
+    if (this.entryDirection === "north") {
+      // Coming back from warehouse main (bottom entrance)
+      playerX = 160;
+      playerY = 270; // Spawn above exit zone
     }
+
     this.createPlayer(playerX, playerY);
 
-    // Create one guard patrolling corridor
+    // Create one guard patrolling corridor - first stealth challenge
     this.createGuards();
     const guard1 = new Guard(this, 160, 100, [
       { x: 160, y: 100 },
@@ -81,9 +84,11 @@ export class CorridorScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exits - positioned to extend into walkable area for easier triggering
-    // No return to cell - one-way escape through hole
-    // Bottom exit: extends from door into corridor
+    // Exits
+    // Top-left: back to sewer (ladder down)
+    this.createExit(40, 20, 32, 32, "SewerScene", "north");
+
+    // Bottom: to warehouse main
     this.createExit(160, 300, 32, 32, "WarehouseMainScene", "north");
 
     // Physics

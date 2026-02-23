@@ -121,7 +121,7 @@ export class WarehouseMainScene extends BaseRoomScene {
 
     // Exits - positioned at center of door tiles
     // Top exit: tiles (14,0) and (15,0) = pixels (224,0) to (256,16), center at (240, 20)
-    this.createExit(240, 20, 32, 32, "CorridorScene", "south");
+    this.createExit(240, 20, 32, 32, "WarehouseCorridorScene", "south");
     // TODO: Add exit to wine cellar scene when created
 
     // Physics
