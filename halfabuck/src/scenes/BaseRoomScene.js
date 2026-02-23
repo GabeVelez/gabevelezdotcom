@@ -5,6 +5,7 @@ import { LeadGuard } from "../entities/LeadGuard.js";
 import { Overseer } from "../entities/Overseer.js";
 import { VisionSystem } from "../systems/visionSystem.js";
 import { createInputManager } from "../systems/input.js";
+import { InventorySystem } from "../systems/inventorySystem.js";
 
 /**
  * Base class for all room scenes in the game.
@@ -28,6 +29,15 @@ export class BaseRoomScene extends Phaser.Scene {
    */
   createBaseSystems() {
     const { width, height } = this.scale;
+
+    // Initialize inventory system (shared across scenes via registry)
+    if (!this.registry.get("inventory")) {
+      this.registry.set("inventory", new InventorySystem());
+    }
+    this.inventory = this.registry.get("inventory");
+
+    // Initialize items array for this scene
+    this.items = [];
 
     // Start intro music during gameplay if sound is enabled
     if (!this.registry.get("intro_music")) {
@@ -65,6 +75,10 @@ export class BaseRoomScene extends Phaser.Scene {
     this._visionDebugOn = true;
     this._bodyDebug = this.add.graphics().setDepth(1000);
     this._bodyDebugOn = false;
+
+    // Interaction tooltip graphics
+    this._tooltipGraphics = this.add.graphics().setDepth(1001);
+    this._nearbyItem = null;
 
     // Debug controls
     this.input.keyboard.on("keydown-C", () => this._toggleCollisionDebug());
@@ -357,6 +371,9 @@ export class BaseRoomScene extends Phaser.Scene {
     // Update player
     this.player.update(input);
 
+    // Check for nearby items
+    this._checkItemInteraction(input);
+
     // Check exits manually
     if (this._exits) {
       for (const exit of this._exits) {
@@ -505,5 +522,146 @@ export class BaseRoomScene extends Phaser.Scene {
     this.anims.create({ key: "overseer_walk_up", frames: this.anims.generateFrameNumbers("overseer-back", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
     this.anims.create({ key: "overseer_walk_left", frames: this.anims.generateFrameNumbers("overseer-left", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
     this.anims.create({ key: "overseer_walk_right", frames: this.anims.generateFrameNumbers("overseer-right", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+  }
+
+  /**
+   * Check for item interaction
+   */
+  _checkItemInteraction(input) {
+    // Find nearest item in range
+    let nearestItem = null;
+    let nearestDistance = Infinity;
+
+    for (const item of this.items) {
+      if (item.isPlayerInRange(this.player)) {
+        const distance = Phaser.Math.Distance.Between(
+          this.player.x, this.player.y,
+          item.x, item.y
+        );
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestItem = item;
+        }
+      }
+    }
+
+    this._nearbyItem = nearestItem;
+
+    // Update tooltip display
+    if (this._nearbyItem) {
+      this._renderInteractionTooltip();
+
+      // Update UI to show interaction prompt
+      if (this.gameUI) {
+        this.gameUI.showInteractionPrompt(this._nearbyItem.itemName);
+      }
+
+      // Handle interaction input
+      if (input.justInteract) {
+        this._collectItem(this._nearbyItem);
+      }
+    } else {
+      this._clearInteractionTooltip();
+
+      // Hide UI interaction prompt
+      if (this.gameUI) {
+        this.gameUI.hideInteractionPrompt();
+      }
+    }
+  }
+
+  /**
+   * Collect an item
+   */
+  _collectItem(item) {
+    const success = item.collect(this.player, this);
+
+    if (success) {
+      // Add to inventory
+      this.inventory.addItem(item);
+
+      // Update UI
+      if (this.gameUI) {
+        this.gameUI.updateInventory(this.inventory.getAll());
+        this.gameUI.hideInteractionPrompt();
+      }
+
+      // Clear nearby item reference
+      this._nearbyItem = null;
+    }
+  }
+
+  /**
+   * Render interaction tooltip
+   */
+  _renderInteractionTooltip() {
+    if (!this._nearbyItem) return;
+
+    this._tooltipGraphics.clear();
+
+    const item = this._nearbyItem;
+    const text = `Press E to pick up ${item.itemName}`;
+
+    // Position tooltip above the item
+    const tooltipX = item.x;
+    const tooltipY = item.y - 30;
+
+    // Draw background box
+    const padding = 6;
+    const fontSize = 10;
+    const textWidth = text.length * 6; // Approximate width
+    const textHeight = fontSize + 4;
+
+    this._tooltipGraphics.fillStyle(0x000000, 0.8);
+    this._tooltipGraphics.fillRoundedRect(
+      tooltipX - textWidth/2 - padding,
+      tooltipY - textHeight/2 - padding,
+      textWidth + padding * 2,
+      textHeight + padding * 2,
+      4
+    );
+
+    // Draw border
+    this._tooltipGraphics.lineStyle(2, 0xffff00, 1);
+    this._tooltipGraphics.strokeRoundedRect(
+      tooltipX - textWidth/2 - padding,
+      tooltipY - textHeight/2 - padding,
+      textWidth + padding * 2,
+      textHeight + padding * 2,
+      4
+    );
+
+    // Draw line to item
+    this._tooltipGraphics.lineStyle(2, 0xffff00, 0.5);
+    this._tooltipGraphics.beginPath();
+    this._tooltipGraphics.moveTo(tooltipX, tooltipY + textHeight/2);
+    this._tooltipGraphics.lineTo(item.x, item.y);
+    this._tooltipGraphics.strokePath();
+
+    // Create text object if not exists
+    if (!this._tooltipText) {
+      this._tooltipText = this.add.text(0, 0, '', {
+        fontSize: '10px',
+        fontFamily: 'Arial',
+        color: '#ffff00',
+        align: 'center'
+      });
+      this._tooltipText.setDepth(1002);
+      this._tooltipText.setOrigin(0.5, 0.5);
+    }
+
+    this._tooltipText.setText(text);
+    this._tooltipText.setPosition(tooltipX, tooltipY);
+    this._tooltipText.setVisible(true);
+  }
+
+  /**
+   * Clear interaction tooltip
+   */
+  _clearInteractionTooltip() {
+    this._tooltipGraphics.clear();
+    if (this._tooltipText) {
+      this._tooltipText.setVisible(false);
+    }
   }
 }

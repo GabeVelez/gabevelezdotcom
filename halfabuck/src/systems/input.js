@@ -12,10 +12,10 @@ export function createInputManager(scene, touchRef) {
     down2: "DOWN",
     left2: "LEFT",
     right2: "RIGHT",
-    interact: "SPACE",
+    interact: "E",
     crouch: "SHIFT",
-    box: "E",
-    item: "Q",
+    box: "Q",
+    item: "F",
   });
 
   const prev = { interact: false, crouch: false, box: false, item: false };

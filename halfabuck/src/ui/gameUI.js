@@ -11,6 +11,13 @@ export class GameUI {
     this.helpOverlay = document.getElementById('help-overlay');
     this.helpVisible = false;
 
+    // Interaction prompt
+    this.interactionPrompt = document.getElementById('interaction-prompt');
+
+    // Inventory container
+    this.inventoryContainer = document.getElementById('inventory-container');
+    this.inventoryItems = document.getElementById('inventory-items');
+
     this.setupSoundButton();
   }
 
@@ -74,6 +81,49 @@ export class GameUI {
     // Always hide help when hiding UI
     if (!visible) {
       this.hideHelp();
+    }
+  }
+
+  /**
+   * Show interaction prompt
+   */
+  showInteractionPrompt(itemName) {
+    if (!this.interactionPrompt) return;
+    this.interactionPrompt.textContent = `Press E to pick up ${itemName}`;
+    this.interactionPrompt.style.display = 'block';
+  }
+
+  /**
+   * Hide interaction prompt
+   */
+  hideInteractionPrompt() {
+    if (!this.interactionPrompt) return;
+    this.interactionPrompt.style.display = 'none';
+  }
+
+  /**
+   * Update inventory display
+   */
+  updateInventory(items) {
+    if (!this.inventoryItems) return;
+
+    // Clear current items
+    this.inventoryItems.innerHTML = '';
+
+    // Show inventory container if there are items
+    if (items.length > 0) {
+      this.inventoryContainer.style.display = 'block';
+
+      // Add each item
+      items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'inventory-item';
+        itemDiv.textContent = item.name;
+        itemDiv.title = item.description || item.name;
+        this.inventoryItems.appendChild(itemDiv);
+      });
+    } else {
+      this.inventoryContainer.style.display = 'none';
     }
   }
 }

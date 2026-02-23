@@ -1,4 +1,5 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
+import { Item } from "../../entities/Item.js";
 
 /**
  * Cell with Bed - Starting room
@@ -86,13 +87,30 @@ export class CellScene extends BaseRoomScene {
     // Mark this exit as a "hole" type for special animation
     if (this._exits && this._exits.length > 0) {
       this._exits[0].isHole = true;
+      // Disable exit initially (until box is collected)
+      this._exits[0].triggered = true;
     }
 
-    // Add cardboard box covering the hole
-    const cardboardBox = this.add.image(holeX, holeY, "cardboardbox");
-    cardboardBox.setOrigin(0.5, 0.5);
-    cardboardBox.setDisplaySize(32, 32); // Scale to fit hole area
-    cardboardBox.setDepth(5); // Above floor, below player
+    // Create cardboard box as interactable item
+    const cardboardBox = new Item(this, holeX, holeY, {
+      id: "cardboard_box",
+      name: "Cardboard Box",
+      description: "A sturdy cardboard box. Maybe it's hiding something?",
+      texture: "cardboardbox",
+      displaySize: 32,
+      depth: 5,
+      interactionRange: 45,
+      onCollect: (player, scene) => {
+        // Enable the hole exit when box is collected
+        if (scene._exits && scene._exits.length > 0) {
+          scene._exits[0].triggered = false;
+          console.log("Hole exit enabled! You can now escape through the hole.");
+        }
+      }
+    });
+
+    // Add to scene's items array
+    this.items.push(cardboardBox);
 
     // Setup physics
     this.physics.add.collider(this.player, ground);

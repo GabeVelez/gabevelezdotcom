@@ -17,6 +17,15 @@
 
     <!-- Game UI Overlay -->
     <div id="game-ui">
+      <!-- Top center: Interaction prompt -->
+      <div id="interaction-prompt" style="display: none;"></div>
+
+      <!-- Top left: Inventory -->
+      <div id="inventory-container" style="display: none;">
+        <div id="inventory-label">INVENTORY:</div>
+        <div id="inventory-items"></div>
+      </div>
+
       <!-- Bottom left: Detection meter -->
       <div id="detection-container">
         <div id="detection-label">DETECTION:</div>
@@ -38,6 +47,8 @@
         <div id="help-content">
           <h3>Controls</h3>
           <p><strong>WASD / Arrow Keys</strong> - Move</p>
+          <p><strong>E</strong> - Interact / Pick up items</p>
+          <p><strong>Q</strong> - Toggle cardboard box</p>
           <p><strong>Goal</strong> - Avoid guard vision cones</p>
           <p><strong>Detection meter fills = GAME OVER</strong></p>
           <hr>
