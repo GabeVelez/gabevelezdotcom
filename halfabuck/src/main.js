@@ -22,7 +22,14 @@ function enforceLandscape() {
 }
 window.addEventListener("resize", enforceLandscape);
 window.addEventListener("orientationchange", enforceLandscape);
-enforceLandscape();
+
+// Wait for DOM to be ready before first check
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', enforceLandscape);
+} else {
+  // DOM already loaded
+  enforceLandscape();
+}
 
 // Touch controls (DOM overlay)
 const touchRef = createTouchControls();

@@ -19,6 +19,9 @@ export class GameUI {
     this.inventoryItems = document.getElementById('inventory-items');
 
     this.setupSoundButton();
+
+    // Hide UI by default - will be shown by gameplay scenes only
+    this.setVisible(false);
   }
 
   /**

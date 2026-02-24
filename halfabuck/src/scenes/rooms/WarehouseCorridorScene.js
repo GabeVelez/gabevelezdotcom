@@ -1,5 +1,6 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { Guard } from "../../entities/Guard.js";
+import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
  * Warehouse Corridor - First guard encounter after climbing from sewer
@@ -11,63 +12,44 @@ export class WarehouseCorridorScene extends BaseRoomScene {
   }
 
   create() {
+    // Corridor is 320x320 (20 tiles × 20 tiles)
+    this.corridorWidth = 320;
+    this.corridorHeight = 320;
+
+    // Add corridor background image immediately
+    const corridorBg = this.add.image(0, 0, "corridor_layout");
+    corridorBg.setOrigin(0, 0);
+    corridorBg.setDisplaySize(this.corridorWidth, this.corridorHeight);
+    corridorBg.setDepth(0);
+
+    // Initialize the rest asynchronously
+    this.initializeScene();
+  }
+
+  async initializeScene() {
     const { width, height } = this.scale;
+    const corridorWidth = this.corridorWidth;
+    const corridorHeight = this.corridorHeight;
 
-    // Create long corridor layout
-    const map = this.make.tilemap({
-      tileWidth: 16,
-      tileHeight: 16,
-      width: 20,
-      height: 20
-    });
+    // Load collision from SVG file
+    const collisionBodies = await SVGCollisionParser.parseAndCreateBodies(
+      this,
+      "assets/collision/corridor-collision.svg"
+    );
 
-    const tiles = map.addTilesetImage("warehouse_tiles");
-    const ground = map.createBlankLayer("ground", tiles);
-
-    // Fill floor
-    ground.fill(1, 0, 0, 20, 20);
-
-    // Create walls
-    for (let x = 0; x < 20; x++) {
-      ground.putTileAt(2, x, 0); // Top wall
-      ground.putTileAt(2, x, 19); // Bottom wall
-    }
-    for (let y = 0; y < 20; y++) {
-      ground.putTileAt(2, 0, y); // Left wall
-      ground.putTileAt(2, 19, y); // Right wall
-    }
-
-    // Entry from sewer (top-left, ladder comes up here)
-    ground.putTileAt(1, 2, 0);
-    ground.putTileAt(1, 3, 0);
-
-    // Exit to warehouse main (bottom)
-    ground.putTileAt(1, 9, 19);
-    ground.putTileAt(1, 10, 19);
-
-    // Add some obstacles (boxes/crates) for cover
-    ground.putTileAt(2, 5, 5);
-    ground.putTileAt(2, 6, 5);
-    ground.putTileAt(2, 14, 10);
-    ground.putTileAt(2, 15, 10);
-
-    // Add shadow tiles for hiding spots
-    ground.putTileAt(3, 3, 8);
-    ground.putTileAt(3, 4, 8);
-
-    ground.setCollisionByExclusion([1, 3]);
-    this.groundLayer = ground;
+    // Store for reference (needed for vision system)
+    this.collisionBodies = collisionBodies;
 
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
-    let playerX = 64; // Aligned with top exit
-    let playerY = 70; // Below the exit zone with clearance
+    let playerX = 180; // To the left of manhole
+    let playerY = 60; // Below the exit zone with clearance
 
     if (this.entryDirection === "east") {
-      // Coming from sewer (east entry = ladder from right side)
-      playerX = 64; // Aligned with exit at X=64
-      playerY = 70; // Below exit with enough clearance to avoid immediate re-trigger
+      // Coming from sewer - spawn to left of manhole
+      playerX = 180; // Left of manhole (manhole is at X=240)
+      playerY = 60; // Below exit with enough clearance
     } else if (this.entryDirection === "north") {
       // Coming back from warehouse main (bottom entrance)
       playerX = 160;
@@ -85,24 +67,39 @@ export class WarehouseCorridorScene extends BaseRoomScene {
     guard1.setDepth(10);
     this.guards.push(guard1);
 
+    // Create a simple tilemap for vision/waypoint systems (walkable everywhere except collisions)
+    const map = this.make.tilemap({
+      tileWidth: 16,
+      tileHeight: 16,
+      width: 20,
+      height: 20
+    });
+    const tiles = map.addTilesetImage("warehouse_tiles");
+    const ground = map.createBlankLayer("ground", tiles);
+    ground.fill(1, 0, 0, 20, 20); // All walkable
+    ground.setVisible(false);
+    this.groundLayer = ground;
+
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
     // Exits
-    // Top: back to sewer (ladder down) - aligned to top, moved right
-    this.createExit(64, 16, 32, 32, "SewerScene", "north");
+    // Top: back to sewer (ladder down through manhole)
+    this.createExit(240, 16, 32, 32, "SewerScene", "north");
 
     // Bottom: to warehouse main
     this.createExit(160, 300, 32, 32, "WarehouseMainScene", "north");
 
-    // Physics
-    this.physics.add.collider(this.player, ground);
-    for (const g of this.guards) {
-      this.physics.add.collider(g, ground);
-    }
+    // Physics - add colliders for all collision bodies
+    collisionBodies.forEach(body => {
+      this.physics.add.collider(this.player, body);
+      for (const g of this.guards) {
+        this.physics.add.collider(g, body);
+      }
+    });
 
     // Camera
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, corridorWidth, corridorHeight);
     this.cameras.main.startFollow(this.player, true);
   }
 

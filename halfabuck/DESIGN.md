@@ -193,6 +193,44 @@ Focus: Pure stealth challenge with increasing guard density and patrol complexit
 
 ---
 
+## Scene Dimensions
+
+### Game Canvas
+- **Size**: 320 pixels × 180 pixels
+- **Orientation**: Landscape only
+
+### Cell Scene
+- **Grid size**: 14 tiles × 10 tiles
+- **Tile size**: 16 pixels × 16 pixels
+- **Total size**: 224 pixels × 160 pixels (14×16 × 10×16)
+- **Offset**: (48, 10) - centered on 320×180 canvas
+- **Camera**: Fixed, centered on full canvas (no scrolling)
+
+### Sewer Scene
+- **Grid size**: 18 tiles × 11 tiles
+- **Tile size**: 16 pixels × 16 pixels
+- **Total size**: 288 pixels × 176 pixels (18×16 × 11×16)
+- **Offset**: (16, 2) - centered on 320×180 canvas
+- **Camera**: Follows player within scene bounds
+
+### Warehouse Corridor Scene
+- **Grid size**: 20 tiles × 20 tiles
+- **Tile size**: 16 pixels × 16 pixels
+- **Total size**: 320 pixels × 320 pixels (20×16 × 20×16)
+- **Offset**: None (fills canvas width)
+- **Camera**: Follows player, scrolls vertically (scene is taller than viewport)
+
+### Entry Direction System
+When transitioning between scenes, each exit specifies an `entryDirection` that tells the target scene where the player is coming from:
+- **"north"**: Coming from above/top
+- **"south"**: Coming from below/falling down
+- **"east"**: Coming from the right
+- **"west"**: Coming from the left
+
+Target scenes use `this.entryDirection` to spawn the player in the appropriate location based on which entrance they used.
+
+---
+
 ## Final Scene
 
 Player reaches the exit.

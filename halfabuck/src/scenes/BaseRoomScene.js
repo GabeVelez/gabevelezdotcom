@@ -71,6 +71,7 @@ export class BaseRoomScene extends Phaser.Scene {
 
     // Debug graphics
     this._collisionDebug = null;
+    this._collisionDebugOn = false; // Track SVG collision visibility state
     this._visionDebug = this.add.graphics().setDepth(5).setAlpha(0.9);
     this._visionDebugOn = true;
     this._bodyDebug = this.add.graphics().setDepth(1000);
@@ -370,6 +371,11 @@ export class BaseRoomScene extends Phaser.Scene {
    * Common update loop logic
    */
   updateBase(_, dtMs) {
+    // Don't update until scene is fully initialized (async loading complete)
+    if (!this.inputManager || !this.player) {
+      return;
+    }
+
     const dt = dtMs;
     const input = this.inputManager.get();
 
@@ -472,18 +478,28 @@ export class BaseRoomScene extends Phaser.Scene {
    * Toggle collision debug
    */
   _toggleCollisionDebug() {
-    if (this._collisionDebug) {
-      this._collisionDebug.destroy();
-      this._collisionDebug = null;
-    } else {
-      this._collisionDebug = this.add.graphics().setDepth(1000);
-      if (this.groundLayer) {
-        this.groundLayer.renderDebug(this._collisionDebug, {
-          tileColor: null,
-          collidingTileColor: new Phaser.Display.Color(255, 0, 0, 100),
-          faceColor: new Phaser.Display.Color(0, 255, 0, 50)
-        });
+    // Toggle the state
+    this._collisionDebugOn = !this._collisionDebugOn;
+
+    // Toggle SVG collision bodies visibility
+    if (this.collisionBodies) {
+      this.collisionBodies.forEach(body => {
+        body.setVisible(this._collisionDebugOn);
+      });
+    }
+
+    // Toggle old tilemap collision debug (if it exists)
+    if (this._collisionDebugOn && this.groundLayer) {
+      if (!this._collisionDebug) {
+        this._collisionDebug = this.add.graphics().setDepth(1000);
       }
+      this.groundLayer.renderDebug(this._collisionDebug, {
+        tileColor: null,
+        collidingTileColor: new Phaser.Display.Color(255, 0, 0, 100),
+        faceColor: new Phaser.Display.Color(0, 255, 0, 50)
+      });
+    } else if (this._collisionDebug) {
+      this._collisionDebug.clear();
     }
   }
 

@@ -64,6 +64,7 @@ canvas {
   z-index: 100;
   font-family: 'Orbitron', sans-serif;
   color: white;
+  display: none; /* Hidden by default - shown by game when ready */
 }
 
 /* Bottom UI container - centered with border */

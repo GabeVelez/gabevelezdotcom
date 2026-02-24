@@ -1,4 +1,5 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
+import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
  * Sewer - Dark transitional space beneath the cell
@@ -10,70 +11,52 @@ export class SewerScene extends BaseRoomScene {
   }
 
   create() {
-    const { width, height } = this.scale;
+    // Sewer is 288x192 (18 tiles × 12 tiles)
+    // Center on 320x180 canvas: offset (16, -6)
+    this.sewerOffsetX = 16;
+    this.sewerOffsetY = -6;
 
-    // Sewer is 288x176 (18 tiles × 11 tiles)
-    // Center on 320x180 canvas: offset (16, 2)
-    const sewerOffsetX = 16;
-    const sewerOffsetY = 2;
-
-    // Add sewer background image
-    const sewerBg = this.add.image(sewerOffsetX, sewerOffsetY, "sewer_layout");
+    // Add sewer background image immediately
+    const sewerBg = this.add.image(this.sewerOffsetX, this.sewerOffsetY, "sewer_layout");
     sewerBg.setOrigin(0, 0);
-    sewerBg.setDisplaySize(288, 176);
+    sewerBg.setDisplaySize(288, 192);
     sewerBg.setDepth(0);
 
-    // Create invisible tilemap for collision
+    // Initialize the rest asynchronously
+    this.initializeScene();
+  }
+
+  async initializeScene() {
+    const { width, height } = this.scale;
+    const sewerOffsetX = this.sewerOffsetX;
+    const sewerOffsetY = this.sewerOffsetY;
+
+    // Create invisible tilemap for waypoint/vision system (all walkable)
     const map = this.make.tilemap({
       tileWidth: 16,
       tileHeight: 16,
       width: 18,
-      height: 11
+      height: 12
     });
 
     const tiles = map.addTilesetImage("warehouse_tiles");
     const ground = map.createBlankLayer("ground", tiles);
     ground.x = sewerOffsetX;
     ground.y = sewerOffsetY;
+    ground.fill(1, 0, 0, 18, 12); // Fill all tiles as walkable
     ground.setVisible(false);
-
-    // Load collision data from sewercollision.jpg image
-    // Pink/Magenta pixels = collision (tile 2), Gray/dark pixels = walkable (tile 1)
-    const collisionImage = this.textures.get('sewer_collision').getSourceImage();
-    const canvas = document.createElement('canvas');
-    canvas.width = collisionImage.width;
-    canvas.height = collisionImage.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(collisionImage, 0, 0);
-
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const tileWidth = canvas.width / 18;
-    const tileHeight = canvas.height / 11;
-
-    // Sample center of each tile to determine type
-    for (let tileY = 0; tileY < 11; tileY++) {
-      for (let tileX = 0; tileX < 18; tileX++) {
-        const pixelX = Math.floor((tileX + 0.5) * tileWidth);
-        const pixelY = Math.floor((tileY + 0.5) * tileHeight);
-        const index = (pixelY * canvas.width + pixelX) * 4;
-
-        const r = imageData.data[index];
-        const g = imageData.data[index + 1];
-        const b = imageData.data[index + 2];
-
-        // Detect gray/dark walkable areas (low RGB values, all similar)
-        if (r < 150 && g < 150 && b < 150 && Math.abs(r - g) < 50 && Math.abs(g - b) < 50) {
-          ground.putTileAt(1, tileX, tileY); // Walkable
-        }
-        // Pink/Magenta and everything else = collision
-        else {
-          ground.putTileAt(2, tileX, tileY); // Collision
-        }
-      }
-    }
-
-    ground.setCollisionByExclusion([1]);
     this.groundLayer = ground;
+
+    // Load collision from SVG file with offset applied
+    const collisionBodies = await SVGCollisionParser.parseAndCreateBodies(
+      this,
+      "assets/collision/sewer-collision.svg",
+      sewerOffsetX,
+      sewerOffsetY
+    );
+
+    // Store for reference (needed for vision system and player collision)
+    this.collisionBodies = collisionBodies;
 
     this.createBaseSystems();
 
@@ -99,20 +82,10 @@ export class SewerScene extends BaseRoomScene {
     const exitY = sewerOffsetY + (2 * 16);
     this.createExit(exitX, exitY, 32, 64, "WarehouseCorridorScene", "east"); // Width 32 instead of 16
 
-    this.physics.add.collider(this.player, ground);
-
-    // Right wall - custom narrow collision (40% width = 6.4px) below exit area
-    // Positioned at right edge, spanning rows 4-10 (7 tiles = 112px tall)
-    const rightWall = this.add.rectangle(
-      sewerOffsetX + 288 - 3.2, // Right edge minus half width
-      sewerOffsetY + 64 + 56,   // Start at row 4, center of 7-tile height
-      6.4,  // 40% of tile width (60% reduction)
-      112,  // 7 tiles tall (rows 4-10)
-      0x000000,
-      0
-    );
-    this.physics.add.existing(rightWall, true); // true = static body
-    this.physics.add.collider(this.player, rightWall);
+    // Add colliders for all SVG collision bodies
+    collisionBodies.forEach(body => {
+      this.physics.add.collider(this.player, body);
+    });
 
     // Bottom UI barrier - prevents player from walking behind UI overlay
     const uiBarrier = this.add.rectangle(

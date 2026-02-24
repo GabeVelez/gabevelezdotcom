@@ -1,5 +1,6 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { Item } from "../../entities/Item.js";
+import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
  * Cell with Bed - Starting room
@@ -13,22 +14,31 @@ export class CellScene extends BaseRoomScene {
   create() {
     const { width, height } = this.scale;
 
-    // Cell is 224x160 (14 tiles × 10 tiles)
-    // Center on 320x180 canvas: offset (48, 10)
-    const cellOffsetX = 48;
-    const cellOffsetY = 10;
+    // Cell is 240x160 (15 tiles × 10 tiles)
+    // Center on 320x180 canvas: offset (40, 10)
+    this.cellOffsetX = 40;
+    this.cellOffsetY = 10;
 
-    // Add cell background image (scale to 224×160)
-    const cellBg = this.add.image(cellOffsetX, cellOffsetY, "cell_layout");
+    // Add cell background image immediately (scale to 240×160)
+    const cellBg = this.add.image(this.cellOffsetX, this.cellOffsetY, "cell_layout");
     cellBg.setOrigin(0, 0);
-    cellBg.setDisplaySize(224, 160); // 14 tiles × 10 tiles at 16px each
+    cellBg.setDisplaySize(240, 160); // 15 tiles × 10 tiles at 16px each
     cellBg.setDepth(0);
 
-    // Create invisible tilemap for collision only
+    // Initialize the rest asynchronously
+    this.initializeScene();
+  }
+
+  async initializeScene() {
+    const { width, height } = this.scale;
+    const cellOffsetX = this.cellOffsetX;
+    const cellOffsetY = this.cellOffsetY;
+
+    // Create invisible tilemap for waypoint/vision system (all walkable)
     const map = this.make.tilemap({
       tileWidth: 16,
       tileHeight: 16,
-      width: 14,
+      width: 15,
       height: 10
     });
 
@@ -36,34 +46,20 @@ export class CellScene extends BaseRoomScene {
     const ground = map.createBlankLayer("ground", tiles);
     ground.x = cellOffsetX;
     ground.y = cellOffsetY;
-    ground.setVisible(false); // Invisible - only used for collision
-
-    // Setup collision tiles
-    ground.fill(1, 0, 0, 14, 10); // Fill with walkable
-
-    // Top wall - 2 rows deep (rows 0-1)
-    for (let x = 0; x < 14; x++) {
-      ground.putTileAt(2, x, 0);
-      ground.putTileAt(2, x, 1);
-    }
-
-    // Bottom wall - half tile height (custom physics body instead of tilemap)
-    // Will add custom collision below
-
-    // Left wall - 1 column (column 0)
-    for (let y = 0; y < 10; y++) {
-      ground.putTileAt(2, 0, y);
-    }
-
-    // Right wall - 1 column (column 13)
-    for (let y = 0; y < 10; y++) {
-      ground.putTileAt(2, 13, y);
-    }
-
-    // Cot bed collision - will use custom physics body for 1.5 tile width
-
-    ground.setCollisionByExclusion([1, 3]);
+    ground.fill(1, 0, 0, 15, 10); // Fill all tiles as walkable
+    ground.setVisible(false);
     this.groundLayer = ground;
+
+    // Load collision from SVG file with offset applied
+    const collisionBodies = await SVGCollisionParser.parseAndCreateBodies(
+      this,
+      "assets/collision/cell-collision.svg",
+      cellOffsetX,
+      cellOffsetY
+    );
+
+    // Store for reference (needed for vision system)
+    this.collisionBodies = collisionBodies;
 
     // Create base systems
     this.createBaseSystems();
@@ -80,9 +76,11 @@ export class CellScene extends BaseRoomScene {
 
     // Create exit zone at hole in bottom-right corner (player falls through to sewer)
     // Hole is at bottom-right corner
-    const holeX = cellOffsetX + (12 * 16); // Moved right
+    const holeX = cellOffsetX + (12 * 16);
     const holeY = cellOffsetY + (8.5 * 16);
-    this.createExit(holeX, holeY, 28, 28, "SewerScene", "south"); // "south" = falling down from above
+
+    // Position exit exactly under cardboard box (box is at holeX + 8)
+    this.createExit(holeX + 8, holeY, 28, 28, "SewerScene", "south"); // "south" = falling down from above
 
     // Mark this exit as a "hole" type for special animation
     if (this._exits && this._exits.length > 0) {
@@ -92,7 +90,8 @@ export class CellScene extends BaseRoomScene {
     }
 
     // Create cardboard box as interactable item with collision
-    const cardboardBox = new Item(this, holeX, holeY, {
+    // Position 0.5 tiles to the right to cover the hole (8 pixels = 0.5 tiles)
+    const cardboardBox = new Item(this, holeX + 8, holeY, {
       id: "cardboard_box",
       name: "Cardboard Box",
       description: "A sturdy cardboard box. Maybe it's hiding something?",
@@ -113,35 +112,15 @@ export class CellScene extends BaseRoomScene {
     // Add to scene's items array
     this.items.push(cardboardBox);
 
-    // Setup physics
-    this.physics.add.collider(this.player, ground);
+    // Setup physics - add colliders for all SVG collision bodies
+    console.log(`Setting up colliders for ${collisionBodies.length} collision bodies with player at (${this.player.x}, ${this.player.y})`);
+    collisionBodies.forEach((body, index) => {
+      const collider = this.physics.add.collider(this.player, body);
+      console.log(`Collider ${index} added: active=${collider.active}, body1=${!!collider.object1}, body2=${!!collider.object2}`);
+    });
 
     // Add collision between player and cardboard box
     this.physics.add.collider(this.player, cardboardBox);
-
-    // Bottom wall - custom half-height collision (8 pixels tall)
-    const bottomWall = this.add.rectangle(
-      cellOffsetX + 112, // Center of cell width
-      cellOffsetY + 156, // Bottom of cell (160 - 4 pixels)
-      224, // Full width
-      8,   // Half tile height
-      0x000000,
-      0
-    );
-    this.physics.add.existing(bottomWall, true); // true = static body
-    this.physics.add.collider(this.player, bottomWall);
-
-    // Cot bed - custom 1.5 tile width collision (24 pixels wide, 64 pixels tall)
-    const cotBed = this.add.rectangle(
-      cellOffsetX + 28,  // Column 1.75 center (1.5 tiles wide starting at column 1)
-      cellOffsetY + 88,  // Row 5.5 center (rows 4-7)
-      24,  // 1.5 tiles wide
-      64,  // 4 tiles tall
-      0x000000,
-      0
-    );
-    this.physics.add.existing(cotBed, true);
-    this.physics.add.collider(this.player, cotBed);
 
     // Camera - don't follow player, keep view centered on full canvas
     this.cameras.main.setBounds(0, 0, width, height);
