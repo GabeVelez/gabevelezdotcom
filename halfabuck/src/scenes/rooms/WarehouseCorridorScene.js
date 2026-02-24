@@ -58,11 +58,16 @@ export class WarehouseCorridorScene extends BaseRoomScene {
 
     this.createPlayer(playerX, playerY);
 
-    // Create one guard patrolling corridor - first stealth challenge
+    // Create one guard patrolling corridor - rectangular loop pattern
+    // Starts by walking DOWN when player enters
     this.createGuards();
-    const guard1 = new Guard(this, 160, 100, [
-      { x: 160, y: 100 },
-      { x: 160, y: 250 }
+    const guard1 = new Guard(this, 130, 80, [
+      { x: 130, y: 80 },  // Start at top-left
+      { x: 130, y: 200 }, // Walk DOWN the left side (first movement)
+      { x: 160, y: 200 }, // Walk RIGHT
+      { x: 160, y: 160 }, // Walk UP
+      { x: 160, y: 80 },  // Continue UP between first and second shelf rows
+      { x: 130, y: 80 }   // Turn LEFT back to start (completes loop)
     ]);
     guard1.setDepth(10);
     this.guards.push(guard1);
