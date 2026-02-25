@@ -66,8 +66,9 @@ export class SewerScene extends BaseRoomScene {
 
     if (this.entryDirection === "north") {
       // Coming from corridor (down the ladder) - spawn at right side near ladder
-      playerX = sewerOffsetX + (16 * 16); // Aligned with ladder exit (column 16)
+      playerX = sewerOffsetX + (15 * 16); // Slightly left of ladder (column 15)
       playerY = sewerOffsetY + (5.5 * 16); // Below ladder exit
+      console.log(`Spawning from corridor at (${playerX}, ${playerY})`);
     }
 
     this.createPlayer(playerX, playerY);
