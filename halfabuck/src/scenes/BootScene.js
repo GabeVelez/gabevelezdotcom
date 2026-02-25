@@ -31,22 +31,22 @@ export class BootScene extends Phaser.Scene {
 
     // --- Collision is loaded directly via SVGCollisionParser (no preloading needed) ---
 
-    // --- Player sprite sheets (5 frames each, separate files per direction) ---
+    // --- Player sprite sheets (5 frames each, all uniformly 1050×210 = 5×210) ---
     this.load.spritesheet("gabe-front", "assets/sprites/player/gabe-front.png", {
-      frameWidth: 213,
-      frameHeight: 265
+      frameWidth: 210,
+      frameHeight: 210
     });
     this.load.spritesheet("gabe-back", "assets/sprites/player/gabe-back.png", {
-      frameWidth: 202,
-      frameHeight: 169
+      frameWidth: 210,
+      frameHeight: 210
     });
     this.load.spritesheet("gabe-left", "assets/sprites/player/gabe-left.png", {
-      frameWidth: 208,
-      frameHeight: 227
+      frameWidth: 210,
+      frameHeight: 210
     });
     this.load.spritesheet("gabe-right", "assets/sprites/player/gabe-right.png", {
-      frameWidth: 211,
-      frameHeight: 213
+      frameWidth: 210,
+      frameHeight: 210
     });
 
     // --- Guard sprite sheets (soldier1, 5 frames each) ---
