@@ -338,30 +338,33 @@ export class BaseRoomScene extends Phaser.Scene {
     // Camera shake
     this.cameras.main.shake(150, 0.005);
 
-    // Player shrinks and drops vertically into hole (from 0.15 to invisible)
+    // Player shrinks and drops vertically into hole (Legend of Zelda 16-bit style fall)
     this.tweens.add({
       targets: this.player,
       scaleX: 0.01,
       scaleY: 0.01,
-      y: this.player.y + 40, // Drop down 40 pixels into hole
-      alpha: 0.3, // Fade out as falling
-      duration: 250,
+      y: this.player.y + 50, // Drop down 50 pixels into hole
+      alpha: 0.2, // Fade out more as falling
+      duration: 600, // Slower, more dramatic fall (was 250)
       ease: 'Cubic.easeIn', // Accelerating fall
       onComplete: () => {
         // Quick fade to black
         this.cameras.main.fadeOut(150, 0, 0, 0);
 
         this.cameras.main.once('camerafadeoutcomplete', () => {
-          // Save player state with fall flag
-          const playerState = {
-            isDragging: this.player.isDragging,
-            isBoxed: this.player.isBoxed,
-            entryDirection: entryDirection,
-            isFalling: true // Flag to trigger landing animation
-          };
+          // Slight delay before transition (adds to the fall feeling)
+          this.time.delayedCall(200, () => {
+            // Save player state with fall flag
+            const playerState = {
+              isDragging: this.player.isDragging,
+              isBoxed: this.player.isBoxed,
+              entryDirection: entryDirection,
+              isFalling: true // Flag to trigger landing animation
+            };
 
-          // Transition to new scene
-          this.scene.start(targetScene, playerState);
+            // Transition to new scene
+            this.scene.start(targetScene, playerState);
+          });
         });
       }
     });

@@ -62,7 +62,7 @@ export class SewerScene extends BaseRoomScene {
 
     // Player spawn position depends on entry direction
     let playerX = sewerOffsetX + (2.5 * 16); // Default: left walkable platform
-    let playerY = sewerOffsetY + (4.5 * 16);
+    let playerY = sewerOffsetY + (5 * 16); // 1/2 tile south from original (was 4.5)
 
     if (this.entryDirection === "north") {
       // Coming from corridor (down the ladder) - spawn at right side near ladder
@@ -77,8 +77,8 @@ export class SewerScene extends BaseRoomScene {
     this.buildWaypointNetwork(ground);
 
     // Exit zone at ladder on the right side
-    // Positioned left of the narrow right wall to be accessible
-    const exitX = sewerOffsetX + (16 * 16); // Column 16 instead of 17
+    // Positioned left of the narrow right wall to be accessible, 6px to the right
+    const exitX = sewerOffsetX + (16 * 16) + 6; // Column 16 + 6px offset
     const exitY = sewerOffsetY + (2 * 16);
     this.createExit(exitX, exitY, 32, 64, "WarehouseCorridorScene", "east"); // Width 32 instead of 16
 

@@ -79,8 +79,8 @@ export class CellScene extends BaseRoomScene {
     const holeX = cellOffsetX + (12 * 16);
     const holeY = cellOffsetY + (8.5 * 16);
 
-    // Position exit exactly under cardboard box (box is at holeX + 8)
-    this.createExit(holeX + 8, holeY, 28, 28, "SewerScene", "south"); // "south" = falling down from above
+    // Position exit exactly under cardboard box, offset 1/4 tile right (box is at holeX + 8)
+    this.createExit(holeX + 12, holeY, 28, 28, "SewerScene", "south"); // "south" = falling down from above
 
     // Mark this exit as a "hole" type for special animation
     if (this._exits && this._exits.length > 0) {
