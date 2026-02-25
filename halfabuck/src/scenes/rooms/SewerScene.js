@@ -77,8 +77,8 @@ export class SewerScene extends BaseRoomScene {
     this.buildWaypointNetwork(ground);
 
     // Exit zone at ladder on the right side
-    // Positioned left of the narrow right wall to be accessible, 6px to the right
-    const exitX = sewerOffsetX + (16 * 16) + 6; // Column 16 + 6px offset
+    // Positioned left of the narrow right wall to be accessible, 10px to the right
+    const exitX = sewerOffsetX + (16 * 16) + 10; // Column 16 + 10px offset
     const exitY = sewerOffsetY + (2 * 16);
     this.createExit(exitX, exitY, 32, 64, "WarehouseCorridorScene", "east"); // Width 32 instead of 16
 
