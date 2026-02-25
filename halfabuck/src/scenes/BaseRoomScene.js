@@ -330,40 +330,57 @@ export class BaseRoomScene extends Phaser.Scene {
   /**
    * Special transition for falling through a hole
    */
-  transitionThroughHole(targetScene, entryDirection) {
+  transitionThroughHole(targetScene, entryDirection, exit) {
     // Prevent player movement during animation
     this.player.body.setVelocity(0, 0);
     this.player.body.enable = false;
 
-    // Camera shake
-    this.cameras.main.shake(150, 0.005);
+    // Calculate center of the hole exit
+    const holeCenterX = exit.bounds.x + exit.bounds.width / 2;
+    const holeCenterY = exit.bounds.y + exit.bounds.height / 2;
 
-    // Player shrinks and drops vertically into hole (Legend of Zelda 16-bit style fall)
+    // First: Quick slide to center of hole (looks more realistic)
     this.tweens.add({
       targets: this.player,
-      scaleX: 0.01,
-      scaleY: 0.01,
-      y: this.player.y + 50, // Drop down 50 pixels into hole
-      alpha: 0.2, // Fade out more as falling
-      duration: 600, // Slower, more dramatic fall (was 250)
-      ease: 'Cubic.easeIn', // Accelerating fall
+      x: holeCenterX,
+      y: holeCenterY,
+      duration: 200,
+      ease: 'Cubic.easeOut',
       onComplete: () => {
-        // Quick fade to black
-        this.cameras.main.fadeOut(150, 0, 0, 0);
+        // Brief pause (player realizes they're falling)
+        this.time.delayedCall(100, () => {
+          // Camera shake as player starts falling
+          this.cameras.main.shake(200, 0.006);
 
-        this.cameras.main.once('camerafadeoutcomplete', () => {
-          // Slight delay before transition (adds to the fall feeling)
-          this.time.delayedCall(200, () => {
-            // Save player state with fall flag
-            const playerState = {
-              isDragging: this.player.isDragging,
-              isBoxed: this.player.isBoxed,
-              entryDirection: entryDirection,
-              isFalling: true // Flag to trigger landing animation
-            };
+          // Now: Player shrinks and drops into hole (Legend of Zelda 16-bit style fall)
+          this.tweens.add({
+            targets: this.player,
+            scaleX: 0.01,
+            scaleY: 0.01,
+            y: this.player.y + 50, // Drop down 50 pixels into hole
+            alpha: 0.2, // Fade out as falling
+            duration: 600, // Slower, more dramatic fall
+            ease: 'Cubic.easeIn', // Accelerating fall
+            onComplete: () => {
+              // Quick fade to black
+              this.cameras.main.fadeOut(150, 0, 0, 0);
 
-            // Transition to new scene
-            this.scene.start(targetScene, playerState);
+              this.cameras.main.once('camerafadeoutcomplete', () => {
+                // Slight delay before transition (adds to the fall feeling)
+                this.time.delayedCall(200, () => {
+                  // Save player state with fall flag
+                  const playerState = {
+                    isDragging: this.player.isDragging,
+                    isBoxed: this.player.isBoxed,
+                    entryDirection: entryDirection,
+                    isFalling: true // Flag to trigger landing animation
+                  };
+
+                  // Transition to new scene
+                  this.scene.start(targetScene, playerState);
+                });
+              });
+            }
           });
         });
       }
@@ -406,7 +423,7 @@ export class BaseRoomScene extends Phaser.Scene {
 
             // Use special hole transition if this is a hole exit
             if (exit.isHole) {
-              this.transitionThroughHole(exit.targetScene, exit.entryDirection);
+              this.transitionThroughHole(exit.targetScene, exit.entryDirection, exit);
             } else {
               this.transitionToRoom(exit.targetScene, exit.entryDirection);
             }
