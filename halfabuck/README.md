@@ -39,12 +39,12 @@ Play at: [gabevelez.com/halfabuck](https://gabevelez.com/halfabuck)
 
 ### Desktop
 - **WASD / Arrow Keys** — Move
-- **E** — Pick up items
-- **Q** — Toggle cardboard box (when collected)
-- **Space** — Reserved for future use
+- **G** — Pick up items (interact)
+- **1, 2, 3** — Select/use inventory slots
+- **Shift** — Crouch (legacy, may be removed)
 
 ### Debug Keys (Desktop)
-- **C** — Toggle collision overlay
+- **C** — Toggle collision overlay (shows SVG collision rectangles)
 - **V** — Toggle vision cone overlay
 - **B** — Toggle body debug overlay
 - **H** — Toggle help overlay
@@ -53,9 +53,10 @@ Play at: [gabevelez.com/halfabuck](https://gabevelez.com/halfabuck)
 
 ### Mobile
 - **Virtual D-pad** — Move in 8 directions
-- **Button X** — Toggle cardboard box (when collected)
 - **Button A** — Pick up items
-- **Buttons B, Y** — Reserved for future use
+- **Button X** — Use inventory slot 1 (cardboard box)
+- **Button Y** — Use inventory slot 2
+- **Button B** — Crouch (legacy)
 
 **Note:** Mobile requires landscape orientation.
 
@@ -115,10 +116,17 @@ halfabuck/
 - Walls block line of sight using ray-casting
 
 **Item System:**
-- 3-slot inventory displayed in bottom UI
-- Press E to pick up items (with visual prompt)
+- 3-slot inventory displayed in bottom UI with number indicators (1, 2, 3)
+- Press G to pick up items (visual prompt appears when near)
+- Number keys (1, 2, 3) to select/use inventory slots
 - Cardboard box: Collectible item found in the cell, used for hiding from guards
 - Sound effects: Confirm-tap for pickup, paper-slide for box toggle
+
+**Collision System:**
+- SVG-based collision designed in Figma
+- Collision rectangles defined visually, exported as tiny SVG files (~700 bytes each)
+- Automatic caching for instant loading on subsequent plays
+- Debug visualization with C key (shows collision boundaries in red)
 
 **Alert System (In Development):**
 - When one guard fully detects you, other guards are alerted
@@ -138,9 +146,13 @@ halfabuck/
 
 ### Current Levels
 
-1. **The Cell** — Starting prison cell with a hole in the floor covered by a cardboard box. Collect the box to reveal the escape hole, then fall through to the corridor below (with cinematic landing animation).
-2. **Corridor** — First stealth challenge with 1 guard using A* pathfinding
-3. **Warehouse Main** — 3 guards (Regular, Lead, Overseer) with overlapping patrol routes and coordinated AI
+1. **The Cell** — Starting prison cell with a hole in the floor covered by a cardboard box. Collect the box to reveal the escape hole, then fall through to the sewer below (with cinematic landing animation). No guards (safe tutorial space).
+
+2. **The Sewer** — Dark transitional space beneath the cell. Player lands here after falling. No guards (safe area). Ladder exit leads to warehouse corridor. Teaches basic navigation.
+
+3. **Warehouse Corridor** — Long corridor with stacked crates. 1 Regular Guard with rectangular patrol loop (down → right → up → left). First real stealth challenge. Guard visible immediately when player enters from sewer.
+
+4. **Warehouse Main** — Large warehouse with 3 guards (Regular, Lead, Overseer) with overlapping patrol routes and coordinated AI. Most challenging level.
 
 ### Planned Levels
 
@@ -185,14 +197,23 @@ See [DEPLOY.md](DEPLOY.md) for deployment instructions.
 
 ### ✅ Complete
 - Core stealth loop (detection, vision, movement)
-- Multi-room architecture with transitions
+- Multi-room architecture with transitions (Cell → Sewer → Corridor → Warehouse)
+- Entry direction system for proper player spawning between scenes
 - Guard AI with A* pathfinding and enhanced states
+- Rectangular patrol patterns for more strategic gameplay
 - Player state machine (walk, crouch, box, detected)
-- Item collection system (3-slot inventory)
+- Item collection system (3-slot inventory with number indicators)
 - Cardboard box mechanic (collectible + hiding)
 - Hole escape from cell with fall/landing animations
 - Sound system with pickup/toggle effects and mobile controls
 - Game over and victory conditions
+- **SVG-based collision system:**
+  - Design collision in Figma
+  - Export as SVG (~700 bytes per scene)
+  - Automatic parsing and caching
+  - Debug visualization (C key toggle)
+- Asset reorganization (collision/, scenes/ subdirectories)
+- UI improvements (hidden by default, no FOUC)
 
 ### 🚧 In Progress
 - Alert broadcast system (guards respond to alerts)

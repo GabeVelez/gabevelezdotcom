@@ -66,8 +66,9 @@ Top-down stealth view
 - Cardboard box concealment (slowest: 32 px/sec)
 
 **Item Collection:**
-- 3-slot inventory system
-- Press E to pick up items (visual prompt appears when near)
+- 3-slot inventory system with number key indicators (1, 2, 3)
+- Press G to pick up items (visual prompt appears when near)
+- Number keys (1, 2, 3) to select/use inventory slots
 - Cardboard box: Must be found and collected before use
 
 **Stealth Tactics:**
@@ -164,20 +165,30 @@ Transition state back to patrol route after alert timeout.
 - Fall through hole with cinematic animation (shrink, fade, delay, pop-up landing)
 - No guards - safe tutorial space
 
-**Level 2: Corridor**
-- Long hallway connecting cell to warehouse
-- 1 Regular Guard with A* pathfinding patrol
-- First stealth challenge
-- Teaches cardboard box hiding mechanic
+**Level 2: The Sewer**
+- Dark transitional space beneath the cell
+- Player lands here after falling through the hole
+- Small safe area with no guards
+- Ladder exit leads to warehouse corridor
+- Teaches basic navigation in confined spaces
 
-**Level 3: Warehouse Main**
-- Large warehouse area with room divisions
+**Level 3: Warehouse Corridor**
+- Long hallway connecting sewer to warehouse main
+- 1 Regular Guard with rectangular patrol loop
+- First real stealth challenge
+- Guard patrols: starts at top, walks down → right → up → left (loop)
+- Player must time movement to avoid detection
+- Exit leads to warehouse main area
+
+**Level 4: Warehouse Main**
+- Large warehouse area with stacked crates and divisions
 - 3 Guards (Regular, Lead, Overseer) with enhanced AI
 - A* pathfinding with obstacle avoidance
 - Waypoint network navigation
 - Multiple patrol paths and vision overlaps
 - Guards coordinate and track last known player position
-- Exit leads to wine cellar (planned)
+- Most challenging level with complex patrol patterns
+- Exit leads to final escape (planned)
 
 ### Planned Levels
 
@@ -200,18 +211,20 @@ Focus: Pure stealth challenge with increasing guard density and patrol complexit
 - **Orientation**: Landscape only
 
 ### Cell Scene
-- **Grid size**: 14 tiles × 10 tiles
+- **Grid size**: 15 tiles × 10 tiles
 - **Tile size**: 16 pixels × 16 pixels
-- **Total size**: 224 pixels × 160 pixels (14×16 × 10×16)
-- **Offset**: (48, 10) - centered on 320×180 canvas
+- **Total size**: 240 pixels × 160 pixels (15×16 × 10×16)
+- **Offset**: (40, 10) - centered on 320×180 canvas
 - **Camera**: Fixed, centered on full canvas (no scrolling)
+- **Collision**: SVG-based collision system
 
 ### Sewer Scene
-- **Grid size**: 18 tiles × 11 tiles
+- **Grid size**: 18 tiles × 12 tiles
 - **Tile size**: 16 pixels × 16 pixels
-- **Total size**: 288 pixels × 176 pixels (18×16 × 11×16)
-- **Offset**: (16, 2) - centered on 320×180 canvas
-- **Camera**: Follows player within scene bounds
+- **Total size**: 288 pixels × 192 pixels (18×16 × 12×16)
+- **Offset**: (16, -6) - centered on 320×180 canvas
+- **Camera**: Fixed, centered on canvas
+- **Collision**: SVG-based collision system
 
 ### Warehouse Corridor Scene
 - **Grid size**: 20 tiles × 20 tiles
@@ -256,16 +269,18 @@ Simple, clean victory.
 ## Current Implementation Status
 
 ### ✅ Implemented
-- Multi-room level architecture with transitions
+- Multi-room level architecture with transitions (Cell → Sewer → Corridor → Warehouse)
+- Entry direction system for proper player spawning between scenes
 - Guard AI with A* pathfinding (easystarjs library)
 - Enhanced guard states: PATROL, SUSPICIOUS, INVESTIGATE, CHASE, SEARCH, ALERT
+- Rectangular patrol patterns for guards (more strategic gameplay)
 - Obstacle avoidance and waypoint network navigation
 - Last known position tracking and guard coordination
 - Detection meter system (visual + text feedback)
 - Vision cone system with wall ray-casting
 - Multiple guard types with distinct behaviors
 - Player movement states (walk, crouch, box, detected)
-- 3-slot inventory system with item collection
+- 3-slot inventory system with item collection and number key indicators
 - Cardboard box mechanic (collectible item + hiding)
 - Hole escape from cell with fall/landing animations
 - Sound effects: item pickup (confirm-tap), box toggle (paper-slide)
@@ -273,7 +288,18 @@ Simple, clean victory.
 - Touch controls for mobile (landscape-only)
 - Game over condition on full detection
 - Victory ending scene
-- Debug overlays (collision, vision, help)
+- Debug overlays with toggle:
+  - Collision (C key) - shows/hides collision rectangles
+  - Vision (V key) - shows guard vision cones
+  - Help (H key) - shows control reference
+- **SVG-based collision system:**
+  - Collision defined in Figma/SVG files (easy to edit)
+  - Automatic parsing and caching for performance
+  - Supports rotated rectangles and complex layouts
+  - Visible debug mode toggled with C key
+- Asset reorganization (collision/, scenes/ subdirectories)
+- Async scene initialization to prevent Flash of Unstyled Content (FOUC)
+- UI hidden by default, shown only during gameplay scenes
 
 ### 🧪 Needs Implementation & Testing
 - **Alert broadcast system:** Guards respond to alerts from other guards (partially implemented)

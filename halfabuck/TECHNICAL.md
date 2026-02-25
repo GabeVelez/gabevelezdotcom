@@ -195,25 +195,135 @@ canvas {
 ### Button Mapping
 
 **Mobile:**
-- **A:** Interact / Knockout
-- **B:** Crouch (toggle)
-- **X:** Box (toggle)
-- **Y:** Item (Molotov / Lighter - planned)
+- **A:** Pick up items
+- **B:** Crouch (toggle) - legacy, may be removed
+- **X:** Inventory slot 1 (cardboard box)
+- **Y:** Inventory slot 2
 
 **Desktop:**
 - **WASD / Arrow Keys:** Movement
-- **Space:** Interact
-- **Shift:** Crouch
-- **E:** Box
-- **Q:** Item (planned)
+- **G:** Pick up items (interact)
+- **Shift:** Crouch (toggle) - legacy, may be removed
+- **1, 2, 3:** Select/use inventory slots
+- **Space:** Reserved for future use
 
 ### Debug Keys (Desktop Only)
-- **C:** Toggle collision overlay
+- **C:** Toggle collision overlay (shows/hides red collision rectangles from SVG)
 - **V:** Toggle vision cone overlay
 - **B:** Toggle body debug overlay
 - **H:** Toggle help overlay
 - **ESC:** Jump to ending scene
 - **R:** Restart current scene
+
+**Note:** Collision overlay (C key) shows the SVG collision rectangles in red at 30% opacity when enabled. This is useful for debugging collision boundaries defined in Figma.
+
+---
+
+## SVG Collision System
+
+### Overview
+
+The game uses an **SVG-based collision system** for defining collision boundaries. This approach allows collision to be designed visually in Figma and exported as SVG files, making it easier to iterate on level layouts.
+
+### How It Works
+
+**1. Design in Figma:**
+- Create a frame matching the scene dimensions (e.g., 320×320 for corridor)
+- Draw rectangles to define collision areas (walls, obstacles, barriers)
+- Rectangles can be rotated (system handles `rotate(-90)` transforms)
+- Export as SVG
+
+**2. Place in Assets:**
+- Save SVG files in `public/assets/collision/`
+- Naming convention: `{scene-name}-collision.svg`
+- Current files:
+  - `cell-collision.svg` (652 bytes)
+  - `corridor-collision.svg` (1.6 KB)
+  - `sewer-collision.svg` (705 bytes)
+
+**3. Parser Loads Collision:**
+```javascript
+// In scene's create() method
+const collisionBodies = await SVGCollisionParser.parseAndCreateBodies(
+  this,
+  "assets/collision/cell-collision.svg",
+  offsetX,  // Scene X offset
+  offsetY   // Scene Y offset
+);
+
+// Store for collision and vision system
+this.collisionBodies = collisionBodies;
+```
+
+**4. Automatic Caching:**
+- First load: SVG fetched and parsed
+- Subsequent loads: Instant retrieval from cache
+- Cache persists for entire game session
+
+### SVG Parser Features
+
+**Supported Elements:**
+- `<rect>` elements with x, y, width, height attributes
+- Rotated rectangles with `transform="rotate(-90 cx cy)"` (Figma export format)
+- Multiple rectangles per file (walls, barriers, props)
+
+**Created Physics Bodies:**
+- Static physics bodies (immovable)
+- Rectangular collision shapes
+- Positioned according to scene offsets
+- Initially invisible (toggled with C key for debug)
+
+**Performance:**
+- Parsing happens once per SVG file (cached)
+- Minimal overhead: ~3KB total for all collision files
+- No runtime re-parsing
+
+### Debug Visualization
+
+**Toggle with C key:**
+- Shows collision rectangles in red at 30% opacity
+- Hidden by default during gameplay
+- Useful for verifying collision boundaries match visual design
+
+### Implementation Details
+
+```javascript
+// SVGCollisionParser.js
+export class SVGCollisionParser {
+  static _cache = new Map();  // Cache for parsed data
+
+  // Parse SVG and create physics bodies
+  static async parseAndCreateBodies(scene, svgPath, offsetX, offsetY) {
+    // 1. Fetch SVG file (or use cached data)
+    // 2. Parse XML to extract <rect> elements
+    // 3. Handle transform rotations
+    // 4. Create Phaser.GameObjects.Rectangle with physics
+    // 5. Return array of collision bodies
+  }
+}
+```
+
+### Advantages Over Tiled Maps
+
+**Simpler Workflow:**
+- Design collision visually in Figma
+- No need to learn Tiled map editor
+- Instant preview in design tool
+
+**Smaller File Sizes:**
+- SVG files are tiny (~700 bytes each)
+- No tileset images needed for collision-only scenes
+- Faster loading
+
+**Easier Iteration:**
+- Modify rectangles in Figma
+- Export new SVG
+- Refresh game (automatic cache invalidation in dev)
+
+**Flexible Layouts:**
+- Not constrained to tile grid
+- Precise pixel-perfect positioning
+- Rotated collision boxes supported
 
 ---
 
@@ -271,6 +381,16 @@ The project includes legacy support for Tiled maps:
 - `soldier1_front/back/left/right` — Guard sprites (32px)
 - `overseer_front/back/left/right` — Overseer guard sprites
 
+**Scene Backgrounds:**
+- `cell_layout` — Cell background image (240×160)
+- `sewer_layout` — Sewer background image (288×192)
+- `corridor_layout` — Corridor background image (320×320)
+
+**Collision Files:**
+- `cell-collision.svg` — Cell collision rectangles (652 bytes)
+- `corridor-collision.svg` — Corridor collision rectangles (1.6 KB)
+- `sewer-collision.svg` — Sewer collision rectangles (705 bytes)
+
 **Maps:**
 - Legacy: `warehouse.json` (Tiled tilemap - not currently used)
 - Legacy: `warehouse_tiles.png` (16×16 tileset - not currently used)
@@ -278,7 +398,13 @@ The project includes legacy support for Tiled maps:
 **Audio:**
 - `intro_music` — Title screen music (MP3)
 - `gameover_sound` — Game over sound effect (MP3)
-- Additional music tracks in `/public/assets/` ready for integration
+- `confirm_tap` — Item pickup sound
+- `paper_slide` — Cardboard box toggle sound
+- Additional music tracks in `/public/assets/audio/` ready for integration
+
+**UI Assets:**
+- Sound toggle icons (muted/unmuted)
+- Touch control overlays
 
 ---
 
@@ -296,20 +422,34 @@ All room scenes extend `BaseRoomScene` which provides:
 ### Individual Room Scenes
 
 **CellScene:**
-- Starting room
-- No guards
-- Single exit to corridor
+- Starting prison cell (240×160)
+- No guards (safe tutorial space)
+- Cardboard box collectible covering hole in floor
+- Exit hole in bottom-right leads to sewer (fall animation)
+- Uses SVG collision system
 
-**CorridorScene:**
-- 1 Regular Guard
-- Narrow hallway layout
-- Exits to cell (back) and warehouse (forward)
+**SewerScene:**
+- Dark transitional space beneath cell (288×192)
+- Player lands here after falling from cell
+- No guards (safe area)
+- Ladder exit to warehouse corridor
+- Uses SVG collision system
+
+**WarehouseCorridorScene:**
+- Long corridor with stacked crates (320×320)
+- 1 Regular Guard with rectangular patrol loop
+- Guard starts at top-left, walks down first (visible to player on entry)
+- Patrol pattern: down → right → up → left → repeat
+- First real stealth challenge
+- Exit leads to warehouse main
+- Uses SVG collision system
 
 **WarehouseMainScene:**
+- Large warehouse area with room divisions
 - 3 Guards (Regular, Lead, Overseer)
-- Large open area with room divisions
-- Multiple patrol paths
-- Exit to wine cellar (planned)
+- Multiple patrol paths and vision overlaps
+- Exit to final escape area (planned)
+- Uses legacy tilemap system (will migrate to SVG)
 
 ---
 
@@ -363,12 +503,25 @@ Shows control scheme and debug key reference.
 halfabuck/
 ├── public/
 │   └── assets/
+│       ├── collision/         # SVG collision files (NEW)
+│       │   ├── cell-collision.svg
+│       │   ├── corridor-collision.svg
+│       │   └── sewer-collision.svg
+│       ├── scenes/            # Scene background images
+│       │   ├── cell/
+│       │   │   └── cell_layout.png
+│       │   ├── sewer/
+│       │   │   └── sewer_layout.png
+│       │   └── corridor/
+│       │       └── corridor_layout.png
 │       ├── sprites/           # Character spritesheets
+│       ├── audio/             # Sound effects and music
+│       ├── ui/                # UI assets (buttons, icons)
 │       ├── tiles/             # Tileset images (legacy)
-│       ├── maps/              # Tiled JSON maps (legacy)
-│       └── *.mp3              # Audio files
+│       └── maps/              # Tiled JSON maps (legacy)
 ├── src/
 │   ├── main.js                # Entry point
+│   ├── styles.css             # Global styles
 │   ├── config/
 │   │   └── gameConfig.js      # Phaser config
 │   ├── scenes/
@@ -377,24 +530,35 @@ halfabuck/
 │   │   ├── BaseRoomScene.js   # Room base class
 │   │   ├── GameOverScene.js   # Failure state
 │   │   ├── EndingScene.js     # Victory state
+│   │   ├── SurroundedScene.js # Surrounded/caught state
 │   │   └── rooms/
 │   │       ├── CellScene.js
-│   │       ├── CorridorScene.js
+│   │       ├── SewerScene.js          # NEW
+│   │       ├── WarehouseCorridorScene.js
 │   │       └── WarehouseMainScene.js
 │   ├── entities/
 │   │   ├── Player.js          # Player class
 │   │   ├── Guard.js           # Base guard class
 │   │   ├── LeadGuard.js       # Lead guard variant
-│   │   └── Overseer.js        # Overseer variant
+│   │   ├── Overseer.js        # Overseer variant
+│   │   └── Item.js            # Collectible item class
 │   ├── systems/
 │   │   ├── stateMachine.js    # State machine
 │   │   ├── visionSystem.js    # Vision & detection
+│   │   ├── inventorySystem.js # Inventory management
 │   │   └── input.js           # Input aggregation
 │   ├── ui/
-│   │   └── touchControls.js   # Touch UI overlay
+│   │   ├── touchControls.js   # Touch UI overlay
+│   │   └── gameUI.js          # HTML UI overlay (NEW)
 │   └── utils/
-│       └── orientation.js     # Orientation detection
-└── index.html
+│       ├── orientation.js     # Orientation detection
+│       └── SVGCollisionParser.js  # SVG collision parser (NEW)
+├── index.html
+├── DESIGN.md                  # Game design document
+├── TECHNICAL.md               # This file
+├── README.md                  # Project readme
+├── IMPLEMENTATION_NOTES.md    # Implementation notes
+└── DEPLOY.md                  # Deployment guide
 ```
 
 ---

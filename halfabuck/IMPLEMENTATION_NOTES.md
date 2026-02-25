@@ -1,8 +1,23 @@
 # Implementation Notes: Simplified Pure Stealth
 
-**Updated:** 2026-02-21
+**Updated:** 2026-02-24
 
 This document outlines code changes needed to match the simplified game design.
+
+## Recent Updates (2026-02-24)
+
+### ✅ Completed Since Last Update
+- **SVG Collision System** — Fully implemented with caching and debug visualization
+- **Sewer Scene** — Added transitional level between cell and corridor
+- **Asset Reorganization** — Moved to collision/, scenes/ subdirectories
+- **Item Pickup Key Change** — Changed from E to G
+- **Inventory Indicators** — Number key indicators (1, 2, 3) added
+- **Collision Debug Toggle** — C key shows/hides collision rectangles
+- **Entry Direction System** — Proper player spawning based on which entrance used
+- **Guard Patrol Updates** — Rectangular loop patterns for better gameplay
+- **UI Improvements** — Hidden by default, async initialization to prevent FOUC
+- **Cardboard Box Positioning** — Fixed to cover hole in cell properly
+- **Performance** — SVG collision caching for instant subsequent loads
 
 ---
 
@@ -32,22 +47,28 @@ This document outlines code changes needed to match the simplified game design.
 
 ### 1. Player Class (`src/entities/Player.js`)
 
-**Remove:**
-- Crouch state and animations
+**✅ Recent Changes:**
+- Item pickup key changed from E to G
+- Number keys (1, 2, 3) for inventory slot selection
+- Box toggle via inventory system (slot 1)
+
+**Still To Remove:**
+- Crouch state and animations (legacy code)
 - Crouch speed modifier
 - Shift key handling for crouch
-- `isDragging` and `dragTarget` properties (no body dragging)
-- Space key interaction for knockouts
+- `isDragging` and `dragTarget` properties (if any remain)
 
 **Keep:**
 - Walk state
-- Box state (E key toggle)
+- Box state (via inventory slot 1)
 - Basic movement (WASD/arrows)
+- G key for item pickup
 
-**States After Cleanup:**
+**States After Full Cleanup:**
 - `IDLE` — Standing still
 - `WALK` — Normal movement
 - `BOX` — In cardboard box (slower movement)
+- `DETECTED` — Spotted by guard
 
 ---
 
@@ -144,14 +165,18 @@ This document outlines code changes needed to match the simplified game design.
 
 ### 7. Input System (`src/systems/input.js`)
 
-**Remove:**
-- Shift key handling (crouch removed)
-- Q key handling (no items)
-- Space key for knockouts
+**✅ Recent Changes:**
+- G key for item pickup (changed from E)
+- Number keys (1, 2, 3) for inventory slots
+- Still has crouch (Shift) and slot keys mapped
+
+**Still To Remove:**
+- Shift key handling (crouch legacy code)
 
 **Keep:**
 - WASD/Arrow movement
-- E key for box toggle
+- G key for item pickup
+- 1, 2, 3 keys for inventory slots
 - Debug keys (C, V, B, H, R, ESC)
 
 ---
@@ -177,6 +202,85 @@ This document outlines code changes needed to match the simplified game design.
 **Add (New Feature):**
 - Alert visualization (when implemented)
 - Guard response state indicators (optional debug)
+
+---
+
+## Current Scene Flow
+
+### ✅ Implemented Scenes
+
+**1. IntroScene** → Title screen with "Press Start"
+
+**2. CellScene** (240×160, offset 40,10)
+- Starting prison cell
+- Cardboard box collectible covering hole
+- Fall through hole animation
+- Exit to Sewer (south entry direction)
+- Uses SVG collision system
+
+**3. SewerScene** (288×192, offset 16,-6)
+- Dark transitional space
+- Player lands from cell
+- No guards (safe area)
+- Ladder exit to corridor (north entry direction)
+- Uses SVG collision system
+
+**4. WarehouseCorridorScene** (320×320, no offset)
+- Long corridor with stacked crates
+- 1 Regular Guard (rectangular patrol)
+- Guard starts at (130, 80), walks down first
+- Patrol: down → right → up → left → loop
+- Exit to warehouse main
+- Uses SVG collision system
+
+**5. WarehouseMainScene**
+- Large warehouse area
+- 3 Guards (Regular, Lead, Overseer)
+- Uses legacy tilemap system (will migrate to SVG)
+- Exit to final area (planned)
+
+**6. GameOverScene** → Triggered on full detection
+
+**7. EndingScene** → Victory (needs simplification)
+
+---
+
+## SVG Collision System
+
+### ✅ Fully Implemented (2026-02-24)
+
+**Features:**
+- Fetches and parses SVG files
+- Extracts `<rect>` elements
+- Handles rotated rectangles (Figma's `rotate(-90)` transform)
+- Creates Phaser static physics bodies
+- Automatic caching for performance
+- Debug visualization (C key toggle)
+
+**Files:**
+- `src/utils/SVGCollisionParser.js` — Parser implementation
+- `public/assets/collision/cell-collision.svg` — Cell collision (652 bytes)
+- `public/assets/collision/sewer-collision.svg` — Sewer collision (705 bytes)
+- `public/assets/collision/corridor-collision.svg` — Corridor collision (1.6 KB)
+
+**Usage in Scenes:**
+```javascript
+const collisionBodies = await SVGCollisionParser.parseAndCreateBodies(
+  this,
+  "assets/collision/scene-collision.svg",
+  offsetX,
+  offsetY
+);
+this.collisionBodies = collisionBodies;
+```
+
+**Benefits:**
+- Design collision in Figma (visual tool)
+- Tiny file sizes (~700 bytes vs 10+ KB for Tiled)
+- Easy iteration (export SVG → refresh game)
+- Automatic caching (instant subsequent loads)
+
+**See:** `SVG_COLLISION_SYSTEM.md` for full technical specification
 
 ---
 
@@ -329,12 +433,28 @@ GUARD_TYPES = {
 
 ## Priority Order
 
-1. **Remove deprecated code** (crouch, knockout, dragging)
-2. **Update text/narrative** (Mission: Critical, simplified ending)
-3. **Simplify UI/controls** (remove unused buttons)
-4. **Implement alert broadcast** (new feature)
-5. **Tune and balance** (alert radius, response speeds)
-6. **Test and iterate** (playtest alert system)
+### ✅ Completed
+1. ~~**SVG collision system**~~ (fully implemented)
+2. ~~**Scene flow**~~ (Cell → Sewer → Corridor → Warehouse)
+3. ~~**Entry direction system**~~ (proper player spawning)
+4. ~~**Asset reorganization**~~ (collision/, scenes/ directories)
+5. ~~**UI improvements**~~ (hidden by default, no FOUC)
+6. ~~**Guard patrol updates**~~ (rectangular loops)
+7. ~~**Item pickup key change**~~ (E → G)
+8. ~~**Inventory indicators**~~ (number keys 1, 2, 3)
+9. ~~**Collision debug toggle**~~ (C key)
+
+### 🚧 In Progress
+1. **Remove deprecated code** (crouch legacy code cleanup)
+2. **Simplify ending scene** (remove birthday narrative)
+3. **Implement alert broadcast** (guards respond to other guards' alerts)
+
+### 📋 Planned
+4. **Tune and balance** (alert radius, response speeds)
+5. **Additional levels** (wine cellar, outdoor escape)
+6. **Performance-based rankings** (time, detections, alerts)
+7. **Hard mode** (faster detection, tighter patrols)
+8. **Migrate WarehouseMainScene to SVG collision**
 
 ---
 
