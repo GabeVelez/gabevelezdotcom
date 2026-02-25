@@ -21,14 +21,16 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Anchor at bottom-center (eliminates waddle from earlier)
     this.setOrigin(0.5, 1.0);
 
-    // Capture collision dimensions from "up" sprite (gabe-back) and use for all directions
-    // This ensures the collision box bottom is always at the player's feet, no gaps
-    this.FIXED_COLLISION_WIDTH = this.width * 0.9;   // Based on "up" sprite width
-    this.FIXED_COLLISION_HEIGHT = this.height * 0.5; // Based on "up" sprite height
-    this.FIXED_COLLISION_OFFSET_Y = this.height * 0.5; // Based on "up" sprite offset
+    // Capture collision SIZE from "up" sprite (gabe-back) - this stays fixed for all directions
+    // The offset will adjust per sprite to keep the box at the feet
+    this.FIXED_COLLISION_WIDTH = this.width * 0.9;   // Fixed width
+    this.FIXED_COLLISION_HEIGHT = this.height * 0.5; // Fixed height
+
+    // Calculate offset to position collision box at the bottom (feet) of current sprite
+    const offsetY = this.height - this.FIXED_COLLISION_HEIGHT;
 
     this.body.setSize(this.FIXED_COLLISION_WIDTH, this.FIXED_COLLISION_HEIGHT);
-    this.body.setOffset(0, this.FIXED_COLLISION_OFFSET_Y);
+    this.body.setOffset(0, offsetY);
 
     // Don't constrain to world bounds - let tilemap walls provide boundaries
     // this.setCollideWorldBounds(true);
@@ -110,10 +112,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       this.boxSprite.setPosition(this.x, this.y);
     }
 
-    // Always use the fixed collision dimensions from "up" sprite
-    // This prevents gaps at the feet when changing directions
+    // Keep collision SIZE fixed, but adjust OFFSET to position at bottom of current sprite
+    // This keeps the collision box at the feet regardless of sprite height differences
+    const offsetY = this.height - this.FIXED_COLLISION_HEIGHT;
+
     this.body.setSize(this.FIXED_COLLISION_WIDTH, this.FIXED_COLLISION_HEIGHT);
-    this.body.setOffset(0, this.FIXED_COLLISION_OFFSET_Y);
+    this.body.setOffset(0, offsetY);
 
     // Keep dragged body attached behind player
     if (this.isDragging && this.dragTarget) {
