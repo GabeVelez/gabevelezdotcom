@@ -43,12 +43,12 @@ export class WarehouseCorridorScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
-    let playerX = 180; // To the left of manhole
+    let playerX = 191; // To the left of manhole, 2/3 tile right (11px)
     let playerY = 60; // Below the exit zone with clearance
 
     if (this.entryDirection === "east") {
       // Coming from sewer - spawn to left of manhole
-      playerX = 180; // Left of manhole (manhole is at X=240)
+      playerX = 191; // Left of manhole, 2/3 tile right from original (manhole is at X=240)
       playerY = 60; // Below exit with enough clearance
     } else if (this.entryDirection === "north") {
       // Coming back from warehouse main (bottom entrance)
