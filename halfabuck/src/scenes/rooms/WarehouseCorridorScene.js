@@ -90,7 +90,8 @@ export class WarehouseCorridorScene extends BaseRoomScene {
 
     // Exits
     // Top: back to sewer (ladder down through manhole)
-    this.createExit(240, 16, 32, 32, "SewerScene", "north");
+    // Moved 1 tile right and 1 tile down
+    this.createExit(256, 32, 32, 32, "SewerScene", "north");
 
     // Bottom: to warehouse main
     this.createExit(160, 300, 32, 32, "WarehouseMainScene", "north");
