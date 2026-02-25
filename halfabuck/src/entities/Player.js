@@ -11,7 +11,7 @@ export const PlayerStates = {
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "gabe-back", 0);  // Start with "back" sprite (used for "up" direction)
+    super(scene, x, y, "gabe-front", 0);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
@@ -21,15 +21,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Anchor at bottom-center (eliminates waddle from earlier)
     this.setOrigin(0.5, 1.0);
 
-    // Capture collision SIZE from "up" sprite (gabe-back) - this stays fixed for all directions
-    // The offset will adjust per sprite to keep the box at the feet
-    this.FIXED_COLLISION_WIDTH = this.width * 0.9;   // Fixed width
-    this.FIXED_COLLISION_HEIGHT = this.height * 0.5; // Fixed height
+    // Uniform collision box - sprites are now all aligned the same way
+    // Simple percentage-based collision works perfectly with aligned sprites
+    const collisionWidth = this.width * 0.9;  // 90% width
+    const collisionHeight = this.height * 0.5;  // 50% height (bottom half)
+    const offsetY = this.height - collisionHeight;  // Position at bottom (feet)
 
-    // Calculate offset to position collision box at the bottom (feet) of current sprite
-    const offsetY = this.height - this.FIXED_COLLISION_HEIGHT;
-
-    this.body.setSize(this.FIXED_COLLISION_WIDTH, this.FIXED_COLLISION_HEIGHT);
+    this.body.setSize(collisionWidth, collisionHeight);
     this.body.setOffset(0, offsetY);
 
     // Don't constrain to world bounds - let tilemap walls provide boundaries
@@ -112,11 +110,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       this.boxSprite.setPosition(this.x, this.y);
     }
 
-    // Keep collision SIZE fixed, but adjust OFFSET to position at bottom of current sprite
-    // This keeps the collision box at the feet regardless of sprite height differences
-    const offsetY = this.height - this.FIXED_COLLISION_HEIGHT;
+    // Maintain collision box at bottom (feet) - sprites are aligned uniformly
+    const collisionWidth = this.width * 0.9;
+    const collisionHeight = this.height * 0.5;
+    const offsetY = this.height - collisionHeight;
 
-    this.body.setSize(this.FIXED_COLLISION_WIDTH, this.FIXED_COLLISION_HEIGHT);
+    this.body.setSize(collisionWidth, collisionHeight);
     this.body.setOffset(0, offsetY);
 
     // Keep dragged body attached behind player
