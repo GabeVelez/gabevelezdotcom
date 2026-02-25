@@ -392,7 +392,7 @@ export class BaseRoomScene extends Phaser.Scene {
    */
   updateBase(_, dtMs) {
     // Don't update until scene is fully initialized (async loading complete)
-    if (!this.inputManager || !this.player) {
+    if (!this.inputManager || !this.player || !this.player.body) {
       return;
     }
 
