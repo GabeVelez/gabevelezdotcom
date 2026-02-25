@@ -10,11 +10,12 @@ function randomTiming(baseMs) {
 }
 
 export class VisionSystem {
-  constructor(scene, guards, player, wallLayer = null) {
+  constructor(scene, guards, player, wallLayer = null, collisionBodies = null) {
     this.scene = scene;
     this.guards = guards;
     this.player = player;
     this.wallLayer = wallLayer;
+    this.collisionBodies = collisionBodies; // SVG collision bodies
     this.meters = new Map();
     this.triggered = new Map();
     this.debugEnabled = true;
@@ -329,7 +330,13 @@ export class VisionSystem {
     // Ray from guard's center (fixed offset)
     const guardCenterX = guard.x;
     const guardCenterY = guard.y - 16;
+
+    // Check tilemap walls (legacy system)
     if (this.wallLayer && this._rayHitsWall(guardCenterX, guardCenterY, x, y)) return false;
+
+    // Check SVG collision bodies (new system)
+    if (this.collisionBodies && this._rayHitsCollisionBody(guardCenterX, guardCenterY, x, y)) return false;
+
     return true;
   }
 
@@ -342,7 +349,13 @@ export class VisionSystem {
     if (p.isBoxed && !moving) return false;
 
     if (!this._pointInCone(guard, p.x, p.y)) return false;
+
+    // Check tilemap walls (legacy system)
     if (this.wallLayer && this._rayHitsWall(guard.x, guard.y, p.x, p.y)) return false;
+
+    // Check SVG collision bodies (new system)
+    if (this.collisionBodies && this._rayHitsCollisionBody(guard.x, guard.y, p.x, p.y)) return false;
+
     return true;
   }
 
@@ -370,6 +383,29 @@ export class VisionSystem {
       const y = Phaser.Math.Linear(y0, y1, t);
       const tile = this.wallLayer.getTileAtWorldXY(x, y, true);
       if (tile && tile.collides) return true;
+    }
+    return false;
+  }
+
+  _rayHitsCollisionBody(x0, y0, x1, y1) {
+    // Ray-cast against SVG collision bodies (rectangles)
+    const steps = 18; // Same precision as tilemap checking
+
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      const x = Phaser.Math.Linear(x0, x1, t);
+      const y = Phaser.Math.Linear(y0, y1, t);
+
+      // Check if this point is inside any collision body
+      for (const body of this.collisionBodies) {
+        if (!body || !body.body) continue;
+
+        const bounds = body.getBounds();
+        if (x >= bounds.x && x <= bounds.x + bounds.width &&
+            y >= bounds.y && y <= bounds.y + bounds.height) {
+          return true; // Ray hit a collision body
+        }
+      }
     }
     return false;
   }

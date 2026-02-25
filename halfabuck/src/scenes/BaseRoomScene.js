@@ -178,7 +178,8 @@ export class BaseRoomScene extends Phaser.Scene {
    * Setup vision system
    */
   setupVisionSystem(wallLayer = null) {
-    this.vision = new VisionSystem(this, this.guards, this.player, wallLayer);
+    // Pass both tilemap walls (legacy) and SVG collision bodies (new system)
+    this.vision = new VisionSystem(this, this.guards, this.player, wallLayer, this.collisionBodies);
 
     // Initialize vision and pathfinding for all guards
     for (const guard of this.guards) {
