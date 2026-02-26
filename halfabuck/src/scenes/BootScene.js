@@ -20,6 +20,7 @@ export class BootScene extends Phaser.Scene {
     this.load.audio("item_pickup", "assets/audio/sfx/existentialtaco-confirm-tap-394001.mp3");
     this.load.audio("box_toggle", "assets/audio/sfx/oxidvideos-paper-slide-short-478835.mp3");
     this.load.audio("door_unlock", "assets/audio/sfx/existentialtaco-confirm-tap-394001.mp3"); // Reuse confirm sound for door unlock
+    this.load.audio("toilet_flush", "assets/audio/sfx/toilet_flush.mp3"); // Easter egg sound
 
     // --- Tilemap assets (Tiled JSON + tileset image) ---
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");

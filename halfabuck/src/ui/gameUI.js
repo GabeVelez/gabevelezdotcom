@@ -135,6 +135,9 @@ export class GameUI {
       case 'security_keycard':
         message = `${itemName.toUpperCase()} ACQUIRED — Unlocks red doors automatically`;
         break;
+      case 'easter_egg':
+        message = itemName; // Easter eggs show message as-is (no "ACQUIRED")
+        break;
       default:
         message = `${itemName.toUpperCase()} ACQUIRED`;
     }

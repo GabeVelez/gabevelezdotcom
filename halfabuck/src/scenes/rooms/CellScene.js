@@ -9,6 +9,11 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 export class CellScene extends BaseRoomScene {
   constructor() {
     super("CellScene");
+
+    // Toilet easter egg tracking
+    this.toiletTimeOnSeat = 0;
+    this.toiletFlushTriggered = false;
+    this.toiletFlushDuration = 20000; // 20 seconds in milliseconds
   }
 
   create() {
@@ -130,5 +135,44 @@ export class CellScene extends BaseRoomScene {
 
   update(time, delta) {
     this.updateBase(time, delta);
+
+    // Toilet easter egg: Check if player is sitting on toilet (top-right corner)
+    if (this.player && !this.toiletFlushTriggered) {
+      const toiletAreaX = this.cellOffsetX + 200; // Top-right area
+      const toiletAreaY = this.cellOffsetY + 30;
+      const toiletRadius = 20; // Radius around toilet
+
+      const distanceToToilet = Phaser.Math.Distance.Between(
+        this.player.x, this.player.y,
+        toiletAreaX, toiletAreaY
+      );
+
+      // Check if player is on toilet
+      if (distanceToToilet <= toiletRadius) {
+        this.toiletTimeOnSeat += delta;
+
+        // Trigger flush after 20 seconds
+        if (this.toiletTimeOnSeat >= this.toiletFlushDuration) {
+          this.toiletFlushTriggered = true;
+
+          // Play flush sound
+          if (this.registry.get("soundEnabled")) {
+            this.sound.play("toilet_flush", { volume: 0.6 });
+          }
+
+          // Show a fun message
+          if (this.gameUI && this.gameUI.showItemNotification) {
+            this.gameUI.showItemNotification("easter_egg", "Don't forget to wipe...");
+          }
+
+          console.log("🚽 Toilet easter egg activated! Player sat for 20 seconds.");
+        }
+      } else {
+        // Reset timer if player moves away from toilet
+        if (this.toiletTimeOnSeat > 0 && this.toiletTimeOnSeat < this.toiletFlushDuration) {
+          this.toiletTimeOnSeat = 0;
+        }
+      }
+    }
   }
 }
