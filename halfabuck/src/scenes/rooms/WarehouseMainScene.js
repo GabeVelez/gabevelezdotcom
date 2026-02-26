@@ -1,11 +1,10 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { Guard } from "../../entities/Guard.js";
 import { LeadGuard } from "../../entities/LeadGuard.js";
-import { Overseer } from "../../entities/Overseer.js";
 
 /**
  * Warehouse Main - Large bottom area with multiple rooms and guards
- * Final challenge before stairs to wine cellar
+ * Exit north to Warehouse Corridor, exit south to Storage Bay
  */
 export class WarehouseMainScene extends BaseRoomScene {
   constructor() {
@@ -87,10 +86,11 @@ export class WarehouseMainScene extends BaseRoomScene {
 
     this.createPlayer(playerX, playerY);
 
-    // Create multiple guards (harder encounter)
+    // Create guards - Introduces Lead Guard (Level 4)
+    // Distribution: 2 Regular, 1 Lead
     this.createGuards();
 
-    // Regular guard in left room
+    // Regular guard #1 - Left room patrol
     const guard1 = new Guard(this, 120, 160, [
       { x: 120, y: 160 },
       { x: 180, y: 160 },
@@ -100,7 +100,7 @@ export class WarehouseMainScene extends BaseRoomScene {
     guard1.setDepth(10);
     this.guards.push(guard1);
 
-    // Lead guard in main area
+    // Lead guard - Main area (FIRST LEAD GUARD INTRODUCTION)
     const guard2 = new LeadGuard(this, 240, 100, [
       { x: 240, y: 100 },
       { x: 320, y: 100 }
@@ -108,8 +108,8 @@ export class WarehouseMainScene extends BaseRoomScene {
     guard2.setDepth(10);
     this.guards.push(guard2);
 
-    // Overseer in right room
-    const guard3 = new Overseer(this, 380, 180, [
+    // Regular guard #2 - Right room patrol
+    const guard3 = new Guard(this, 380, 180, [
       { x: 380, y: 180 },
       { x: 380, y: 140 }
     ]);
@@ -122,7 +122,10 @@ export class WarehouseMainScene extends BaseRoomScene {
     // Exits - positioned at center of door tiles
     // Top exit: tiles (14,0) and (15,0) = pixels (224,0) to (256,16), center at (240, 20)
     this.createExit(240, 20, 32, 32, "WarehouseCorridorScene", "south");
-    // TODO: Add exit to wine cellar scene when created
+
+    // Bottom-right exit to Storage Bay (stairs area at tiles 26-27, 14-15)
+    // Tiles (26,14) to (27,15) = pixels (416,224) to (448,256), center at (432, 240)
+    this.createExit(432, 240, 32, 32, "StorageBayScene", "north");
 
     // Physics
     this.physics.add.collider(this.player, ground);

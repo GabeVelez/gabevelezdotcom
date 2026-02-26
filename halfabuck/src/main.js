@@ -12,6 +12,12 @@ import { CellScene } from "./scenes/rooms/CellScene.js";
 import { SewerScene } from "./scenes/rooms/SewerScene.js";
 import { WarehouseCorridorScene } from "./scenes/rooms/WarehouseCorridorScene.js";
 import { WarehouseMainScene } from "./scenes/rooms/WarehouseMainScene.js";
+import { StorageBayScene } from "./scenes/rooms/StorageBayScene.js";
+import { LoadingDockScene } from "./scenes/rooms/LoadingDockScene.js";
+import { SecurityOfficeScene } from "./scenes/rooms/SecurityOfficeScene.js";
+import { MaintenanceTunnelScene } from "./scenes/rooms/MaintenanceTunnelScene.js";
+import { ExecutiveWingScene } from "./scenes/rooms/ExecutiveWingScene.js";
+import { RooftopHelipadScene } from "./scenes/rooms/RooftopHelipadScene.js";
 import { SurroundedScene } from "./scenes/SurroundedScene.js";
 import { GameOverScene } from "./scenes/GameOverScene.js";
 import { EndingScene } from "./scenes/EndingScene.js";
@@ -45,6 +51,12 @@ document.fonts.ready.then(() => {
     SewerScene,
     WarehouseCorridorScene,
     WarehouseMainScene,
+    StorageBayScene,
+    LoadingDockScene,
+    SecurityOfficeScene,
+    MaintenanceTunnelScene,
+    ExecutiveWingScene,
+    RooftopHelipadScene,
     SurroundedScene,
     GameOverScene,
     EndingScene

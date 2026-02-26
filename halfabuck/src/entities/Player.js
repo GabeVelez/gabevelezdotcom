@@ -97,6 +97,25 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
+    // Deploy smoke grenade on slot2 (only if player has smoke grenade in inventory)
+    if (input.justSlot2) {
+      const inventory = this.scene.registry.get("inventory");
+
+      if (inventory && inventory.hasItem("smoke_grenade")) {
+        // Import SmokeGrenade dynamically
+        import("./SmokeGrenade.js").then(({ SmokeGrenade }) => {
+          // Find the smoke grenade in scene items or create a temporary instance to call deploy
+          const tempGrenade = new SmokeGrenade(this.scene, 0, 0);
+          tempGrenade.deploy(this, this.scene);
+
+          // Don't remove from inventory - grenades can be used multiple times
+          // (adjust this if you want single-use grenades)
+        });
+      } else {
+        console.log("You don't have a smoke grenade!");
+      }
+    }
+
     // Dragging cancels box
     if (this.isDragging && this.isBoxed) {
       this.isBoxed = false;

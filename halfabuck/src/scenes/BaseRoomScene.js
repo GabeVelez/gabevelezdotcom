@@ -39,6 +39,9 @@ export class BaseRoomScene extends Phaser.Scene {
     // Initialize items array for this scene
     this.items = [];
 
+    // Initialize locked doors array for this scene
+    this.lockedDoors = [];
+
     // Start intro music during gameplay if sound is enabled
     if (!this.registry.get("intro_music")) {
       const music = this.sound.add("intro_music", { loop: true, volume: 0.5 });
@@ -291,6 +294,40 @@ export class BaseRoomScene extends Phaser.Scene {
   }
 
   /**
+   * Create a locked door that requires a keycard to unlock
+   */
+  createLockedDoor(x, y, width, height, doorId = "default") {
+    // Create visual representation (red door sprite)
+    const doorSprite = this.add.image(x, y, "locked-red");
+    doorSprite.setDisplaySize(width, height);
+    doorSprite.setDepth(5);
+
+    // Create collision body for the door
+    const doorBody = this.physics.add.staticImage(x, y);
+    doorBody.setDisplaySize(width, height);
+    doorBody.body.updateFromGameObject();
+    doorBody.setVisible(false); // Hide physics body, only show sprite
+
+    // Add collision with player
+    this.physics.add.collider(this.player, doorBody);
+
+    // Store door data
+    const door = {
+      id: doorId,
+      sprite: doorSprite,
+      body: doorBody,
+      x, y, width, height,
+      unlocked: false,
+      unlockRange: 50 // Distance within which door unlocks
+    };
+
+    this.lockedDoors.push(door);
+
+    console.log(`Locked door created at (${x}, ${y}) size ${width}x${height}, ID: ${doorId}`);
+    return door;
+  }
+
+  /**
    * Create exit zone that transitions to another scene
    */
   createExit(x, y, width, height, targetScene, entryDirection) {
@@ -405,6 +442,9 @@ export class BaseRoomScene extends Phaser.Scene {
 
     // Check for nearby items
     this._checkItemInteraction(input);
+
+    // Check for locked doors to unlock
+    this._checkLockedDoors();
 
     // Check exits manually
     if (this._exits) {
@@ -626,11 +666,82 @@ export class BaseRoomScene extends Phaser.Scene {
       if (this.gameUI) {
         this.gameUI.updateInventory(this.inventory.getAll());
         this.gameUI.hideInteractionPrompt();
+
+        // Show collection notification
+        this.gameUI.showItemNotification(item.itemId, item.itemName);
       }
 
       // Clear nearby item reference
       this._nearbyItem = null;
     }
+  }
+
+  /**
+   * Check locked doors and unlock if player has keycard and is in range
+   */
+  _checkLockedDoors() {
+    if (!this.lockedDoors || this.lockedDoors.length === 0) return;
+
+    // Check if player has any keycards in inventory
+    const keycards = this.inventory.getAll().filter(item =>
+      item.itemId === "keycard" || item.constructor.name === "SecurityKeycard"
+    );
+
+    if (keycards.length === 0) return;
+
+    // Check each locked door
+    for (const door of this.lockedDoors) {
+      if (door.unlocked) continue;
+
+      // Check if player is in range
+      const distance = Phaser.Math.Distance.Between(
+        this.player.x, this.player.y,
+        door.x, door.y
+      );
+
+      if (distance <= door.unlockRange) {
+        // Check if player has the right keycard
+        const hasMatchingKeycard = keycards.some(keycard =>
+          keycard.keycardId === door.id || keycard.keycardId === "default" || door.id === "default"
+        );
+
+        if (hasMatchingKeycard) {
+          this._unlockDoor(door);
+        }
+      }
+    }
+  }
+
+  /**
+   * Unlock a door
+   */
+  _unlockDoor(door) {
+    door.unlocked = true;
+
+    // Change sprite to green (unlocked)
+    door.sprite.setTexture("unlocked-green");
+
+    // Remove collision
+    door.body.destroy();
+
+    // Play unlock sound
+    if (this.registry.get("soundEnabled")) {
+      this.sound.play("door_unlock", { volume: 0.5 });
+    }
+
+    // Visual feedback - brief flash
+    this.tweens.add({
+      targets: door.sprite,
+      alpha: 0.3,
+      duration: 150,
+      yoyo: true,
+      repeat: 2,
+      onComplete: () => {
+        door.sprite.setAlpha(1);
+      }
+    });
+
+    console.log(`Door ${door.id} unlocked!`);
   }
 
 }

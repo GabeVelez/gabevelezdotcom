@@ -1,0 +1,28 @@
+<svg width="544" height="320" viewBox="0 0 544 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Outer walls -->
+<rect width="20" height="320" fill="#FF0000"/>
+<rect x="524" width="20" height="320" fill="#FF0000"/>
+<rect y="0" width="544" height="20" fill="#FF0000"/>
+<rect y="300" width="544" height="20" fill="#FF0000"/>
+
+<!-- Executive desk (center-right area) -->
+<rect x="350" y="140" width="80" height="40" fill="#FF0000"/>
+
+<!-- Glass walls (vision blocking - vertical dividers) -->
+<rect x="180" y="60" width="8" height="200" fill="#FF0000"/>
+<rect x="300" y="60" width="8" height="200" fill="#FF0000"/>
+
+<!-- Couches (4 positioned around the space) -->
+<rect x="100" y="80" width="60" height="30" fill="#FF0000"/>
+<rect x="100" y="210" width="60" height="30" fill="#FF0000"/>
+<rect x="220" y="140" width="60" height="30" fill="#FF0000"/>
+<rect x="450" y="200" width="60" height="30" fill="#FF0000"/>
+
+<!-- Decorative plants (6 around the perimeter) -->
+<rect x="50" y="50" width="16" height="16" fill="#FF0000"/>
+<rect x="50" y="254" width="16" height="16" fill="#FF0000"/>
+<rect x="140" y="40" width="16" height="16" fill="#FF0000"/>
+<rect x="140" y="264" width="16" height="16" fill="#FF0000"/>
+<rect x="480" y="50" width="16" height="16" fill="#FF0000"/>
+<rect x="480" y="254" width="16" height="16" fill="#FF0000"/>
+</svg>

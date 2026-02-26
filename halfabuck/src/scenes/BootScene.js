@@ -19,6 +19,7 @@ export class BootScene extends Phaser.Scene {
     this.load.audio("ground_impact", "assets/audio/sfx/universfield-ground-impact-352053.mp3");
     this.load.audio("item_pickup", "assets/audio/sfx/existentialtaco-confirm-tap-394001.mp3");
     this.load.audio("box_toggle", "assets/audio/sfx/oxidvideos-paper-slide-short-478835.mp3");
+    this.load.audio("door_unlock", "assets/audio/sfx/existentialtaco-confirm-tap-394001.mp3"); // Reuse confirm sound for door unlock
 
     // --- Tilemap assets (Tiled JSON + tileset image) ---
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");
@@ -28,6 +29,11 @@ export class BootScene extends Phaser.Scene {
     this.load.image("cell_layout", "assets/scenes/cell/cell-layout.png");
     this.load.image("sewer_layout", "assets/scenes/sewer/sewer-layout.png");
     this.load.image("corridor_layout", "assets/scenes/corridor/corridor-layout.png");
+    this.load.image("storage_bay_layout", "assets/scenes/storage-bay/storage-bay-layout.png");
+    this.load.image("loading_dock_layout", "assets/scenes/loading-dock/loading-dock-layout.png");
+    this.load.image("security_office_layout", "assets/scenes/security-office/security-office-layout.png");
+    this.load.image("maintenance_tunnel_layout", "assets/scenes/maintenance-tunnel/maintenance-tunnel-layout.png");
+    this.load.image("rooftop_helipad_layout", "assets/scenes/rooftop-helipad/rooftop-helipad-layout.png");
 
     // --- Collision is loaded directly via SVGCollisionParser (no preloading needed) ---
 
@@ -88,9 +94,26 @@ export class BootScene extends Phaser.Scene {
     // --- Cell props ---
     this.load.image("cardboardbox", "assets/scenes/cell/cardboardbox.png");
 
+    // --- Item sprites ---
+    this.load.image("smoke_grenade", "assets/sprites/items/smoke-grenade.png");
+
+    // --- Vehicle sprites ---
+    this.load.image("helicopter", "assets/sprites/helicopter.png");
+
+    // --- Effect sprites ---
+    this.load.spritesheet("smoke_cloud", "assets/sprites/effects/smoke-cloud.png", {
+      frameWidth: 80,
+      frameHeight: 80
+    });
+
     // --- Placeholder entity textures ---
     this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
     this._makePlaceholderTexture("box", 16, 16, 0xffffff);
+
+    // --- Security Keycard and Door placeholders ---
+    this._makePlaceholderTexture("security-keycard", 20, 32, 0xffff00); // Yellow keycard
+    this._makePlaceholderTexture("locked-red", 16, 16, 0xff0000); // Red locked door
+    this._makePlaceholderTexture("unlocked-green", 16, 16, 0x00ff00); // Green unlocked door
 
     // --- Cell placeholder tiles for layout ---
     this._makePlaceholderTexture("cell_floor", 16, 16, 0xadd8e6); // light blue
@@ -101,6 +124,14 @@ export class BootScene extends Phaser.Scene {
   }
 
   create() {
+    // Create smoke cloud animation
+    this.anims.create({
+      key: "smoke_expand",
+      frames: this.anims.generateFrameNumbers("smoke_cloud", { start: 0, end: 5 }),
+      frameRate: 10,
+      repeat: -1 // Loop indefinitely
+    });
+
     this.scene.start("IntroScene");
   }
 

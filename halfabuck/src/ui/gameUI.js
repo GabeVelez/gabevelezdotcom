@@ -14,6 +14,10 @@ export class GameUI {
     // Interaction prompt
     this.interactionPrompt = document.getElementById('interaction-prompt');
 
+    // Item notification
+    this.itemNotification = document.getElementById('item-notification');
+    this.notificationTimeout = null;
+
     // Inventory container
     this.inventoryContainer = document.getElementById('inventory-container');
     this.inventoryItems = document.getElementById('inventory-items');
@@ -109,6 +113,42 @@ export class GameUI {
   }
 
   /**
+   * Show item collection notification
+   */
+  showItemNotification(itemId, itemName) {
+    if (!this.itemNotification) return;
+
+    // Clear any existing timeout
+    if (this.notificationTimeout) {
+      clearTimeout(this.notificationTimeout);
+    }
+
+    // Get the notification message based on item type
+    let message = '';
+    switch(itemId) {
+      case 'cardboard_box':
+        message = `${itemName.toUpperCase()} ACQUIRED — Press 1 to hide inside`;
+        break;
+      case 'smoke_grenade':
+        message = `${itemName.toUpperCase()} ACQUIRED — Press 2 to deploy smoke`;
+        break;
+      case 'security_keycard':
+        message = `${itemName.toUpperCase()} ACQUIRED — Unlocks red doors automatically`;
+        break;
+      default:
+        message = `${itemName.toUpperCase()} ACQUIRED`;
+    }
+
+    this.itemNotification.textContent = message;
+    this.itemNotification.style.display = 'block';
+
+    // Auto-hide after 3 seconds (matches animation duration)
+    this.notificationTimeout = setTimeout(() => {
+      this.itemNotification.style.display = 'none';
+    }, 3000);
+  }
+
+  /**
    * Update inventory display (3-slot system)
    */
   updateInventory(items) {
@@ -141,11 +181,17 @@ export class GameUI {
       slot.title = item.description || item.name;
 
       // Add Bootstrap icon based on item ID (note: inventory uses 'id' not 'itemId')
+      const icon = document.createElement('i');
       if (item.id === 'cardboard_box') {
-        const icon = document.createElement('i');
         icon.className = 'bi bi-box-seam-fill';
-        slot.appendChild(icon);
+      } else if (item.id === 'smoke_grenade') {
+        icon.className = 'bi bi-cloud-fill';
+      } else if (item.id === 'security_keycard') {
+        icon.className = 'bi bi-sd-card-fill';
+      } else {
+        icon.className = 'bi bi-star-fill'; // Default icon
       }
+      slot.appendChild(icon);
     });
   }
 }

@@ -61,11 +61,37 @@ export class VisionSystem {
       this.alertCooldown -= dt;
     }
 
+    // Update smoke clouds
+    if (this.scene.smokeClouds) {
+      for (const cloud of this.scene.smokeClouds) {
+        if (cloud.active) {
+          cloud.update(dt);
+        }
+      }
+    }
+
     let anyDetecting = false;
     let anyAlerted = false;
 
     for (const g of this.guards) {
       if (!g.active || g.isHidden || g.isKnockedOut) continue;
+
+      // Check if guard is inside smoke cloud - if so, set vision to 0
+      let insideSmoke = false;
+      if (this.scene.smokeClouds) {
+        for (const cloud of this.scene.smokeClouds) {
+          if (cloud.active && cloud.containsGuard(g)) {
+            insideSmoke = true;
+            break;
+          }
+        }
+      }
+
+      // Store original vision distance and temporarily override if in smoke
+      const originalDistance = g.vision.distance;
+      if (insideSmoke) {
+        g.vision.distance = 0; // Blind inside smoke
+      }
 
       const gv = g.body?.velocity;
       if (gv && (Math.abs(gv.x) + Math.abs(gv.y) > 1)) {
@@ -183,6 +209,11 @@ export class VisionSystem {
       }
 
       this.triggered.set(g, trig);
+
+      // Restore original vision distance if it was modified by smoke
+      if (insideSmoke) {
+        g.vision.distance = originalDistance;
+      }
 
       // Track if any guard is detecting or in alert state
       if (next > 0.05) anyDetecting = true;
@@ -337,6 +368,9 @@ export class VisionSystem {
     // Check SVG collision bodies (new system)
     if (this.collisionBodies && this._rayHitsCollisionBody(guardCenterX, guardCenterY, x, y)) return false;
 
+    // Check smoke clouds - vision blocked if ray passes through smoke
+    if (this._rayHitsSmokeCloud(guardCenterX, guardCenterY, x, y)) return false;
+
     return true;
   }
 
@@ -355,6 +389,9 @@ export class VisionSystem {
 
     // Check SVG collision bodies (new system)
     if (this.collisionBodies && this._rayHitsCollisionBody(guard.x, guard.y, p.x, p.y)) return false;
+
+    // Check smoke clouds - vision blocked if ray passes through smoke
+    if (this._rayHitsSmokeCloud(guard.x, guard.y, p.x, p.y)) return false;
 
     return true;
   }
@@ -404,6 +441,29 @@ export class VisionSystem {
         if (x >= bounds.x && x <= bounds.x + bounds.width &&
             y >= bounds.y && y <= bounds.y + bounds.height) {
           return true; // Ray hit a collision body
+        }
+      }
+    }
+    return false;
+  }
+
+  _rayHitsSmokeCloud(x0, y0, x1, y1) {
+    // Ray-cast against smoke clouds (circular areas)
+    if (!this.scene.smokeClouds) return false;
+
+    const steps = 18; // Same precision as other ray-casting
+
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      const x = Phaser.Math.Linear(x0, x1, t);
+      const y = Phaser.Math.Linear(y0, y1, t);
+
+      // Check if this point is inside any active smoke cloud
+      for (const cloud of this.scene.smokeClouds) {
+        if (!cloud.active) continue;
+
+        if (cloud.containsPoint(x, y)) {
+          return true; // Ray hit a smoke cloud
         }
       }
     }

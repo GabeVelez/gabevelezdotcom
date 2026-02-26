@@ -1,0 +1,28 @@
+<svg width="480" height="480" xmlns="http://www.w3.org/2000/svg">
+  <!-- Perimeter railings -->
+  <rect id="railing-top" x="0" y="0" width="480" height="20" fill="#888888" opacity="0.5"/>
+  <rect id="railing-bottom" x="0" y="460" width="480" height="20" fill="#888888" opacity="0.5"/>
+  <rect id="railing-left" x="0" y="20" width="20" height="440" fill="#888888" opacity="0.5"/>
+  <rect id="railing-right" x="460" y="20" width="20" height="440" fill="#888888" opacity="0.5"/>
+
+  <!-- HVAC units (4 corners) -->
+  <rect id="hvac-nw" x="40" y="40" width="60" height="60" fill="#666666" opacity="0.5"/>
+  <rect id="hvac-ne" x="380" y="40" width="60" height="60" fill="#666666" opacity="0.5"/>
+  <rect id="hvac-sw" x="40" y="380" width="60" height="60" fill="#666666" opacity="0.5"/>
+  <rect id="hvac-se" x="380" y="380" width="60" height="60" fill="#666666" opacity="0.5"/>
+
+  <!-- Ventilation ducts (6 total) -->
+  <rect id="duct-n1" x="120" y="60" width="40" height="30" fill="#777777" opacity="0.5"/>
+  <rect id="duct-n2" x="320" y="60" width="40" height="30" fill="#777777" opacity="0.5"/>
+  <rect id="duct-s1" x="120" y="390" width="40" height="30" fill="#777777" opacity="0.5"/>
+  <rect id="duct-s2" x="320" y="390" width="40" height="30" fill="#777777" opacity="0.5"/>
+  <rect id="duct-w" x="60" y="200" width="30" height="40" fill="#777777" opacity="0.5"/>
+  <rect id="duct-e" x="390" y="200" width="30" height="40" fill="#777777" opacity="0.5"/>
+
+  <!-- Helicopter collision (96×96 at center 240,240) -->
+  <rect id="helicopter" x="192" y="192" width="96" height="96" fill="#555555" opacity="0.5"/>
+
+  <!-- Locked helipad gate (32×16 at 256,208) - initially blocks access -->
+  <!-- This will be removed by the game when unlocked via createLockedDoor -->
+  <rect id="helipad-gate" x="240" y="200" width="32" height="16" fill="#ff0000" opacity="0.7"/>
+</svg>
