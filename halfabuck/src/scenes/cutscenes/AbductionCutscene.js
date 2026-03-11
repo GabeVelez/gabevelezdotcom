@@ -10,7 +10,7 @@ export class AbductionCutscene extends Phaser.Scene {
       {
         image: "cutscene_abduction_01",
         duration: 2200, // +10% (was 2000)
-        text: ["MAY 25TH, 7:42 PM - EN ROUTE TO BIRTHDAY PARTY"]
+        text: ["EN ROUTE TO MY BIRTHDAY PARTY TONIGHT"]
       },
       {
         image: "cutscene_abduction_02",
@@ -45,12 +45,12 @@ export class AbductionCutscene extends Phaser.Scene {
       {
         image: "cutscene_abduction_08",
         duration: 1575, // +5% (was 1500)
-        text: ["WHAT THA HELL! LET ME OUT!"]
+        text: ["WHAT THA HELL!"]
       },
       {
         image: "cutscene_abduction_09",
         duration: 1500,
-        text: [] // No text, gas and coughing sounds
+        text: ["LET ME OUT!"]
       },
       {
         image: "cutscene_abduction_10",
@@ -179,13 +179,35 @@ export class AbductionCutscene extends Phaser.Scene {
       const textY = letterboxBottom + 10; // Center text in letterbox
 
       frame.text.forEach((line, i) => {
-        const textObj = this.add.text(width / 2, textY + (i * 10), line, {
+        // Add semi-transparent background behind text for better legibility
+        const padding = 4;
+        const tempText = this.add.text(0, 0, line, {
           fontFamily: "'Orbitron', sans-serif",
-          fontSize: "9px",
+          fontSize: "10px"
+        });
+        const textWidth = tempText.width;
+        const textHeight = tempText.height;
+        tempText.destroy();
+
+        // Dark background box
+        this.add.rectangle(
+          width / 2,
+          textY + (i * 12),
+          textWidth + padding * 2,
+          textHeight + padding,
+          0x000000,
+          0.7
+        ).setDepth(10);
+
+        // Text with better styling
+        const textObj = this.add.text(width / 2, textY + (i * 12), line, {
+          fontFamily: "'Orbitron', sans-serif",
+          fontSize: "10px",
           color: "#ffffff",
           stroke: "#000000",
-          strokeThickness: 3,
-          align: "center"
+          strokeThickness: 4,
+          align: "center",
+          fontStyle: "bold"
         }).setOrigin(0.5).setDepth(11);
 
         // Fade in text
@@ -306,10 +328,10 @@ export class AbductionCutscene extends Phaser.Scene {
     const delay2 = delay1 + messages[1].text.length * typeSpeed + 300;
     this.typewriterText(textObjects[2], messages[2].text, typeSpeed, delay2);
 
-    // After all text shown, wait 2 seconds then transition to game
+    // After all text shown, wait 2 seconds then smoothly transition to game
     const totalDuration = delay2 + (messages[2].text.length * typeSpeed) + 2000;
     this.time.delayedCall(totalDuration, () => {
-      this.transitionToGame();
+      this.transitionToGame(textObjects);
     });
   }
 
@@ -337,15 +359,29 @@ export class AbductionCutscene extends Phaser.Scene {
     });
   }
 
-  transitionToGame() {
+  transitionToGame(textObjects = []) {
     // Stop all sounds before transitioning
     this.stopAllSounds();
 
-    // Fade out
-    this.cameras.main.fadeOut(1000, 0, 0, 0);
+    // Fade out awakening text smoothly
+    textObjects.forEach(textObj => {
+      this.tweens.add({
+        targets: textObj,
+        alpha: 0,
+        duration: 1500,
+        ease: 'Power2'
+      });
+    });
 
-    this.cameras.main.once('camerafadeoutcomplete', () => {
-      this.scene.start("CellScene");
+    // Smoothly transition to CellScene with cross-fade
+    this.scene.transition({
+      target: 'CellScene',
+      duration: 1500,
+      moveBelow: true,
+      onUpdate: (progress) => {
+        // Fade out this scene as we fade in the next
+        this.cameras.main.setAlpha(1 - progress);
+      }
     });
   }
 
