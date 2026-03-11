@@ -43,7 +43,14 @@ const touchRef = createTouchControls();
 
 // Wait for fonts to load before starting game
 let game;
-document.fonts.ready.then(() => {
+
+// Explicitly load required fonts
+Promise.all([
+  document.fonts.load("400 10px 'Press Start 2P'"),
+  document.fonts.load("700 10px 'Orbitron'"),
+  document.fonts.load("900 10px 'Orbitron'")
+]).then(() => {
+  console.log('Fonts loaded successfully');
   // Create game after fonts are loaded
   game = new Phaser.Game(createGameConfig([
     BootScene,

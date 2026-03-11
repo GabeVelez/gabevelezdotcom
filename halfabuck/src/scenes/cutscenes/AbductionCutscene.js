@@ -117,21 +117,14 @@ export class AbductionCutscene extends Phaser.Scene {
     this.bottomLetterbox = this.add.rectangle(0, height - letterboxHeight, width, letterboxHeight, 0x000000).setOrigin(0, 0).setDepth(10);
 
     // Skip instruction (in top letterbox, right aligned)
-    const skipText = this.add.text(width - 5, 6, "PRESS SPACE TO SKIP", {
+    this.skipText = this.add.text(width - 5, 6, "PRESS SPACE TO SKIP", {
       fontFamily: "'Press Start 2P', monospace",
       fontSize: "6px",
       color: "#888888"
     }).setOrigin(1, 0).setDepth(11);
 
-    // Skip listener - can skip at any time
+    // Skip listener - SPACE key only
     this.input.keyboard.on("keydown-SPACE", () => {
-      if (!this.skipped) {
-        this.skipCutscene();
-      }
-    });
-
-    // Also allow click/tap to skip
-    this.input.on("pointerdown", () => {
       if (!this.skipped) {
         this.skipCutscene();
       }
@@ -186,12 +179,12 @@ export class AbductionCutscene extends Phaser.Scene {
       const textY = letterboxBottom + 10; // Center text in letterbox
 
       frame.text.forEach((line, i) => {
-        const textObj = this.add.text(width / 2, textY + (i * 8), line, {
+        const textObj = this.add.text(width / 2, textY + (i * 10), line, {
           fontFamily: "'Orbitron', sans-serif",
-          fontSize: "7px",
+          fontSize: "9px",
           color: "#ffffff",
           stroke: "#000000",
-          strokeThickness: 2,
+          strokeThickness: 3,
           align: "center"
         }).setOrigin(0.5).setDepth(11);
 
@@ -252,6 +245,17 @@ export class AbductionCutscene extends Phaser.Scene {
   showAwakening() {
     const { width, height } = this.scale;
 
+    // Hide skip instruction (awakening screen cannot be skipped)
+    if (this.skipText) {
+      this.skipText.destroy();
+    }
+    if (this.topLetterbox) {
+      this.topLetterbox.destroy();
+    }
+    if (this.bottomLetterbox) {
+      this.bottomLetterbox.destroy();
+    }
+
     // Show cell scene background (if we have it loaded)
     // For now, keep black and just show text
 
@@ -277,7 +281,8 @@ export class AbductionCutscene extends Phaser.Scene {
       }
     ];
 
-    const typeSpeed = 75; // Slower typing speed (was 50ms, now 75ms)
+    // Always use typewriter effect (looks great!)
+    const typeSpeed = 75;
 
     // Create text objects (empty initially)
     const textObjects = messages.map((msg) => {
@@ -293,20 +298,18 @@ export class AbductionCutscene extends Phaser.Scene {
     // Typewriter effect for first message (UNKNOWN LOCATION)
     this.typewriterText(textObjects[0], messages[0].text, typeSpeed, 0);
 
-    // Typewriter effect for second message (MISSION: ESCAPE) - starts after first finishes
-    const delay1 = messages[0].text.length * typeSpeed + 500; // First message duration + pause
+    // Typewriter effect for second message (MISSION:) - starts after first finishes
+    const delay1 = messages[0].text.length * typeSpeed + 500;
     this.typewriterText(textObjects[1], messages[1].text, typeSpeed, delay1);
 
-    // Typewriter effect for third message (BY ALL MEANS) - starts after second finishes
-    const delay2 = delay1 + messages[1].text.length * typeSpeed + 300; // Second message duration + short pause
+    // Typewriter effect for third message (ESCAPE BY ALL MEANS!) - starts after second finishes
+    const delay2 = delay1 + messages[1].text.length * typeSpeed + 300;
     this.typewriterText(textObjects[2], messages[2].text, typeSpeed, delay2);
 
     // After all text shown, wait 2 seconds then transition to game
     const totalDuration = delay2 + (messages[2].text.length * typeSpeed) + 2000;
     this.time.delayedCall(totalDuration, () => {
-      if (!this.skipped) {
-        this.transitionToGame();
-      }
+      this.transitionToGame();
     });
   }
 
@@ -482,8 +485,6 @@ export class AbductionCutscene extends Phaser.Scene {
   }
 
   skipCutscene() {
-    this.skipped = true;
-
     // Stop all timers and tweens
     this.time.removeAllEvents();
     this.tweens.killAll();
@@ -491,7 +492,14 @@ export class AbductionCutscene extends Phaser.Scene {
     // Stop all sounds
     this.stopAllSounds();
 
-    // Immediate transition to game
-    this.scene.start("CellScene");
+    // Clear current frame
+    if (this.currentImage) {
+      this.currentImage.destroy();
+    }
+    this.textObjects.forEach(text => text.destroy());
+    this.textObjects = [];
+
+    // Go to awakening screen (will show typewriter effect)
+    this.showAwakening();
   }
 }
