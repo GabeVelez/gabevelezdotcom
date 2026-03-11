@@ -60,7 +60,7 @@ export class IntroScene extends Phaser.Scene {
     // Make PRESS START clickable
     pressStart.setInteractive({ useHandCursor: true });
     pressStart.on("pointerdown", () => {
-      this.scene.start("CellScene");
+      this.scene.start("AbductionCutscene");
     });
 
     // Classic arcade flashing effect - fade between visible and slightly dim
@@ -74,6 +74,6 @@ export class IntroScene extends Phaser.Scene {
     });
 
     // Start game on SPACE key
-    this.input.keyboard.once("keydown-SPACE", () => this.scene.start("CellScene"));
+    this.input.keyboard.once("keydown-SPACE", () => this.scene.start("AbductionCutscene"));
   }
 }

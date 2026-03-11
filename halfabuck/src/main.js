@@ -8,6 +8,7 @@ import { GameUI } from "./ui/gameUI.js";
 
 import { BootScene } from "./scenes/BootScene.js";
 import { IntroScene } from "./scenes/IntroScene.js";
+import { AbductionCutscene } from "./scenes/cutscenes/AbductionCutscene.js";
 import { CellScene } from "./scenes/rooms/CellScene.js";
 import { SewerScene } from "./scenes/rooms/SewerScene.js";
 import { WarehouseCorridorScene } from "./scenes/rooms/WarehouseCorridorScene.js";
@@ -47,6 +48,7 @@ document.fonts.ready.then(() => {
   game = new Phaser.Game(createGameConfig([
     BootScene,
     IntroScene,
+    AbductionCutscene,
     CellScene,
     SewerScene,
     WarehouseCorridorScene,

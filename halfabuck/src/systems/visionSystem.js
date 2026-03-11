@@ -470,6 +470,59 @@ export class VisionSystem {
     return false;
   }
 
+  /**
+   * Cast a ray and find where it hits a collision or max distance
+   * Returns the distance to the hit point
+   */
+  _castVisionRay(centerX, centerY, angle, maxDistance) {
+    const endX = centerX + Math.cos(angle) * maxDistance;
+    const endY = centerY + Math.sin(angle) * maxDistance;
+
+    // Check collision bodies
+    if (this._rayHitsCollisionBody(centerX, centerY, endX, endY)) {
+      // Binary search to find exact hit point
+      let minDist = 0;
+      let maxDist = maxDistance;
+      const precision = 2; // Pixels
+
+      while (maxDist - minDist > precision) {
+        const midDist = (minDist + maxDist) / 2;
+        const testX = centerX + Math.cos(angle) * midDist;
+        const testY = centerY + Math.sin(angle) * midDist;
+
+        if (this._rayHitsCollisionBody(centerX, centerY, testX, testY)) {
+          maxDist = midDist;
+        } else {
+          minDist = midDist;
+        }
+      }
+      return minDist;
+    }
+
+    // Check smoke clouds
+    if (this._rayHitsSmokeCloud(centerX, centerY, endX, endY)) {
+      // Binary search for smoke cloud intersection
+      let minDist = 0;
+      let maxDist = maxDistance;
+      const precision = 2;
+
+      while (maxDist - minDist > precision) {
+        const midDist = (minDist + maxDist) / 2;
+        const testX = centerX + Math.cos(angle) * midDist;
+        const testY = centerY + Math.sin(angle) * midDist;
+
+        if (this._rayHitsSmokeCloud(centerX, centerY, testX, testY)) {
+          maxDist = midDist;
+        } else {
+          minDist = midDist;
+        }
+      }
+      return minDist;
+    }
+
+    return maxDistance; // No hit, full distance
+  }
+
   renderDebug(g) {
     if (!this.debugEnabled) return;
 
@@ -495,22 +548,49 @@ export class VisionSystem {
       const centerX = guard.x;
       const centerY = guard.y - 16; // Fixed offset upward to torso area
 
-      // Draw gradient cone - multiple layers with decreasing opacity
+      // Cast rays to build collision-aware vision polygon
+      const rayCount = Math.max(20, Math.ceil(guard.vision.angleDeg / 3)); // More rays for wider cones
+      const angleStep = (end - start) / rayCount;
+      const rayPoints = [];
+
+      for (let i = 0; i <= rayCount; i++) {
+        const angle = start + (angleStep * i);
+        const distance = this._castVisionRay(centerX, centerY, angle, guard.vision.distance);
+        rayPoints.push({
+          x: centerX + Math.cos(angle) * distance,
+          y: centerY + Math.sin(angle) * distance
+        });
+      }
+
+      // Draw gradient cone using collision-aware polygon
       const gradientSteps = 10;
       for (let i = 0; i < gradientSteps; i++) {
         const ratio = (gradientSteps - i) / gradientSteps; // 1.0 to 0.1
-        const radius = guard.vision.distance * ratio;
-        const alpha = 0.30 * (1 - ratio); // Slightly more visible gradient
+        const alpha = 0.30 * (1 - ratio);
 
         g.fillStyle(color, alpha);
-        g.slice(centerX, centerY, radius, start, end, false);
+        g.beginPath();
+        g.moveTo(centerX, centerY);
+
+        // Draw polygon using scaled ray points
+        for (const point of rayPoints) {
+          const dx = point.x - centerX;
+          const dy = point.y - centerY;
+          g.lineTo(centerX + dx * ratio, centerY + dy * ratio);
+        }
+
+        g.closePath();
         g.fillPath();
       }
 
-      // Add clear edge line for precise detection boundary
-      g.lineStyle(2, color, 0.4); // Thicker, more visible edge
+      // Draw edge line showing exact vision boundary
+      g.lineStyle(2, color, 0.4);
       g.beginPath();
-      g.arc(centerX, centerY, guard.vision.distance, start, end, false);
+      g.moveTo(centerX, centerY);
+      for (const point of rayPoints) {
+        g.lineTo(point.x, point.y);
+      }
+      g.closePath();
       g.strokePath();
 
       // Detection meter bar (keep as is)
