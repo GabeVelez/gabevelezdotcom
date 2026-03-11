@@ -434,6 +434,10 @@ export class VisionSystem {
       const y = Phaser.Math.Linear(y0, y1, t);
 
       // Check if this point is inside any collision body
+      if (!this.collisionBodies || !Array.isArray(this.collisionBodies)) {
+        return false;
+      }
+
       for (const body of this.collisionBodies) {
         if (!body || !body.body) continue;
 
