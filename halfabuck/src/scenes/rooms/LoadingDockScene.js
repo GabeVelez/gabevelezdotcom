@@ -72,7 +72,7 @@ export class LoadingDockScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exit to Security Office at (496, 144)
+    // Exit to Security Office at right side
     this.createExit(496, 144, 32, 32, "SecurityOfficeScene", "west");
 
     // Physics - add colliders for all collision bodies
