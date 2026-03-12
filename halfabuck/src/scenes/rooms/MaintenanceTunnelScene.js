@@ -1,13 +1,9 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
-import { Guard } from "../../entities/Guard.js";
-import { LeadGuard } from "../../entities/LeadGuard.js";
-import { Officer } from "../../entities/Officer.js";
-import { Captain } from "../../entities/Captain.js";
 
 /**
- * Maintenance Tunnel - Narrow underground passage with highest guard density
- * Level 8: Maximum difficulty with 6 guards creating coordinated patrols
+ * Maintenance Tunnel - Narrow underground passage
+ * Level 8
  * Exit north to Executive Wing
  */
 export class MaintenanceTunnelScene extends BaseRoomScene {
@@ -66,83 +62,32 @@ export class MaintenanceTunnelScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
-    let playerX = tunnelOffsetX + (15 * 16); // Default: center horizontal
-    let playerY = tunnelOffsetY + (13 * 16); // Near bottom
+    let playerX = tunnelOffsetX + (5 * 16); // Top-left area
+    let playerY = tunnelOffsetY + (3 * 16); // Near top
 
     if (this.entryDirection === "south") {
-      // Coming from Security Office - spawn near bottom
-      playerX = tunnelOffsetX + (15 * 16);
-      playerY = tunnelOffsetY + (13 * 16);
+      // Coming from Security Office (top exit) - spawn at top-left
+      playerX = tunnelOffsetX + (5 * 16); // Column 5 from left
+      playerY = tunnelOffsetY + (3 * 16); // Row 3 from top
       console.log(`Spawning from Security Office at (${playerX}, ${playerY})`);
     }
 
     this.createPlayer(playerX, playerY);
 
-    // Create 6 guards - highest density (2 Regular, 2 Lead, 2 Overseer)
+    // Create guards (guards will be added board by board)
     this.createGuards();
-
-    // Guard 1: Regular - Left side patrol
-    const guard1 = new Guard(this, tunnelOffsetX + (5 * 16), tunnelOffsetY + (8 * 16), [
-      { x: tunnelOffsetX + (5 * 16), y: tunnelOffsetY + (6 * 16) },
-      { x: tunnelOffsetX + (5 * 16), y: tunnelOffsetY + (12 * 16) }
-    ]);
-    guard1.setDepth(10);
-    this.guards.push(guard1);
-
-    // Guard 2: Regular - Right side patrol
-    const guard2 = new Guard(this, tunnelOffsetX + (25 * 16), tunnelOffsetY + (8 * 16), [
-      { x: tunnelOffsetX + (25 * 16), y: tunnelOffsetY + (6 * 16) },
-      { x: tunnelOffsetX + (25 * 16), y: tunnelOffsetY + (12 * 16) }
-    ]);
-    guard2.setDepth(10);
-    this.guards.push(guard2);
-
-    // Guard 3: Lead - Horizontal crosshair (middle left to middle right)
-    const guard3 = new LeadGuard(this, tunnelOffsetX + (10 * 16), tunnelOffsetY + (8 * 16), [
-      { x: tunnelOffsetX + (10 * 16), y: tunnelOffsetY + (8 * 16) },
-      { x: tunnelOffsetX + (20 * 16), y: tunnelOffsetY + (8 * 16) }
-    ]);
-    guard3.setDepth(10);
-    this.guards.push(guard3);
-
-    // Guard 4: Lead - Vertical crosshair (top to bottom center)
-    const guard4 = new LeadGuard(this, tunnelOffsetX + (15 * 16), tunnelOffsetY + (5 * 16), [
-      { x: tunnelOffsetX + (15 * 16), y: tunnelOffsetY + (5 * 16) },
-      { x: tunnelOffsetX + (15 * 16), y: tunnelOffsetY + (11 * 16) }
-    ]);
-    guard4.setDepth(10);
-    this.guards.push(guard4);
-
-    // Guard 5: Officer - Left junction coverage
-    const guard5 = new Officer(this, tunnelOffsetX + (8 * 16), tunnelOffsetY + (10 * 16), [
-      { x: tunnelOffsetX + (8 * 16), y: tunnelOffsetY + (10 * 16) },
-      { x: tunnelOffsetX + (12 * 16), y: tunnelOffsetY + (10 * 16) }
-    ]);
-    guard5.setDepth(10);
-    this.guards.push(guard5);
-
-    // Guard 6: Captain - Right junction coverage (FIRST CAPTAIN INTRODUCTION)
-    const guard6 = new Captain(this, tunnelOffsetX + (18 * 16), tunnelOffsetY + (10 * 16), [
-      { x: tunnelOffsetX + (18 * 16), y: tunnelOffsetY + (10 * 16) },
-      { x: tunnelOffsetX + (22 * 16), y: tunnelOffsetY + (10 * 16) }
-    ]);
-    guard6.setDepth(10);
-    this.guards.push(guard6);
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exit at top center (240, 32) leading to Executive Wing
-    const exitX = tunnelOffsetX + (15 * 16); // Column 15 = pixel 240
-    const exitY = tunnelOffsetY + (2 * 16); // Row 2 = pixel 32
+    // Exit at bottom-left leading to Executive Wing
+    const exitX = tunnelOffsetX + (5 * 16); // Column 5 from left = pixel 80, with offset = 0
+    const exitY = tunnelOffsetY + (14 * 16); // Row 14 from top = pixel 224, with offset = 186
     this.createExit(exitX, exitY, 40, 32, "ExecutiveWingScene", "south");
 
     // Add colliders for all SVG collision bodies
     collisionBodies.forEach(body => {
       this.physics.add.collider(this.player, body);
-      this.guards.forEach(guard => {
-        this.physics.add.collider(guard, body);
-      });
     });
 
     // Bottom UI barrier - prevents player from walking behind UI overlay

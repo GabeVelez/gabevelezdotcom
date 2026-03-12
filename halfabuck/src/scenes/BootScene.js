@@ -30,6 +30,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image("cell_layout", "assets/scenes/cell/cell-layout.png");
     this.load.image("sewer_layout", "assets/scenes/sewer/sewer-layout.png");
     this.load.image("corridor_layout", "assets/scenes/corridor/corridor-layout.png");
+    this.load.image("warehouse_main_layout", "assets/layouts/warehouse_main_layout.png");
     this.load.image("storage_bay_layout", "assets/scenes/storage-bay/storage-bay-layout.png");
     this.load.image("loading_dock_layout", "assets/scenes/loading-dock/loading-dock-layout.png");
     this.load.image("security_office_layout", "assets/scenes/security-office/security-office-layout.png");

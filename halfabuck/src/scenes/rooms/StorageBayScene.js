@@ -1,13 +1,10 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
-import { Guard } from "../../entities/Guard.js";
-import { LeadGuard } from "../../entities/LeadGuard.js";
 import { SmokeGrenade } from "../../entities/SmokeGrenade.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
  * Storage Bay - Level 5
  * Size: 400×320 pixels
- * Guards: 2 Regular (synchronized vertical patrols), 1 Lead (horizontal), 1 Overseer (center rotating)
  * Contains: Smoke Grenade collectible at (360,280)
  * Exit: To LoadingDockScene at (200,300)
  */
@@ -48,57 +45,23 @@ export class StorageBayScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
-    let playerX = 200; // Center
-    let playerY = 40; // Coming from WarehouseMain (north entrance)
+    let playerX = 340; // Top-right area
+    let playerY = 40; // Coming from WarehouseMain (enters from top-right)
 
-    if (this.entryDirection === "north") {
-      // Coming from WarehouseMain - spawn at top center
-      playerX = 200;
+    if (this.entryDirection === "south") {
+      // Coming from WarehouseMain (exit direction south) - spawn at top-right
+      playerX = 340;
       playerY = 40;
-    } else if (this.entryDirection === "south") {
-      // Coming back from LoadingDock - spawn near exit
-      playerX = 200;
+    } else if (this.entryDirection === "north") {
+      // Coming back from LoadingDock - spawn near exit at bottom-left
+      playerX = 60;
       playerY = 270;
     }
 
     this.createPlayer(playerX, playerY);
 
-    // Create guards
+    // Create guards (guards will be added board by board)
     this.createGuards();
-
-    // Guard 1: Regular - synchronized vertical patrol (left side)
-    const guard1 = new Guard(this, 60, 60, [
-      { x: 60, y: 60 },
-      { x: 60, y: 200 },
-      { x: 60, y: 60 }
-    ]);
-    guard1.setDepth(10);
-    this.guards.push(guard1);
-
-    // Guard 2: Regular - synchronized vertical patrol (right side, same timing)
-    const guard2 = new Guard(this, 340, 60, [
-      { x: 340, y: 60 },
-      { x: 340, y: 200 },
-      { x: 340, y: 60 }
-    ]);
-    guard2.setDepth(10);
-    this.guards.push(guard2);
-
-    // Guard 3: Lead Guard #1 - horizontal patrol (top)
-    const guard3 = new LeadGuard(this, 150, 50, [
-      { x: 150, y: 50 },
-      { x: 250, y: 50 }
-    ]);
-    guard3.setDepth(10);
-    this.guards.push(guard3);
-
-    // Guard 4: Lead Guard #2 - center rotating patrol
-    const guard4 = new LeadGuard(this, 200, 160, [
-      { x: 200, y: 160 },
-      { x: 200, y: 120 }
-    ]);
-    guard4.setDepth(10);
-    this.guards.push(guard4);
 
     // Create a simple tilemap for vision/waypoint systems (walkable everywhere except collisions)
     const map = this.make.tilemap({
@@ -126,18 +89,15 @@ export class StorageBayScene extends BaseRoomScene {
 
     // Exits
     // Top: back to WarehouseMain
-    // Note: WarehouseMain exit is at (432, 240), so we spawn at top
+    // Note: WarehouseMain exit is at (410, 272), so we spawn at top-right
     // This is not a real exit - player enters from north, no return exit needed
 
-    // Bottom: to LoadingDock at (200,300)
-    this.createExit(200, 300, 32, 32, "LoadingDockScene", "north");
+    // Bottom-left: to LoadingDock at (60,300)
+    this.createExit(60, 300, 32, 32, "LoadingDockScene", "north");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {
       this.physics.add.collider(this.player, body);
-      for (const g of this.guards) {
-        this.physics.add.collider(g, body);
-      }
     });
 
     // Camera

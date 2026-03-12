@@ -1,31 +1,16 @@
 <svg width="512" height="288" viewBox="0 0 512 288" fill="none" xmlns="http://www.w3.org/2000/svg">
-<!-- Walls -->
-<rect width="16" height="288" fill="#FF0000"/>
-<rect x="496" width="16" height="288" fill="#FF0000"/>
-<rect y="0" width="512" height="16" fill="#FF0000"/>
-<rect y="272" width="512" height="16" fill="#FF0000"/>
-
-<!-- Truck/Van (top left) -->
-<rect x="32" y="32" width="96" height="64" fill="#FF0000"/>
-
-<!-- Forklift (top center) -->
-<rect x="192" y="48" width="48" height="32" fill="#FF0000"/>
-
-<!-- Shipping Container 1 (top right) -->
-<rect x="352" y="32" width="96" height="48" fill="#FF0000"/>
-
-<!-- Shipping Container 2 (bottom right) -->
-<rect x="352" y="208" width="96" height="48" fill="#FF0000"/>
-
-<!-- Palette Stack 1 (left side) -->
-<rect x="48" y="144" width="40" height="32" fill="#FF0000"/>
-
-<!-- Palette Stack 2 (left side) -->
-<rect x="48" y="192" width="40" height="32" fill="#FF0000"/>
-
-<!-- Palette Stack 3 (center) -->
-<rect x="224" y="160" width="40" height="32" fill="#FF0000"/>
-
-<!-- Palette Stack 4 (center-bottom) -->
-<rect x="192" y="208" width="40" height="32" fill="#FF0000"/>
+<g clip-path="url(#clip0_10_5)">
+<rect y="0.5" width="17.5" height="288" fill="#FF0000"/>
+<rect x="494.5" width="17.5" height="288" fill="#FF0000"/>
+<rect y="33.1305" width="33.1304" height="38.5" transform="rotate(-90 0 33.1305)" fill="#FF0000"/>
+<rect x="90.625" y="33.1305" width="33.1304" height="421.375" transform="rotate(-90 90.625 33.1305)" fill="#FF0000"/>
+<rect y="288" width="21.38" height="442.375" transform="rotate(-90 0 288)" fill="#FF0000"/>
+<rect x="92.2546" y="129.849" width="130.333" height="158.651" fill="#FF0000"/>
+<rect x="289.413" y="129.849" width="130.333" height="158.651" fill="#FF0000"/>
+</g>
+<defs>
+<clipPath id="clip0_10_5">
+<rect width="512" height="288" fill="white"/>
+</clipPath>
+</defs>
 </svg>

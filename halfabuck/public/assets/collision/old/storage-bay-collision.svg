@@ -1,0 +1,26 @@
+<svg width="400" height="320" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Outer walls -->
+<rect width="20" height="320" fill="#FF0000"/>
+<rect x="380" width="20" height="320" fill="#FF0000"/>
+<rect y="0" width="400" height="20" fill="#FF0000"/>
+
+<!-- Bottom wall with exit gap at (200,300) - 32px wide gap centered -->
+<rect y="300" width="184" height="20" fill="#FF0000"/>
+<rect x="216" y="300" width="184" height="20" fill="#FF0000"/>
+
+<!-- Shelving units (3 on each side) -->
+<!-- Left side shelves -->
+<rect x="40" y="40" width="80" height="60" fill="#FF0000"/>
+<rect x="40" y="130" width="80" height="60" fill="#FF0000"/>
+<rect x="40" y="220" width="80" height="60" fill="#FF0000"/>
+
+<!-- Right side shelves -->
+<rect x="280" y="40" width="80" height="60" fill="#FF0000"/>
+<rect x="280" y="130" width="80" height="60" fill="#FF0000"/>
+<rect x="280" y="220" width="80" height="60" fill="#FF0000"/>
+
+<!-- Crate clusters in center -->
+<rect x="160" y="80" width="80" height="50" fill="#FF0000"/>
+<rect x="160" y="150" width="80" height="50" fill="#FF0000"/>
+<rect x="160" y="220" width="80" height="50" fill="#FF0000"/>
+</svg>

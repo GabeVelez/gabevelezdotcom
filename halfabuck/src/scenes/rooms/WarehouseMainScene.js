@@ -1,9 +1,8 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
-import { Guard } from "../../entities/Guard.js";
-import { LeadGuard } from "../../entities/LeadGuard.js";
+import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
- * Warehouse Main - Large bottom area with multiple rooms and guards
+ * Warehouse Main - Large bottom area with multiple rooms
  * Exit north to Warehouse Corridor, exit south to Storage Bay
  */
 export class WarehouseMainScene extends BaseRoomScene {
@@ -12,129 +11,85 @@ export class WarehouseMainScene extends BaseRoomScene {
   }
 
   create() {
-    const { width, height } = this.scale;
+    // Warehouse Main is 480×288 (30 tiles × 18 tiles)
+    this.warehouseWidth = 480;
+    this.warehouseHeight = 288;
 
-    // Create large warehouse floor
+    // Use the temp layout PNG as background
+    const bg = this.add.image(0, 0, "warehouse_main_layout");
+    bg.setOrigin(0, 0);
+    bg.setDisplaySize(this.warehouseWidth, this.warehouseHeight);
+    bg.setDepth(0);
+
+    // Initialize the rest asynchronously
+    this.initializeScene();
+  }
+
+  async initializeScene() {
+    const { width, height } = this.scale;
+    const warehouseWidth = this.warehouseWidth;
+    const warehouseHeight = this.warehouseHeight;
+
+    // Load collision from SVG file
+    const collisionBodies = await SVGCollisionParser.parseAndCreateBodies(
+      this,
+      "assets/collision/warehouse-main-collision.svg"
+    );
+
+    // Store for reference (needed for vision system)
+    this.collisionBodies = collisionBodies;
+
+    this.createBaseSystems();
+
+    // Player spawn position depends on entry direction
+    let playerX = 64;
+    let playerY = 40; // Default: Enter at top-left
+
+    if (this.entryDirection === "north") {
+      // Coming from Corridor (direction north) - spawn at Enter (top-left)
+      playerX = 64;
+      playerY = 40;
+    } else if (this.entryDirection === "south") {
+      // Coming back from Storage Bay - spawn near Exit (bottom-right)
+      playerX = 400;
+      playerY = 250;
+    }
+
+    this.createPlayer(playerX, playerY);
+
+    // Create guards (guards will be added board by board)
+    this.createGuards();
+
+    // Create simple tilemap for vision/waypoint systems (walkable everywhere except collisions)
     const map = this.make.tilemap({
       tileWidth: 16,
       tileHeight: 16,
       width: 30,
       height: 18
     });
-
     const tiles = map.addTilesetImage("warehouse_tiles");
     const ground = map.createBlankLayer("ground", tiles);
-
-    // Fill floor
-    ground.fill(1, 0, 0, 30, 18);
-
-    // Outer walls
-    for (let x = 0; x < 30; x++) {
-      ground.putTileAt(2, x, 0);
-      ground.putTileAt(2, x, 17);
-    }
-    for (let y = 0; y < 18; y++) {
-      ground.putTileAt(2, 0, y);
-      ground.putTileAt(2, 29, y);
-    }
-
-    // Exit to corridor (top)
-    ground.putTileAt(1, 14, 0);
-    ground.putTileAt(1, 15, 0);
-
-    // Create two room divisions (as shown in layout)
-    // Left room
-    for (let x = 8; x < 20; x++) {
-      ground.putTileAt(2, x, 8);
-    }
-    ground.putTileAt(1, 13, 8); // Door
-
-    // Right room
-    for (let y = 8; y < 14; y++) {
-      ground.putTileAt(2, 20, y);
-    }
-    ground.putTileAt(1, 20, 11); // Door
-
-    // Stairs marker to wine cellar (bottom right)
-    ground.putTileAt(2, 26, 14);
-    ground.putTileAt(2, 27, 14);
-    ground.putTileAt(2, 26, 15);
-    ground.putTileAt(2, 27, 15);
-
-    // Shadow areas for hiding
-    ground.putTileAt(3, 3, 3);
-    ground.putTileAt(3, 4, 3);
-    ground.putTileAt(3, 24, 10);
-    ground.putTileAt(3, 25, 10);
-
-    // Locker zone
-    ground.putTileAt(3, 2, 15);
-    ground.putTileAt(3, 3, 15);
-
-    ground.setCollisionByExclusion([1, 3]);
+    ground.fill(1, 0, 0, 30, 18); // All walkable
+    ground.setVisible(false);
     this.groundLayer = ground;
-
-    this.createBaseSystems();
-
-    // Player spawn position depends on entry direction
-    // Spawn well away from exit zones to avoid immediate re-triggering
-    // Note: player origin is (0.5, 1.0), so y position is at player's feet
-    // Player center = y - height, so need extra clearance
-    let playerX = 240;
-    let playerY = 80; // Coming from Corridor (north entrance) - spawn below exit zone (was 50, too close)
-    // TODO: Add spawn logic for wine cellar entrance when that scene is created
-
-    this.createPlayer(playerX, playerY);
-
-    // Create guards - Introduces Lead Guard (Level 4)
-    // Distribution: 2 Regular, 1 Lead
-    this.createGuards();
-
-    // Regular guard #1 - Left room patrol
-    const guard1 = new Guard(this, 120, 160, [
-      { x: 120, y: 160 },
-      { x: 180, y: 160 },
-      { x: 180, y: 220 },
-      { x: 120, y: 220 }
-    ]);
-    guard1.setDepth(10);
-    this.guards.push(guard1);
-
-    // Lead guard - Main area (FIRST LEAD GUARD INTRODUCTION)
-    const guard2 = new LeadGuard(this, 240, 100, [
-      { x: 240, y: 100 },
-      { x: 320, y: 100 }
-    ]);
-    guard2.setDepth(10);
-    this.guards.push(guard2);
-
-    // Regular guard #2 - Right room patrol
-    const guard3 = new Guard(this, 380, 180, [
-      { x: 380, y: 180 },
-      { x: 380, y: 140 }
-    ]);
-    guard3.setDepth(10);
-    this.guards.push(guard3);
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exits - positioned at center of door tiles
-    // Top exit: tiles (14,0) and (15,0) = pixels (224,0) to (256,16), center at (240, 20)
-    this.createExit(240, 20, 32, 32, "WarehouseCorridorScene", "south");
+    // Exits
+    // Top-left exit: to Warehouse Corridor (Enter gap - going back north/up)
+    this.createExit(64, 8, 50, 20, "WarehouseCorridorScene", "north");
 
-    // Bottom-right exit to Storage Bay (stairs area at tiles 26-27, 14-15)
-    // Tiles (26,14) to (27,15) = pixels (416,224) to (448,256), center at (432, 240)
-    this.createExit(432, 240, 32, 32, "StorageBayScene", "north");
+    // Bottom-right exit: to Storage Bay (Exit gap - going forward south/down)
+    this.createExit(400, 272, 35, 20, "StorageBayScene", "south");
 
-    // Physics
-    this.physics.add.collider(this.player, ground);
-    for (const g of this.guards) {
-      this.physics.add.collider(g, ground);
-    }
+    // Physics - add colliders for all collision bodies
+    collisionBodies.forEach(body => {
+      this.physics.add.collider(this.player, body);
+    });
 
     // Camera
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, warehouseWidth, warehouseHeight);
     this.cameras.main.startFollow(this.player, true);
   }
 
