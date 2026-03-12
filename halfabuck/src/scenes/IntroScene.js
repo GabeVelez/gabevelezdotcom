@@ -75,5 +75,13 @@ export class IntroScene extends Phaser.Scene {
 
     // Start game on SPACE key
     this.input.keyboard.once("keydown-SPACE", () => this.scene.start("AbductionCutscene"));
+
+    // DEBUG/TESTING: Press T to open Scene Selector (for testing individual boards)
+    this.input.keyboard.once("keydown-T", () => {
+      const sceneSelector = this.registry.get("sceneSelector");
+      if (sceneSelector) {
+        sceneSelector.show();
+      }
+    });
   }
 }

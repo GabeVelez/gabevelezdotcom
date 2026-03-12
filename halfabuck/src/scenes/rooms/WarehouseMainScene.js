@@ -81,7 +81,8 @@ export class WarehouseMainScene extends BaseRoomScene {
     this.createExit(64, 8, 50, 20, "WarehouseCorridorScene", "north");
 
     // Bottom-right exit: to Storage Bay (Exit gap - going forward south/down)
-    this.createExit(400, 272, 35, 20, "StorageBayScene", "south");
+    // Gap is from x=389.375 to x=441.5, center at ~415
+    this.createExit(415, 276, 50, 16, "StorageBayScene", "south");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {

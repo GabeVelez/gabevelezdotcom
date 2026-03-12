@@ -5,6 +5,7 @@ import { createGameConfig, BASE_W, BASE_H, getIntegerZoom } from "./config/gameC
 import { updateOrientationOverlay, isPortrait } from "./utils/orientation.js";
 import { createTouchControls } from "./ui/touchControls.js";
 import { GameUI } from "./ui/gameUI.js";
+import { SceneSelectorOverlay } from "./ui/sceneSelectorOverlay.js";
 
 import { BootScene } from "./scenes/BootScene.js";
 import { IntroScene } from "./scenes/IntroScene.js";
@@ -77,6 +78,11 @@ Promise.all([
   // Initialize HTML UI overlay
   const gameUI = new GameUI();
   game.registry.set("gameUI", gameUI);
+
+  // Initialize Scene Selector overlay (for testing)
+  const sceneSelector = new SceneSelectorOverlay();
+  sceneSelector.create(game);
+  game.registry.set("sceneSelector", sceneSelector);
 
   // Listen for sound toggle events from HTML button
   window.addEventListener('toggleSound', () => {
