@@ -34,22 +34,17 @@ export class AbductionCutscene extends Phaser.Scene {
       },
       {
         image: "cutscene_abduction_06",
-        duration: 1500,
-        text: [] // No text, partition starts raising
-      },
-      {
-        image: "cutscene_abduction_07",
-        duration: 1500,
-        text: [] // No text, partition sealed
+        duration: 3000, // Extended to include frame 07's time - partition animation
+        text: [] // No text, partition rises with glass effect
       },
       {
         image: "cutscene_abduction_08",
-        duration: 1575, // +5% (was 1500)
+        duration: 2500, // Extended to let alarm develop
         text: ["WHAT THA HELL!"]
       },
       {
         image: "cutscene_abduction_09",
-        duration: 1500,
+        duration: 2500, // Extended to let gas/coughing develop
         text: ["LET ME OUT!"]
       },
       {
@@ -224,12 +219,69 @@ export class AbductionCutscene extends Phaser.Scene {
       });
     }
 
+    // Special effect: Glass partition + red danger tint for frame 06
+    if (index === 5) { // Frame 06 (0-indexed)
+      const letterboxHeight = 20; // Height of letterboxes
+      const visibleHeight = height - (letterboxHeight * 2); // Height excluding letterboxes
+
+      // Create clear glass partition (light gray, very transparent)
+      const partition = this.add.rectangle(
+        width / 2,                      // Center X
+        height - letterboxHeight,       // Start at bottom of visible area
+        width,                          // Full width
+        visibleHeight,                  // Only visible area height
+        0xcccccc,                       // Light gray (clear glass)
+        0.1                             // Very transparent glass
+      );
+
+      partition.setOrigin(0.5, 1); // Origin at bottom-center
+      partition.setDepth(12); // Above everything
+      partition.setScale(1, 0); // Start with 0 height
+
+      // Create red danger tint overlay (covers whole screen)
+      const redTint = this.add.rectangle(
+        width / 2,
+        height / 2,
+        width,
+        height,
+        0xff0000,       // Red color for danger
+        0               // Start invisible
+      );
+      redTint.setDepth(11); // Below partition, above image
+
+      // Animate partition rising from bottom to top
+      this.tweens.add({
+        targets: partition,
+        scaleY: 1,              // Grow to full height
+        duration: 2500,         // Match sound duration
+        ease: 'Power2'          // Smooth acceleration
+      });
+
+      // Simultaneously fade in red tint as partition rises
+      this.tweens.add({
+        targets: redTint,
+        alpha: 0.3,             // Red danger mood (30% opacity)
+        duration: 2500,
+        ease: 'Power2',
+        onComplete: () => {
+          // After partition fully rises, fade out both effects
+          this.tweens.add({
+            targets: [partition, redTint],
+            alpha: 0,           // Fade to invisible
+            duration: 500,      // Quick fade out
+            ease: 'Power2'
+          });
+        }
+      });
+    }
+
     // Handle sound effects based on frame
     this.playSoundsForFrame(index);
 
     // Set timer for next frame
     this.time.delayedCall(frame.duration, () => {
       if (!this.skipped) {
+        // Frame 07 already removed from array, so just go to next frame
         this.showFrame(index + 1);
       }
     });
@@ -237,6 +289,9 @@ export class AbductionCutscene extends Phaser.Scene {
 
   showBlackTransition() {
     const { width, height } = this.scale;
+
+    // FORCE STOP ALL SOUNDS IMMEDIATELY (before awakening screen)
+    this.stopAllSounds();
 
     // Fade current image to black
     if (this.currentImage) {
@@ -427,7 +482,7 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Frame 8: Alarm starts (continues through frames 8-9, fades in frame 10)
-    if (frameIndex === 7) { // Index 7 = Frame 8
+    if (frameIndex === 6) { // Index 6 = Frame 8 (frame 07 removed from array)
       this.activeSounds.alarm = this.sound.add('alarm', {
         loop: true,
         volume: 0.6
@@ -436,7 +491,7 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Frame 9: Gas flow starts, then coughing after delay
-    if (frameIndex === 8) { // Index 8 = Frame 9
+    if (frameIndex === 7) { // Index 7 = Frame 9 (frame 07 removed from array)
       // Start gas flow (continues into frame 10)
       this.activeSounds.gasFlow = this.sound.add('gas_flow', {
         loop: true,
@@ -447,19 +502,21 @@ export class AbductionCutscene extends Phaser.Scene {
       // Coughing starts after gas (500ms delay)
       this.time.delayedCall(500, () => {
         if (!this.skipped) {
-          this.sound.play('man_coughing', { volume: 0.7 });
+          this.activeSounds.coughing = this.sound.add('man_coughing', { volume: 0.7 });
+          this.activeSounds.coughing.play();
         }
       });
     }
 
-    // Frame 10: Fade out alarm, music, and gas flow
-    if (frameIndex === 9) { // Index 9 = Frame 10
+    // Frame 10: Fade out all sounds gradually
+    if (frameIndex === 8) { // Index 8 = Frame 10 (frame 07 removed from array, 1575ms duration)
+      // Start fading immediately for smooth transition
       // Fade out alarm
       if (this.activeSounds.alarm && this.activeSounds.alarm.isPlaying) {
         this.tweens.add({
           targets: this.activeSounds.alarm,
           volume: 0,
-          duration: 1500,
+          duration: 1500, // Smooth fade over full frame
           ease: 'Power2',
           onComplete: () => {
             if (this.activeSounds.alarm) {
@@ -474,7 +531,7 @@ export class AbductionCutscene extends Phaser.Scene {
         this.tweens.add({
           targets: this.activeSounds.uptownFunk,
           volume: 0,
-          duration: 1500,
+          duration: 1500, // Smooth fade over full frame
           ease: 'Power2',
           onComplete: () => {
             if (this.activeSounds.uptownFunk) {
@@ -489,7 +546,7 @@ export class AbductionCutscene extends Phaser.Scene {
         this.tweens.add({
           targets: this.activeSounds.gasFlow,
           volume: 0,
-          duration: 1500,
+          duration: 1500, // Smooth fade over full frame
           ease: 'Power2',
           onComplete: () => {
             if (this.activeSounds.gasFlow) {
@@ -498,11 +555,26 @@ export class AbductionCutscene extends Phaser.Scene {
           }
         });
       }
+
+      // Fade out coughing
+      if (this.activeSounds.coughing && this.activeSounds.coughing.isPlaying) {
+        this.tweens.add({
+          targets: this.activeSounds.coughing,
+          volume: 0,
+          duration: 1500, // Smooth fade over full frame
+          ease: 'Power2',
+          onComplete: () => {
+            if (this.activeSounds.coughing) {
+              this.activeSounds.coughing.stop();
+            }
+          }
+        });
+      }
     }
   }
 
   stopAllSounds() {
-    // Stop all active looping sounds
+    // Stop all active sounds (looping and one-shot)
     if (this.activeSounds.uptownFunk && this.activeSounds.uptownFunk.isPlaying) {
       this.activeSounds.uptownFunk.stop();
     }
@@ -514,6 +586,9 @@ export class AbductionCutscene extends Phaser.Scene {
     }
     if (this.activeSounds.gasFlow && this.activeSounds.gasFlow.isPlaying) {
       this.activeSounds.gasFlow.stop();
+    }
+    if (this.activeSounds.coughing && this.activeSounds.coughing.isPlaying) {
+      this.activeSounds.coughing.stop();
     }
   }
 
