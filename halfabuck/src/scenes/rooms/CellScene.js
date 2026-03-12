@@ -30,6 +30,9 @@ export class CellScene extends BaseRoomScene {
     cellBg.setDisplaySize(240, 160); // 15 tiles × 10 tiles at 16px each
     cellBg.setDepth(0);
 
+    // Fade in from black (smooth transition from cutscene)
+    this.cameras.main.fadeIn(2500, 0, 0, 0);
+
     // Initialize the rest asynchronously
     this.initializeScene();
   }

@@ -363,25 +363,22 @@ export class AbductionCutscene extends Phaser.Scene {
     // Stop all sounds before transitioning
     this.stopAllSounds();
 
-    // Fade out awakening text smoothly
+    // Fade out awakening text to black
     textObjects.forEach(textObj => {
       this.tweens.add({
         targets: textObj,
         alpha: 0,
-        duration: 1500,
+        duration: 1000,
         ease: 'Power2'
       });
     });
 
-    // Smoothly transition to CellScene with cross-fade
-    this.scene.transition({
-      target: 'CellScene',
-      duration: 1500,
-      moveBelow: true,
-      onUpdate: (progress) => {
-        // Fade out this scene as we fade in the next
-        this.cameras.main.setAlpha(1 - progress);
-      }
+    // Fade camera to black
+    this.cameras.main.fadeOut(1000, 0, 0, 0);
+
+    // After fade completes, start CellScene
+    this.cameras.main.once('camerafadeoutcomplete', () => {
+      this.scene.start('CellScene');
     });
   }
 
