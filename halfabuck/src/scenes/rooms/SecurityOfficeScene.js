@@ -6,7 +6,8 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
  * Security Office - Level 7
  * 400×352 pixels
  * Security Keycard at (336,176) inside locked room
- * Exit at (240,32) to MaintenanceTunnelScene (requires keycard)
+ * Enter at bottom-left (35,330)
+ * Exit at top-left (35,17) to MaintenanceTunnelScene (requires keycard)
  */
 export class SecurityOfficeScene extends BaseRoomScene {
   constructor() {
@@ -64,18 +65,18 @@ export class SecurityOfficeScene extends BaseRoomScene {
     this.createBaseSystems();
 
     // Player spawn position depends on entry direction
-    let playerX = 200;
-    let playerY = 300; // Default spawn near bottom
+    let playerX = 35;
+    let playerY = 330; // Default spawn at Enter area (bottom-left)
 
     if (this.entryDirection === "west") {
-      // Coming from Loading Dock (right exit) - spawn at bottom
-      playerX = 200;
-      playerY = 300; // Spawn near bottom
+      // Coming from Loading Dock - spawn at Enter area (bottom-left)
+      playerX = 35;
+      playerY = 330;
       console.log(`Spawning from Loading Dock at (${playerX}, ${playerY})`);
     } else if (this.entryDirection === "north") {
-      // Coming from Maintenance Tunnel (top exit)
-      playerX = 240;
-      playerY = 60; // Below the exit
+      // Coming from Maintenance Tunnel - spawn below Exit area (top-left)
+      playerX = 35;
+      playerY = 60;
       console.log(`Spawning from Maintenance Tunnel at (${playerX}, ${playerY})`);
     }
 
@@ -97,8 +98,8 @@ export class SecurityOfficeScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exit at (240,32) to MaintenanceTunnelScene - requires keycard to unlock
-    this.createExit(240, 32, 48, 32, "MaintenanceTunnelScene", "south");
+    // Exit at top-left (Exit area) to MaintenanceTunnelScene - requires keycard to unlock
+    this.createExit(35, 17, 48, 16, "MaintenanceTunnelScene", "south");
 
     // Add colliders for all SVG collision bodies
     collisionBodies.forEach(body => {

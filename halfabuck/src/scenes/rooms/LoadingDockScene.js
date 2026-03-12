@@ -41,14 +41,14 @@ export class LoadingDockScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position depends on entry direction
-    let playerX = 80; // Top-left area
-    let playerY = 50; // Near top
+    // Player spawn position at Enter area (top-left gap)
+    let playerX = 50; // Top-left Enter area
+    let playerY = 20; // Near top in the gap
 
     if (this.entryDirection === "north") {
-      // Coming from Storage Bay (bottom-left exit at 60,300) - spawn at top-left
-      playerX = 80;
-      playerY = 50; // Spawn near top-left
+      // Coming from Storage Bay - spawn at top-left Enter area
+      playerX = 50;
+      playerY = 20;
     }
 
     this.createPlayer(playerX, playerY);
@@ -72,8 +72,8 @@ export class LoadingDockScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Exit to Security Office at right side
-    this.createExit(496, 144, 32, 32, "SecurityOfficeScene", "west");
+    // Exit to Security Office at bottom-right Exit area
+    this.createExit(460, 272, 40, 16, "SecurityOfficeScene", "west");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {
