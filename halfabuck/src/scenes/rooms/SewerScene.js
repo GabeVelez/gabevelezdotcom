@@ -60,28 +60,16 @@ export class SewerScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position depends on entry direction
-    let playerX = sewerOffsetX + (2.5 * 16); // Default: left walkable platform
-    let playerY = sewerOffsetY + (5 * 16); // 1/2 tile south from original (was 4.5)
+    // Setup exits from SVG and get spawn position
+    const spawnPos = await this.setupExitsFromSVG("assets/exits/sewer-exits.svg", {
+      exitZone: { scene: "WarehouseCorridorScene", direction: "east", entryDirection: "north" }
+    }, sewerOffsetX, sewerOffsetY);
 
-    if (this.entryDirection === "north") {
-      // Coming from corridor (down the ladder) - spawn at right side near ladder
-      playerX = sewerOffsetX + (15 * 16); // Slightly left of ladder (column 15)
-      playerY = sewerOffsetY + (5.5 * 16); // Below ladder exit
-      console.log(`Spawning from corridor at (${playerX}, ${playerY})`);
-    }
-
-    this.createPlayer(playerX, playerY);
+    this.createPlayer(spawnPos.x, spawnPos.y);
 
     this.createGuards();
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
-
-    // Exit zone at ladder on the right side
-    // Positioned left of the narrow right wall to be accessible, 10px to the right
-    const exitX = sewerOffsetX + (16 * 16) + 10; // Column 16 + 10px offset
-    const exitY = sewerOffsetY + (2 * 16);
-    this.createExit(exitX, exitY, 32, 64, "WarehouseCorridorScene", "east"); // Width 32 instead of 16
 
     // Add colliders for all SVG collision bodies
     collisionBodies.forEach(body => {

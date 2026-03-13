@@ -41,21 +41,13 @@ export class WarehouseMainScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position depends on entry direction
-    let playerX = 64;
-    let playerY = 40; // Default: Enter at top-left
+    // Setup exits from SVG and get spawn position
+    const spawnPos = await this.setupExitsFromSVG("assets/exits/warehouse-main-exits.svg", {
+      enterZone: { scene: "WarehouseCorridorScene", direction: "south", entryDirection: "north" },
+      exitZone: { scene: "StorageBayScene", direction: "south", entryDirection: "south" }
+    });
 
-    if (this.entryDirection === "north") {
-      // Coming from Corridor (direction north) - spawn at Enter (top-left)
-      playerX = 64;
-      playerY = 40;
-    } else if (this.entryDirection === "south") {
-      // Coming back from Storage Bay - spawn near Exit (bottom-right)
-      playerX = 400;
-      playerY = 250;
-    }
-
-    this.createPlayer(playerX, playerY);
+    this.createPlayer(spawnPos.x, spawnPos.y);
 
     // Create guards (guards will be added board by board)
     this.createGuards();
@@ -75,14 +67,6 @@ export class WarehouseMainScene extends BaseRoomScene {
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
-
-    // Exits
-    // Top-left exit: to Warehouse Corridor (Enter gap - going back north/up)
-    this.createExit(64, 8, 50, 20, "WarehouseCorridorScene", "north");
-
-    // Bottom-right exit: to Storage Bay (Exit gap - going forward south/down)
-    // Gap is from x=389.375 to x=441.5, center at ~415
-    this.createExit(415, 276, 50, 16, "StorageBayScene", "south");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {

@@ -44,21 +44,13 @@ export class StorageBayScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position depends on entry direction
-    let playerX = 335; // Top-right "Enter" area
-    let playerY = 36; // Coming from WarehouseMain (16 pixels below white area)
+    // Setup exits from SVG and get spawn position
+    const spawnPos = await this.setupExitsFromSVG("assets/exits/storage-bay-exits.svg", {
+      enterZone: { scene: "WarehouseMainScene", direction: "north", entryDirection: "south" },
+      exitZone: { scene: "LoadingDockScene", direction: "south", entryDirection: "north" }
+    });
 
-    if (this.entryDirection === "south") {
-      // Coming from WarehouseMain (exit direction south) - spawn at top-right Enter area
-      playerX = 335;
-      playerY = 36;
-    } else if (this.entryDirection === "north") {
-      // Coming back from LoadingDock - spawn near exit at bottom-left Exit area
-      playerX = 55;
-      playerY = 295;
-    }
-
-    this.createPlayer(playerX, playerY);
+    this.createPlayer(spawnPos.x, spawnPos.y);
 
     // Create guards (guards will be added board by board)
     this.createGuards();
@@ -86,13 +78,6 @@ export class StorageBayScene extends BaseRoomScene {
       smokeDuration: 5000
     });
     this.items.push(smokeGrenade);
-
-    // Exits
-    // Top-right: Return to WarehouseMain (Enter area - can be re-entered)
-    this.createExit(335, 0, 60, 20, "WarehouseMainScene", "north");
-
-    // Bottom-left: to LoadingDock at Exit area (green area - full width of white space)
-    this.createExit(30, 305, 60, 15, "LoadingDockScene", "south");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {

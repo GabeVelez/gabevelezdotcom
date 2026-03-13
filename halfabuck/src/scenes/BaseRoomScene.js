@@ -6,6 +6,7 @@ import { Overseer } from "../entities/Overseer.js";
 import { VisionSystem } from "../systems/visionSystem.js";
 import { createInputManager } from "../systems/input.js";
 import { InventorySystem } from "../systems/inventorySystem.js";
+import { SVGExitParser } from "../utils/SVGExitParser.js";
 
 /**
  * Base class for all room scenes in the game.
@@ -73,8 +74,6 @@ export class BaseRoomScene extends Phaser.Scene {
     }
 
     // Debug graphics
-    this._collisionDebug = null;
-    this._collisionDebugOn = false; // Track SVG collision visibility state
     this._visionDebug = this.add.graphics().setDepth(5).setAlpha(0.9);
     this._visionDebugOn = true;
     this._bodyDebug = this.add.graphics().setDepth(1000);
@@ -85,7 +84,6 @@ export class BaseRoomScene extends Phaser.Scene {
     this._nearbyItem = null;
 
     // Debug controls
-    this.input.keyboard.on("keydown-C", () => this._toggleCollisionDebug());
     this.input.keyboard.on("keydown-V", () => { this._visionDebugOn = !this._visionDebugOn; });
     this.input.keyboard.on("keydown-B", () => { this._bodyDebugOn = !this._bodyDebugOn; });
     this.input.keyboard.on("keydown-H", () => {
@@ -94,6 +92,11 @@ export class BaseRoomScene extends Phaser.Scene {
       }
     });
     this.input.keyboard.on("keydown-ESC", () => this.scene.start("EndingScene"));
+
+    // Add delay before exits become active (prevent immediate triggering on scene load)
+    this.time.delayedCall(300, () => {
+      this._exitActiveTime = true;
+    });
   }
 
   /**
@@ -351,6 +354,74 @@ export class BaseRoomScene extends Phaser.Scene {
   }
 
   /**
+   * Setup exits from SVG file - handles all scenes uniformly
+   * @param {string} svgPath - Path to the exits SVG file
+   * @param {object} exitConfig - Configuration for exit destinations
+   *   Example: {
+   *     enterZone: { scene: "WarehouseMainScene", direction: "north", entryDirection: "south" },
+   *     exitZone: { scene: "LoadingDockScene", direction: "south", entryDirection: "north" }
+   *   }
+   *   - direction: what direction to pass to the target scene when exiting
+   *   - entryDirection: when THIS scene has this entryDirection, use this zone's spawn point
+   * @param {number} offsetX - Optional X offset for scenes that use offsets
+   * @param {number} offsetY - Optional Y offset for scenes that use offsets
+   * @returns {Promise<{x: number, y: number}>} Spawn position based on entryDirection
+   */
+  async setupExitsFromSVG(svgPath, exitConfig, offsetX = 0, offsetY = 0) {
+    // Load exit/enter data from SVG file with offsets
+    const exitData = await SVGExitParser.parseSVGFile(svgPath, offsetX, offsetY);
+
+    if (!exitData) {
+      console.error(`Failed to load exit data from SVG: ${svgPath}`);
+      return { x: 200, y: 160 }; // Default center spawn
+    }
+
+    console.log(`Loaded exit data from ${svgPath}:`, exitData);
+
+    // Determine spawn position based on entry direction
+    let spawnX = 200;
+    let spawnY = 160;
+
+    // Check which spawn point to use based on entryDirection
+    if (exitConfig.enterZone && this.entryDirection === exitConfig.enterZone.entryDirection && exitData.enterSpawn) {
+      // Use enter spawn (blue circle)
+      spawnX = exitData.enterSpawn.x;
+      spawnY = exitData.enterSpawn.y;
+      console.log(`Spawning at enter spawn (entryDirection: ${this.entryDirection}): (${spawnX}, ${spawnY})`);
+    } else if (exitConfig.exitZone && this.entryDirection === exitConfig.exitZone.entryDirection && exitData.exitSpawn) {
+      // Use exit spawn (black circle)
+      spawnX = exitData.exitSpawn.x;
+      spawnY = exitData.exitSpawn.y;
+      console.log(`Spawning at exit spawn (entryDirection: ${this.entryDirection}): (${spawnX}, ${spawnY})`);
+    } else if (exitData.enterSpawn) {
+      // Default/testing menu - use enter spawn
+      spawnX = exitData.enterSpawn.x;
+      spawnY = exitData.enterSpawn.y;
+      console.log(`Spawning at enter spawn (default/testing): (${spawnX}, ${spawnY})`);
+    }
+
+    // Create enter zone (blue - can return to previous scene)
+    if (exitData.enterZone && exitConfig.enterZone) {
+      const ez = exitData.enterZone;
+      const centerX = ez.x + ez.width / 2;
+      const centerY = ez.y + ez.height / 2;
+      this.createExit(centerX, centerY, ez.width, ez.height, exitConfig.enterZone.scene, exitConfig.enterZone.direction);
+      console.log(`Enter zone: SVG=(${ez.x}, ${ez.y}), center=(${centerX}, ${centerY}), ${ez.width}×${ez.height}) → ${exitConfig.enterZone.scene}`);
+    }
+
+    // Create exit zone (black - progress to next scene)
+    if (exitData.exitZone && exitConfig.exitZone) {
+      const xz = exitData.exitZone;
+      const centerX = xz.x + xz.width / 2;
+      const centerY = xz.y + xz.height / 2;
+      this.createExit(centerX, centerY, xz.width, xz.height, exitConfig.exitZone.scene, exitConfig.exitZone.direction);
+      console.log(`Exit zone: SVG=(${xz.x}, ${xz.y}), center=(${centerX}, ${centerY}), ${xz.width}×${xz.height}) → ${exitConfig.exitZone.scene}`);
+    }
+
+    return { x: spawnX, y: spawnY };
+  }
+
+  /**
    * Transition to another room scene
    */
   transitionToRoom(targetScene, entryDirection) {
@@ -446,8 +517,13 @@ export class BaseRoomScene extends Phaser.Scene {
     // Check for locked doors to unlock
     this._checkLockedDoors();
 
-    // Check exits manually
+    // Check exits manually (with delay to prevent immediate triggering on load)
     if (this._exits) {
+      // Add delay before exits become active (set in createBaseSystems)
+      if (!this._exitActiveTime) {
+        return; // Exits not yet active
+      }
+
       for (const exit of this._exits) {
         if (!exit.triggered) {
           // Use player's center position (origin is 0.5, 1.0)
@@ -532,35 +608,6 @@ export class BaseRoomScene extends Phaser.Scene {
       }
       this.scene.start("SurroundedScene");
       return;
-    }
-  }
-
-  /**
-   * Toggle collision debug
-   */
-  _toggleCollisionDebug() {
-    // Toggle the state
-    this._collisionDebugOn = !this._collisionDebugOn;
-
-    // Toggle SVG collision bodies visibility
-    if (this.collisionBodies) {
-      this.collisionBodies.forEach(body => {
-        body.setVisible(this._collisionDebugOn);
-      });
-    }
-
-    // Toggle old tilemap collision debug (if it exists)
-    if (this._collisionDebugOn && this.groundLayer) {
-      if (!this._collisionDebug) {
-        this._collisionDebug = this.add.graphics().setDepth(1000);
-      }
-      this.groundLayer.renderDebug(this._collisionDebug, {
-        tileColor: null,
-        collidingTileColor: new Phaser.Display.Color(255, 0, 0, 100),
-        faceColor: new Phaser.Display.Color(0, 255, 0, 50)
-      });
-    } else if (this._collisionDebug) {
-      this._collisionDebug.clear();
     }
   }
 

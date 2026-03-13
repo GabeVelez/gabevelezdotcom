@@ -41,17 +41,13 @@ export class LoadingDockScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position at Enter area (top-left gap)
-    let playerX = 50; // Top-left Enter area
-    let playerY = 20; // Near top in the gap
+    // Setup exits from SVG and get spawn position
+    const spawnPos = await this.setupExitsFromSVG("assets/exits/loading-dock-exits.svg", {
+      enterZone: { scene: "StorageBayScene", direction: "north", entryDirection: "south" },
+      exitZone: { scene: "SecurityOfficeScene", direction: "south", entryDirection: "north" }
+    });
 
-    if (this.entryDirection === "north") {
-      // Coming from Storage Bay - spawn at top-left Enter area
-      playerX = 50;
-      playerY = 20;
-    }
-
-    this.createPlayer(playerX, playerY);
+    this.createPlayer(spawnPos.x, spawnPos.y);
 
     // Create guards (guards will be added board by board)
     this.createGuards();
@@ -71,9 +67,6 @@ export class LoadingDockScene extends BaseRoomScene {
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
-
-    // Exit to Security Office at bottom-right Exit area
-    this.createExit(460, 272, 40, 16, "SecurityOfficeScene", "west");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {

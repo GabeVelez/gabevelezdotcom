@@ -1,6 +1,7 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { Item } from "../../entities/Item.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
+import { SVGExitParser } from "../../utils/SVGExitParser.js";
 
 /**
  * Cell with Bed - Starting room
@@ -72,8 +73,12 @@ export class CellScene extends BaseRoomScene {
     // Create base systems
     this.createBaseSystems();
 
-    // Create player in center of walkable floor area
-    this.createPlayer(cellOffsetX + 112, cellOffsetY + 80);
+    // Load exit data from SVG (but manually create exit for special hole logic)
+    const exitData = await SVGExitParser.parseSVGFile("assets/exits/cell-exits.svg", cellOffsetX, cellOffsetY);
+
+    // Use SVG spawn position (blue circle)
+    const spawnPos = exitData?.enterSpawn || { x: cellOffsetX + 112, y: cellOffsetY + 80 };
+    this.createPlayer(spawnPos.x, spawnPos.y);
 
     // Create guards array (no guards in cell - it's a prison cell)
     this.createGuards();
@@ -82,24 +87,26 @@ export class CellScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Create exit zone at hole in bottom-right corner (player falls through to sewer)
-    // Hole is at bottom-right corner
-    const holeX = cellOffsetX + (12 * 16);
-    const holeY = cellOffsetY + (8.5 * 16);
+    // Create exit from SVG data (hole in bottom-right corner)
+    if (exitData?.exitZone) {
+      const xz = exitData.exitZone;
+      const centerX = xz.x + xz.width / 2;
+      const centerY = xz.y + xz.height / 2;
+      this.createExit(centerX, centerY, xz.width, xz.height, "SewerScene", "south");
 
-    // Position exit exactly under cardboard box, offset 1/4 tile right (box is at holeX + 8)
-    this.createExit(holeX + 12, holeY, 28, 28, "SewerScene", "south"); // "south" = falling down from above
-
-    // Mark this exit as a "hole" type for special animation
-    if (this._exits && this._exits.length > 0) {
-      this._exits[0].isHole = true;
-      // Disable exit initially (until box is collected)
-      this._exits[0].triggered = true;
+      // Mark this exit as a "hole" type for special animation
+      if (this._exits && this._exits.length > 0) {
+        this._exits[0].isHole = true;
+        // Disable exit initially (until box is collected)
+        this._exits[0].triggered = true;
+      }
     }
 
     // Create cardboard box as interactable item with collision
-    // Position 0.5 tiles to the right to cover the hole (8 pixels = 0.5 tiles)
-    const cardboardBox = new Item(this, holeX + 8, holeY, {
+    // Position over the hole exit zone (using SVG center)
+    const holeX = exitData?.exitZone ? exitData.exitZone.x + exitData.exitZone.width / 2 : cellOffsetX + (12 * 16) + 8;
+    const holeY = exitData?.exitZone ? exitData.exitZone.y + exitData.exitZone.height / 2 : cellOffsetY + (8.5 * 16);
+    const cardboardBox = new Item(this, holeX, holeY, {
       id: "cardboard_box",
       name: "Cardboard Box",
       description: "A sturdy cardboard box. Maybe it's hiding something?",

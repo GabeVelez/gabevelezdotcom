@@ -64,23 +64,13 @@ export class SecurityOfficeScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position depends on entry direction
-    let playerX = 35;
-    let playerY = 330; // Default spawn at Enter area (bottom-left)
+    // Setup exits from SVG and get spawn position
+    const spawnPos = await this.setupExitsFromSVG("assets/exits/security-office-exits.svg", {
+      enterZone: { scene: "LoadingDockScene", direction: "north", entryDirection: "south" },
+      exitZone: { scene: "MaintenanceTunnelScene", direction: "south", entryDirection: "north" }
+    }, officeOffsetX, officeOffsetY);
 
-    if (this.entryDirection === "west") {
-      // Coming from Loading Dock - spawn at Enter area (bottom-left)
-      playerX = 35;
-      playerY = 330;
-      console.log(`Spawning from Loading Dock at (${playerX}, ${playerY})`);
-    } else if (this.entryDirection === "north") {
-      // Coming from Maintenance Tunnel - spawn below Exit area (top-left)
-      playerX = 35;
-      playerY = 60;
-      console.log(`Spawning from Maintenance Tunnel at (${playerX}, ${playerY})`);
-    }
-
-    this.createPlayer(playerX, playerY);
+    this.createPlayer(spawnPos.x, spawnPos.y);
 
     // Create guards (guards will be added board by board)
     this.createGuards();
@@ -97,9 +87,6 @@ export class SecurityOfficeScene extends BaseRoomScene {
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
-
-    // Exit at top-left (Exit area) to MaintenanceTunnelScene - requires keycard to unlock
-    this.createExit(35, 17, 48, 16, "MaintenanceTunnelScene", "south");
 
     // Add colliders for all SVG collision bodies
     collisionBodies.forEach(body => {

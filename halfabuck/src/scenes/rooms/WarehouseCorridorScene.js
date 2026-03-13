@@ -42,21 +42,13 @@ export class WarehouseCorridorScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position depends on entry direction
-    let playerX = 195; // To the left of manhole, adjusted 4px right
-    let playerY = 52; // Above the exit zone, adjusted 8px north
+    // Setup exits from SVG and get spawn position
+    const spawnPos = await this.setupExitsFromSVG("assets/exits/corridor-exits.svg", {
+      enterZone: { scene: "SewerScene", direction: "north", entryDirection: "east" },
+      exitZone: { scene: "WarehouseMainScene", direction: "north", entryDirection: "north" }
+    });
 
-    if (this.entryDirection === "east") {
-      // Coming from sewer - spawn to left of manhole
-      playerX = 195; // Left of manhole, adjusted position (manhole is at X=240)
-      playerY = 52; // Above exit with clearance
-    } else if (this.entryDirection === "north") {
-      // Coming back from warehouse main (bottom entrance)
-      playerX = 160;
-      playerY = 270; // Spawn above exit zone
-    }
-
-    this.createPlayer(playerX, playerY);
+    this.createPlayer(spawnPos.x, spawnPos.y);
 
     // Create one guard patrolling corridor - rectangular loop pattern
     // Starts by walking DOWN when player enters
@@ -87,14 +79,6 @@ export class WarehouseCorridorScene extends BaseRoomScene {
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
-
-    // Exits
-    // Top: back to sewer (ladder down through manhole)
-    // Moved 1 tile right and 1 tile down
-    this.createExit(256, 32, 32, 32, "SewerScene", "north");
-
-    // Bottom: to warehouse main
-    this.createExit(160, 300, 32, 32, "WarehouseMainScene", "north");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {

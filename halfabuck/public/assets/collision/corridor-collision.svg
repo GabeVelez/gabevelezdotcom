@@ -1,4 +1,5 @@
 <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1_2)">
 <rect width="17.5" height="320" fill="#FF0000"/>
 <rect y="320" width="21.375" height="135" transform="rotate(-90 0 320)" fill="#FF0000"/>
 <rect x="187.125" y="320" width="21.375" height="132.875" transform="rotate(-90 187.125 320)" fill="#FF0000"/>
@@ -10,7 +11,12 @@
 <rect y="154" width="35.5746" height="108.942" transform="rotate(-90 0 154)" fill="#FF0000"/>
 <rect y="215.5" width="36" height="108.942" transform="rotate(-90 0 215.5)" fill="#FF0000"/>
 <rect y="94.9377" width="37.0625" height="108.942" transform="rotate(-90 0 94.9377)" fill="#FF0000"/>
-<rect y="33" width="33.1304" height="239.5" transform="rotate(-90 0 33)" fill="#FF0000"/>
-<rect x="278" y="33" width="33.1304" height="42" transform="rotate(-90 278 33)" fill="#FF0000"/>
+<rect y="33" width="33.1304" height="320.062" transform="rotate(-90 0 33)" fill="#FF0000"/>
 <rect x="302.5" width="17.5" height="320" fill="#FF0000"/>
+</g>
+<defs>
+<clipPath id="clip0_1_2">
+<rect width="320" height="320" fill="white"/>
+</clipPath>
+</defs>
 </svg>
