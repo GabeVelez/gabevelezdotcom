@@ -46,16 +46,16 @@ export class StorageBayScene extends BaseRoomScene {
 
     // Player spawn position depends on entry direction
     let playerX = 335; // Top-right "Enter" area
-    let playerY = 20; // Coming from WarehouseMain (enters from top-right)
+    let playerY = 36; // Coming from WarehouseMain (16 pixels below white area)
 
     if (this.entryDirection === "south") {
       // Coming from WarehouseMain (exit direction south) - spawn at top-right Enter area
       playerX = 335;
-      playerY = 20;
+      playerY = 36;
     } else if (this.entryDirection === "north") {
       // Coming back from LoadingDock - spawn near exit at bottom-left Exit area
       playerX = 55;
-      playerY = 310;
+      playerY = 295;
     }
 
     this.createPlayer(playerX, playerY);
@@ -88,12 +88,11 @@ export class StorageBayScene extends BaseRoomScene {
     this.items.push(smokeGrenade);
 
     // Exits
-    // Top: back to WarehouseMain
-    // Note: WarehouseMain exit is at (410, 272), so we spawn at top-right
-    // This is not a real exit - player enters from north, no return exit needed
+    // Top-right: Return to WarehouseMain (Enter area - can be re-entered)
+    this.createExit(335, 0, 60, 20, "WarehouseMainScene", "north");
 
-    // Bottom-left: to LoadingDock at Exit area (55,310)
-    this.createExit(55, 310, 32, 32, "LoadingDockScene", "north");
+    // Bottom-left: to LoadingDock at Exit area (green area - full width of white space)
+    this.createExit(30, 305, 60, 15, "LoadingDockScene", "south");
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {
