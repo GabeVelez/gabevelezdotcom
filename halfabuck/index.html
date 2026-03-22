@@ -8,12 +8,84 @@
     <title>Half-a-Buck — Mission: Brooklyn</title>
 
     <!-- Self-hosted retro arcade fonts -->
-    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <link rel="stylesheet" href="/halfabuck/assets/fonts/fonts.css">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Password Gate styles (temporary - remove before public launch) -->
+    <style>
+      #password-gate {
+        position: fixed;
+        inset: 0;
+        background: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        font-family: 'Press Start 2P', monospace;
+      }
+      #password-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: 32px;
+        background: #111;
+        border: 2px solid #444;
+      }
+      #password-title {
+        color: #f5c400;
+        font-size: 14px;
+        letter-spacing: 2px;
+      }
+      #password-sub {
+        color: #888;
+        font-size: 8px;
+        margin-bottom: 8px;
+      }
+      #password-input {
+        background: #000;
+        color: #fff;
+        border: 1px solid #555;
+        padding: 10px 14px;
+        font-family: monospace;
+        font-size: 14px;
+        text-align: center;
+        outline: none;
+        width: 200px;
+      }
+      #password-submit {
+        background: #f5c400;
+        color: #000;
+        border: none;
+        padding: 10px 24px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 9px;
+        cursor: pointer;
+        letter-spacing: 1px;
+      }
+      #password-submit:hover { background: #ffd700; }
+      #password-error {
+        color: #e84b4b;
+        font-size: 8px;
+      }
+    </style>
+    <script type="module" crossorigin src="/halfabuck/assets/index-Cq2iasHr.js"></script>
+    <link rel="stylesheet" crossorigin href="/halfabuck/assets/index-CFrwIgdN.css">
   </head>
   <body>
+    <!-- Password Gate (temporary - remove before public launch) -->
+    <div id="password-gate">
+      <div id="password-card">
+        <div id="password-title">HALF-A-BUCK</div>
+        <div id="password-sub">Dev Preview</div>
+        <input id="password-input" type="password" placeholder="enter password" autocomplete="off" />
+        <button id="password-submit">ENTER</button>
+        <div id="password-error" style="display:none;">wrong password</div>
+      </div>
+    </div>
+
     <div id="game"></div>
 
     <!-- Game UI Overlay (hidden by default, shown during gameplay) -->
@@ -85,6 +157,35 @@
       </div>
     </div>
 
-    <script type="module" src="/src/main.js"></script>
+
+
+    <!-- Password Gate logic (temporary - remove before public launch) -->
+    <script>
+      (function() {
+        var PASS = 'halfabuck';
+        var KEY = 'hab_auth';
+        var gate = document.getElementById('password-gate');
+
+        if (sessionStorage.getItem(KEY) === '1') {
+          gate.style.display = 'none';
+          return;
+        }
+
+        document.getElementById('password-submit').addEventListener('click', tryPass);
+        document.getElementById('password-input').addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') tryPass();
+        });
+
+        function tryPass() {
+          if (document.getElementById('password-input').value === PASS) {
+            sessionStorage.setItem(KEY, '1');
+            gate.style.display = 'none';
+          } else {
+            document.getElementById('password-error').style.display = 'block';
+            document.getElementById('password-input').value = '';
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
