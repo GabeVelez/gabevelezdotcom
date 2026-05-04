@@ -396,7 +396,18 @@ export class BaseRoomScene extends Phaser.Scene {
       spawnY = exitData.exitSpawn.y;
       console.log(`Spawning at exit spawn (entryDirection: ${this.entryDirection}): (${spawnX}, ${spawnY})`);
     } else if (exitData.enterSpawn) {
-      // Default/testing menu - use enter spawn
+      // No entryDirection match — fall back to enterSpawn.
+      // If we got here with a non-null entryDirection, the scene's exit config
+      // doesn't agree with the previous scene's transition direction.
+      if (this.entryDirection) {
+        const expected = [
+          exitConfig.enterZone?.entryDirection,
+          exitConfig.exitZone?.entryDirection,
+        ].filter(Boolean).join(" or ") || "(none)";
+        console.warn(
+          `[${this.scene.key}] entryDirection "${this.entryDirection}" matched no zone (expected ${expected}); spawning at enterSpawn as fallback.`
+        );
+      }
       spawnX = exitData.enterSpawn.x;
       spawnY = exitData.enterSpawn.y;
       console.log(`Spawning at enter spawn (default/testing): (${spawnX}, ${spawnY})`);

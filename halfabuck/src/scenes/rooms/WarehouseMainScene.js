@@ -45,7 +45,7 @@ export class WarehouseMainScene extends BaseRoomScene {
     // Setup exits from SVG and get spawn position
     const spawnPos = await this.setupExitsFromSVG("assets/exits/warehouse-main-exits.svg", {
       enterZone: { scene: "WarehouseCorridorScene", direction: "south", entryDirection: "north" },
-      exitZone: { scene: "StorageBayScene", direction: "south", entryDirection: "south" }
+      exitZone: { scene: "StorageBayScene", direction: "south", entryDirection: "north" }
     });
 
     this.createPlayer(spawnPos.x, spawnPos.y);
