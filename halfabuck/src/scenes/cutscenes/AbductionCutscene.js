@@ -397,11 +397,6 @@ export class AbductionCutscene extends Phaser.Scene {
       const typingEvent = this.time.addEvent({
         delay: charDelay,
         callback: () => {
-          if (this.skipped) {
-            typingEvent.remove();
-            return;
-          }
-
           if (currentIndex < fullText.length) {
             textObject.setText(fullText.substring(0, currentIndex + 1));
             currentIndex++;
