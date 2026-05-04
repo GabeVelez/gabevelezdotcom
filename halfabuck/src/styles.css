@@ -1,3 +1,27 @@
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/halfabuck/assets/fonts/orbitron-700.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/halfabuck/assets/fonts/orbitron-900.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/halfabuck/assets/fonts/pressstart2p-400.ttf') format('truetype');
+}
+
 html, body {
   margin: 0;
   padding: 0;
