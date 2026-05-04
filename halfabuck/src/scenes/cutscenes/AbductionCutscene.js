@@ -593,6 +593,8 @@ export class AbductionCutscene extends Phaser.Scene {
   }
 
   skipCutscene() {
+    this.skipped = true;
+
     // Stop all timers and tweens
     this.time.removeAllEvents();
     this.tweens.killAll();
