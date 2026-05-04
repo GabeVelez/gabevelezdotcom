@@ -39,8 +39,10 @@ export class SVGCollisionParser {
         return [];
       }
 
-      // Extract all <rect> elements
-      const rects = svgDoc.querySelectorAll('rect');
+      // Extract <rect> elements — but skip any inside <defs>/<clipPath>,
+      // which Figma adds as a full-canvas clipping mask (not a real wall).
+      const rects = Array.from(svgDoc.querySelectorAll('rect'))
+        .filter(r => !r.closest('defs') && !r.closest('clipPath'));
       const collisionRects = [];
 
       rects.forEach(rect => {
