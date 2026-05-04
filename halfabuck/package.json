@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "rm -f assets/index-*.js assets/index-*.css && cp dist/assets/index-*.js dist/assets/index-*.css assets/ && cp dist/template.html index.html",
     "preview": "vite preview"
   },
   "dependencies": {
