@@ -9,6 +9,7 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 export class MaintenanceTunnelScene extends BaseRoomScene {
   constructor() {
     super("MaintenanceTunnelScene");
+    this.levelLabel = "LVL 8: Maintenance Tunnel";
   }
 
   create() {

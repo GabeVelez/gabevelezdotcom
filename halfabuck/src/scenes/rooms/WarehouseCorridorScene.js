@@ -9,6 +9,7 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 export class WarehouseCorridorScene extends BaseRoomScene {
   constructor() {
     super("WarehouseCorridorScene");
+    this.levelLabel = "LVL 3: Corridor";
   }
 
   create() {

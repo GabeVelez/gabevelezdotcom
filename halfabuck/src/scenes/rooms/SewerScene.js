@@ -8,6 +8,7 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 export class SewerScene extends BaseRoomScene {
   constructor() {
     super("SewerScene");
+    this.levelLabel = "LVL 2: Sewer";
   }
 
   create() {

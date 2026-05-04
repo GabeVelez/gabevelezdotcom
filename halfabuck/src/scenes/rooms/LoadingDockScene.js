@@ -8,6 +8,7 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 export class LoadingDockScene extends BaseRoomScene {
   constructor() {
     super("LoadingDockScene");
+    this.levelLabel = "LVL 6: Loading Dock";
   }
 
   create() {

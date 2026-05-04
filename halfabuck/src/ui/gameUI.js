@@ -22,6 +22,9 @@ export class GameUI {
     this.inventoryContainer = document.getElementById('inventory-container');
     this.inventoryItems = document.getElementById('inventory-items');
 
+    // Level label (bottom-left)
+    this.levelLabel = document.getElementById('level-label');
+
     this.setupSoundButton();
 
     // Hide UI by default - will be shown by gameplay scenes only
@@ -80,6 +83,14 @@ export class GameUI {
   hideHelp() {
     this.helpVisible = false;
     this.helpOverlay.style.display = 'none';
+  }
+
+  /**
+   * Set the level label text (bottom-left).
+   */
+  setLevelLabel(text) {
+    if (!this.levelLabel) return;
+    this.levelLabel.textContent = text || '';
   }
 
   /**

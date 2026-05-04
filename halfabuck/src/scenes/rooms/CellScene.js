@@ -10,6 +10,7 @@ import { SVGExitParser } from "../../utils/SVGExitParser.js";
 export class CellScene extends BaseRoomScene {
   constructor() {
     super("CellScene");
+    this.levelLabel = "LVL 1: Cell";
 
     // Toilet easter egg tracking
     this.toiletTimeOnSeat = 0;

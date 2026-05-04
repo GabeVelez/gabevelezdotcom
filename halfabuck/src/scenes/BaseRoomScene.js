@@ -71,6 +71,8 @@ export class BaseRoomScene extends Phaser.Scene {
       this.gameUI.setVisible(true);
       // Update sound icon to match current state
       this.gameUI.updateSoundIcon(this.registry.get("soundEnabled"));
+      // Set the bottom-left level label (each scene declares this.levelLabel in its constructor)
+      this.gameUI.setLevelLabel(this.levelLabel || "");
     }
 
     // Debug graphics

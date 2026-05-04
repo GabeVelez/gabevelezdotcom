@@ -133,6 +133,18 @@ canvas {
   white-space: nowrap;
 }
 
+#level-label {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 #sound-toggle {
   width: 32px;
   height: 32px;

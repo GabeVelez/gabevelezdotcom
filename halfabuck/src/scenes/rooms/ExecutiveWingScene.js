@@ -15,6 +15,7 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 export class ExecutiveWingScene extends BaseRoomScene {
   constructor() {
     super("ExecutiveWingScene");
+    this.levelLabel = "LVL 9: Executive Wing";
   }
 
   create() {

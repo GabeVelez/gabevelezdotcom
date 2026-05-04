@@ -11,6 +11,7 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 export class StorageBayScene extends BaseRoomScene {
   constructor() {
     super("StorageBayScene");
+    this.levelLabel = "LVL 5: Storage Bay";
   }
 
   create() {

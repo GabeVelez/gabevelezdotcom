@@ -15,6 +15,7 @@ import { Overseer } from "../../entities/Overseer.js";
 export class RooftopHelipadScene extends BaseRoomScene {
   constructor() {
     super("RooftopHelipadScene");
+    this.levelLabel = "LVL 10: Rooftop Helipad";
   }
 
   create() {
