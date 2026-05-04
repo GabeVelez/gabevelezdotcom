@@ -51,27 +51,48 @@ export class SVGCollisionParser {
         let width = parseFloat(rect.getAttribute('width') || 0);
         let height = parseFloat(rect.getAttribute('height') || 0);
 
-        // Handle transform="rotate(-90 cx cy)" - Figma exports horizontal rects this way
         const transform = rect.getAttribute('transform');
-        if (transform && transform.includes('rotate(-90')) {
-          // For -90 degree rotation, swap width/height and adjust position
-          // The rect is rotated 90 degrees clockwise around point (cx, cy)
-          const match = transform.match(/rotate\(-90\s+([\d.]+)\s+([\d.]+)\)/);
-          if (match) {
-            const cx = parseFloat(match[1]);
-            const cy = parseFloat(match[2]);
+        if (transform) {
+          // Handle transform="rotate(-90 cx cy)" - Figma's per-rect rotation form
+          const rotMatch = transform.match(/rotate\(-90\s+([\d.]+)\s+([\d.]+)\)/);
+          // Handle transform="matrix(a b c d e f)" - Figma's other rotation export form
+          const matMatch = transform.match(/matrix\(\s*(-?[\d.]+)[ ,]+(-?[\d.]+)[ ,]+(-?[\d.]+)[ ,]+(-?[\d.]+)[ ,]+(-?[\d.]+)[ ,]+(-?[\d.]+)\s*\)/);
 
-            // After -90 rotation around (cx, cy):
-            // New position and dimensions
-            const newX = cx;
+          if (rotMatch) {
+            const cy = parseFloat(rotMatch[2]);
+            const newX = parseFloat(rotMatch[1]);
             const newY = cy - width;
             const newWidth = height;
             const newHeight = width;
-
             x = newX;
             y = newY;
             width = newWidth;
             height = newHeight;
+          } else if (matMatch) {
+            // Apply the matrix to all 4 corners and take the axis-aligned bounding box.
+            // matrix(a b c d e f) maps (px, py) -> (a*px + c*py + e, b*px + d*py + f)
+            const a = parseFloat(matMatch[1]);
+            const b = parseFloat(matMatch[2]);
+            const c = parseFloat(matMatch[3]);
+            const d = parseFloat(matMatch[4]);
+            const e = parseFloat(matMatch[5]);
+            const f = parseFloat(matMatch[6]);
+            const corners = [
+              [x, y],
+              [x + width, y],
+              [x, y + height],
+              [x + width, y + height],
+            ].map(([px, py]) => [a * px + c * py + e, b * px + d * py + f]);
+            const xs = corners.map(p => p[0]);
+            const ys = corners.map(p => p[1]);
+            const minX = Math.min(...xs);
+            const maxX = Math.max(...xs);
+            const minY = Math.min(...ys);
+            const maxY = Math.max(...ys);
+            x = minX;
+            y = minY;
+            width = maxX - minX;
+            height = maxY - minY;
           }
         }
 
