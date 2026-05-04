@@ -23,6 +23,13 @@ export class BaseRoomScene extends Phaser.Scene {
   init(data) {
     this.playerData = data || {};
     this.entryDirection = data.entryDirection || null; // 'north', 'south', 'east', 'west'
+
+    // When entering via a hole fall, keep the camera blacked out until
+    // _playLandingAnimation() fades it back in. Otherwise the new scene
+    // flashes visible during async asset loads before createPlayer() fires.
+    if (this.playerData.isFalling && this.cameras && this.cameras.main) {
+      this.cameras.main.fadeOut(0, 0, 0, 0);
+    }
   }
 
   /**
