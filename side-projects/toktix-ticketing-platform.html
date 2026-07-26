@@ -130,7 +130,7 @@
                     </div>
                     <div class="stat">
                         <span class="stat__label">Tools</span>
-                        <span class="stat__value">React Native, Firebase, Stripe, Figma, Expo</span>
+                        <span class="stat__value">React Native, Expo, Firebase, Stripe, Next.js, Figma, Claude Code</span>
                     </div>
                 </div>
             </div>
@@ -265,6 +265,7 @@
                                 <li>Event creation and management</li>
                                 <li>Ticket scanning and verification</li>
                                 <li>Real-time analytics dashboard</li>
+                                <li>Guest lists, refunds, and team roles</li>
                                 <li>Offline-capable operations</li>
                             </ul>
                         </div>
@@ -286,6 +287,9 @@
                         <li>Cloud Functions for business logic</li>
                         <li>Image storage and optimization</li>
                         <li>Stripe Connect integration</li>
+                        <li>AI flyer extraction with Gemini via Genkit</li>
+                        <li>SMS infrastructure with Telnyx</li>
+                        <li>Apple &amp; Google Wallet pass generation</li>
                     </ul>
 
                     <img class="block__image" loading="lazy" decoding="async" src="/img/toktixFigma.webp" alt="TokTix Service Architecture Design - Figma wireframes showing the modular service structure and component relationships">
@@ -303,6 +307,8 @@
                         <li><strong>Payment Service:</strong> Integrates Stripe Connect for promoter payouts</li>
                     </ul>
                     <p>This modular approach prevents circular dependencies and enables independent testing and maintenance of each system component.</p>
+
+                    <p>That early discipline paid off. What began as six services has since scaled to <strong>more than 50 client-side services</strong> and <strong>40+ Cloud Function modules</strong> — payments, refunds, SMS, wallet passes, AI extraction, analytics — totaling over <strong>115,000 lines of TypeScript</strong> across the app and backend, exercised by an automated end-to-end test suite (Maestro) that covers auth, event creation, scanning, refunds, and full regression flows.</p>
 
                     <img class="block__image" loading="lazy" decoding="async" src="/img/toktixAuthFlow.webp" alt="TokTix Authentication Flow - Cross-platform user session management between mobile app and web platform">
 
@@ -448,6 +454,8 @@
                         <li>Payment processing integration with automated promoter payouts</li>
                         <li>Image optimization and processing pipeline</li>
                         <li>Comprehensive error handling and recovery systems</li>
+                        <li>Automated end-to-end test suite covering auth, scanning, refunds, and regression flows</li>
+                        <li>Production observability with Sentry, Crashlytics, and PostHog session replay</li>
                     </ul>
 
                     <h4 class="block__subtitle">Architectural Success</h4>

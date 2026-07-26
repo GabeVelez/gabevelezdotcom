@@ -102,6 +102,7 @@ Mobile App (React Native + Expo)
 ├── Event creation and management
 ├── Ticket scanning and verification  
 ├── Real-time analytics dashboard
+├── Guest lists, refunds, and team roles
 └── Offline-capable operations
 
 Web Platform (Next.js + TypeScript)
@@ -115,7 +116,10 @@ Backend Infrastructure (Firebase)
 ├── Real-time database with Firestore
 ├── Cloud Functions for business logic
 ├── Image storage and optimization
-└── Stripe Connect integration
+├── Stripe Connect integration
+├── AI flyer extraction with Gemini via Genkit
+├── SMS infrastructure with Telnyx
+└── Apple & Google Wallet pass generation
 ```
 
 ### Service Architecture Design
@@ -130,6 +134,8 @@ To prevent the technical debt that typically accumulates in solo projects, I imp
 - **Payment Service:** Integrates Stripe Connect for promoter payouts
 
 This modular approach prevents circular dependencies and enables independent testing and maintenance of each system component.
+
+That early discipline paid off. What began as six services has since scaled to **more than 50 client-side services** and **40+ Cloud Function modules** — payments, refunds, SMS, wallet passes, AI extraction, analytics — totaling over **115,000 lines of TypeScript** across the app and backend, exercised by an automated end-to-end test suite (Maestro) that covers auth, event creation, scanning, refunds, and full regression flows.
 
 ### Cross-Domain Web Architecture
 
@@ -197,6 +203,8 @@ The platform represents a complete modern development stack implementation:
 - Payment processing integration with automated promoter payouts
 - Image optimization and processing pipeline
 - Comprehensive error handling and recovery systems
+- Automated end-to-end test suite covering auth, scanning, refunds, and regression flows
+- Production observability with Sentry, Crashlytics, and PostHog session replay
 
 ### Architectural Success
 
