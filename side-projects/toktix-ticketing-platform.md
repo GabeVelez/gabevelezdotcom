@@ -119,7 +119,9 @@ Backend Infrastructure (Firebase)
 ├── Stripe Connect integration
 ├── AI flyer extraction with Gemini via Genkit
 ├── SMS infrastructure with Telnyx
-└── Apple & Google Wallet pass generation
+├── Apple & Google Wallet pass generation
+├── Resend for emailing receipts and tickets
+└── PostHog product analytics and session replay
 ```
 
 ### Service Architecture Design
@@ -132,10 +134,12 @@ To prevent the technical debt that typically accumulates in solo projects, I imp
 - **Ticket System Service:** Manages multi-tier ticketing and inventory
 - **Authentication Service:** Handles cross-platform user sessions
 - **Payment Service:** Integrates Stripe Connect for promoter payouts
+- **Event Analytics Service:** Real-time sales, scan, and payout reporting for organizers
+- **Role Management Service:** Organization hub with partner, promoter, and scanner roles
 
 This modular approach prevents circular dependencies and enables independent testing and maintenance of each system component.
 
-That early discipline paid off. What began as six services has grown to **more than 50 client-side services** and **40+ Cloud Function modules** covering payments, refunds, SMS, wallet passes, AI extraction, and analytics. That's over **115,000 lines of TypeScript** across the app and backend, all covered by an automated end-to-end test suite (Maestro) that runs through auth, event creation, scanning, refunds, and full regression flows.
+That early discipline paid off. What began as a handful of services has grown to **more than 50 client-side services** and **40+ Cloud Function modules** covering payments, refunds, SMS, wallet passes, AI extraction, and analytics. That's over **115,000 lines of TypeScript** across the app and backend, all covered by an automated end-to-end test suite (Maestro) that runs through auth, event creation, scanning, refunds, and full regression flows.
 
 ### Cross-Domain Web Architecture
 

@@ -286,6 +286,8 @@
                         <li>AI flyer extraction with Gemini via Genkit</li>
                         <li>SMS infrastructure with Telnyx</li>
                         <li>Apple &amp; Google Wallet pass generation</li>
+                        <li>Resend for emailing receipts and tickets</li>
+                        <li>PostHog product analytics and session replay</li>
                     </ul>
 
                     <img class="block__image" loading="lazy" decoding="async" src="/img/toktixFigma.webp" alt="TokTix Service Architecture Design - Figma wireframes showing the modular service structure and component relationships">
@@ -301,10 +303,12 @@
                         <li><strong>Ticket System Service:</strong> Manages multi-tier ticketing and inventory</li>
                         <li><strong>Authentication Service:</strong> Handles cross-platform user sessions</li>
                         <li><strong>Payment Service:</strong> Integrates Stripe Connect for promoter payouts</li>
+                        <li><strong>Event Analytics Service:</strong> Real-time sales, scan, and payout reporting for organizers</li>
+                        <li><strong>Role Management Service:</strong> Organization hub with partner, promoter, and scanner roles</li>
                     </ul>
                     <p>This modular approach prevents circular dependencies and enables independent testing and maintenance of each system component.</p>
 
-                    <p>That early discipline paid off. What began as six services has grown to <strong>more than 50 client-side services</strong> and <strong>40+ Cloud Function modules</strong> covering payments, refunds, SMS, wallet passes, AI extraction, and analytics. That's over <strong>115,000 lines of TypeScript</strong> across the app and backend, all covered by an automated end-to-end test suite (Maestro) that runs through auth, event creation, scanning, refunds, and full regression flows.</p>
+                    <p>That early discipline paid off. What began as a handful of services has grown to <strong>more than 50 client-side services</strong> and <strong>40+ Cloud Function modules</strong> covering payments, refunds, SMS, wallet passes, AI extraction, and analytics. That's over <strong>115,000 lines of TypeScript</strong> across the app and backend, all covered by an automated end-to-end test suite (Maestro) that runs through auth, event creation, scanning, refunds, and full regression flows.</p>
 
                     <img class="block__image" loading="lazy" decoding="async" src="/img/toktixAuthFlow.webp" alt="TokTix Authentication Flow - Cross-platform user session management between mobile app and web platform">
 
