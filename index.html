@@ -83,11 +83,22 @@
           "@context": "https://schema.org",
           "@type": "ItemList",
           "name": "Featured Projects",
-          "description": "Case studies showcasing product design and development work",
+          "description": "Case studies in product design and development",
           "itemListElement": [
             {
               "@type": "ListItem",
               "position": 1,
+              "item": {
+                "@type": "SoftwareApplication",
+                "name": "TokTix Event Ticketing App",
+                "url": "https://gabevelez.com/side-projects/toktix-ticketing-platform.html",
+                "description": "Two-sided event ticketing marketplace designed and built solo with AI-assisted development. Live on the App Store and Google Play with an active company pilot",
+                "applicationCategory": "BusinessApplication"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
               "item": {
                 "@type": "CreativeWork",
                 "name": "NYCNewYears.com Site Overhaul",
@@ -98,24 +109,13 @@
             },
             {
               "@type": "ListItem",
-              "position": 2,
-              "item": {
-                "@type": "CreativeWork",
-                "name": "AfterPromCentral Events Calendar",
-                "url": "https://gabevelez.com/case-studies/afterpromcentral-events-calendar.html",
-                "description": "Custom calendar plugin built less than 3 months. Boosted conversions and removed content errors for 20-30 seasonal events",
-                "keywords": ["Product Design", "Engineering"]
-              }
-            },
-            {
-              "@type": "ListItem",
               "position": 3,
               "item": {
                 "@type": "CreativeWork",
-                "name": "Integrate Design System Audit",
-                "url": "https://gabevelez.com/case-studies/integrate-design-system-audit.html",
-                "description": "Unified the design language of 3 companies. Reduced colors by 55%. Typography audit with full WCAG compliance in mind",
-                "keywords": ["Product Design", "Design Systems"]
+                "name": "Cutting the Path to Purchase from 3 Clicks to 1 - AfterPromCentral Events Calendar",
+                "url": "https://gabevelez.com/case-studies/afterpromcentral-events-calendar.html",
+                "description": "Custom WordPress plugin built in under 3 months that ended content errors across 20-30 seasonal events. The team reported conversions up 40% that season",
+                "keywords": ["Product Design", "Engineering"]
               }
             },
             {
@@ -123,32 +123,21 @@
               "position": 4,
               "item": {
                 "@type": "CreativeWork",
-                "name": "Integrate ABM Web Analytics",
-                "url": "https://gabevelez.com/case-studies/integrate-abm-web-analytics.html",
-                "description": "Built B2B web analytics from existing infrastructure. Drove 5% customer growth and sparked strategic Bombora partnership",
-                "keywords": ["Product Design", "B2B SaaS", "Analytics"]
+                "name": "Unifying 3 Companies into One Design Language - Integrate Design System Audit",
+                "url": "https://gabevelez.com/case-studies/integrate-design-system-audit.html",
+                "description": "Design system audit at Integrate after two acquisitions. Cut the color palette 55% with WCAG accessibility throughout",
+                "keywords": ["Product Design", "Design Systems"]
               }
-            }
-          ]
-        }
-        </script>
-
-        <script type="application/ld+json">
-        {
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          "name": "Side Projects",
-          "description": "Personal projects and passion work",
-          "itemListElement": [
+            },
             {
               "@type": "ListItem",
-              "position": 1,
+              "position": 5,
               "item": {
-                "@type": "SoftwareApplication",
-                "name": "TokTix Event Ticketing App",
-                "url": "https://gabevelez.com/side-projects/toktix-ticketing-platform.html",
-                "description": "Solo-built event ticketing platform with QR scanning, event management, and Stripe payments",
-                "applicationCategory": "BusinessApplication"
+                "@type": "CreativeWork",
+                "name": "Showing B2B Marketers What Google Analytics Couldn't - Integrate ABM Web Analytics",
+                "url": "https://gabevelez.com/case-studies/integrate-abm-web-analytics.html",
+                "description": "Account-level analytics for Integrate's ABM platform, built on the existing pixel. Drove 5% customer growth and sparked a Bombora intent data partnership",
+                "keywords": ["Product Design", "B2B SaaS", "Analytics"]
               }
             }
           ]
@@ -186,6 +175,23 @@
         <section class="cases">
             <h2 class="cases__title">Featured Projects</h2>
             <div class="cases__container">
+                <a class="card" href="side-projects/toktix-ticketing-platform.html">
+                    <picture>
+                        <source type="image/webp" media="(min-width: 1060px)" srcset="img/sideCard_TokTix@2x.webp 1x, img/sideCard_TokTix@3x.webp 2x" />
+                        <source type="image/webp" media="(min-width: 600px)" srcset="img/sideCard_TokTix@2x.webp" />
+                        <img class="card__image" loading="lazy" decoding="async" src="img/sideCard_TokTix.webp" srcset="img/sideCard_TokTix.webp 1x, img/sideCard_TokTix@2x.webp 2x" alt="TokTix Ticketing Platform">
+                    </picture>
+                    <div class="card__textarea">
+                        <div class="card__badges">
+                            <span class="card__badge">Product Design</span>
+                            <span class="card__badge">Engineering</span>
+                            <span class="card__badge">Solo Founder</span>
+                        </div>
+                        <h3 class="card__title">TokTix Event Ticketing App</h3>
+                        <p class="card__description">Two-sided marketplace that creates event web pages to sell tickets and scan them from your phone. Now live on iOS &amp; Android and in an active company pilot, designed and built entirely solo</p>
+                        <span class="card__button">View Project →</span>
+                    </div>
+                </a>
                 <a class="card" href="case-studies/nycnewyears-dot-com-site-overhaul.html">
                     <picture>
                     <source type="image/webp" media="(min-width: 1060px)" srcset="img/caseCard_nycnewyears-site@2x.webp 1x, img/caseCard_nycnewyears-site@3x.webp 2x" />
@@ -213,8 +219,8 @@
                             <span class="card__badge">Product Design</span>
                             <span class="card__badge">Engineering</span>
                         </div>
-                        <h3 class="card__title">AfterPromCentral Events Calendar</h3>
-                        <p class="card__description">Custom calendar plugin built less than 3 months. Boosted conversions and removed content errors for 20-30 seasonal events</p>
+                        <h3 class="card__title">Cutting the Path to Purchase from 3 Clicks to 1</h3>
+                        <p class="card__description">Custom WordPress plugin for AfterPromCentral built in under 3 months. Ended content errors for 20-30 seasonal events, with the team reporting conversions up 40%</p>
                         <span class="card__button">View Project →</span>
                     </div>
                 </a>
@@ -229,8 +235,8 @@
                             <span class="card__badge">Product Design</span>
                             <span class="card__badge">Design Systems</span>
                         </div>
-                        <h3 class="card__title">Integrate Design System Audit</h3>
-                        <p class="card__description">Unified the design language of 3 companies. Reduced colors by 55%. Typography audit with full WCAG compliance in mind</p>
+                        <h3 class="card__title">Unifying 3 Companies into One Design Language</h3>
+                        <p class="card__description">Design system audit at Integrate after two acquisitions. Cut the color palette 55% with WCAG accessibility throughout</p>
                         <span class="card__button">View Project →</span>
                     </div>
                 </a>
@@ -244,43 +250,8 @@
                         <div class="card__badges">
                             <span class="card__badge">Product Design</span>
                         </div>
-                        <h3 class="card__title">Integrate ABM Web Analytics</h3>
-                        <p class="card__description">Built B2B web analytics from existing infrastructure. Drove 5% customer growth and sparked strategic Bombora partnership</p>
-                        <span class="card__button">View Project →</span>
-                    </div>
-                </a>
-                <!-- <a class="card disabled" href="case-studies/integrate-asset-library-redesign.html">
-                    <p class="card__banner">Under Construction</p>
-                    <picture>
-                        <source type="image/webp" media="(min-width: 1060px)" srcset="img/caseStudy_IntegrateAssetLibrary.webp" />
-                        <source type="image/webp" media="(min-width: 600px)" srcset="img/caseStudy_IntegrateAssetLibrary@2x.webp" />
-                        <img class="card__image" loading="lazy" decoding="async" src="img/caseStudy_IntegrateAssetLibrary.webp" alt="Integrate Design System logo">
-                    </picture>
-                    <div class="card__textarea">
-                        <h3 class="card__title">Integrate Asset Library Redesign</h3>
-                        <p class="card__description">Redefining how Asset Management works so as to satisfy different customer use cases.</p>
-                    </div>
-                </a> -->
-            </div>
-        </section>
-
-        <section class="side-projects">
-            <h2 class="side-projects__title">Side Projects</h2>
-            <div class="side-projects__container">
-                <a class="card" href="side-projects/toktix-ticketing-platform.html">
-                    <picture>
-                        <source type="image/webp" media="(min-width: 1060px)" srcset="img/sideCard_TokTix@2x.webp 1x, img/sideCard_TokTix@3x.webp 2x" />
-                        <source type="image/webp" media="(min-width: 600px)" srcset="img/sideCard_TokTix@2x.webp" />
-                        <img class="card__image" loading="lazy" decoding="async" src="img/sideCard_TokTix.webp" srcset="img/sideCard_TokTix.webp 1x, img/sideCard_TokTix@2x.webp 2x" alt="TokTix Ticketing Platform">
-                    </picture>
-                    <div class="card__textarea">
-                        <div class="card__badges">
-                            <span class="card__badge">Product Design</span>
-                            <span class="card__badge">Engineering</span>
-                            <span class="card__badge">Solo Founder</span>
-                        </div>
-                        <h3 class="card__title">TokTix Event Ticketing App</h3>
-                        <p class="card__description">Two-sided marketplace that creates event web pages to sell tickets and scan them from your phone. Now live on iOS &amp; Android and in an active company pilot, designed and built entirely solo</p>
+                        <h3 class="card__title">Showing B2B Marketers What Google Analytics Couldn't</h3>
+                        <p class="card__description">Account-level analytics for Integrate's ABM platform, built on the existing pixel. Drove 5% customer growth and sparked a Bombora intent data partnership</p>
                         <span class="card__button">View Project →</span>
                     </div>
                 </a>
