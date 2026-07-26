@@ -33,27 +33,27 @@ In September 2024, I started working on what now I know as the TokTix Ticketing 
 
 ## My Role
 
-I served as Founder and sole creator of this project. Everything design & development is done by me, leveraging AI assistance throughout the development process.
+I served as Founder and sole creator of this project. Everything design & development is done by me, with AI assistance throughout the development process.
 
 ## Summary
 
-TokTix demonstrates comprehensive solo product development capability from initial concept through beta-ready deployment, showcasing full-stack mobile and web development expertise enhanced by modern AI-assisted development workflows.
+TokTix is a solo build that went from an idea to a live, in-market product. It ships as native iOS and Android apps and runs an active pilot with a real event company. I designed and built every piece of it, with AI-assisted development speeding up the work.
 
 - **Technical Scope:** React Native mobile app, Next.js web platform, and a Firebase backend with real-time features, Stripe Connect payments, AI flyer extraction through Gemini and Genkit, Telnyx SMS marketing, Apple and Google Wallet passes, and an automated end-to-end test suite
 - **Architecture Design:** Cross-platform service architecture with clean separation of concerns preventing typical solo project technical debt
 - **UX Philosophy:** "Sleek and simple" design approach prioritizing core user flows over feature bloat, competing with established platforms
 - **Solo Development:** Complete product lifecycle management including market research, technical architecture, mobile development, web platform, and deployment infrastructure
-- **Modern AI-Assisted Workflow:** Leveraging Claude, Cline, and other AI tools to accelerate development while maintaining code quality
+- **Modern AI-Assisted Workflow:** Claude, Cline, and other AI tools to speed up development without letting code quality slip
 
 ## The Challenge
 
-The project targets the nightlife event management market, where existing platforms like Posh, Luma, and Dice have adopted feature-heavy approaches that often overwhelm users. My goal was to prove that a single developer could architect and build a competitive platform by focusing on strategic simplicity and technical excellence, enabled by modern AI development tools.
+The project targets the nightlife event management market, where existing platforms like Posh, Luma, and Dice have adopted feature-heavy approaches that often overwhelm users. My goal was to prove that a single developer could architect and build a competitive platform by keeping the product simple and the engineering solid, with AI development tools making the solo build possible.
 
 Building a production-ready ticketing platform as a solo developer presents unique challenges that stretch across multiple domains of expertise:
 
 ### Technical Architecture Complexity
 
-The platform requires seamless integration between mobile and web experiences, real-time data synchronization, secure payment processing, and offline functionality for ticket scanning. Managing this complexity while maintaining code quality and security standards demands careful architectural planning and execution.
+The platform has to tie together mobile and web experiences, real-time data sync, secure payments, and offline ticket scanning. Keeping all of that working without letting code quality or security slip takes real architectural planning.
 
 ### UX Design Philosophy
 
@@ -65,7 +65,7 @@ Managing the entire development lifecycle alone meant learning to work effective
 
 ## Solution
 
-My approach centered on strategic technology choices and architectural decisions that would maximize development efficiency while building a scalable, maintainable platform, all enhanced by thoughtful AI tool integration.
+My approach came down to technology choices that would keep me moving fast without building something I couldn't maintain alone.
 
 ### Architecture Strategy
 
@@ -117,7 +117,7 @@ That early discipline paid off. What began as a handful of services has grown to
 
 ### Web Architecture
 
-One of the most complex challenges was implementing a web setup that provides optimal user experience while maintaining technical flexibility. Event pages originally lived on their own subdomain at events.toktix.com, which meant browser-specific handling for Safari to prevent redirect loops and shared authentication across domains. The platform recently consolidated everything under a single domain:
+One of the most complex challenges was a web setup that works well for ticket buyers while staying flexible behind the scenes. Event pages originally lived on their own subdomain at events.toktix.com, which meant browser-specific handling for Safari to prevent redirect loops and shared authentication across domains. The platform recently consolidated everything under a single domain:
 
 - **toktix.com:** Marketing site with contact forms and brand presence
 - **toktix.com/events:** Event-specific landing pages and checkout system
@@ -144,17 +144,17 @@ I adopted a "sleek and simple" design philosophy that prioritizes core user flow
 
 **React Native Mobile Development:** Built using Expo for rapid development and deployment flexibility. Implemented offline-capable ticket scanning, real-time Firestore listeners for live updates, and custom navigation flows that maintain state across complex user journeys.
 
-**Firebase Integration Strategy:** Chose Firebase for cost-efficient scaling and built-in real-time capabilities. Implemented comprehensive security rules, optimized Firestore queries for performance, and designed data models that support complex ticketing scenarios while maintaining query efficiency.
+**Firebase Integration Strategy:** Chose Firebase for cost-efficient scaling and built-in real-time capabilities. Wrote strict security rules, optimized Firestore queries for performance, and designed data models that support complex ticketing scenarios without slow queries.
 
-**Publishing System with Error Recovery:** Developed a robust publishing system that handles image optimization, data validation, and error recovery. The system includes progress tracking, exponential backoff retry logic, and clear user feedback throughout the publishing process.
+**Publishing System with Error Recovery:** Built a publishing system that handles image optimization, data validation, and error recovery. The system includes progress tracking, exponential backoff retry logic, and clear user feedback throughout the publishing process.
 
-**Payment Processing Integration:** Integrated Stripe Connect to enable direct payouts to event promoters while maintaining platform transaction visibility. Implemented secure webhook handling and comprehensive error management for payment failures. Automating the chargeback process is a work in progress, adding dispute tracking and fund recovery directly into the payment flow.
+**Payment Processing Integration:** Integrated Stripe Connect to enable direct payouts to event promoters while maintaining platform transaction visibility. Implemented secure webhook handling and error handling for payment failures. Automating the chargeback process is a work in progress, adding dispute tracking and fund recovery directly into the payment flow.
 
 ### Development Workflow and Tooling
 
-Established a comprehensive solo development workflow enhanced by AI assistance:
+My solo development workflow, built up over the course of the project:
 - TypeScript throughout for type safety and developer experience
-- Comprehensive documentation in markdown format for future reference
+- Markdown documentation for future reference
 - Obsidian vault as the project memory bank, organized into active context, solutions, learnings, and architecture docs
 - Custom Claude Code skills, slash commands, and specialized subagents that keep the harness properly in check, handling worktree management, PRD creation, testing, and deploys the same way every time
 - Service architecture that enables independent testing and maintenance
@@ -167,7 +167,7 @@ The platform integrates complex technical requirements while keeping the simplif
 
 ### Technical Achievements
 
-The platform represents a complete modern development stack implementation:
+What's live in the stack today:
 - Cross-platform mobile application with offline capabilities
 - Responsive web platform with SEO optimization
 - Real-time backend infrastructure with security compliance
@@ -206,7 +206,7 @@ Together, analytics, refunds, and role-based access have turned TokTix from a to
 
 ### Personal and Professional Growth
 
-Beyond the technical achievements, this project represents a significant evolution in my capabilities as a developer. The experience of building a complete platform from concept to near-launch, while learning to effectively leverage AI tools, has fundamentally expanded what I can accomplish as a solo developer.
+Beyond the technical achievements, this project changed what I can take on as a developer. Building a complete platform from concept to launch, while learning to work well with AI tools, has expanded what I can accomplish solo.
 
 The combination of real-world industry experience, design background, and AI-enhanced development capabilities positions me uniquely in the modern development landscape - able to identify market needs, design compelling solutions, and implement them efficiently using cutting-edge tools and workflows.
 

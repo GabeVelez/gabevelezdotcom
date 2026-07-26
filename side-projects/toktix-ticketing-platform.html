@@ -93,7 +93,7 @@
                     <h1 class="casestudy__title">TokTix Event Ticketing App</h1>
                     <h2 class="casestudy__dates"><a href="https://www.toktix.com/?utm_source=gabevelez.com&amp;utm_medium=portfolio&amp;utm_campaign=toktix-casestudy&amp;utm_content=hero-visit" target="_blank" rel="noopener noreferrer">Visit <img src="/img/arrowupright.svg" alt="" style="display: inline; width: 0.75em; height: 0.75em; vertical-align: baseline;"></a> <span class="casestudy__date">September 2024 - Present</span></h2>
                     <aside class="casestudy__tldr">
-                        Solo-designed and engineered a complete mobile-first event ticketing application from concept to production, leveraging AI-assisted development. TokTix now ships as a React Native iOS and Android app and is running an active pilot with a real event company. It went from a basic MVP to a more robust product: real-time analytics, in-app refunds, AI flyer scanning, and roles from an organizational and event-based perspective.
+                        Solo-designed and engineered a complete mobile-first event ticketing application from concept to production, using AI-assisted development. TokTix now ships as a React Native iOS and Android app and is running an active pilot with a real event company. It went from a basic MVP to a full product: real-time analytics, in-app refunds, AI flyer scanning, and roles from an organizational and event-based perspective.
                     </aside>
                     <div class="casestudy__stores">
                         <a class="casestudy__store" href="https://apps.apple.com/us/app/toktix-ai-powered-events/id6749721306?ct=gabevelez-casestudy" target="_blank" rel="noopener noreferrer"><img src="/img/app-store-badge-uniform.svg" alt="Download on the App Store" width="188" height="63" loading="eager"></a>
@@ -189,27 +189,27 @@
             <section class="block block__gray">
                 <div class="block__container">
                     <h3 class="block__title">Summary</h3>
-                    <p>TokTix demonstrates comprehensive solo product development capability from initial concept through a live, in-market product. Now shipping as native iOS and Android apps and running an active pilot with a real event company, the platform showcases full-stack mobile and web development expertise enhanced by modern AI-assisted development workflows. Real-time analytics, in-app refunds, multi-organization workspaces, and role-based access have all shipped to production, growing TokTix from a ticketing MVP into full event operations infrastructure. Chargeback dispute protection is the current build.</p>
+                    <p>TokTix is a solo build that went from an idea to a live, in-market product. It ships as native iOS and Android apps and runs an active pilot with a real event company. I designed and built every piece of it, with AI-assisted development speeding up the work. Real-time analytics, in-app refunds, multi-organization workspaces, and role-based access have all shipped to production, growing TokTix from a ticketing MVP into full event operations infrastructure. Chargeback dispute protection is the current build.</p>
 
                     <ul>
                         <li><strong>Technical Scope:</strong> React Native mobile app, Next.js web platform, and a Firebase backend with real-time features, Stripe Connect payments, AI flyer extraction through Gemini and Genkit, Telnyx SMS marketing, Apple and Google Wallet passes, and an automated end-to-end test suite</li>
                         <li><strong>Current Status:</strong> Beta launched August 2025; now live as native iOS and Android apps in an active pilot with a real event company. Analytics, refunds, organizations, and company/event-based roles are shipped; chargeback dispute protection is in development</li>
                         <li><strong>Architecture Design:</strong> Cross-platform service architecture with clean separation of concerns preventing typical solo project technical debt</li>
                         <li><strong>UX Philosophy:</strong> "Sleek and simple" design approach prioritizing core user flows over feature bloat, competing with established platforms like Posh, Luma, and Dice</li>
-                        <li><strong>Solo Development:</strong> Complete product lifecycle management including market research, technical architecture, mobile development, web platform, and deployment infrastructure</li>
-                        <li><strong>Modern AI-Assisted Workflow:</strong> Leveraging Claude Code, Claude Projects, and AI coding assistants to accelerate development while maintaining code quality</li>
+                        <li><strong>Solo Development:</strong> Everything from market research and technical architecture to mobile, web, and deployment infrastructure</li>
+                        <li><strong>Modern AI-Assisted Workflow:</strong> Claude Code, Claude Projects, and AI coding assistants to speed up development without letting code quality slip</li>
                     </ul>
                 </div>
             </section>
             <section class="block block__red">
                 <div class="block__container">
                     <h3 class="block__title">The Challenge</h3>
-                    <p>The project targets the nightlife event management market, where existing platforms like Posh, Luma, and Dice have adopted feature-heavy approaches that often overwhelm users. My goal was to prove that a single developer could architect and build a competitive platform by focusing on strategic simplicity and technical excellence, enabled by modern AI development tools.</p>
+                    <p>The project targets the nightlife event management market, where existing platforms like Posh, Luma, and Dice have adopted feature-heavy approaches that often overwhelm users. My goal was to prove that a single developer could architect and build a competitive platform by keeping the product simple and the engineering solid, with AI development tools making the solo build possible.</p>
 
                     <p>Building a production-ready ticketing platform as a solo developer presents unique challenges that stretch across multiple domains of expertise:</p>
 
                     <h4 class="block__subtitle">Technical Architecture Complexity</h4>
-                    <p>The platform requires seamless integration between mobile and web experiences, real-time data synchronization, secure payment processing, and offline functionality for ticket scanning. Managing this complexity while maintaining code quality and security standards demands careful architectural planning and execution.</p>
+                    <p>The platform has to tie together mobile and web experiences, real-time data sync, secure payments, and offline ticket scanning. Keeping all of that working without letting code quality or security slip takes real architectural planning.</p>
 
                     <h4 class="block__subtitle">UX Design Philosophy</h4>
                     <p>Competing platforms suffer from feature bloat that complicates core user flows. The challenge was designing an interface that maintains simplicity while supporting complex behind-the-scenes functionality like multi-tier ticket management, event publishing workflows, and cross-platform authentication.</p>
@@ -219,7 +219,7 @@
             <section class="block block__teal">
                 <div class="block__container">
                     <h3 class="block__title">Solution</h3>
-                    <p>My approach centered on strategic technology choices and architectural decisions that would maximize development efficiency while building a scalable, maintainable platform.</p>
+                    <p>My approach came down to technology choices that would keep me moving fast without building something I couldn't maintain alone.</p>
 
                     <h4 class="block__subtitle">Architecture Strategy</h4>
                     <p>I designed a dual-platform architecture that separates concerns while maintaining integration:</p>
@@ -285,7 +285,7 @@
                     <p class="block__text--small">Diagramming the mobile authentication userflow.</p>
 
                     <h4 class="block__subtitle">Web Architecture</h4>
-                    <p>One of the most complex challenges was implementing a web setup that provides optimal user experience while maintaining technical flexibility. Event pages originally lived on their own subdomain at events.toktix.com, which meant browser-specific handling for Safari to prevent redirect loops and shared authentication across domains. The platform recently consolidated everything under a single domain:</p>
+                    <p>One of the most complex challenges was a web setup that works well for ticket buyers while staying flexible behind the scenes. Event pages originally lived on their own subdomain at events.toktix.com, which meant browser-specific handling for Safari to prevent redirect loops and shared authentication across domains. The platform recently consolidated everything under a single domain:</p>
                     <ul>
                         <li><strong>toktix.com:</strong> Marketing site with contact forms and brand presence</li>
                         <li><strong>toktix.com/events:</strong> Event-specific landing pages and checkout system</li>
@@ -314,15 +314,15 @@
                     <h4 class="block__subtitle">Technical Implementation Highlights</h4>
                     <p><strong>React Native Mobile Development:</strong> Built using Expo for rapid development and deployment flexibility. Implemented offline-capable ticket scanning, real-time Firestore listeners for live updates, and custom navigation flows that maintain state across complex user journeys.</p>
 
-                    <p><strong>Firebase Integration Strategy:</strong> Chose Firebase for cost-efficient scaling and built-in real-time capabilities. Implemented comprehensive security rules, optimized Firestore queries for performance, and designed data models that support complex ticketing scenarios while maintaining query efficiency.</p>
+                    <p><strong>Firebase Integration Strategy:</strong> Chose Firebase for cost-efficient scaling and built-in real-time capabilities. Wrote strict security rules, optimized Firestore queries for performance, and designed data models that support complex ticketing scenarios without slow queries.</p>
 
-                    <p><strong>Publishing System with Error Recovery:</strong> Developed a robust publishing system that handles image optimization, data validation, and error recovery. The system includes progress tracking, exponential backoff retry logic, and clear user feedback throughout the publishing process.</p>
+                    <p><strong>Publishing System with Error Recovery:</strong> Built a publishing system that handles image optimization, data validation, and error recovery. The system includes progress tracking, exponential backoff retry logic, and clear user feedback throughout the publishing process.</p>
 
                     <img class="block__image" loading="lazy" decoding="async" src="/img/toktixDraftPublishFlow.webp" alt="TokTix Draft and Publishing Flow - Event creation workflow showing draft system, validation steps, and error recovery processes">
 
                     <p class="block__text--small">Event publishing workflow with draft system, validation, and error recovery.</p>
 
-                    <p><strong>Payment Processing Integration:</strong> Integrated Stripe Connect to enable direct payouts to event promoters while maintaining platform transaction visibility. Implemented secure webhook handling and comprehensive error management for payment failures. Automating the chargeback process is a work in progress, adding dispute tracking and fund recovery directly into the payment flow.</p>
+                    <p><strong>Payment Processing Integration:</strong> Integrated Stripe Connect to enable direct payouts to event promoters while maintaining platform transaction visibility. Implemented secure webhook handling and error handling for payment failures. Automating the chargeback process is a work in progress, adding dispute tracking and fund recovery directly into the payment flow.</p>
 
                     <h4 class="block__subtitle">AI-Assisted Development Journey</h4>
                     <p>The development journey became a fascinating exploration of AI-assisted coding tools and workflows, evolving as I learned what worked best for this project:</p>
@@ -346,10 +346,10 @@
                     <p class="block__text--small">Claude Code time is here.</p>
 
                     <h4 class="block__subtitle">Development Workflow and Tooling</h4>
-                    <p>Established a comprehensive solo development workflow enhanced by AI assistance:</p>
+                    <p>My solo development workflow, built up over the course of the project:</p>
                     <ul>
                         <li>TypeScript throughout for type safety and developer experience</li>
-                        <li>Comprehensive documentation in markdown format for future reference</li>
+                        <li>Markdown documentation for future reference</li>
                         <li>Obsidian vault as the project memory bank, organized into active context, solutions, learnings, and architecture docs</li>
                         <li>Custom Claude Code skills, slash commands, and specialized subagents that keep the harness properly in check, handling worktree management, PRD creation, testing, and deploys the same way every time</li>
                         <li>Service architecture that enables independent testing and maintenance</li>
@@ -418,7 +418,7 @@
                     <p class="block__text--small">Toktix homepage hero AI video</p>
 
                     <h4 class="block__subtitle">Technical Achievements</h4>
-                    <p>The platform represents a complete modern development stack implementation:</p>
+                    <p>What's live in the stack today:</p>
                     <ul>
                         <li>Cross-platform mobile application with offline capabilities</li>
                         <li>Responsive web platform with SEO optimization</li>
@@ -432,7 +432,7 @@
                     <picture>
                         <source type="image/webp" media="(min-width: 600px)" srcset="/img/toktixDeck-5@3x.webp" />
                         <source type="image/webp" media="(max-width: 599px)" srcset="/img/toktixDeck-5.webp 1x, /img/toktixDeck-5@2x.webp 2x" />
-                        <img class="block__image" loading="lazy" decoding="async" src="/img/toktixDeck-5.webp" alt="TokTix Platform Readiness - Comprehensive overview of development achievements and beta launch preparation">
+                        <img class="block__image" loading="lazy" decoding="async" src="/img/toktixDeck-5.webp" alt="TokTix Platform Readiness - Overview of development achievements and beta launch preparation">
                     </picture>
 
                     <p class="block__text--small">Layout from the Pitch Deck - ask for access :)</p>
