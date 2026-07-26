@@ -336,6 +336,18 @@ footer {
     display: block;
     margin:.25rem 0 1.25rem;
 }
+.hero__availability {
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  color: var(--gabe-gold);
+}
+.hero__cta {
+  margin-top: .75rem;
+  margin-bottom: .5rem;
+  align-self: flex-start;
+}
 
 /* Homepage__casestudy */
 
@@ -644,6 +656,56 @@ footer {
 .casestudy__dates a:hover {
   background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
   color: var(--gabe-black);
+}
+
+.casestudy__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  padding: 0.25rem 0.3rem 0.08rem;
+  background-color: var(--gabe-white);
+  color: var(--gabe-black);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.casestudy__cta:hover {
+  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
+  color: var(--gabe-black);
+}
+
+.casestudy__cta-note {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.casestudy__stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.casestudy__store {
+  display: inline-flex;
+  transition: all 0.3s ease;
+}
+
+.casestudy__store img {
+  display: block;
+  width: 188px;
+  height: 63px;
+}
+
+.casestudy__store:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
 .casestudy__image {
