@@ -651,22 +651,20 @@ footer {
   align-items: center;
   gap: 0.4rem;
   margin-top: 1.5rem;
-  padding: 0.6rem 1.1rem;
-  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
+  padding: 0.25rem 0.3rem 0.08rem;
+  background-color: var(--gabe-white);
   color: var(--gabe-black);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.25rem;
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 0.05rem;
-  border-radius: 0.35rem;
   transition: all 0.3s ease;
 }
 
 .casestudy__cta:hover {
-  background: var(--gabe-white);
-  transform: translateY(-2px);
+  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
+  color: var(--gabe-black);
 }
 
 .casestudy__cta-note {
