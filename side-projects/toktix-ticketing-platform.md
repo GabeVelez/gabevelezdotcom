@@ -224,25 +224,31 @@ The project validates sustainable solo development practices:
 
 ### Where It Is Today
 
-What started as a scanning MVP is now a shipping product. TokTix runs as native apps on both **iOS and Android**, backed by the Next.js web platform and Firebase infrastructure. After the August 2025 beta, the platform moved from a loose pool of beta testers into an **active pilot with a real event company** — real promoters, real doors, and real ticket buyers moving through the system at their events.
+What started as a scanning MVP is now a shipping product. TokTix runs as native apps on both **iOS and Android** — the Android app launched on Google Play in July 2026 — backed by the Next.js web platform and Firebase infrastructure. After the August 2025 beta, the platform moved from a loose pool of beta testers into an **active pilot with a real event company** — real promoters, real doors, and real ticket buyers moving through the system at their events.
 
-Running a genuine pilot changed the priorities. Getting a single company all the way through their event lifecycle — publishing, selling, scanning, and getting paid — surfaced exactly what a ticketing platform needs to be trusted with other people's money and other people's guests. That feedback is now driving the next phase of the build.
+Running a genuine pilot changed the priorities. Getting a single company all the way through their event lifecycle — publishing, selling, scanning, and getting paid — surfaced exactly what a ticketing platform needs to be trusted with other people's money and other people's guests. That feedback drove the features that shipped next.
 
 ### Expanding the Platform
 
-With the pilot live, TokTix is growing from a solid ticketing MVP into a full event operations platform. The current build-out focuses on the systems a real business needs to run events at scale and to bring on more companies after this first pilot partner:
+With the pilot live, TokTix has grown from a solid ticketing MVP into a full event operations platform. The systems a real business needs to run events at scale — money handling, team permissions, marketing — have moved from roadmap to production:
 
 **Money & Trust**
-- **Analytics:** Real-time dashboards for sales, scans, and attendance so promoters can see how an event is performing as it happens.
-- **Refunds:** First-class refund handling built directly into the ticket and payment flow, so promoters can make buyers whole without leaving the platform.
-- **Chargebacks:** Tooling to surface, track, and respond to payment disputes through Stripe — protecting both the platform and the promoters running events on it.
+- **Analytics (shipped):** Real-time event dashboards — sales timelines, ticket-tier breakdowns, and net payout tracking — so promoters can see how an event is performing as it happens.
+- **Refunds (shipped):** First-class refund handling built directly into the ticket and payment flow, with per-ticket refunds processed through Stripe so promoters can make buyers whole without leaving the platform.
+- **Chargebacks (in development):** The current build — automated dispute handling through Stripe that tracks chargebacks in a dedicated ledger and recoups funds, protecting both the platform and the promoters running events on it.
 
-**Organizations & Roles**
-- **Organizations:** Companies get their own workspace, with their events, staff, and payouts grouped under one roof.
-- **Company roles:** Organization-wide permissions — owners, admins, and staff — that control who can create events, view finances, and manage the team.
-- **Event-based roles:** Granular, per-event access so the right people (door staff, scanners, promoters) get exactly the access they need for a specific event and nothing more.
+**Organizations & Roles** (all live in production)
+- **Organizations:** Companies get their own workspace — events, staff, branding, and their own Stripe payout account grouped under one roof, with support for owning multiple organizations.
+- **Company roles:** Organization-wide permissions — owners and organizers — that control who can create events, view finances, and manage the team, enforced from the UI all the way down to the database security rules.
+- **Event-based roles:** Granular, per-event access — partners, scanners, and promoters — so the right people get exactly the access they need for a specific event and nothing more: door staff can scan, promoters get link-based attribution and commission tracking without seeing guest data.
 
-Together, analytics, refunds, chargebacks, and role-based access turn TokTix from a tool one person uses into infrastructure a whole company can run on — the foundation for expanding beyond this first pilot to more event organizations.
+**Beyond Ticketing**
+- **AI flyer scanning:** The OCR prototype from the early days is now a production feature — snap a photo of an event flyer and AI extracts the date, venue, tiers, and details into a drafted event.
+- **SMS marketing:** A paid subscription tier that gives organizers a dedicated phone number, two-way text inbox, and campaign sending — with opt-out consent, quiet hours, and content compliance built in from day one.
+- **Wallet passes:** Tickets save straight to Apple Wallet and Google Wallet.
+- **WordPress embeds:** An embeddable checkout widget so organizers can sell tickets from their own websites, with sales flowing into their own analytics.
+
+Together, analytics, refunds, and role-based access have turned TokTix from a tool one person uses into infrastructure a whole company can run on — the foundation for expanding beyond this first pilot to more event organizations.
 
 ### Platform Readiness
 
@@ -256,7 +262,7 @@ Beyond the technical achievements, this project represents a significant evoluti
 
 The combination of real-world industry experience, design background, and AI-enhanced development capabilities positions me uniquely in the modern development landscape - able to identify market needs, design compelling solutions, and implement them efficiently using cutting-edge tools and workflows.
 
-Product is live in production — native iOS and Android apps launched in beta in August 2025 and now running an active pilot with a real event company, with analytics, refunds, chargebacks, and organization/company/event-based roles in active development.
+Product is live in production — native iOS and Android apps launched in beta in August 2025 and now running an active pilot with a real event company. Analytics, refunds, organizations, company/event-based roles, AI flyer scanning, and SMS marketing are all shipped; chargeback dispute protection and automated promoter payouts are in active development.
 
 ---
 

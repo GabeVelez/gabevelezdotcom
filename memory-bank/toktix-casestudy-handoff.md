@@ -85,15 +85,29 @@ permission prompt** — so the code was never reviewed.
 - `TokTix/toktix-memory` (may hold product memory-bank / context docs)
 - `TokTix/toktix-webadmin`, `toktix-wp`, `toktix-slides`, `toktix-remotion`, `toktix-faith`, `flyer-ai-recognition`
 
-**Next-session TODO:**
-1. Add `TokTix/toktix-mobile` (read access) via `add_repo` and clone it; approve the prompt.
-2. Review recent history (commits / CHANGELOG / memory-bank) for what's actually
-   shipped vs in-progress on: **analytics, refunds, chargebacks, organizations,
-   company roles, event-based roles**, plus AI OCR flyer extraction.
-3. Correct/strengthen the "Expanding the Platform" + Results sections in
-   `side-projects/toktix-ticketing-platform.html` (and mirror in the `.md`) so the
-   claims match reality. Distinguish **shipped** from **in development**.
-4. Commit + push to `claude/talktick-case-study-updates-d4pwvx`.
+**Next-session TODO:** ✅ **DONE 2026-07-25** (local session with direct access to
+`~/Projects/toktix/toktix-mobile` and `toktix-memory`). Verified status via code +
+git-history audit of `toktix-mobile` main (`d7fd6e5ae`, v1.4.3) and the
+`toktix-memory` docs:
+- **SHIPPED:** analytics (EventAnalytics dashboards, ungated 07-05), refunds
+  (full in-app flow via `cancelTickets`), organizations (multi-org + per-org
+  Stripe Connect, 07-18), company roles (owner/organizer, admin/member retired),
+  event roles (partner/scanner/promoter), FAITH AI flyer OCR (live since ~Jan '26),
+  toktixPRO SMS marketing tier, Apple/Google Wallet passes, WordPress embed widget.
+- **IN DEVELOPMENT:** chargebacks only — dispute-recoupment on unmerged PR #2294,
+  flag-gated off; design doc dated 07-25. Promoter *automated payouts* also
+  flag-gated off (commission tracking is live).
+- Case study HTML + MD updated accordingly: "Expanding the Platform" reframed from
+  "current build-out" to shipped-vs-in-development, added "Beyond Ticketing"
+  subsection (FAITH, SMS, wallet passes, WP embeds), fixed role names
+  (owner/organizer, partner/scanner/promoter), updated Summary/Results/Status,
+  JSON-LD description. Android Play launch date is **2026-07-22** (added to
+  "Where It Is Today" as "launched on Google Play in July 2026").
+- **Deliberately NOT added:** pilot identity or revenue/ticket metrics ($34K /
+  618 tickets per 07-24 Stripe pull) — pilot is the user's employer
+  (AfterPromCentral); internal docs say public citation needs their leadership's
+  permission. Kept anonymous "real event company" framing. Ask user before ever
+  adding numbers.
 
 ### B. Verify Android public availability
 Web search at handoff time suggested Android was "coming soon"; the **user
