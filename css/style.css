@@ -684,23 +684,18 @@ footer {
 
 .casestudy__store {
   display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.5rem 0.9rem;
-  border: 1px solid var(--gabe-gold);
-  color: var(--gabe-white);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.03rem;
-  border-radius: 0.35rem;
   transition: all 0.3s ease;
 }
 
+.casestudy__store img {
+  display: block;
+  width: 188px;
+  height: 63px;
+}
+
 .casestudy__store:hover {
-  background: var(--gabe-gold);
-  color: var(--gabe-black);
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
 .casestudy__image {
