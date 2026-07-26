@@ -106,7 +106,7 @@ Mobile App (React Native + Expo)
 └── Offline-capable operations
 
 Web Platform (Next.js + TypeScript)
-├── Event landing pages (events.toktix.com)
+├── Event landing pages (toktix.com/events)
 ├── Checkout and payment processing
 ├── Marketing site (toktix.com)
 └── SEO-optimized event discovery
@@ -141,14 +141,14 @@ This modular approach prevents circular dependencies and enables independent tes
 
 That early discipline paid off. What began as a handful of services has grown to **more than 50 client-side services** and **40+ Cloud Function modules** covering payments, refunds, SMS, wallet passes, AI extraction, and analytics. That's over **115,000 lines of TypeScript** across the app and backend, all covered by an automated end-to-end test suite (Maestro) that runs through auth, event creation, scanning, refunds, and full regression flows.
 
-### Cross-Domain Web Architecture
+### Web Architecture
 
-One of the most complex challenges was implementing a cross-domain setup that provides optimal user experience while maintaining technical flexibility:
+One of the most complex challenges was implementing a web setup that provides optimal user experience while maintaining technical flexibility. Event pages originally lived on their own subdomain at events.toktix.com, which meant browser-specific handling for Safari to prevent redirect loops and shared authentication across domains. The platform recently consolidated everything under a single domain:
 
 - **toktix.com:** Marketing site with contact forms and brand presence
-- **events.toktix.com:** Event-specific landing pages and checkout system
+- **toktix.com/events:** Event-specific landing pages and checkout system
 
-The architecture includes browser-specific handling for Safari to prevent redirect loops, shared authentication across domains, and optimized page generation for SEO performance.
+Moving event pages from the subdomain to toktix.com/events simplified authentication, kept all SEO authority on one domain, and removed a whole class of cross-domain redirect issues, while keeping the optimized page generation for SEO performance.
 
 ### UX Design Philosophy
 

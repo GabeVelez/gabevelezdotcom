@@ -268,7 +268,7 @@
                         <div>
                             <p><strong>Web Platform (Next.js + TypeScript):</strong></p>
                             <ul>
-                                <li>Event landing pages (events.toktix.com)</li>
+                                <li>Event landing pages (toktix.com/events)</li>
                                 <li>Checkout and payment processing</li>
                                 <li>Marketing site (toktix.com)</li>
                                 <li>SEO-optimized event discovery</li>
@@ -314,13 +314,13 @@
 
                     <p class="block__text--small">Diagraming the mobile authentication userflow.</p>
 
-                    <h4 class="block__subtitle">Cross-Domain Web Architecture</h4>
-                    <p>One of the most complex challenges was implementing a cross-domain setup that provides optimal user experience while maintaining technical flexibility:</p>
+                    <h4 class="block__subtitle">Web Architecture</h4>
+                    <p>One of the most complex challenges was implementing a web setup that provides optimal user experience while maintaining technical flexibility. Event pages originally lived on their own subdomain at events.toktix.com, which meant browser-specific handling for Safari to prevent redirect loops and shared authentication across domains. The platform recently consolidated everything under a single domain:</p>
                     <ul>
                         <li><strong>toktix.com:</strong> Marketing site with contact forms and brand presence</li>
-                        <li><strong>events.toktix.com:</strong> Event-specific landing pages and checkout system</li>
+                        <li><strong>toktix.com/events:</strong> Event-specific landing pages and checkout system</li>
                     </ul>
-                    <p>The architecture includes browser-specific handling for Safari to prevent redirect loops, shared authentication across domains, and optimized page generation for SEO performance.</p>
+                    <p>Moving event pages from the subdomain to toktix.com/events simplified authentication, kept all SEO authority on one domain, and removed a whole class of cross-domain redirect issues, while keeping the optimized page generation for SEO performance.</p>
 
                     <h4 class="block__subtitle">UX Design Philosophy</h4>
                     <p>I adopted a "sleek and simple" design philosophy that prioritizes core user flows over feature abundance:</p>
