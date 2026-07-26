@@ -37,7 +37,7 @@ I served as Founder and sole creator of this project. Everything design & develo
 
 TokTix demonstrates comprehensive solo product development capability from initial concept through beta-ready deployment, showcasing full-stack mobile and web development expertise enhanced by modern AI-assisted development workflows.
 
-- **Technical Scope:** React Native mobile app, Next.js web platform, Firebase backend with real-time features and Stripe integration
+- **Technical Scope:** React Native mobile app, Next.js web platform, and a Firebase backend with real-time features, Stripe Connect payments, AI flyer extraction through Gemini and Genkit, Telnyx SMS marketing, Apple and Google Wallet passes, and an automated end-to-end test suite
 - **Architecture Design:** Cross-platform service architecture with clean separation of concerns preventing typical solo project technical debt
 - **UX Philosophy:** "Sleek and simple" design approach prioritizing core user flows over feature bloat, competing with established platforms
 - **Solo Development:** Complete product lifecycle management including market research, technical architecture, mobile development, web platform, and deployment infrastructure
