@@ -1,0 +1,27 @@
+# Gabe Velez - Senior Product Designer That Ships
+
+> Portfolio of Gabe Velez, a Senior Product Designer based in Queens, New York
+> who builds what he designs. Ticketing platforms, design systems, and B2B
+> analytics. Over 10 years of shipping real products.
+
+## Case Studies
+
+- [NYCNewYears.com Site Overhaul](https://gabevelez.com/case-studies/nycnewyears-dot-com-site-overhaul.html): Ground-up rebuild of a flagship New Year's Eve ticketing site. The first full season on the new site grew ticket revenue 152% year over year and more than doubled conversion.
+- [AfterPromCentral Events Calendar](https://gabevelez.com/case-studies/afterpromcentral-events-calendar.html): Custom WordPress calendar plugin built in under 3 months that removed content errors and boosted conversions for 20-30 seasonal events.
+- [Integrate Design System Audit](https://gabevelez.com/case-studies/integrate-design-system-audit.html): Unified the design language of 3 acquired companies. Reduced colors 55% with WCAG accessibility throughout, delivered as Figma and Storybook libraries.
+- [Integrate ABM Web Analytics](https://gabevelez.com/case-studies/integrate-abm-web-analytics.html): Account-level B2B web analytics dashboard built on existing pixel infrastructure, used by customers like Microsoft and Cloudflare.
+
+## Side Projects
+
+- [TokTix Event Ticketing App](https://gabevelez.com/side-projects/toktix-ticketing-platform.html): Two-sided event ticketing marketplace designed and engineered solo with AI-assisted development. Live on the App Store and Google Play, running an active pilot with a real event company.
+
+## About
+
+- [About Gabe](https://gabevelez.com/about.html): Background, career history, and how to get in touch.
+- [Homepage](https://gabevelez.com/): Featured projects and testimonials.
+
+## Contact
+
+- Email: gabe.velez@gmail.com
+- LinkedIn: https://www.linkedin.com/in/gabevelez/
+- GitHub: https://github.com/GabeVelez

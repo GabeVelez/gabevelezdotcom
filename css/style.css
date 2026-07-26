@@ -336,6 +336,18 @@ footer {
     display: block;
     margin:.25rem 0 1.25rem;
 }
+.hero__availability {
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  color: var(--gabe-gold);
+}
+.hero__cta {
+  margin-top: .75rem;
+  margin-bottom: .5rem;
+  align-self: flex-start;
+}
 
 /* Homepage__casestudy */
 

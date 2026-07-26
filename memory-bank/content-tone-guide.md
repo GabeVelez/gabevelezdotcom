@@ -103,7 +103,9 @@ Also watch for **AI sentence shapes**, not just words:
   action").
 - Store links keep their tracking (`ct=` for the App Store, `referrer=` UTM for
   Google Play, `utm_*` with per-placement `utm_content` for site links).
-- Keep the HTML case study and its `.md` mirror in sync when editing either.
+- The HTML case study is the single source of truth. No `.md` mirrors (the old
+  TokTix mirror now lives in `memory-bank/toktix-casestudy-source.md` as a
+  draft). Machine readability comes from clean HTML + JSON-LD + `/llms.txt`.
 - Image captions are short and human ("Claude Code time is here." is the bar).
 
 ## 6. Review checklist before shipping copy
