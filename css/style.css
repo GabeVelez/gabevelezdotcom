@@ -646,6 +646,35 @@ footer {
   color: var(--gabe-black);
 }
 
+.casestudy__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.1rem;
+  background: linear-gradient(45deg, rgba(224,170,62,1) 0%, rgba(249,242,149,1) 100%);
+  color: var(--gabe-black);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  border-radius: 0.35rem;
+  transition: all 0.3s ease;
+}
+
+.casestudy__cta:hover {
+  background: var(--gabe-white);
+  transform: translateY(-2px);
+}
+
+.casestudy__cta-note {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .casestudy__image {
   object-fit: contain;
   width: 100%;

@@ -1,5 +1,7 @@
 # TokTix Ticketing Platform
-*September 2024 - June 2025*
+*September 2024 - Present*
+
+**Live now:** Native iOS and Android apps, running an active pilot with a real event company. See it at [toktix.com](https://www.toktix.com/).
 
 ## The Origin Story
 
@@ -220,9 +222,31 @@ The project validates sustainable solo development practices:
 - Strategic technology choices maximize development velocity
 - Clean architecture patterns support long-term maintainability
 
+### Where It Is Today
+
+What started as a scanning MVP is now a shipping product. TokTix runs as native apps on both **iOS and Android**, backed by the Next.js web platform and Firebase infrastructure. After the August 2025 beta, the platform moved from a loose pool of beta testers into an **active pilot with a real event company** — real promoters, real doors, and real ticket buyers moving through the system at their events.
+
+Running a genuine pilot changed the priorities. Getting a single company all the way through their event lifecycle — publishing, selling, scanning, and getting paid — surfaced exactly what a ticketing platform needs to be trusted with other people's money and other people's guests. That feedback is now driving the next phase of the build.
+
+### Expanding the Platform
+
+With the pilot live, TokTix is growing from a solid ticketing MVP into a full event operations platform. The current build-out focuses on the systems a real business needs to run events at scale and to bring on more companies after this first pilot partner:
+
+**Money & Trust**
+- **Analytics:** Real-time dashboards for sales, scans, and attendance so promoters can see how an event is performing as it happens.
+- **Refunds:** First-class refund handling built directly into the ticket and payment flow, so promoters can make buyers whole without leaving the platform.
+- **Chargebacks:** Tooling to surface, track, and respond to payment disputes through Stripe — protecting both the platform and the promoters running events on it.
+
+**Organizations & Roles**
+- **Organizations:** Companies get their own workspace, with their events, staff, and payouts grouped under one roof.
+- **Company roles:** Organization-wide permissions — owners, admins, and staff — that control who can create events, view finances, and manage the team.
+- **Event-based roles:** Granular, per-event access so the right people (door staff, scanners, promoters) get exactly the access they need for a specific event and nothing more.
+
+Together, analytics, refunds, chargebacks, and role-based access turn TokTix from a tool one person uses into infrastructure a whole company can run on — the foundation for expanding beyond this first pilot to more event organizations.
+
 ### Platform Readiness
 
-TokTix is currently 95% complete and scheduled for June 2025 beta launch with real event promoters. The platform demonstrates production-ready quality across mobile applications, web infrastructure, and backend systems.
+TokTix launched in beta in August 2025 and is now live as native iOS and Android apps, running an active pilot with a real event company in production. The platform demonstrates production-ready quality across mobile applications, web infrastructure, and backend systems.
 
 The project showcases the ability to independently architect, develop, and deploy complex software systems while maintaining high standards for user experience, code quality, and technical excellence - all enhanced by thoughtful integration of AI development tools.
 
@@ -232,7 +256,7 @@ Beyond the technical achievements, this project represents a significant evoluti
 
 The combination of real-world industry experience, design background, and AI-enhanced development capabilities positions me uniquely in the modern development landscape - able to identify market needs, design compelling solutions, and implement them efficiently using cutting-edge tools and workflows.
 
-Product is still in production and is scheduled for an early June 2025 beta launch to test out with some actual users.
+Product is live in production — native iOS and Android apps launched in beta in August 2025 and now running an active pilot with a real event company, with analytics, refunds, chargebacks, and organization/company/event-based roles in active development.
 
 ---
 
