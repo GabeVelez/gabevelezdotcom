@@ -29,6 +29,8 @@ In September 2024, I started working on what now I know as the TokTix Ticketing 
 
 **Back to Cline**: Then moving back to Cline using again using the Anthropic API keys using Claude, burning through tokens as I go. But the results were worth it - I now have a React Native application, which creates Next.js landing pages that get made through the app.
 
+**Claude Code Era**: Moving to Claude Code has been an incredible experience. I've been able to really 10x my entire production and move a whole lot faster than ever before. My workflow has completely changed using GitHub issues as my issue setup as well as having a memory bank backend to support it as far as memory and to utilize MCPs to do things that quite honestly would take so long to accomplish otherwise. That memory bank now lives in an Obsidian vault, so every session starts with real project memory instead of a blank slate.
+
 ## My Role
 
 I served as Founder and sole creator of this project. Everything design & development is done by me, leveraging AI assistance throughout the development process.
@@ -190,6 +192,8 @@ The development process leveraged AI tools strategically:
 Established a comprehensive solo development workflow enhanced by AI assistance:
 - TypeScript throughout for type safety and developer experience
 - Comprehensive documentation in markdown format for future reference
+- Obsidian vault as the project memory bank, organized into active context, solutions, learnings, and architecture docs
+- Custom Claude Code skills, slash commands, and specialized subagents that keep the harness properly in check, handling worktree management, PRD creation, testing, and deploys the same way every time
 - Service architecture that enables independent testing and maintenance
 - AI-assisted code generation with human oversight and validation
 - Performance monitoring and optimization tracking
