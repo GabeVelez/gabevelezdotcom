@@ -183,7 +183,7 @@ The development process leveraged AI tools strategically:
 
 **Publishing System with Error Recovery:** Developed a robust publishing system that handles image optimization, data validation, and error recovery. The system includes progress tracking, exponential backoff retry logic, and clear user feedback throughout the publishing process.
 
-**Payment Processing Integration:** Integrated Stripe Connect to enable direct payouts to event promoters while maintaining platform transaction visibility. Implemented secure webhook handling and comprehensive error management for payment failures.
+**Payment Processing Integration:** Integrated Stripe Connect to enable direct payouts to event promoters while maintaining platform transaction visibility. Implemented secure webhook handling and comprehensive error management for payment failures. Automating the chargeback process is a work in progress, adding dispute tracking and fund recovery directly into the payment flow.
 
 ### Development Workflow and Tooling
 
