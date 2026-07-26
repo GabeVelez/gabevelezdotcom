@@ -5,7 +5,7 @@
 
 ## The Origin Story
 
-For a while, I've been working with an event company, A&N Online Marketing, and we've always had to deal with ticketing services, running multiple gateways through different companies to handle ticketing. At a time, I was actually hired on the side to work for a young nightlife promoter to help them with their 18 and over events as far as scanning tickets and to get them inside. Due to my past experience with nightlife as a promoter and a designer in my youth, I decided why not do this for nostalgia and fun.
+For a while, I've been working with an event company, [A&N Online Marketing](https://anom.group/), and we've always had to deal with ticketing services, running multiple gateways through different companies to handle ticketing. At a time, I was actually hired on the side to work for [Glam Hospitality](https://www.instagram.com/glamhospitality/), a young nightlife promoter, to help them with their 18 and over events as far as scanning tickets and to get them inside. Due to my past experience with nightlife as a promoter and a designer in my youth, I decided why not do this for nostalgia and fun.
 
 So I would end up working and actually seeing how the ticketing technology had changed over the years. Specifically, how they would bring their own digital tickets to be scanned. I would end up using different applications like Posh.vip and Markit, and while using them thought, "Hey, what if I could build something like this?" 
 
