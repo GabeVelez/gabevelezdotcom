@@ -6,7 +6,7 @@
 
 ## Case Studies
 
-- [NYCNewYears.com Site Overhaul](https://gabevelez.com/case-studies/nycnewyears-dot-com-site-overhaul.html): Ground-up rebuild of a flagship New Year's Eve ticketing site. The first full season on the new site grew ticket revenue 152% year over year and more than doubled conversion.
+- [NYCNewYears.com Site Overhaul](https://gabevelez.com/case-studies/nycnewyears-dot-com-site-overhaul.html): Ground-up rebuild of a flagship New Year's Eve ticketing site, cutting code 48%. In its first full season, sessions ran 36% longer and visitors viewed 21% more pages per visit.
 - [AfterPromCentral Events Calendar](https://gabevelez.com/case-studies/afterpromcentral-events-calendar.html): Custom WordPress calendar plugin built in under 3 months that removed content errors and boosted conversions for 20-30 seasonal events.
 - [Integrate Design System Audit](https://gabevelez.com/case-studies/integrate-design-system-audit.html): Unified the design language of 3 acquired companies. Reduced colors 55% with WCAG accessibility throughout, delivered as Figma and Storybook libraries.
 - [Integrate ABM Web Analytics](https://gabevelez.com/case-studies/integrate-abm-web-analytics.html): Account-level B2B web analytics dashboard built on existing pixel infrastructure, used by customers like Microsoft and Cloudflare.
