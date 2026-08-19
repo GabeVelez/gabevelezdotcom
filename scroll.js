@@ -1,9 +1,7 @@
-$(function() {
-    $(window).on("scroll", function() {
-        if($(window).scrollTop() > 10) {
-            $("header").addClass("nav__active");
-        } else {
-           $("header").removeClass("nav__active");
-        }
-    });
-});
+(function () {
+    var header = document.querySelector("header");
+    if (!header) return;
+    window.addEventListener("scroll", function () {
+        header.classList.toggle("nav__active", window.scrollY > 10);
+    }, { passive: true });
+})();

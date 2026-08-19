@@ -25,11 +25,11 @@
         <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script src="/layout.js" type="text/javascript"></script> 
-        <script src="/scroll.js" type="text/javascript"></script>
+        <script src="/layout.js" defer></script>
+        <script src="/scroll.js" defer></script>
+        <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/fonts/poppins-600.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="https://use.typekit.net/lho8sph.css">
         
         <script type="application/ld+json">
         {
@@ -147,15 +147,17 @@
     <body class="home">
     	<header>
     	</header>
+
+        <main>
         <section class="hero">
             <picture>
-                <source type="image/webp" media="(min-width: 1060px)" srcset="img/gv-voutche-desktop.webp" />
-                <source type="image/webp" media="(min-width: 600px)" srcset="img/gv-voutche-tablet.webp" />
-                <img class="hero__image" loading="eager" decoding="async" src="img/gv-voutche-mobile.webp" alt="Gabe Velez holding mobile phone in office" >
+                <source type="image/webp" media="(min-width: 1060px)" srcset="img/gv-voutche-desktop.webp" width="1440" height="700" />
+                <source type="image/webp" media="(min-width: 600px)" srcset="img/gv-voutche-tablet.webp" width="1040" height="700" />
+                <img class="hero__image" loading="eager" fetchpriority="high" decoding="async" src="img/gv-voutche-mobile.webp" width="480" height="500" alt="Gabe Velez holding mobile phone in office" >
             </picture>
             <div class="hero__textarea">
                 <h1 class="hero__text" id="hero-headline"><span class="hero__hi">Hi, My Name is</span> <span class="hero__hidden">Gabe - </span><br>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="145" height="40" fill="none" aria-labelledby="Gabe"><path fill="#fff" d="M26.333 13.278a6.264 6.264 0 0 0-2.61-2.39c-1.075-.555-2.353-.832-3.834-.832-2.74 0-4.907.888-6.5 2.666-1.556 1.778-2.333 4.167-2.333 7.167 0 3.37.833 5.944 2.5 7.722 1.703 1.74 4.166 2.611 7.388 2.611 3.815 0 6.538-1.722 8.167-5.166H18.167v-7.834H38.5v10.556c-.852 2.074-2.111 4.018-3.778 5.833-1.63 1.815-3.704 3.315-6.222 4.5-2.518 1.148-5.389 1.722-8.611 1.722-3.926 0-7.407-.833-10.445-2.5-3-1.703-5.333-4.055-7-7.055C.814 27.24 0 23.778 0 19.888c0-3.851.815-7.277 2.444-10.277 1.667-3.037 4-5.389 7-7.055C12.444.852 15.907 0 19.834 0c4.925 0 9 1.185 12.222 3.556 3.222 2.37 5.222 5.61 6 9.722H26.333Z"/><path fill="#fff" d="M60.441 33.167H46.553l-2.111 6.389H32.996L47.275.389H59.83l14.223 39.167h-11.5l-2.111-6.39Zm-2.722-8.334-4.222-12.666-4.167 12.666h8.39Z"/><path fill="#fff" d="M97.972 19.444c2.296.519 4.111 1.667 5.444 3.445 1.371 1.74 2.056 3.74 2.056 6 0 3.333-1.148 5.944-3.444 7.833-2.297 1.89-5.519 2.834-9.667 2.834H72.972V.389H91.75c4 0 7.13.889 9.389 2.667 2.296 1.777 3.444 4.277 3.444 7.5 0 2.296-.611 4.222-1.833 5.777-1.185 1.519-2.778 2.556-4.778 3.111Zm-14.111-3.5h5.5c2.74 0 4.111-1.13 4.111-3.388 0-2.334-1.37-3.5-4.111-3.5h-5.5v6.888Zm6.333 14.834c2.741 0 4.111-1.148 4.111-3.445 0-1.185-.37-2.092-1.11-2.722-.704-.63-1.723-.944-3.056-.944H83.86v7.11h6.333ZM116.503 9.111V15.5h12.5v8.278h-12.5v7.055h14.167v8.723h-25.055V.389h25.055V9.11h-14.167ZM138.242 40c-1.926 0-3.481-.519-4.667-1.556-1.148-1.074-1.722-2.425-1.722-4.055s.574-2.982 1.722-4.056c1.186-1.074 2.741-1.61 4.667-1.61 1.889 0 3.408.536 4.556 1.61 1.185 1.074 1.777 2.426 1.777 4.056 0 1.592-.592 2.926-1.777 4-1.148 1.074-2.667 1.611-4.556 1.611Z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="145" height="40" fill="none" aria-hidden="true"><path fill="#fff" d="M26.333 13.278a6.264 6.264 0 0 0-2.61-2.39c-1.075-.555-2.353-.832-3.834-.832-2.74 0-4.907.888-6.5 2.666-1.556 1.778-2.333 4.167-2.333 7.167 0 3.37.833 5.944 2.5 7.722 1.703 1.74 4.166 2.611 7.388 2.611 3.815 0 6.538-1.722 8.167-5.166H18.167v-7.834H38.5v10.556c-.852 2.074-2.111 4.018-3.778 5.833-1.63 1.815-3.704 3.315-6.222 4.5-2.518 1.148-5.389 1.722-8.611 1.722-3.926 0-7.407-.833-10.445-2.5-3-1.703-5.333-4.055-7-7.055C.814 27.24 0 23.778 0 19.888c0-3.851.815-7.277 2.444-10.277 1.667-3.037 4-5.389 7-7.055C12.444.852 15.907 0 19.834 0c4.925 0 9 1.185 12.222 3.556 3.222 2.37 5.222 5.61 6 9.722H26.333Z"/><path fill="#fff" d="M60.441 33.167H46.553l-2.111 6.389H32.996L47.275.389H59.83l14.223 39.167h-11.5l-2.111-6.39Zm-2.722-8.334-4.222-12.666-4.167 12.666h8.39Z"/><path fill="#fff" d="M97.972 19.444c2.296.519 4.111 1.667 5.444 3.445 1.371 1.74 2.056 3.74 2.056 6 0 3.333-1.148 5.944-3.444 7.833-2.297 1.89-5.519 2.834-9.667 2.834H72.972V.389H91.75c4 0 7.13.889 9.389 2.667 2.296 1.777 3.444 4.277 3.444 7.5 0 2.296-.611 4.222-1.833 5.777-1.185 1.519-2.778 2.556-4.778 3.111Zm-14.111-3.5h5.5c2.74 0 4.111-1.13 4.111-3.388 0-2.334-1.37-3.5-4.111-3.5h-5.5v6.888Zm6.333 14.834c2.741 0 4.111-1.148 4.111-3.445 0-1.185-.37-2.092-1.11-2.722-.704-.63-1.723-.944-3.056-.944H83.86v7.11h6.333ZM116.503 9.111V15.5h12.5v8.278h-12.5v7.055h14.167v8.723h-25.055V.389h25.055V9.11h-14.167ZM138.242 40c-1.926 0-3.481-.519-4.667-1.556-1.148-1.074-1.722-2.425-1.722-4.055s.574-2.982 1.722-4.056c1.186-1.074 2.741-1.61 4.667-1.61 1.889 0 3.408.536 4.556 1.61 1.185 1.074 1.777 2.426 1.777 4.056 0 1.592-.592 2.926-1.777 4-1.148 1.074-2.667 1.611-4.556 1.611Z"/>
                     </svg>
                     <br>
                     <span class="hero__break" id="hero-subtext">I'm a Senior Product Designer who builds what I design. Ticketing platforms, design systems, and B2B analytics.</span>
@@ -177,9 +179,7 @@
             <div class="cases__container">
                 <a class="card" href="side-projects/toktix-ticketing-platform.html">
                     <picture>
-                        <source type="image/webp" media="(min-width: 1060px)" srcset="img/sideCard_TokTix@2x.webp 1x, img/sideCard_TokTix@3x.webp 2x" />
-                        <source type="image/webp" media="(min-width: 600px)" srcset="img/sideCard_TokTix@2x.webp" />
-                        <img class="card__image" loading="lazy" decoding="async" src="img/sideCard_TokTix.webp" srcset="img/sideCard_TokTix.webp 1x, img/sideCard_TokTix@2x.webp 2x" alt="TokTix Ticketing Platform">
+                        <img class="card__image" loading="lazy" decoding="async" src="img/sideCard_TokTix.webp" srcset="img/sideCard_TokTix.webp 600w, img/sideCard_TokTix-768w.webp 768w, img/sideCard_TokTix-960w.webp 960w, img/sideCard_TokTix@2x.webp 1200w, img/sideCard_TokTix@3x.webp 2400w" sizes="(min-width: 1060px) 720px, (min-width: 600px) 90vw, calc(100vw - 60px)" width="600" height="361" alt="TokTix Ticketing Platform">
                     </picture>
                     <div class="card__textarea">
                         <div class="card__badges">
@@ -194,9 +194,7 @@
                 </a>
                 <a class="card" href="case-studies/nycnewyears-dot-com-site-overhaul.html">
                     <picture>
-                    <source type="image/webp" media="(min-width: 1060px)" srcset="img/caseCard_nycnewyears-site@2x.webp 1x, img/caseCard_nycnewyears-site@3x.webp 2x" />
-                    <source type="image/webp" media="(min-width: 600px)" srcset="img/caseCard_nycnewyears-site@2x.webp" />
-                    <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_nycnewyears-site.webp" srcset="img/caseCard_nycnewyears-site.webp 1x, img/caseCard_nycnewyears-site@2x.webp 2x" alt="NYCNewYears.com site overhaul">
+                    <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_nycnewyears-site.webp" srcset="img/caseCard_nycnewyears-site.webp 600w, img/caseCard_nycnewyears-site-768w.webp 768w, img/caseCard_nycnewyears-site-960w.webp 960w, img/caseCard_nycnewyears-site@2x.webp 1200w, img/caseCard_nycnewyears-site@3x.webp 2400w" sizes="(min-width: 1060px) 720px, (min-width: 600px) 90vw, calc(100vw - 60px)" width="600" height="361" alt="NYCNewYears.com site overhaul">
                 </picture>
                     <div class="card__textarea">
                         <div class="card__badges">
@@ -210,9 +208,7 @@
                 </a>
                 <a class="card" href="case-studies/afterpromcentral-events-calendar.html">
                     <picture>
-                        <source type="image/webp" media="(min-width: 1060px)" srcset="img/caseCard_afterpromcentral@2x.webp 1x, img/caseCard_afterpromcentral@3x.webp 2x" />
-                        <source type="image/webp" media="(min-width: 600px)" srcset="img/caseCard_afterpromcentral@2x.webp" />
-                        <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_afterpromcentral.webp" srcset="img/caseCard_afterpromcentral.webp 1x, img/caseCard_afterpromcentral@2x.webp 2x" alt="AfterPromCentral Calendar list view on iPhone with cheering prom crowd in background.">
+                        <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_afterpromcentral.webp" srcset="img/caseCard_afterpromcentral.webp 600w, img/caseCard_afterpromcentral-768w.webp 768w, img/caseCard_afterpromcentral-960w.webp 960w, img/caseCard_afterpromcentral@2x.webp 1200w, img/caseCard_afterpromcentral@3x.webp 2400w" sizes="(min-width: 1060px) 720px, (min-width: 600px) 90vw, calc(100vw - 60px)" width="600" height="361" alt="AfterPromCentral Calendar list view on iPhone with cheering prom crowd in background.">
                     </picture>
                     <div class="card__textarea">
                         <div class="card__badges">
@@ -226,9 +222,7 @@
                 </a>
                 <a class="card" href="case-studies/integrate-design-system-audit.html">
                     <picture>
-                        <source type="image/webp" media="(min-width: 1060px)" srcset="img/caseCard_intSystem@2x.webp 1x, img/caseCard_intSystem@3x.webp 2x" />
-                        <source type="image/webp" media="(min-width: 600px)" srcset="img/caseCard_intSystem@2x.webp" />
-                        <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_intSystem.webp" srcset="img/caseCard_intSystem.webp 1x, img/caseCard_intSystem@2x.webp 2x" alt="Integrate Design System logo">
+                        <img class="card__image" loading="lazy" decoding="async" src="img/caseCard_intSystem.webp" srcset="img/caseCard_intSystem.webp 600w, img/caseCard_intSystem-768w.webp 768w, img/caseCard_intSystem-960w.webp 960w, img/caseCard_intSystem@2x.webp 1200w, img/caseCard_intSystem@3x.webp 2400w" sizes="(min-width: 1060px) 720px, (min-width: 600px) 90vw, calc(100vw - 60px)" width="600" height="361" alt="Integrate Design System logo">
                     </picture>
                     <div class="card__textarea">
                         <div class="card__badges">
@@ -242,9 +236,7 @@
                 </a>
                 <a class="card" href="case-studies/integrate-abm-web-analytics.html">
                     <picture>
-                        <source type="image/webp" media="(min-width: 1060px)" srcset="img/caseStudy_IntegrateABMWebAnalytics@2x.webp" />
-                        <source type="image/webp" media="(min-width: 600px)" srcset="img/caseStudy_IntegrateABMWebAnalytics@2x.webp" />
-                        <img class="card__image" loading="lazy" decoding="async" src="img/caseStudy_IntegrateABMWebAnalytics.webp" srcset="img/caseStudy_IntegrateABMWebAnalytics.webp 1x, img/caseStudy_IntegrateABMWebAnalytics@2x.webp 2x" alt="Integrate ABM Web Analytics dashboard">
+                        <img class="card__image" loading="lazy" decoding="async" src="img/caseStudy_IntegrateABMWebAnalytics.webp" srcset="img/caseStudy_IntegrateABMWebAnalytics.webp 480w, img/caseStudy_IntegrateABMWebAnalytics@2x.webp 960w" sizes="(min-width: 1060px) 720px, (min-width: 600px) 90vw, calc(100vw - 60px)" width="480" height="311" alt="Integrate ABM Web Analytics dashboard">
                     </picture>
                     <div class="card__textarea">
                         <div class="card__badges">
@@ -274,7 +266,7 @@
                         "Gabe's comprehensive skill set and forward-thinking approach have been invaluable. He consistently delivers cutting-edge solutions that keep our projects competitive and impactful."
                     </blockquote>
                     <div class="testimonial-card__author">
-                        <img class="testimonial-card__avatar" src="img/testimonialnacer.webp" alt="Nacer Hamai" loading="lazy" decoding="async">
+                        <img class="testimonial-card__avatar" src="img/testimonialnacer.webp" alt="Nacer Hamai" width="300" height="300" loading="lazy" decoding="async">
                         <div class="testimonial-card__details">
                             <div class="testimonial-card__name">Nacer Hamai</div>
                             <div class="testimonial-card__title">Chief Operating Officer, A&N Online Marketing</div>
@@ -286,7 +278,7 @@
                         "Gabe was our CEO of design at ListenLoop. He owned every customer touchpoint, from UX to brand to our sales story. His design leadership gave us a distinct edge and drove real growth"
                     </blockquote>
                     <div class="testimonial-card__author">
-                        <img class="testimonial-card__avatar" src="img/testimonialsandeep.webp" alt="Sandeep Arneja" loading="lazy" decoding="async">
+                        <img class="testimonial-card__avatar" src="img/testimonialsandeep.webp" alt="Sandeep Arneja" width="300" height="300" loading="lazy" decoding="async">
                         <div class="testimonial-card__details">
                             <div class="testimonial-card__name">Sandeep Arneja</div>
                             <div class="testimonial-card__title">Chief Technology Officer, ListenLoop</div>
@@ -298,7 +290,7 @@
                         "Gabe's ability to not just design beautiful interfaces, but to build them by writing maintainable React components set him apart. His design sensibility combined with technical chops resulted in a product that was both visually polished and a joy to use."
                     </blockquote>
                     <div class="testimonial-card__author">
-                        <img class="testimonial-card__avatar" src="img/testimonialsaurav.webp" alt="Saurav Dhar" loading="lazy" decoding="async">
+                        <img class="testimonial-card__avatar" src="img/testimonialsaurav.webp" alt="Saurav Dhar" width="300" height="300" loading="lazy" decoding="async">
                         <div class="testimonial-card__details">
                             <div class="testimonial-card__name">Saurav Dhar</div>
                             <div class="testimonial-card__title">Software Engineering Team Lead, Integrate</div>
@@ -310,7 +302,7 @@
                         "He was a great ally in the push for a more user-centred approach in our initiatives and was always keen to help me out when I needed a helping hand. Any company would be lucky to have him in the team!"
                     </blockquote>
                     <div class="testimonial-card__author">
-                        <img class="testimonial-card__avatar" src="img/testimonialsandro.webp" alt="Sandro Pereira" loading="lazy" decoding="async">
+                        <img class="testimonial-card__avatar" src="img/testimonialsandro.webp" alt="Sandro Pereira" width="300" height="300" loading="lazy" decoding="async">
                         <div class="testimonial-card__details">
                             <div class="testimonial-card__name">Sandro Pereira</div>
                             <div class="testimonial-card__title">Product Designer, Goji</div>
@@ -322,7 +314,7 @@
                         "Gabe is a fantastic product designer and an even better teammate. Working with him at Integrate was an absolute pleasure, his genuine creativity and friendly attitude made every project feel like a collaborative adventure."
                     </blockquote>
                     <div class="testimonial-card__author">
-                        <img class="testimonial-card__avatar" src="img/testimonialmatt.webp" alt="Matt McKinnon" loading="lazy" decoding="async">
+                        <img class="testimonial-card__avatar" src="img/testimonialmatt.webp" alt="Matt McKinnon" width="300" height="300" loading="lazy" decoding="async">
                         <div class="testimonial-card__details">
                             <div class="testimonial-card__name">Matt McKinnon</div>
                             <div class="testimonial-card__title">Chief Operating Officer, YourICP</div>
@@ -334,7 +326,7 @@
                         "Gabe's agile approach and deep commitment to thoughtful, progressive solutions consistently elevated our projects. His ability to lead with clarity made him an indispensable part of our team."
                     </blockquote>
                     <div class="testimonial-card__author">
-                        <img class="testimonial-card__avatar" src="img/testimonialthom.webp" alt="Thom Rush" loading="lazy" decoding="async">
+                        <img class="testimonial-card__avatar" src="img/testimonialthom.webp" alt="Thom Rush" width="300" height="300" loading="lazy" decoding="async">
                         <div class="testimonial-card__details">
                             <div class="testimonial-card__name">Thom Rush</div>
                             <div class="testimonial-card__title">Program Strategist, FedEx</div>
@@ -343,6 +335,8 @@
                 </div>
             </div>
         </section>
+        </main>
+
         <footer>
         </footer>
         <!--[if lte IE 9]>
@@ -373,6 +367,7 @@
                 api_host: 'https://us.i.posthog.com',
                 defaults: '2025-05-24',
                 person_profiles: 'identified_only',
+                disable_surveys: true,
                 session_recording: {
                     recordCrossOriginIframes: true,
                     maskAllInputs: false,
@@ -427,15 +422,10 @@
             });
         </script>
         <script>
-            $(function() {
-                $(window).on("scroll", function() {
-                    if($(window).scrollTop() > 10) {
-                        $(".logo__gabe").removeClass("logo__gabe--remove");
-                    } else {
-                       $(".logo__gabe").addClass("logo__gabe--remove");
-                    }
-                });
-            });
+            window.addEventListener("scroll", function () {
+                var logo = document.querySelector(".logo__gabe");
+                if (logo) logo.classList.toggle("logo__gabe--remove", window.scrollY <= 10);
+            }, { passive: true });
         </script>
     </body>
 </html>

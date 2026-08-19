@@ -23,12 +23,12 @@
         <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script src="/layout.js" type="text/javascript"></script>
-        <script src="/scroll.js" type="text/javascript"></script>
-        <script src="/dynamic-background.js" type="text/javascript"></script>
+        <script src="/layout.js" defer></script>
+        <script src="/scroll.js" defer></script>
+        <script src="/dynamic-background.js" defer></script>
+        <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/fonts/poppins-600.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="https://use.typekit.net/lho8sph.css">
         
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-N2302ME8P5"></script>
@@ -47,6 +47,7 @@
                 api_host: 'https://us.i.posthog.com',
                 defaults: '2025-05-24',
                 person_profiles: 'identified_only',
+                disable_surveys: true,
                 session_recording: {
                     recordCrossOriginIframes: true,
                     maskAllInputs: false,
@@ -80,6 +81,8 @@
     <body class="page casestudy">
     	<header>
     	</header>
+
+        <main>
         <section class="content__wrapper block block__black">
             <div class="block__container">
                 <div class="casestudy__hero">
@@ -515,6 +518,8 @@ Theme
                 </div>
             </section>
         </article>
+        </main>
+
         <footer>
         </footer>
     </body>
