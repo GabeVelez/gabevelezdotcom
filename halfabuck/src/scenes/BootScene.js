@@ -64,7 +64,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image("loading_dock_layout", "assets/layouts/loading_dock_layout.png");
     this.load.image("security_office_layout", "assets/layouts/security_office_layout.png");
     this.load.image("maintenance_tunnel_layout", "assets/layouts/maintenance_tunnel_layout.png");
-    this.load.image("executive_wing_layout", "assets/scenes/executive-wing/executive-wing-layout.png");
+    this.load.image("executive_wing_bg", "assets/scenes/executive-wing/executive-bg.png");
     this.load.image("rooftop_helipad_layout", "assets/scenes/rooftop-helipad/rooftop-helipad-layout.png");
 
     // --- Collision is loaded directly via SVGCollisionParser (no preloading needed) ---

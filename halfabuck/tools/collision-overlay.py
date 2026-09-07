@@ -35,7 +35,7 @@ LEVELS = {
     "loading-dock":       ("loading-dock-collision.svg",        "layouts/loading_dock_layout.png"),
     "security-office":    ("security-office-collision.svg",     "layouts/security_office_layout.png"),
     "maintenance-tunnel": ("maintenance-tunnel-collision.svg",  "layouts/maintenance_tunnel_layout.png"),
-    "executive-wing":     ("executive-wing-collision.svg",      "scenes/executive-wing/executive-wing-layout.png"),
+    "executive-wing":     ("executive-wing-collision.svg",      "scenes/executive-wing/executive-bg.png"),
     "rooftop-helipad":    ("rooftop-helipad-collision.svg",     "scenes/rooftop-helipad/rooftop-helipad-layout.png"),
 }
 

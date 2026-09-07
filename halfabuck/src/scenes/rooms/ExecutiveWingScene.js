@@ -36,12 +36,15 @@ export class ExecutiveWingScene extends BaseRoomScene {
       return;
     }
 
-    // Executive Wing is 544×320 pixels
-    this.wingWidth = 544;
-    this.wingHeight = 320;
+    // One square room, matching executive-bg.png. The canvas is 384x180, so
+    // the camera scrolls vertically and shows a little under half the room at
+    // a time: you enter at the door, and he looms in behind his desk as you
+    // walk up to him.
+    this.wingWidth = 384;
+    this.wingHeight = 384;
 
     // Add background image immediately
-    const wingBg = this.add.image(0, 0, "executive_wing_layout");
+    const wingBg = this.add.image(0, 0, "executive_wing_bg");
     wingBg.setOrigin(0, 0);
     wingBg.setDisplaySize(this.wingWidth, this.wingHeight);
     wingBg.setDepth(0);
@@ -66,15 +69,9 @@ export class ExecutiveWingScene extends BaseRoomScene {
 
     this.createBaseSystems();
 
-    // Player spawn position - depends on entry direction
-    let playerX = 80;
-    let playerY = 160; // Center left, entering from Security Office
-
-    if (this.entryDirection === "north") {
-      // Coming from Security Office
-      playerX = 80;
-      playerY = 160;
-    }
+    // In through the door at the foot of the room, from Security Office.
+    const playerX = 184;
+    const playerY = 332;
 
     this.createPlayer(playerX, playerY);
 
@@ -86,12 +83,12 @@ export class ExecutiveWingScene extends BaseRoomScene {
     const map = this.make.tilemap({
       tileWidth: 16,
       tileHeight: 16,
-      width: 34,
-      height: 20
+      width: 24,
+      height: 24
     });
     const tiles = map.addTilesetImage("warehouse_tiles");
     const ground = map.createBlankLayer("ground", tiles);
-    ground.fill(1, 0, 0, 34, 20); // All walkable
+    ground.fill(1, 0, 0, 24, 24); // All walkable
     ground.setVisible(false);
     this.groundLayer = ground;
 
@@ -103,7 +100,9 @@ export class ExecutiveWingScene extends BaseRoomScene {
     // (glass in flight, the hit, him screaming) rather than an in-game arc.
     // Control returns here with him down and the way past open.
 
-    const water = new Item(this, 120, 120, {
+    // Out on the rug, a short step off the line between the door and the desk,
+    // so it is something you go and get rather than something you trip over.
+    const water = new Item(this, 150, 248, {
       id: "water_glass",
       name: "Glass of Water",
       description: "Ice cold. Somebody is about to wear it.",
@@ -115,15 +114,16 @@ export class ExecutiveWingScene extends BaseRoomScene {
     if (!this.villainDefeated) this.items.push(water);
     else water.destroy();
 
-    // Stairs to the roof, past him. Shut until he is down, so he cannot simply
-    // be walked around.
-    this.createExit(360, 110, 28, 60, "RooftopHelipadScene", "north");
+    // The lit alcove behind the desk. Shut until he is down, so he cannot
+    // simply be walked around.
+    this.createExit(188, 26, 52, 44, "RooftopHelipadScene", "north");
     const roofExit = this._exits[this._exits.length - 1];
     roofExit.triggered = !this.villainDefeated;
 
-    const villain = this.createThrowTarget(250, 110, {
-      // Facing left, toward the door the player comes through.
-      texture: "villain-left",
+    const villain = this.createThrowTarget(184, 82, {
+      // At his desk, facing down the room at the door you come through. The
+      // desk is solid, so reaching the alcove behind him means going around it.
+      texture: "villain-front",
       displaySize: 48,
       requiresItem: "water_glass",
       range: 110,
