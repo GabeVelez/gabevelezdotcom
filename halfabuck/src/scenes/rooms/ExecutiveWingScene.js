@@ -79,9 +79,10 @@ export class ExecutiveWingScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // --- Boss beat: grab the water, throw it, villain goes down ------------
-    // Positions are provisional. The room is being redrawn, so these are placed
-    // to be reachable rather than designed.
+    // --- The confrontation ------------------------------------------------
+    // Enter left, grab the water, throw it, then run past the reeling villain
+    // to the roof. Throwing does not end the level; it opens the way past.
+    // Positions are provisional until the room is redrawn at 384x180.
 
     const water = new Item(this, 120, 120, {
       id: "water_glass",
@@ -94,15 +95,22 @@ export class ExecutiveWingScene extends BaseRoomScene {
     });
     this.items.push(water);
 
-    this.createThrowTarget(300, 110, {
+    // The way out, past the villain. Shut until he has been hit, so the player
+    // cannot simply walk around him.
+    this.createExit(360, 110, 28, 60, "RooftopHelipadScene", "north");
+    const roofExit = this._exits[this._exits.length - 1];
+    roofExit.triggered = true;
+
+    this.createThrowTarget(250, 110, {
       texture: "villain",
       displaySize: 48,
       requiresItem: "water_glass",
       range: 110,
       onDefeated: () => {
-        // Next: the two cutscenes, player fleeing then the villain changing.
-        // Until those frames exist, hand straight over to the rooftop.
-        this.scene.start("RooftopHelipadScene", { entryDirection: "north" });
+        roofExit.triggered = false;
+        if (this.gameUI) {
+          this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
+        }
       },
     });
 
