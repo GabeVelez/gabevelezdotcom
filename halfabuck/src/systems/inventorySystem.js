@@ -22,7 +22,10 @@ export class InventorySystem {
       id: item.itemId,
       name: item.itemName,
       description: item.itemDescription,
-      texture: item.texture.key
+      texture: item.texture.key,
+      // Which door this opens. Dropped previously, which made per-door
+      // matching impossible even once the lookup below was corrected.
+      keycardId: item.keycardId ?? null
     });
 
     console.log(`Added ${item.itemName} to inventory`);

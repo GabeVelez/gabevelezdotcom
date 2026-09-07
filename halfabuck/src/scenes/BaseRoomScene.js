@@ -731,9 +731,11 @@ export class BaseRoomScene extends Phaser.Scene {
   _checkLockedDoors() {
     if (!this.lockedDoors || this.lockedDoors.length === 0) return;
 
-    // Check if player has any keycards in inventory
-    const keycards = this.inventory.getAll().filter(item =>
-      item.itemId === "keycard" || item.constructor.name === "SecurityKeycard"
+    // The inventory stores plain objects, not Item instances, so this used to
+    // test item.itemId (undefined) and constructor.name (always "Object") and
+    // therefore found nothing. No door in the game could ever be unlocked.
+    const keycards = this.inventory.getAll().filter(
+      (item) => item.id === "keycard" || item.id === "security_keycard"
     );
 
     if (keycards.length === 0) return;
