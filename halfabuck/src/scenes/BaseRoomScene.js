@@ -753,6 +753,9 @@ export class BaseRoomScene extends Phaser.Scene {
       range: config.range ?? 90,
       // Lob it (a thrown glass) or send it flat and fast (a rocket).
       arc: config.arc !== false,
+      // When a cutscene shows the throw, playing it in-game first just shows
+      // the same beat twice.
+      instant: config.instant === true,
       onDefeated: config.onDefeated || null,
       defeated: false,
       busy: false,
@@ -802,6 +805,12 @@ export class BaseRoomScene extends Phaser.Scene {
     // Player stops to throw
     this.player.body.setVelocity(0, 0);
     this.player.body.enable = false;
+
+    if (target.instant) {
+      // A cutscene is about to show the throw; skip straight to the outcome.
+      if (target.onDefeated) target.onDefeated();
+      return;
+    }
 
     const projectile = this.add.image(this.player.x, this.player.y - 16, item.texture);
     projectile.setDisplaySize(16, 16);

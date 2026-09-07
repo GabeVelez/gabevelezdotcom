@@ -11,6 +11,7 @@ import { SceneSelectorOverlay } from "./ui/sceneSelectorOverlay.js";
 import { BootScene } from "./scenes/BootScene.js";
 import { IntroScene } from "./scenes/IntroScene.js";
 import { AbductionCutscene } from "./scenes/cutscenes/AbductionCutscene.js";
+import { CutsceneScene } from "./scenes/cutscenes/CutsceneScene.js";
 import { CellScene } from "./scenes/rooms/CellScene.js";
 import { SewerScene } from "./scenes/rooms/SewerScene.js";
 import { WarehouseCorridorScene } from "./scenes/rooms/WarehouseCorridorScene.js";
@@ -110,6 +111,7 @@ waitForGate().then(() => Promise.all([
     BootScene,
     IntroScene,
     AbductionCutscene,
+    CutsceneScene,
     CellScene,
     SewerScene,
     WarehouseCorridorScene,

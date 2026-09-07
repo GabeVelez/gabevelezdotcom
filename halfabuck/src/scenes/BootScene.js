@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { ALL_CUTSCENE_FRAMES } from "./cutscenes/cutscenes.js";
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -9,8 +10,21 @@ export class BootScene extends Phaser.Scene {
     this._buildLoadingScreen();
 
     // A silent failure here looks identical to a slow connection otherwise.
+    // Cutscene frames are expected to be missing until their art is made, so
+    // those are noted rather than shouted about.
     this.load.on("loaderror", (file) => {
-      console.error(`[BootScene] failed to load "${file.key}" from ${file.src}`);
+      if (ALL_CUTSCENE_FRAMES.includes(file.key)) {
+        console.info(`[BootScene] cutscene frame "${file.key}" not present yet; it will be skipped`);
+      } else {
+        console.error(`[BootScene] failed to load "${file.key}" from ${file.src}`);
+      }
+    });
+
+    // Story cutscene frames. These are attempted rather than required: a
+    // missing file logs and its frame is skipped, so the story can be wired up
+    // before the art exists. Drop a PNG in and it starts playing.
+    ALL_CUTSCENE_FRAMES.forEach((key) => {
+      this.load.image(key, `assets/cutscenes/story/${key}.png`);
     });
 
     // --- UI Screens ---

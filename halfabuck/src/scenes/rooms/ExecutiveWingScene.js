@@ -16,7 +16,24 @@ export class ExecutiveWingScene extends BaseRoomScene {
     this.levelLabel = "LVL 9: Executive Wing";
   }
 
+  init(data) {
+    super.init(data);
+    // Set by the cutscenes as they hand control back
+    this.revealSeen = data?.revealSeen === true;
+    this.villainDefeated = data?.villainDefeated === true;
+  }
+
   create() {
+    // The reveal plays once, on first arrival, before the player has control.
+    if (!this.revealSeen) {
+      this.scene.start("CutsceneScene", {
+        cutscene: "villain_reveal",
+        next: "ExecutiveWingScene",
+        nextData: { ...this.playerData, revealSeen: true },
+      });
+      return;
+    }
+
     // Executive Wing is 544×320 pixels
     this.wingWidth = 544;
     this.wingHeight = 320;
@@ -80,9 +97,9 @@ export class ExecutiveWingScene extends BaseRoomScene {
     this.buildWaypointNetwork(ground);
 
     // --- The confrontation ------------------------------------------------
-    // Enter left, grab the water, throw it, then run past the reeling villain
-    // to the roof. Throwing does not end the level; it opens the way past.
-    // Positions are provisional until the room is redrawn at 384x180.
+    // Run in, grab the water, press it. The throw itself plays as a cutscene
+    // (glass in flight, the hit, him screaming) rather than an in-game arc.
+    // Control returns here with him down and the way past open.
 
     const water = new Item(this, 120, 120, {
       id: "water_glass",
@@ -93,26 +110,38 @@ export class ExecutiveWingScene extends BaseRoomScene {
       depth: 5,
       interactionRange: 40,
     });
-    this.items.push(water);
+    if (!this.villainDefeated) this.items.push(water);
+    else water.destroy();
 
-    // The way out, past the villain. Shut until he has been hit, so the player
-    // cannot simply walk around him.
+    // Stairs to the roof, past him. Shut until he is down, so he cannot simply
+    // be walked around.
     this.createExit(360, 110, 28, 60, "RooftopHelipadScene", "north");
     const roofExit = this._exits[this._exits.length - 1];
-    roofExit.triggered = true;
+    roofExit.triggered = !this.villainDefeated;
 
-    this.createThrowTarget(250, 110, {
+    const villain = this.createThrowTarget(250, 110, {
       texture: "villain",
       displaySize: 48,
       requiresItem: "water_glass",
       range: 110,
+      instant: true, // the water_throw cutscene shows the throw itself
       onDefeated: () => {
-        roofExit.triggered = false;
-        if (this.gameUI) {
-          this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
-        }
+        this.scene.start("CutsceneScene", {
+          cutscene: "water_throw",
+          next: "ExecutiveWingScene",
+          nextData: { ...this.playerData, revealSeen: true, villainDefeated: true },
+        });
       },
     });
+
+    if (this.villainDefeated) {
+      // Back from the throw cutscene: he is down and the stairs are open.
+      villain.defeated = true;
+      villain.sprite.setAlpha(0.55).setAngle(12);
+      if (this.gameUI) {
+        this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
+      }
+    }
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {
