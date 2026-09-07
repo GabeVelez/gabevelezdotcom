@@ -49,6 +49,7 @@ export class BootScene extends Phaser.Scene {
     this.load.audio("box_toggle", "assets/audio/sfx/oxidvideos-paper-slide-short-478835.mp3");
     this.load.audio("door_unlock", "assets/audio/sfx/existentialtaco-confirm-tap-394001.mp3"); // Reuse confirm sound for door unlock
     this.load.audio("toilet_flush", "assets/audio/sfx/toilet_flush.mp3"); // Easter egg sound
+    this.load.audio("wilhelm_scream", "assets/sounds/cutscenes/wilhelmscream.mp3"); // the water landing
 
     // --- Tilemap assets (Tiled JSON + tileset image) ---
     this.load.image("warehouse_tiles", "assets/tiles/warehouse_tiles.png");
@@ -156,6 +157,15 @@ export class BootScene extends Phaser.Scene {
         frameWidth: 64,
         frameHeight: 64,
       });
+    });
+
+    // Soaked and screaming, for after the water lands. Ten frames rather than
+    // five, so the writhing does not read as an obvious short loop. Cut on the
+    // same baseline as the walk sheets, and aligned on the shoes so his feet
+    // stay planted while the rest of him flails.
+    this.load.spritesheet("villain-agony", "assets/sprites/villain/villain-agony.png", {
+      frameWidth: 64,
+      frameHeight: 64,
     });
 
     // --- Still awaiting art ---

@@ -171,16 +171,17 @@ canvas {
 }
 
 #level-label {
-  width: 230px;
-  flex: 0 0 230px;
+  /* min-width rather than a fixed width, so the bar stays the same size for
+     every current level name but a longer one grows the bar instead of being
+     cut off. The bar is centred with translateX(-50%), so it can absorb it. */
+  flex: 0 0 auto;
+  min-width: 230px;
   font-size: 14px;
   font-weight: 700;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
   letter-spacing: 0.5px;
   pointer-events: none;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   text-align: left;
 }
 
@@ -526,14 +527,17 @@ canvas {
 .hh-meter {
   width: 100%;
   max-width: 150px;
-  /* Matched height so the d-pad and the slots below them line up, even though
-     the meter is a label plus a bar and the level name is one line. The margin
-     is on both so the two columns stay aligned. */
-  min-height: 30px;
+  /* Matched fixed height so the d-pad and the slots below them line up, even
+     though the meter is a label plus a bar and the level name may wrap. Fixed
+     rather than min- so a wrapped name cannot shift its column, and tall enough
+     for the longest name ("LVL 8: Maintenance Tunnel") at the narrowest gutter,
+     which is three lines. */
+  height: 40px;
   margin-bottom: clamp(10px, 4vh, 22px);
   flex: none;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 3px;
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
@@ -548,10 +552,19 @@ canvas {
 }
 
 .hh-readout #level-label {
-  width: auto;
+  width: 100%;
   flex: none;
   font-size: clamp(7px, 1.9vw, 10px);
   text-align: center;
+  /* The gutter is too narrow for the longest names on one line, so wrap them
+     instead of cutting them off. Letter-spacing is dropped from the desktop
+     0.5px because it is what pushed "Maintenance" (the longest word in any
+     level name) past the gutter and split it mid-word. break-word stays only
+     as insurance for a longer name added later. */
+  white-space: normal;
+  overflow-wrap: break-word;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 .hh-meter #detection-container {

@@ -138,9 +138,12 @@ export class ExecutiveWingScene extends BaseRoomScene {
     });
 
     if (this.villainDefeated) {
-      // Back from the throw cutscene: he is down and the stairs are open.
+      // Back from the throw cutscene: soaked, screaming, and no longer between
+      // the player and the stairs.
       villain.defeated = true;
-      villain.sprite.setAlpha(0.55).setAngle(12);
+      villain.sprite.setTexture("villain-agony");
+      villain.sprite.setDisplaySize(48, 48);
+      villain.sprite.play("villain_agony");
       if (this.gameUI) {
         this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
       }

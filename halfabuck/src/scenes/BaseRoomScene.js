@@ -656,6 +656,10 @@ export class BaseRoomScene extends Phaser.Scene {
     this.anims.create({ key: "overseer_walk_up", frames: this.anims.generateFrameNumbers("overseer-back", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
     this.anims.create({ key: "overseer_walk_left", frames: this.anims.generateFrameNumbers("overseer-left", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
     this.anims.create({ key: "overseer_walk_right", frames: this.anims.generateFrameNumbers("overseer-right", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+
+    // Villain, soaked and screaming. Slow enough to read as convulsing rather
+    // than flickering, since each frame was drawn independently.
+    this.anims.create({ key: "villain_agony", frames: this.anims.generateFrameNumbers("villain-agony", { start: 0, end: 9 }), frameRate: 8, repeat: -1 });
   }
 
   /**

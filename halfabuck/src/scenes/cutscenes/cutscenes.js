@@ -58,7 +58,7 @@ export const CUTSCENES = {
     music: "spooky", // already playing; named so it is not interrupted
     frames: [
       { image: "cs_water_01", duration: 1500, sound: "box_toggle" },
-      { image: "cs_water_02", duration: 2600, sound: "ground_impact", shake: 260,
+      { image: "cs_water_02", duration: 2600, sound: "wilhelm_scream", shake: 260,
         text: "AAAAARGH!" },
     ],
   },
