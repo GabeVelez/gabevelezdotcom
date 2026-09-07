@@ -459,8 +459,13 @@ canvas {
   z-index: 60;
 }
 
+/* .hh-control matched nothing - there is no such element - so the d-pad kept
+   its 160px square in the layout while merely being transparent. That left
+   .hh-left as an invisible 160px-wide box pinned over the bottom-left of the
+   screen at z-index 60, swallowing taps on the title and end screens. Take it
+   out of the flow so the column collapses to just the sound button. */
 #handheld.is-cinematic .hh-readout,
-#handheld.is-cinematic .hh-control {
+#handheld.is-cinematic .hh-dpad {
   display: none;
 }
 
@@ -734,6 +739,11 @@ canvas {
 .hh-left.is-idle .hh-dpad,
 .hh-right.is-idle {
   opacity: 0;
+  pointer-events: none;
+}
+
+/* The column itself must not take taps either, only the sound button in it. */
+.hh-left.is-idle {
   pointer-events: none;
 }
 

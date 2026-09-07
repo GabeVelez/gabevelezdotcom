@@ -73,6 +73,18 @@ export class MaintenanceTunnelScene extends BaseRoomScene {
     // Create guards (guards will be added board by board)
     this.createGuards();
 
+    // The door into the Executive Wing, and the lock the Security Office
+    // keycard exists for. The exit zone is the black rect in the tunnel's
+    // exits SVG at (17.5, 234.62) 52x21, so the door sits on it once the
+    // level offset is applied and blocks the way through until it is opened.
+    this.createLockedDoor(
+      tunnelOffsetX + 43.5,
+      tunnelOffsetY + 245.3,
+      52,
+      18,
+      "executive-wing"
+    );
+
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 

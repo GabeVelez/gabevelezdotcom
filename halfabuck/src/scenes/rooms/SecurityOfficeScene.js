@@ -76,15 +76,13 @@ export class SecurityOfficeScene extends BaseRoomScene {
     // Create guards (guards will be added board by board)
     this.createGuards();
 
-    // Create Security Keycard at (336,176) inside locked room
+    // The keycard, free to walk up to. It used to sit behind a locked door
+    // that this very keycard was the key to, so the room could not be solved.
+    // The lock it belongs to is on the Executive Wing door, one level on.
     const keycard = new SecurityKeycard(this, 336, 176, {
-      keycardId: "security-office"
+      keycardId: "executive-wing"
     });
     this.items.push(keycard);
-
-    // Create locked door blocking access to keycard room
-    // Position it to block the entrance to the room containing the keycard
-    this.createLockedDoor(320, 160, 16, 48, "security-office");
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
