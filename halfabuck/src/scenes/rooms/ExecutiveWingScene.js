@@ -14,6 +14,8 @@ export class ExecutiveWingScene extends BaseRoomScene {
   constructor() {
     super("ExecutiveWingScene");
     this.levelLabel = "LVL 9: Executive Wing";
+    // Continues from the reveal cutscene rather than restarting.
+    this.sceneMusic = "spooky";
   }
 
   init(data) {

@@ -146,11 +146,11 @@ waitForGate().then(() => Promise.all([
     game.registry.set("soundEnabled", !currentState);
     gameUI.updateSoundIcon(!currentState);
 
-    // Toggle music
-    const music = game.registry.get("intro_music");
+    // Toggle whichever track is currently playing
+    const music = game.registry.get("activeMusic")?.sound;
     if (music) {
       if (!currentState) {
-        if (!music.isPlaying) music.resume();
+        if (!music.isPlaying) music.play();
       } else {
         music.pause();
       }

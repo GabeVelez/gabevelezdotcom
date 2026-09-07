@@ -16,3 +16,8 @@ temp-layouts/
 
 # Generated collision overlays (regenerate with tools/collision-overlay.py)
 tools/overlays/
+
+# Pre-optimisation source audio and art, kept locally for re-encoding
+assets/audio/music/originals/
+assets/sounds/cutscenes/originals/
+assets/cutscenes/story/originals/

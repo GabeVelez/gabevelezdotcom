@@ -27,6 +27,9 @@ export const CUTSCENES = {
    */
   villain_reveal: {
     type: "layered",
+    // Carries on into the Executive Wing, so the reveal and the confrontation
+    // are one continuous piece rather than two cues.
+    music: "spooky",
     duration: 12800,
     background: "cs_reveal_bg",
     layers: [
@@ -52,6 +55,7 @@ export const CUTSCENES = {
    * the villain screaming.
    */
   water_throw: {
+    music: "spooky", // already playing; named so it is not interrupted
     frames: [
       { image: "cs_water_01", duration: 1400, sound: "box_toggle" },
       { image: "cs_water_02", duration: 1800, sound: "ground_impact", shake: 240 },

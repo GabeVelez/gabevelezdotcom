@@ -7,6 +7,7 @@ import { VisionSystem } from "../systems/visionSystem.js";
 import { createInputManager } from "../systems/input.js";
 import { InventorySystem } from "../systems/inventorySystem.js";
 import { SVGExitParser } from "../utils/SVGExitParser.js";
+import { playMusic, stopMusic } from "../systems/music.js";
 
 /**
  * Base class for all room scenes in the game.
@@ -53,23 +54,10 @@ export class BaseRoomScene extends Phaser.Scene {
     // Targets that a carried item can be thrown at (villain, monster)
     this.throwTargets = [];
 
-    // Start intro music during gameplay if sound is enabled
-    if (!this.registry.get("intro_music")) {
-      const music = this.sound.add("intro_music", { loop: true, volume: 0.5 });
-      // pauseOnBlur stays at its default of true. It was forced to false here,
-      // which meant a backgrounded tab (or a locked phone) carried on playing
-      // the music forever, so an old tab could be heard over a fresh one.
-      this.registry.set("intro_music", music);
-
-      if (this.registry.get("soundEnabled")) {
-        music.play();
-      }
-    } else {
-      const music = this.registry.get("intro_music");
-      if (this.registry.get("soundEnabled") && !music.isPlaying) {
-        music.play();
-      }
-    }
+    // Each room can name its own track via this.sceneMusic; everything else
+    // gets the default. playMusic is a no-op if that track is already going, so
+    // music carries across a scene change instead of restarting.
+    playMusic(this, this.sceneMusic || "intro_music", { loop: true, volume: 0.5 });
 
     // Create animations if not already created
     this._ensureAnimationsExist();
@@ -631,11 +619,7 @@ export class BaseRoomScene extends Phaser.Scene {
 
     // Game over when detection reaches 100%
     if (maxMeter >= 1.0) {
-      // Stop intro music
-      const music = this.registry.get("intro_music");
-      if (music && music.isPlaying) {
-        music.stop();
-      }
+      stopMusic(this);
       this.scene.start("SurroundedScene");
       return;
     }

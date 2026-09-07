@@ -22,6 +22,7 @@ import Phaser from "phaser";
  */
 
 import { CUTSCENES } from "./cutscenes.js";
+import { playMusic } from "../../systems/music.js";
 
 // Cinematic bars, and the window the art is fitted into. Matches the abduction
 // scene so the two look like the same film.
@@ -52,6 +53,12 @@ export class CutsceneScene extends Phaser.Scene {
     if (gameUI) gameUI.setVisible(false);
 
     this.cameras.main.setBackgroundColor("#000000");
+
+    // Named tracks carry across the scene change into whatever follows, so a
+    // cutscene and the room after it can share one piece of music.
+    if (this.config?.music) {
+      playMusic(this, this.config.music, { loop: true, volume: 0.5 });
+    }
 
     const layered = this.config?.type === "layered";
 

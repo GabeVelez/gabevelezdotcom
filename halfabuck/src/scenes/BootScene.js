@@ -34,6 +34,7 @@ export class BootScene extends Phaser.Scene {
 
     // --- Audio ---
     this.load.audio("intro_music", "assets/audio/music/moodmode-that-8-bit-music-322062.mp3");
+    this.load.audio("spooky", "assets/audio/music/spooky.mp3");
     this.load.audio("gameover_sound", "assets/audio/sfx/universfield-game-over-deep-male-voice-clip-352695.mp3");
     this.load.audio("surrounded_sound", "assets/audio/sfx/among-us-role-reveal-sound.mp3");
     this.load.audio("alert", "assets/audio/sfx/alert.mp3");

@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { stopMusic } from "../systems/music.js";
 
 // Outlasts the synthetic mouse event iOS fires after a touch (~300ms).
 const START_ARM_MS = 500;
@@ -22,13 +23,8 @@ export class IntroScene extends Phaser.Scene {
       this.registry.set("soundEnabled", true);
     }
 
-    // Stop intro music if playing (music plays during gameplay, not on intro screen)
-    if (this.registry.get("intro_music")) {
-      const music = this.registry.get("intro_music");
-      if (music.isPlaying) {
-        music.stop();
-      }
-    }
+    // The title screen is silent; music starts with gameplay.
+    stopMusic(this);
 
     // Background image - scale to fit the 320x180 canvas
     const bg = this.add.image(0, 0, "titlescreen").setOrigin(0, 0);
