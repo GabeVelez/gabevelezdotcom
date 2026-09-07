@@ -4,6 +4,7 @@ import Phaser from "phaser";
 import { createGameConfig, BASE_W, BASE_H, getIntegerZoom } from "./config/gameConfig.js";
 import { updateOrientationOverlay, isPortrait } from "./utils/orientation.js";
 import { createMobileShell } from "./ui/mobileShell.js";
+import { requestFullscreenOnFirstTouch, showHomeScreenHintIfNeeded } from "./ui/fullscreen.js";
 import { GameUI } from "./ui/gameUI.js";
 import { SceneSelectorOverlay } from "./ui/sceneSelectorOverlay.js";
 
@@ -65,6 +66,11 @@ function blockZoomGestures() {
   }, { passive: false });
 }
 blockZoomGestures();
+
+// Where the Fullscreen API exists (Android, iPad, desktop) the first tap takes
+// us fullscreen. iPhone Safari has no such API, so it gets a Home Screen hint
+// on the title screen instead.
+requestFullscreenOnFirstTouch();
 
 // Retro handheld shell (mobile only; inert on desktop)
 const shell = createMobileShell();
@@ -128,6 +134,8 @@ Promise.all([
       }
     }
   });
+
+  showHomeScreenHintIfNeeded();
 
   // Do initial resize after game is created
   resize();

@@ -1,0 +1,26 @@
+{
+  "name": "Half a Buck",
+  "short_name": "Half-a-Buck",
+  "description": "A stealth escape minigame. Mission: Critical.",
+  "start_url": "/halfabuck/",
+  "scope": "/halfabuck/",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#000000",
+  "theme_color": "#14161a",
+  "icons": [
+    {
+      "src": "/halfabuck/assets/ui/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/halfabuck/assets/ui/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -703,3 +703,47 @@ body.has-handheld #item-notification {
   max-width: 90%;
   text-align: center;
 }
+
+/* Home Screen hint (iPhone Safari only, where no Fullscreen API exists) */
+#fs-hint {
+  position: fixed;
+  left: 50%;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 9500;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(92vw, 460px);
+  padding: 7px 8px 7px 12px;
+  box-sizing: border-box;
+
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(9px, 2.3vw, 12px);
+  font-weight: 700;
+  color: #fff;
+  background: rgba(14, 16, 19, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+#fs-hint strong {
+  color: var(--hh-use, #ff8a1f);
+  font-weight: 900;
+}
+
+#fs-hint button {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
