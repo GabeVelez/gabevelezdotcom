@@ -705,10 +705,14 @@ export class BaseRoomScene extends Phaser.Scene {
 
       // Update UI
       if (this.gameUI) {
-        this.gameUI.updateInventory(this.inventory.getAll());
+        const items = this.inventory.getAll();
+        this.gameUI.updateInventory(items);
 
-        // Show collection notification
-        this.gameUI.showItemNotification(item.itemId, item.itemName);
+        // Tell the player the slot it actually landed in. Slots are filled in
+        // pickup order and free up when an item is spent, so the number is not
+        // fixed per item.
+        const slot = items.findIndex((i) => i.id === item.itemId) + 1;
+        this.gameUI.showItemNotification(item.itemId, item.itemName, slot);
       }
 
   
@@ -893,12 +897,12 @@ export class BaseRoomScene extends Phaser.Scene {
 
       if (distance <= door.unlockRange) {
         // Check if player has the right keycard
-        const hasMatchingKeycard = keycards.some(keycard =>
+        const matching = keycards.find(keycard =>
           keycard.keycardId === door.id || keycard.keycardId === "default" || door.id === "default"
         );
 
-        if (hasMatchingKeycard) {
-          this._unlockDoor(door);
+        if (matching) {
+          this._unlockDoor(door, matching);
         }
       }
     }
@@ -907,8 +911,18 @@ export class BaseRoomScene extends Phaser.Scene {
   /**
    * Unlock a door
    */
-  _unlockDoor(door) {
+  _unlockDoor(door, keycard = null) {
     door.unlocked = true;
+
+    // The card is spent on the door it opens, so it leaves the inventory and
+    // the slot frees up for whatever is picked up next.
+    if (keycard) {
+      this.inventory.removeItem(keycard.id);
+      if (this.gameUI) {
+        this.gameUI.updateInventory(this.inventory.getAll());
+        this.gameUI.showItemNotification("easter_egg", "KEYCARD USED");
+      }
+    }
 
     // Change sprite to green (unlocked)
     door.sprite.setTexture("unlocked-green");

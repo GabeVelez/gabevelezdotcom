@@ -122,7 +122,7 @@ export class GameUI {
   /**
    * Show item collection notification
    */
-  showItemNotification(itemId, itemName) {
+  showItemNotification(itemId, itemName, slot = null) {
     if (!this.itemNotification) return;
 
     // Clear any existing timeout
@@ -131,26 +131,29 @@ export class GameUI {
     }
 
     // Get the notification message based on item type
-    // The slot numbers are the shared vocabulary: the HUD shows 1/2/3 on both
-    // platforms, and they are the keyboard keys as well as the tap targets, so
-    // these strings need no per-device wording at all.
+    // The slot number is the shared vocabulary: the HUD shows 1/2/3 on both
+    // platforms, and they are the keyboard keys as well as the tap targets. It
+    // is passed in rather than hardcoded, because slots fill in pickup order
+    // and free up when an item is spent.
+    const n = slot ?? '?';
+
     let message = '';
     switch(itemId) {
       case 'cardboard_box':
-        message = `${itemName.toUpperCase()} ACQUIRED: 1 to hide inside`;
+        message = `${itemName.toUpperCase()} ACQUIRED: ${n} to hide inside`;
         break;
       case 'smoke_grenade':
-        message = `${itemName.toUpperCase()} ACQUIRED: 2 to deploy smoke`;
+        message = `${itemName.toUpperCase()} ACQUIRED: ${n} to deploy smoke`;
         break;
       case 'keycard':
       case 'security_keycard':
         message = `${itemName.toUpperCase()} ACQUIRED: unlocks red doors automatically`;
         break;
       case 'water_glass':
-        message = `${itemName.toUpperCase()} ACQUIRED: get close, then throw it`;
+        message = `${itemName.toUpperCase()} ACQUIRED: get close, then ${n} to throw`;
         break;
       case 'bazooka':
-        message = `${itemName.toUpperCase()} ACQUIRED: one shot, make it count`;
+        message = `${itemName.toUpperCase()} ACQUIRED: ${n} to fire, one shot`;
         break;
       case 'easter_egg':
         message = itemName; // Easter eggs show message as-is (no "ACQUIRED")
