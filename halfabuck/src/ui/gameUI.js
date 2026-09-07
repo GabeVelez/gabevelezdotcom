@@ -146,6 +146,12 @@ export class GameUI {
       case 'security_keycard':
         message = `${itemName.toUpperCase()} ACQUIRED: unlocks red doors automatically`;
         break;
+      case 'water_glass':
+        message = `${itemName.toUpperCase()} ACQUIRED: get close, then throw it`;
+        break;
+      case 'bazooka':
+        message = `${itemName.toUpperCase()} ACQUIRED: one shot, make it count`;
+        break;
       case 'easter_egg':
         message = itemName; // Easter eggs show message as-is (no "ACQUIRED")
         break;
@@ -198,6 +204,8 @@ export class GameUI {
         smoke_grenade: 'smoke-bomb.png',
         security_keycard: 'keycard.png',
         keycard: 'keycard.png',
+        water_glass: 'water.png',
+        bazooka: 'bazooka.png',
       };
       const file = ART[item.id];
       if (file) {

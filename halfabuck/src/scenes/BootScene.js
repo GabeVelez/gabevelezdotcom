@@ -113,6 +113,8 @@ export class BootScene extends Phaser.Scene {
     this.load.image("item_box", "assets/sprites/items/box.png");
     this.load.image("item_smoke", "assets/sprites/items/smoke-bomb.png");
     this.load.image("item_keycard", "assets/sprites/items/keycard.png");
+    this.load.image("item_water", "assets/sprites/items/water.png");
+    this.load.image("item_bazooka", "assets/sprites/items/bazooka.png");
     this.load.image("smoke_grenade", "assets/sprites/items/smoke-bomb.png");
 
     // --- Vehicle sprites ---
@@ -124,11 +126,9 @@ export class BootScene extends Phaser.Scene {
       frameHeight: 80
     });
 
-    // --- Boss beat placeholders (swap for real art when it lands) ---
-    this._makePlaceholderTexture("item_water", 16, 16, 0x4fc3f7);  // glass of water
-    this._makePlaceholderTexture("item_bazooka", 24, 12, 0x6d4c41); // bazooka
-    this._makePlaceholderTexture("villain", 24, 40, 0x8e24aa);      // executive villain
-    this._makePlaceholderTexture("monster", 40, 56, 0x2e7d32);      // hulked-out villain
+    // --- Boss placeholders still awaiting art ---
+    this._makePlaceholderTexture("villain", 24, 40, 0x8e24aa);  // executive villain
+    this._makePlaceholderTexture("monster", 40, 56, 0x2e7d32);  // hulked-out villain
 
     // --- Placeholder entity textures ---
     this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
