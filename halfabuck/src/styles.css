@@ -436,6 +436,19 @@ canvas {
   display: none;
 }
 
+/* The title and cutscene art is contained rather than cropped, so the chassis
+   shows around it. Black rather than moulded plastic, so the surround reads as
+   letterbox and the frame edge disappears. */
+#handheld.is-cinematic .hh-body {
+  background: #000;
+  box-shadow: none;
+}
+
+#handheld.is-cinematic .hh-bezel {
+  background: #000;
+  box-shadow: none;
+}
+
 #handheld.is-cinematic .hh-left {
   position: absolute;
   left: max(8px, env(safe-area-inset-left));
