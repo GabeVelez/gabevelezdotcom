@@ -122,7 +122,8 @@ export class ExecutiveWingScene extends BaseRoomScene {
     roofExit.triggered = !this.villainDefeated;
 
     const villain = this.createThrowTarget(250, 110, {
-      texture: "villain",
+      // Facing left, toward the door the player comes through.
+      texture: "villain-left",
       displaySize: 48,
       requiresItem: "water_glass",
       range: 110,

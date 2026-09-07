@@ -57,9 +57,9 @@ export const CUTSCENES = {
   water_throw: {
     music: "spooky", // already playing; named so it is not interrupted
     frames: [
-      { image: "cs_water_01", duration: 1400, sound: "box_toggle" },
-      { image: "cs_water_02", duration: 1800, sound: "ground_impact", shake: 240 },
-      { image: "cs_water_03", duration: 2600, text: "AAAAARGH!" },
+      { image: "cs_water_01", duration: 1500, sound: "box_toggle" },
+      { image: "cs_water_02", duration: 2600, sound: "ground_impact", shake: 260,
+        text: "AAAAARGH!" },
     ],
   },
 

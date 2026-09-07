@@ -23,8 +23,14 @@ export class BootScene extends Phaser.Scene {
     // Story cutscene frames. These are attempted rather than required: a
     // missing file logs and its frame is skipped, so the story can be wired up
     // before the art exists. Drop a PNG in and it starts playing.
+    // Photographic frames are JPEG (no transparency to keep, and a fraction of
+    // the size); layered frames need PNG for their alpha. Phaser takes the
+    // first URL that loads, so both can be offered.
     ALL_CUTSCENE_FRAMES.forEach((key) => {
-      this.load.image(key, `assets/cutscenes/story/${key}.png`);
+      this.load.image(key, [
+        `assets/cutscenes/story/${key}.jpg`,
+        `assets/cutscenes/story/${key}.png`,
+      ]);
     });
 
     // --- UI Screens ---
@@ -141,8 +147,18 @@ export class BootScene extends Phaser.Scene {
       frameHeight: 80
     });
 
-    // --- Boss placeholders still awaiting art ---
-    this._makePlaceholderTexture("villain", 24, 40, 0x8e24aa);  // executive villain
+    // --- Villain (5 frames per direction, 320x64 = 5 x 64px cells) ---
+    // Cut from villain.png the same way as the player: one scale, feet on a
+    // shared baseline, frames aligned on the head centre. He stands 60px in a
+    // 64 cell against the player's 56, so he reads as slightly the bigger man.
+    ["front", "back", "left", "right"].forEach((dir) => {
+      this.load.spritesheet(`villain-${dir}`, `assets/sprites/villain/villain-${dir}.png`, {
+        frameWidth: 64,
+        frameHeight: 64,
+      });
+    });
+
+    // --- Still awaiting art ---
     this._makePlaceholderTexture("monster", 40, 56, 0x2e7d32);  // hulked-out villain
 
     // --- Placeholder entity textures ---
