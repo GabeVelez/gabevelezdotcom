@@ -78,12 +78,32 @@ const shell = createMobileShell();
 // Wait for fonts to load before starting game
 let game;
 
+/**
+ * Hold the game until the dev password gate is dismissed.
+ *
+ * Phaser binds its keyboard listeners to the document, so a game booted behind
+ * the gate was still live: a stray SPACE would start the cutscene and its audio
+ * underneath the password screen. Nothing runs until the gate opens.
+ *
+ * The gate script is inline and runs before this module, so an already
+ * authenticated session resolves immediately.
+ */
+function waitForGate() {
+  const gate = document.getElementById("password-gate");
+  const alreadyOpen =
+    !gate || window.__habGateOpen === true || getComputedStyle(gate).display === "none";
+  if (alreadyOpen) return Promise.resolve();
+  return new Promise((resolve) =>
+    window.addEventListener("hab:unlocked", resolve, { once: true })
+  );
+}
+
 // Explicitly load required fonts
-Promise.all([
+waitForGate().then(() => Promise.all([
   document.fonts.load("400 10px 'Press Start 2P'"),
   document.fonts.load("700 10px 'Orbitron'"),
   document.fonts.load("900 10px 'Orbitron'")
-]).then(() => {
+])).then(() => {
   console.log('Fonts loaded successfully');
   // Create game after fonts are loaded
   game = new Phaser.Game(createGameConfig([

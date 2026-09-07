@@ -53,7 +53,9 @@ export class BaseRoomScene extends Phaser.Scene {
     // Start intro music during gameplay if sound is enabled
     if (!this.registry.get("intro_music")) {
       const music = this.sound.add("intro_music", { loop: true, volume: 0.5 });
-      this.game.sound.pauseOnBlur = false; // Keep playing when window loses focus
+      // pauseOnBlur stays at its default of true. It was forced to false here,
+      // which meant a backgrounded tab (or a locked phone) carried on playing
+      // the music forever, so an old tab could be heard over a fresh one.
       this.registry.set("intro_music", music);
 
       if (this.registry.get("soundEnabled")) {

@@ -76,7 +76,7 @@
         font-size: 8px;
       }
     </style>
-    <script type="module" crossorigin src="/halfabuck/assets/index-CxIIpJTa.js"></script>
+    <script type="module" crossorigin src="/halfabuck/assets/index-BzZSjeVU.js"></script>
     <link rel="stylesheet" crossorigin href="/halfabuck/assets/index-Cx0PUt_F.css">
   </head>
   <body>
@@ -171,8 +171,17 @@
         var KEY = 'hab_auth';
         var gate = document.getElementById('password-gate');
 
-        if (sessionStorage.getItem(KEY) === '1') {
+        // The game waits on this before booting. Phaser listens for keys on the
+        // document, so with the game running behind the gate a stray SPACE
+        // could start the cutscene (and its audio) while the gate was still up.
+        function openGate() {
           gate.style.display = 'none';
+          window.__habGateOpen = true;
+          window.dispatchEvent(new Event('hab:unlocked'));
+        }
+
+        if (sessionStorage.getItem(KEY) === '1') {
+          openGate();
           return;
         }
 
@@ -184,7 +193,7 @@
         function tryPass() {
           if (document.getElementById('password-input').value === PASS) {
             sessionStorage.setItem(KEY, '1');
-            gate.style.display = 'none';
+            openGate();
           } else {
             document.getElementById('password-error').style.display = 'block';
             document.getElementById('password-input').value = '';
