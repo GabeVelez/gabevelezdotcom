@@ -116,7 +116,7 @@ export class ExecutiveWingScene extends BaseRoomScene {
 
     // The lit alcove behind the desk. Shut until he is down, so he cannot
     // simply be walked around.
-    this.createExit(188, 26, 52, 44, "RooftopHelipadScene", "north");
+    this.createExit(192, 24, 56, 40, "RooftopHelipadScene", "north");
     const roofExit = this._exits[this._exits.length - 1];
     roofExit.triggered = !this.villainDefeated;
 

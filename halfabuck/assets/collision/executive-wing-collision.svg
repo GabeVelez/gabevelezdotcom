@@ -1,17 +1,20 @@
 <svg width="384" height="384" viewBox="0 0 384 384" fill="none" xmlns="http://www.w3.org/2000/svg">
-<!-- Executive Wing: one square room, 384x384, matching executive-bg.png.
-     Measured off the art rather than authored blind, so the panelling,
-     the desk and the doorway line up with what is drawn. -->
+<!-- Executive Wing. Your Figma geometry, with two changes and nothing else:
+     scaled 1.2x from the 320 frame to the 384 the level runs at, and the top
+     wall re-expressed as two <rect>s. It was a single <path> with the alcove
+     cut out of it, and SVGCollisionParser only reads <rect>, so as exported
+     the room had no top wall at all. -->
 
-<!-- Panelled walls. The top band is in two pieces so the lit alcove behind
-     the desk stays open: that is the way up to the roof. -->
-<rect x="0" y="0" width="34" height="384" fill="#FF0000"/>
-<rect x="350" y="0" width="34" height="384" fill="#FF0000"/>
-<rect x="0" y="0" width="160" height="52" fill="#FF0000"/>
-<rect x="216" y="0" width="168" height="52" fill="#FF0000"/>
-<rect x="0" y="350" width="384" height="34" fill="#FF0000"/>
+<!-- Panelling: left, right, foot of the room -->
+<rect x="0" y="0" width="21" height="384" fill="#FF0000"/>
+<rect x="363" y="0" width="21" height="384" fill="#FF0000"/>
+<rect x="0" y="358.34" width="384" height="25.66" fill="#FF0000"/>
 
-<!-- The desk. Solid, so he cannot be reached head-on and the run past him
-     has to go around one side. -->
-<rect x="128" y="96" width="120" height="58" fill="#FF0000"/>
+<!-- Head of the room, in two pieces so the lit alcove behind the desk stays
+     open. That gap is the way up to the roof. -->
+<rect x="0" y="0" width="160.73" height="39.76" fill="#FF0000"/>
+<rect x="223.27" y="0" width="160.73" height="39.76" fill="#FF0000"/>
+
+<!-- The desk -->
+<rect x="131.85" y="96" width="120.3" height="41.1" fill="#FF0000"/>
 </svg>
