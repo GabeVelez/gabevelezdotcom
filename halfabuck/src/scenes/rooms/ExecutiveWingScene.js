@@ -145,7 +145,7 @@ export class ExecutiveWingScene extends BaseRoomScene {
     // Positions are provisional. The room is being redrawn, so these are placed
     // to be reachable rather than designed.
 
-    const water = new Item(this, 150, 160, {
+    const water = new Item(this, 120, 120, {
       id: "water_glass",
       name: "Glass of Water",
       description: "Ice cold. Somebody is about to wear it.",
@@ -156,7 +156,7 @@ export class ExecutiveWingScene extends BaseRoomScene {
     });
     this.items.push(water);
 
-    this.createThrowTarget(430, 160, {
+    this.createThrowTarget(300, 110, {
       texture: "villain",
       displaySize: 48,
       requiresItem: "water_glass",
