@@ -29,7 +29,7 @@ OUT_DIR = os.path.join(ROOT, "tools", "overlays")
 LEVELS = {
     "cell":               ("cell-collision.svg",                "scenes/cell/cell-layout.png"),
     "sewer":              ("sewer-collision.svg",               "scenes/sewer/sewer-layout.png"),
-    "corridor":           ("corridor-collision.svg",            "scenes/corridor/corridor-layout.png"),
+    "corridor":           ("corridor-collision.svg",            "scenes/corridor/corridor-layoutB.png"),
     "warehouse-main":     ("warehouse-main-collision.svg",      "scenes/warehouse/warehouse.png"),
     "storage-bay":        ("storage-bay-collision.svg",         "layouts/storage_bay_layout.png"),
     "loading-dock":       ("loading-dock-collision.svg",        "layouts/loading_dock_layout.png"),
