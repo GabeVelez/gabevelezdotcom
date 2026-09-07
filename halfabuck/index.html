@@ -71,13 +71,24 @@
         letter-spacing: 1px;
       }
       #password-submit:hover { background: #ffd700; }
+      #password-a2hs {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(255,255,255,0.14);
+        font-family: monospace;
+        font-size: 11px;
+        line-height: 1.6;
+        color: #9aa0a8;
+        text-align: center;
+      }
+      #password-a2hs strong { color: #ffd700; font-weight: normal; }
       #password-error {
         color: #e84b4b;
         font-size: 8px;
       }
     </style>
-    <script type="module" crossorigin src="/halfabuck/assets/index-BySwWbr_.js"></script>
-    <link rel="stylesheet" crossorigin href="/halfabuck/assets/index-B_kDC1TA.css">
+    <script type="module" crossorigin src="/halfabuck/assets/index-CapZPt4J.js"></script>
+    <link rel="stylesheet" crossorigin href="/halfabuck/assets/index-REy-ulc3.css">
   </head>
   <body>
     <!-- Password Gate (temporary - remove before public launch) -->
@@ -88,6 +99,9 @@
         <input id="password-input" type="password" placeholder="enter password" autocomplete="off" />
         <button id="password-submit">ENTER</button>
         <div id="password-error" style="display:none;">wrong password</div>
+        <div id="password-a2hs" style="display:none;">
+          For the full screen experience:<br>tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>
+        </div>
       </div>
     </div>
 
@@ -174,6 +188,21 @@
         // The game waits on this before booting. Phaser listens for keys on the
         // document, so with the game running behind the gate a stray SPACE
         // could start the cutscene (and its audio) while the gate was still up.
+        // Only worth showing on a touch device that has no Fullscreen API
+        // (iPhone Safari) and is not already installed. Anywhere else the
+        // first tap just goes fullscreen on its own.
+        (function suggestHomeScreen() {
+          var el = document.documentElement;
+          var hasFullscreen = !!(el.requestFullscreen || el.webkitRequestFullscreen);
+          var isTouch = window.matchMedia('(pointer: coarse)').matches;
+          var standalone = window.navigator.standalone === true ||
+            window.matchMedia('(display-mode: standalone)').matches ||
+            window.matchMedia('(display-mode: fullscreen)').matches;
+          if (isTouch && !hasFullscreen && !standalone) {
+            document.getElementById('password-a2hs').style.display = 'block';
+          }
+        })();
+
         function openGate() {
           gate.style.display = 'none';
           window.__habGateOpen = true;

@@ -4,6 +4,10 @@ import Phaser from "phaser";
 // (~300ms), so the tap that starts the game cannot also skip the cutscene.
 const SKIP_ARM_MS = 800;
 
+// Height of each cinematic bar. Also defines the window the frame art is fitted
+// into, so the two cannot drift apart.
+export const LETTERBOX_H = 12;
+
 export class AbductionCutscene extends Phaser.Scene {
   constructor() {
     super("AbductionCutscene");
@@ -111,7 +115,7 @@ export class AbductionCutscene extends Phaser.Scene {
     this.textObjects = [];
 
     // Letterbox bars (cinematic black bars at top and bottom)
-    const letterboxHeight = 20; // Height of each bar
+    const letterboxHeight = LETTERBOX_H;
     this.topLetterbox = this.add.rectangle(0, 0, width, letterboxHeight, 0x000000).setOrigin(0, 0).setDepth(10);
     this.bottomLetterbox = this.add.rectangle(0, height - letterboxHeight, width, letterboxHeight, 0x000000).setOrigin(0, 0).setDepth(10);
 
@@ -173,9 +177,12 @@ export class AbductionCutscene extends Phaser.Scene {
     this.currentImage = this.add.image(width / 2, height / 2 + 12, frame.image);
 
     // Scale image to cover canvas while maintaining aspect ratio
-    const scaleX = width / this.currentImage.width;
-    const scaleY = height / this.currentImage.height;
-    const scale = Math.max(scaleX, scaleY);
+    // Contain, not cover. Cover was hiding 45% of every frame: the art is
+    // 1.5:1 and the window between the letterbox bars is 2.74:1. Contain never
+    // crops, and fills exactly once the art matches the window aspect.
+    const usableHeight = height - LETTERBOX_H * 2;
+    const scale = Math.min(width / this.currentImage.width,
+                           usableHeight / this.currentImage.height);
     this.currentImage.setScale(scale);
 
     // Fade in image

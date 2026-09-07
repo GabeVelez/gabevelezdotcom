@@ -420,7 +420,13 @@ canvas {
    over the bottom-left corner instead of living in a column. */
 #handheld.is-cinematic .hh-body {
   grid-template-columns: 0 1fr 0;
-  padding: 0;
+  /* Still edge to edge, but not underneath the notch or the rounded corners.
+     Without this the canvas ran under them and clipped anything drawn at the
+     canvas edge, such as the cutscene's TAP TO SKIP. */
+  padding: max(2px, env(safe-area-inset-top))
+           max(4px, env(safe-area-inset-right))
+           max(2px, env(safe-area-inset-bottom))
+           max(4px, env(safe-area-inset-left));
 }
 
 #handheld.is-cinematic .hh-right {
