@@ -13,3 +13,6 @@ dist/
 public/gabereference/
 gabereference/
 temp-layouts/
+
+# Generated collision overlays (regenerate with tools/collision-overlay.py)
+tools/overlays/
