@@ -141,17 +141,11 @@ export class CutsceneScene extends Phaser.Scene {
     (cfg.captions || []).forEach((cap) => {
       this.time.delayedCall(cap.at ?? 0, () => {
         if (this.finished) return;
-        const label = this.add
-          .text(width / 2, height - LETTERBOX_H / 2, cap.text, {
-            fontFamily: "'Orbitron', sans-serif",
-            fontSize: "10px",
-            color: "#ffffff",
-            align: "center",
-          })
-          .setOrigin(0.5)
-          .setDepth(11);
+        const objects = this.drawCaption(cap.text);
         if (cap.until) {
-          this.time.delayedCall(cap.until - (cap.at ?? 0), () => label.destroy());
+          this.time.delayedCall(cap.until - (cap.at ?? 0), () =>
+            objects.forEach((o) => o.destroy())
+          );
         }
       });
     });
@@ -184,16 +178,7 @@ export class CutsceneScene extends Phaser.Scene {
     this.frameObjects.push(image);
 
     if (frame.text) {
-      const label = this.add
-        .text(width / 2, height - LETTERBOX_H / 2, frame.text, {
-          fontFamily: "'Orbitron', sans-serif",
-          fontSize: "10px",
-          color: "#ffffff",
-          align: "center",
-        })
-        .setOrigin(0.5)
-        .setDepth(11);
-      this.frameObjects.push(label);
+      this.frameObjects.push(...this.drawCaption(frame.text));
     }
 
     if (frame.sound && this.registry.get("soundEnabled")) {
@@ -209,6 +194,42 @@ export class CutsceneScene extends Phaser.Scene {
     this.time.delayedCall(frame.duration ?? 2000, () => {
       if (!this.finished) this.showFrame(index + 1);
     });
+  }
+
+  /**
+   * Caption sitting just above the bottom bar, wrapped and on a dark backing so
+   * a long line stays readable over bright artwork. Returns the objects so the
+   * caller can clear them.
+   */
+  drawCaption(text) {
+    const { width, height } = this.scale;
+    const maxWidth = width - 32;
+
+    const label = this.add
+      .text(width / 2, 0, text, {
+        fontFamily: "'Orbitron', sans-serif",
+        fontSize: "10px",
+        color: "#ffffff",
+        align: "center",
+        wordWrap: { width: maxWidth, useAdvancedWrap: true },
+      })
+      .setOrigin(0.5, 1)
+      .setDepth(12);
+
+    label.y = height - LETTERBOX_H - 4;
+
+    const backing = this.add
+      .rectangle(
+        width / 2,
+        label.y - label.height / 2,
+        label.width + 12,
+        label.height + 6,
+        0x000000,
+        0.66
+      )
+      .setDepth(11);
+
+    return [backing, label];
   }
 
   finish() {

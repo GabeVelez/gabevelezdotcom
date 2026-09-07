@@ -27,14 +27,19 @@ export const CUTSCENES = {
    */
   villain_reveal: {
     type: "layered",
-    duration: 5400,
+    duration: 13800,
     background: "cs_reveal_bg",
     layers: [
       { image: "cs_reveal_gabe",    from: "left",  delay: 250, duration: 850 },
       { image: "cs_reveal_villain", from: "right", delay: 850, duration: 850 },
     ],
+    // He talks. Split into beats rather than one block: at 10px in a 384-wide
+    // canvas the whole speech would be an unreadable wall.
     captions: [
-      { at: 2100, until: 5400, text: "SO IT WAS YOU" },
+      { at: 2000, until: 4400,  text: "HEARD IT WAS YOUR BIRTHDAY." },
+      { at: 4400, until: 7800,  text: "AND YOUR CAPTAIN WOKE, COMMY-LOVING ASS IS NOW AT AN END." },
+      { at: 7800, until: 10200, text: "YOUR END WILL BE SO GREAT." },
+      { at: 10200, until: 13600, text: "THE GREATEST END OF ALL TIME, THEY TELL ME." },
     ],
   },
 

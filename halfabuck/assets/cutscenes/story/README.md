@@ -24,5 +24,11 @@ layer as it should in the final shot:
 The two character layers slide in from their own sides, so export them in their
 final positions and the animation handles the rest. Do not pre-offset them.
 
+**Export each layer on the full 1942x809 canvas, not cropped to the character.**
+This is the easy one to get wrong: if one layer is cropped tight and another is
+not, they end up at wildly different scales when composited, because the game
+fits each to the same frame. The villain layer arrived cropped at 1536x1024 and
+had to be trimmed and placed by hand; the original is kept in originals/.
+
 Transparency matters: exported on a solid background they will cover each other
 and the office.
