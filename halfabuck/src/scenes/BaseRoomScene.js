@@ -50,6 +50,9 @@ export class BaseRoomScene extends Phaser.Scene {
     // Initialize locked doors array for this scene
     this.lockedDoors = [];
 
+    // Targets that a carried item can be thrown at (villain, monster)
+    this.throwTargets = [];
+
     // Start intro music during gameplay if sound is enabled
     if (!this.registry.get("intro_music")) {
       const music = this.sound.add("intro_music", { loop: true, volume: 0.5 });
@@ -541,6 +544,9 @@ export class BaseRoomScene extends Phaser.Scene {
     // Check for locked doors to unlock
     this._checkLockedDoors();
 
+    // Check for a throwable being used on a target
+    this._checkThrowTargets(input);
+
     // Check exits manually (with delay to prevent immediate triggering on load)
     if (this._exits) {
       // Add delay before exits become active (set in createBaseSystems)
@@ -723,6 +729,148 @@ export class BaseRoomScene extends Phaser.Scene {
 
   
     }
+  }
+
+  /**
+   * A target that is defeated by throwing a carried item at it.
+   *
+   * Both boss beats are the same shape: pick the item up, get close, use its
+   * slot, watch it land. One hit is all it takes, so there is no health, no
+   * projectile physics and no combat state, just a tween and a callback.
+   */
+  createThrowTarget(x, y, config = {}) {
+    const sprite = this.add.sprite(x, y, config.texture);
+    if (config.displaySize) {
+      sprite.setDisplaySize(config.displaySize, config.displaySize);
+    }
+    sprite.setDepth(config.depth ?? 9);
+
+    const target = {
+      sprite,
+      x,
+      y,
+      requiresItem: config.requiresItem,
+      range: config.range ?? 90,
+      // Lob it (a thrown glass) or send it flat and fast (a rocket).
+      arc: config.arc !== false,
+      onDefeated: config.onDefeated || null,
+      defeated: false,
+      busy: false,
+    };
+
+    this.throwTargets.push(target);
+    return target;
+  }
+
+  /**
+   * Fires when the player uses the slot holding the required item while close
+   * enough to a target. The slot index is looked up rather than hardcoded,
+   * since it depends on pickup order.
+   */
+  _checkThrowTargets(input) {
+    if (!this.throwTargets || this.throwTargets.length === 0) return;
+
+    const items = this.inventory.getAll();
+
+    for (const target of this.throwTargets) {
+      if (target.defeated || target.busy) continue;
+
+      const slotIndex = items.findIndex((i) => i.id === target.requiresItem);
+      if (slotIndex === -1) continue;
+      if (!input[`justSlot${slotIndex + 1}`]) continue;
+
+      const distance = Phaser.Math.Distance.Between(
+        this.player.x, this.player.y, target.x, target.y
+      );
+      if (distance > target.range) continue;
+
+      this._throwAtTarget(target, items[slotIndex]);
+    }
+  }
+
+  /**
+   * Player throws, the item travels, it lands. Then hand off to whatever comes
+   * next (a cutscene, usually).
+   */
+  _throwAtTarget(target, item) {
+    target.busy = true;
+
+    // Spend the item so it cannot be thrown twice
+    this.inventory.removeItem(item.id);
+    if (this.gameUI) this.gameUI.updateInventory(this.inventory.getAll());
+
+    // Player stops to throw
+    this.player.body.setVelocity(0, 0);
+    this.player.body.enable = false;
+
+    const projectile = this.add.image(this.player.x, this.player.y - 16, item.texture);
+    projectile.setDisplaySize(16, 16);
+    projectile.setDepth(20);
+
+    if (this.registry.get("soundEnabled")) {
+      this.sound.play("box_toggle", { volume: 0.4 });
+    }
+
+    if (!target.arc) {
+      // Flat, fast, no lob.
+      projectile.setAngle(target.x < this.player.x ? 180 : 0);
+      this.tweens.add({
+        targets: projectile,
+        x: target.x,
+        y: target.y,
+        duration: 220,
+        ease: "Quad.easeIn",
+        onComplete: () => this._resolveThrowHit(target, projectile),
+      });
+      return;
+    }
+
+    // Arc it in: rise on the way out, drop onto the target.
+    const midX = (this.player.x + target.x) / 2;
+    const peakY = Math.min(this.player.y, target.y) - 28;
+
+    this.tweens.add({
+      targets: projectile,
+      x: midX,
+      y: peakY,
+      angle: 180,
+      duration: 180,
+      ease: "Sine.easeOut",
+      onComplete: () => {
+        this.tweens.add({
+          targets: projectile,
+          x: target.x,
+          y: target.y,
+          angle: 360,
+          duration: 180,
+          ease: "Sine.easeIn",
+          onComplete: () => this._resolveThrowHit(target, projectile),
+        });
+      },
+    });
+  }
+
+  _resolveThrowHit(target, projectile) {
+    projectile.destroy();
+    target.defeated = true;
+
+    this.cameras.main.shake(220, 0.008);
+    if (this.registry.get("soundEnabled")) {
+      this.sound.play("ground_impact", { volume: 0.6 });
+    }
+
+    // Hit reaction: flash and reel
+    this.tweens.add({
+      targets: target.sprite,
+      alpha: 0.2,
+      duration: 90,
+      yoyo: true,
+      repeat: 2,
+    });
+
+    this.time.delayedCall(900, () => {
+      if (target.onDefeated) target.onDefeated();
+    });
   }
 
   /**

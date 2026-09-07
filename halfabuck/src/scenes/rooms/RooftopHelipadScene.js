@@ -5,6 +5,7 @@ import { LeadGuard } from "../../entities/LeadGuard.js";
 import { Officer } from "../../entities/Officer.js";
 import { Captain } from "../../entities/Captain.js";
 import { Overseer } from "../../entities/Overseer.js";
+import { Item } from "../../entities/Item.js";
 
 /**
  * Rooftop Helipad - Final level (Level 10)
@@ -186,10 +187,39 @@ export class RooftopHelipadScene extends BaseRoomScene {
       ease: 'Linear'
     });
 
-    // Victory exit zone at helicopter (triggers EndingScene)
+    // --- Boss beat: the Resident Evil helipad. Rocket launcher, then the
+    //     chopper. The monster has to go down before the exit opens. ---------
+    const bazooka = new Item(this, rooftopOffsetX + 240, rooftopOffsetY + 400, {
+      id: "bazooka",
+      name: "Bazooka",
+      description: "One shot. Make it count.",
+      texture: "item_bazooka",
+      displaySize: 28,
+      depth: 5,
+      interactionRange: 40,
+    });
+    this.items.push(bazooka);
+
+    // Victory exit at the helicopter, held shut until the monster is down.
     const exitX = rooftopOffsetX + 240;
     const exitY = rooftopOffsetY + 240;
     this.createExit(exitX, exitY, 64, 64, "EndingScene", "victory");
+    const victoryExit = this._exits[this._exits.length - 1];
+    victoryExit.triggered = true; // disabled until the kill
+
+    this.createThrowTarget(rooftopOffsetX + 240, rooftopOffsetY + 150, {
+      texture: "monster",
+      displaySize: 64,
+      requiresItem: "bazooka",
+      range: 130,
+      arc: false, // rockets travel flat
+      onDefeated: () => {
+        victoryExit.triggered = false; // board the chopper
+        if (this.gameUI) {
+          this.gameUI.showItemNotification("easter_egg", "Get to the chopper.");
+        }
+      },
+    });
 
     // Add colliders for all SVG collision bodies
     collisionBodies.forEach(body => {

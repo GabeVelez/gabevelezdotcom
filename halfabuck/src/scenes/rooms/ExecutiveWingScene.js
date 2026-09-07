@@ -4,7 +4,7 @@ import { LeadGuard } from "../../entities/LeadGuard.js";
 import { Officer } from "../../entities/Officer.js";
 import { Captain } from "../../entities/Captain.js";
 import { Overseer } from "../../entities/Overseer.js";
-import { SecurityKeycard } from "../../entities/SecurityKeycard.js";
+import { Item } from "../../entities/Item.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
@@ -141,17 +141,32 @@ export class ExecutiveWingScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Add security keycard for the locked door
-    const keycard = new SecurityKeycard(this, 150, 160, {
-      keycardId: "executive-exit"
+    // --- Boss beat: grab the water, throw it, villain goes down ------------
+    // Positions are provisional. The room is being redrawn, so these are placed
+    // to be reachable rather than designed.
+
+    const water = new Item(this, 150, 160, {
+      id: "water_glass",
+      name: "Glass of Water",
+      description: "Ice cold. Somebody is about to wear it.",
+      texture: "item_water",
+      displaySize: 20,
+      depth: 5,
+      interactionRange: 40,
     });
-    this.items.push(keycard);
+    this.items.push(water);
 
-    // Locked door blocking the exit at (512, 96)
-    this.createLockedDoor(512, 96, 32, 48, "executive-exit");
-
-    // Exit to Rooftop Helipad at (528, 96)
-    this.createExit(528, 96, 32, 32, "RooftopHelipadScene", "south");
+    this.createThrowTarget(430, 160, {
+      texture: "villain",
+      displaySize: 48,
+      requiresItem: "water_glass",
+      range: 110,
+      onDefeated: () => {
+        // Next: the two cutscenes, player fleeing then the villain changing.
+        // Until those frames exist, hand straight over to the rooftop.
+        this.scene.start("RooftopHelipadScene", { entryDirection: "north" });
+      },
+    });
 
     // Physics - add colliders for all collision bodies
     collisionBodies.forEach(body => {

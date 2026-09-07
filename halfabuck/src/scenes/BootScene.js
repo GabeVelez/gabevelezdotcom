@@ -42,6 +42,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image("loading_dock_layout", "assets/layouts/loading_dock_layout.png");
     this.load.image("security_office_layout", "assets/layouts/security_office_layout.png");
     this.load.image("maintenance_tunnel_layout", "assets/layouts/maintenance_tunnel_layout.png");
+    this.load.image("executive_wing_layout", "assets/scenes/executive-wing/executive-wing-layout.png");
     this.load.image("rooftop_helipad_layout", "assets/scenes/rooftop-helipad/rooftop-helipad-layout.png");
 
     // --- Collision is loaded directly via SVGCollisionParser (no preloading needed) ---
@@ -122,6 +123,12 @@ export class BootScene extends Phaser.Scene {
       frameWidth: 80,
       frameHeight: 80
     });
+
+    // --- Boss beat placeholders (swap for real art when it lands) ---
+    this._makePlaceholderTexture("item_water", 16, 16, 0x4fc3f7);  // glass of water
+    this._makePlaceholderTexture("item_bazooka", 24, 12, 0x6d4c41); // bazooka
+    this._makePlaceholderTexture("villain", 24, 40, 0x8e24aa);      // executive villain
+    this._makePlaceholderTexture("monster", 40, 56, 0x2e7d32);      // hulked-out villain
 
     // --- Placeholder entity textures ---
     this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
