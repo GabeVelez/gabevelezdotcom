@@ -78,13 +78,13 @@ export function createMobileShell() {
         <div class="hh-control">
         <div class="hh-dpad" aria-label="Direction pad">
           <span class="hh-pad hh-pad-corner"></span>
-          <span class="hh-pad hh-pad-up">▲</span>
+          <span class="hh-pad hh-pad-up"></span>
           <span class="hh-pad hh-pad-corner"></span>
-          <span class="hh-pad hh-pad-left">◀</span>
+          <span class="hh-pad hh-pad-left"></span>
           <span class="hh-pad hh-pad-mid"></span>
-          <span class="hh-pad hh-pad-right">▶</span>
+          <span class="hh-pad hh-pad-right"></span>
           <span class="hh-pad hh-pad-corner"></span>
-          <span class="hh-pad hh-pad-down">▼</span>
+          <span class="hh-pad hh-pad-down"></span>
           <span class="hh-pad hh-pad-corner"></span>
         </div>
         </div>

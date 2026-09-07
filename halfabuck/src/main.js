@@ -39,6 +39,33 @@ if (document.readyState === 'loading') {
   enforceLandscape();
 }
 
+/**
+ * iOS Safari has ignored user-scalable=no in the viewport meta since iOS 10, so
+ * pinch and double-tap zoom have to be blocked directly. Zooming a fixed-size
+ * game canvas only ever breaks the layout, and it was firing accidentally while
+ * players used the d-pad.
+ */
+function blockZoomGestures() {
+  // Pinch. Only iOS Safari fires these.
+  for (const type of ["gesturestart", "gesturechange", "gestureend"]) {
+    document.addEventListener(type, (e) => e.preventDefault(), { passive: false });
+  }
+
+  // Pinch fallback for browsers without the gesture events.
+  document.addEventListener("touchmove", (e) => {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+
+  // Double-tap to zoom. A single tap is untouched, so inputs still focus.
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) e.preventDefault();
+    lastTouchEnd = now;
+  }, { passive: false });
+}
+blockZoomGestures();
+
 // Retro handheld shell (mobile only; inert on desktop)
 const shell = createMobileShell();
 

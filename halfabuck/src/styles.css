@@ -32,6 +32,19 @@ html, body {
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
+  /* Stops iOS popping the text-selection loupe on a firm press */
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The chassis is all controls, never text to select. Without this a firm press
+   on the d-pad or a slot number raises iOS's magnifier over the game. */
+#handheld,
+#handheld * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #game {
@@ -454,8 +467,10 @@ canvas {
   width: 100%;
   max-width: 150px;
   /* Matched height so the d-pad and the slots below them line up, even though
-     the meter is a label plus a bar and the level name is one line. */
+     the meter is a label plus a bar and the level name is one line. The margin
+     is on both so the two columns stay aligned. */
   min-height: 30px;
+  margin-bottom: clamp(10px, 4vh, 22px);
   flex: none;
   display: flex;
   flex-direction: column;
@@ -529,11 +544,29 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
   color: rgba(255, 255, 255, 0.55);
   background: var(--hh-pad);
   user-select: none;
 }
+
+/* Drawn rather than typed. The glyphs ◀ and ▶ carry emoji presentation on iOS
+   and rendered as blue boxed arrows while ▲ and ▼ stayed plain triangles. One
+   clip-path rotated four ways is identical by construction. */
+.hh-pad-up::after,
+.hh-pad-down::after,
+.hh-pad-left::after,
+.hh-pad-right::after {
+  content: "";
+  display: block;
+  width: 32%;
+  aspect-ratio: 1;
+  background: currentColor;
+  clip-path: polygon(50% 14%, 88% 82%, 12% 82%);
+}
+
+.hh-pad-down::after  { transform: rotate(180deg); }
+.hh-pad-left::after  { transform: rotate(-90deg); }
+.hh-pad-right::after { transform: rotate(90deg); }
 
 /* Corners stay invisible but remain live hit area, so diagonals work */
 .hh-pad-corner {
