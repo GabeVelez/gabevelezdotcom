@@ -13,6 +13,10 @@ export class BootScene extends Phaser.Scene {
     // Cutscene frames are expected to be missing until their art is made, so
     // those are noted rather than shouted about.
     this.load.on("loaderror", (file) => {
+      // Cutscene frames are probed in both formats, so one of the two always
+      // misses. Only the pair going missing is worth reporting, and create()
+      // does that.
+      if (/__(jpg|png)$/.test(file.key || "")) return;
       if (ALL_CUTSCENE_FRAMES.includes(file.key)) {
         console.info(`[BootScene] cutscene frame "${file.key}" not present yet; it will be skipped`);
       } else {
@@ -20,17 +24,22 @@ export class BootScene extends Phaser.Scene {
       }
     });
 
-    // Story cutscene frames. These are attempted rather than required: a
-    // missing file logs and its frame is skipped, so the story can be wired up
-    // before the art exists. Drop a PNG in and it starts playing.
-    // Photographic frames are JPEG (no transparency to keep, and a fraction of
-    // the size); layered frames need PNG for their alpha. Phaser takes the
-    // first URL that loads, so both can be offered.
+    // Story cutscene frames. Attempted rather than required: a missing file
+    // logs and its frame is skipped, so the story can be wired up before the
+    // art exists. Photographic frames are JPEG (nothing transparent to keep,
+    // and a fraction of the size); layered frames need PNG for their alpha,
+    // so either extension has to work.
+    //
+    // Not by handing load.image both URLs. Phaser reads a second URL as a
+    // NORMAL MAP, not a fallback (ImageFile: `normalMapURL = url[1]`), and
+    // ImageFile.addToCache does nothing at all when a linked file failed. So
+    // offering both silently registered no texture for any frame whose other
+    // extension was absent, which is every frame in the game. Both formats are
+    // loaded under their own keys instead, and create() aliases whichever one
+    // actually arrived to the key the cutscenes ask for.
     ALL_CUTSCENE_FRAMES.forEach((key) => {
-      this.load.image(key, [
-        `assets/cutscenes/story/${key}.jpg`,
-        `assets/cutscenes/story/${key}.png`,
-      ]);
+      this.load.image(`${key}__jpg`, `assets/cutscenes/story/${key}.jpg`);
+      this.load.image(`${key}__png`, `assets/cutscenes/story/${key}.png`);
     });
 
     // --- UI Screens ---
@@ -219,6 +228,18 @@ export class BootScene extends Phaser.Scene {
   }
 
   create() {
+    // Settle each cutscene frame onto the key its definition uses, whichever
+    // extension turned up. A frame with neither is left absent on purpose:
+    // CutsceneScene skips frames it has no texture for.
+    ALL_CUTSCENE_FRAMES.forEach((key) => {
+      const found = [`${key}__jpg`, `${key}__png`].find((k) => this.textures.exists(k));
+      if (!found) {
+        console.info(`[BootScene] cutscene frame "${key}" not present yet; it will be skipped`);
+        return;
+      }
+      this.textures.renameTexture(found, key);
+    });
+
     // Create smoke cloud animation
     this.anims.create({
       key: "smoke_expand",

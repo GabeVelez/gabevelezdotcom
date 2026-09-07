@@ -87,9 +87,10 @@ export class ExecutiveWingScene extends BaseRoomScene {
     // exist before setupVisionSystem so it can hand him a cone.
     this.createGuards();
     if (!this.villainDefeated) {
-      // His post: behind his desk, facing the door. He comes out in front of
-      // it to attack, and has to go round it to do so, which is the window.
-      this.villain = new Villain(this, 192, 84);
+      // His post: the middle of the room, facing the door. He is the roadblock
+      // between where you come in and the desk, so the level is getting past
+      // him rather than out-waiting him at the desk.
+      this.villain = new Villain(this, 192, 224);
       this.guards.push(this.villain);
     }
 
@@ -114,12 +115,10 @@ export class ExecutiveWingScene extends BaseRoomScene {
     // (glass in flight, the hit, him screaming) rather than an in-game arc.
     // Control returns here with him down and the way past open.
 
-    // On the far half of the desk, on his side of it. That placement is doing
-    // the work: with him behind the desk and the glass on the near half you
-    // could walk up, take it over the top and throw from 70px without ever
-    // moving him. Back here it cannot be reached from the near side at all,
-    // so getting onto his side of the desk is the level.
-    const water = new Item(this, 192, 106, {
+    // On the desk at the head of the room, with him in the way of it. The desk
+    // is solid, so it is picked up by reaching over the near edge rather than
+    // by walking onto it.
+    const water = new Item(this, 192, 124, {
       id: "water_glass",
       name: "Glass of Water",
       description: "Ice cold. Somebody is about to wear it.",
@@ -140,8 +139,12 @@ export class ExecutiveWingScene extends BaseRoomScene {
     if (this.villainDefeated) {
       // Back from the throw cutscene: soaked, screaming, out of the way. A
       // still sprite, not the entity, because there is nothing left to chase.
-      const downed = this.add.sprite(192, 80, "villain-agony");
-      downed.setDisplaySize(48, 48).setDepth(9).play("villain_agony");
+      // Where he was standing when the water hit him: the middle of the room,
+      // not slumped on the desk.
+      // Bottom-centre origin at 32px, matching the Villain entity, so he does
+      // not jump position or size between standing and screaming.
+      const downed = this.add.sprite(192, 224, "villain-agony");
+      downed.setOrigin(0.5, 1).setDisplaySize(32, 32).setDepth(9).play("villain_agony");
       if (this.gameUI) {
         this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
       }
