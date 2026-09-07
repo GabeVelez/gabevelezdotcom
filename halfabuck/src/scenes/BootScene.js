@@ -6,6 +6,13 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
+    this._buildLoadingScreen();
+
+    // A silent failure here looks identical to a slow connection otherwise.
+    this.load.on("loaderror", (file) => {
+      console.error(`[BootScene] failed to load "${file.key}" from ${file.src}`);
+    });
+
     // --- UI Screens ---
     this.load.image("titlescreen", "assets/ui/titlescreen.png");
     this.load.image("surrounded", "assets/ui/surrounded.png");
@@ -39,22 +46,27 @@ export class BootScene extends Phaser.Scene {
 
     // --- Collision is loaded directly via SVGCollisionParser (no preloading needed) ---
 
-    // --- Player sprite sheets (5 frames each, all uniformly 1050×210 = 5×210) ---
+    // --- Player sprite sheets (5 frames each, 320x64 = 5 x 64px cells) ---
+    // Cut from gabe-new.png: every direction normalised to one scale, feet on a
+    // shared baseline, frames aligned on the head centre so the body does not
+    // wobble as the legs swing. 64px is close to the ~32px display size, so the
+    // nearest-neighbour downscale is a clean 2:1 instead of throwing away 5 of
+    // every 6 pixels the way the old 210px art did.
     this.load.spritesheet("gabe-front", "assets/sprites/player/gabe-front.png", {
-      frameWidth: 210,
-      frameHeight: 210
+      frameWidth: 64,
+      frameHeight: 64
     });
     this.load.spritesheet("gabe-back", "assets/sprites/player/gabe-back.png", {
-      frameWidth: 210,
-      frameHeight: 210
+      frameWidth: 64,
+      frameHeight: 64
     });
     this.load.spritesheet("gabe-left", "assets/sprites/player/gabe-left.png", {
-      frameWidth: 210,
-      frameHeight: 210
+      frameWidth: 64,
+      frameHeight: 64
     });
     this.load.spritesheet("gabe-right", "assets/sprites/player/gabe-right.png", {
-      frameWidth: 210,
-      frameHeight: 210
+      frameWidth: 64,
+      frameHeight: 64
     });
 
     // --- Guard sprite sheets (soldier1, 5 frames each) ---
@@ -96,8 +108,11 @@ export class BootScene extends Phaser.Scene {
     // --- Cell props ---
     this.load.image("cardboardbox", "assets/scenes/cell/cardboardbox.png");
 
-    // --- Item sprites ---
-    this.load.image("smoke_grenade", "assets/sprites/items/smoke-grenade.png");
+    // --- Item sprites (shared by the world and the HUD inventory slots) ---
+    this.load.image("item_box", "assets/sprites/items/box.png");
+    this.load.image("item_smoke", "assets/sprites/items/smoke-bomb.png");
+    this.load.image("item_keycard", "assets/sprites/items/keycard.png");
+    this.load.image("smoke_grenade", "assets/sprites/items/smoke-bomb.png");
 
     // --- Vehicle sprites ---
     this.load.image("helicopter", "assets/sprites/helicopter.png");
@@ -112,8 +127,7 @@ export class BootScene extends Phaser.Scene {
     this._makePlaceholderTexture("lead_guard", 16, 24, 0xff8800);
     this._makePlaceholderTexture("box", 16, 16, 0xffffff);
 
-    // --- Security Keycard and Door placeholders ---
-    this._makePlaceholderTexture("security-keycard", 20, 32, 0xffff00); // Yellow keycard
+    // --- Door placeholders (the keycard now has real art) ---
     this._makePlaceholderTexture("locked-red", 16, 16, 0xff0000); // Red locked door
     this._makePlaceholderTexture("unlocked-green", 16, 16, 0x00ff00); // Green unlocked door
 
@@ -123,6 +137,37 @@ export class BootScene extends Phaser.Scene {
     this._makePlaceholderTexture("cell_wall_left", 16, 16, 0xd2b48c); // tan
     this._makePlaceholderTexture("cell_wall_right", 16, 16, 0xffc0cb); // pink
     this._makePlaceholderTexture("cell_wall_top", 16, 16, 0xb8860b); // dark yellow
+  }
+
+  /**
+   * Minimal progress bar drawn with primitives, so it is on screen before any
+   * asset has arrived. Roughly 15MB of audio and sprites load here; without
+   * this the player stares at an unexplained black screen.
+   */
+  _buildLoadingScreen() {
+    const { width, height } = this.scale;
+
+    const barW = 160;
+    const barH = 8;
+    const barX = (width - barW) / 2;
+    const barY = height / 2 + 6;
+
+    this.add.text(width / 2, height / 2 - 12, "LOADING", {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "10px",
+      color: "#ffffff"
+    }).setOrigin(0.5);
+
+    this.add.rectangle(barX, barY, barW, barH, 0x000000)
+      .setOrigin(0, 0)
+      .setStrokeStyle(1, 0xffffff, 0.5);
+
+    const fill = this.add.rectangle(barX + 1, barY + 1, 0, barH - 2, 0xff8a1f)
+      .setOrigin(0, 0);
+
+    this.load.on("progress", (value) => {
+      fill.width = Math.max(0, (barW - 2) * value);
+    });
   }
 
   create() {

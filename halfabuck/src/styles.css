@@ -267,25 +267,6 @@ canvas {
   letter-spacing: 1px;
 }
 
-/* Interaction prompt - top center */
-#interaction-prompt {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85);
-  border: 2px solid #ffff00;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffff00;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-  letter-spacing: 0.5px;
-  pointer-events: none;
-  animation: pulse 1s ease-in-out infinite;
-}
-
 #item-notification {
   position: absolute;
   top: 20px;
@@ -354,6 +335,15 @@ canvas {
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+/* Item art inside an inventory slot */
+.slot-art {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
 /* Key indicator (always visible) */
 .slot-key {
   position: absolute;
@@ -364,4 +354,319 @@ canvas {
   color: rgba(255, 255, 255, 0.6);
   pointer-events: none;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   Mobile handheld shell
+   Only active on coarse-pointer devices in landscape. Desktop never sees this:
+   #handheld stays display:none and the canvas keeps its integer-zoom centering.
+   ========================================================================== */
+
+#handheld {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+
+  /* Gutters hold the controls; the strip holds the HUD. Everything left over
+     is screen, which is why the canvas can finally use the full height. */
+  /* Balanced against height too, so a short landscape viewport can't let the
+     gutters squeeze the screen down to nothing. */
+  --hh-gutter: clamp(96px, min(24vw, 38vh), 172px);
+
+  --hh-plate-hi: #2e333b;
+  --hh-plate-lo: #14161a;
+  --hh-pad: #1b1e23;
+  --hh-pad-hi: #363c45;
+}
+
+.hh-body {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: var(--hh-gutter) 1fr var(--hh-gutter);
+  grid-template-rows: 1fr;
+  align-items: stretch;
+  /* No bottom bar, so the screen gets the full height of the chassis. */
+  padding: 5px max(6px, env(safe-area-inset-right)) 5px max(6px, env(safe-area-inset-left));
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(180deg, var(--hh-plate-hi) 0%, var(--hh-plate-lo) 62%, #0e1013 100%);
+  /* Top highlight + bottom shadow reads as moulded plastic rather than flat UI */
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.10),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* ---- screen well ---- */
+
+.hh-screen {
+  grid-column: 2;
+  grid-row: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.hh-bezel {
+  /* Sized in px by shell.fitScreen() so the rim hugs the canvas exactly */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050607;
+  border: 3px solid #0b0d10;
+  border-radius: 8px;
+  /* Recessed glass: dark inner rim plus a faint top sheen */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 3px 10px rgba(0, 0, 0, 0.9),
+    0 1px 0 rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.hh-bezel #game {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- d-pad ---- */
+
+.hh-left {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 6px 4px;
+  box-sizing: border-box;
+}
+
+/* Column headers: level name over the d-pad, detection meter over the slots.
+   Both share the same box so the two columns line up. */
+.hh-readout,
+.hh-meter {
+  width: 100%;
+  max-width: 150px;
+  /* Matched height so the d-pad and the slots below them line up, even though
+     the meter is a label plus a bar and the level name is one line. */
+  min-height: 30px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+  transition: opacity 0.2s ease;
+}
+
+.hh-readout.is-hidden,
+.hh-meter.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hh-readout #level-label {
+  width: auto;
+  flex: none;
+  font-size: clamp(7px, 1.9vw, 10px);
+  text-align: center;
+}
+
+.hh-meter #detection-container {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+}
+
+.hh-meter #detection-label {
+  font-size: clamp(7px, 1.8vw, 9px);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.hh-meter #detection-meter-bg {
+  width: 100%;
+  height: 13px;
+  border-width: 1px;
+}
+
+/* Sound stays reachable even on the title screen, so it sits outside the
+   controls group that hides between scenes. */
+.hh-sound {
+  height: 32px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hh-sound #sound-toggle {
+  width: 30px;
+  height: 30px;
+}
+
+.hh-sound #sound-icon {
+  font-size: 17px;
+}
+
+.hh-dpad {
+  width: min(88%, 160px);
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  touch-action: none;
+}
+
+.hh-pad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  background: var(--hh-pad);
+  user-select: none;
+}
+
+/* Corners stay invisible but remain live hit area, so diagonals work */
+.hh-pad-corner {
+  background: transparent;
+}
+
+.hh-pad-up    { border-radius: 7px 7px 0 0; box-shadow: inset 0 1px 0 var(--hh-pad-hi); }
+.hh-pad-down  { border-radius: 0 0 7px 7px; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.6); }
+.hh-pad-left  { border-radius: 7px 0 0 7px; box-shadow: inset 1px 0 0 var(--hh-pad-hi); }
+.hh-pad-right { border-radius: 0 7px 7px 0; box-shadow: inset -1px 0 0 rgba(0,0,0,0.6); }
+
+.hh-pad-mid {
+  background: var(--hh-pad);
+  position: relative;
+}
+
+/* Centre dimple */
+.hh-pad-mid::after {
+  content: "";
+  width: 34%;
+  height: 34%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.hh-pad.is-down {
+  background: #0f1114;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---- face buttons ---- */
+
+.hh-right {
+  grid-column: 3;
+  grid-row: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 6px 4px;
+  box-sizing: border-box;
+}
+
+/* Balances the sound button in the left column so the d-pad and the slots sit
+   at the same height. */
+.hh-foot {
+  height: 32px;
+  flex: none;
+}
+
+/* The band between header and foot. Both columns give it the same space and
+   centre their control in it, so the d-pad and the slots share a centre line. */
+.hh-control {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Item slots stack vertically under the right thumb, which is the one place a
+   landscape grip can reach without moving. They were previously at the bottom
+   edge of the screen at half this size. */
+.hh-slots #inventory-container {
+  gap: 0;
+}
+
+.hh-slots #inventory-items {
+  flex-direction: column;
+  gap: clamp(6px, 1.8vh, 11px);
+}
+
+.hh-slots .inventory-slot {
+  width: clamp(40px, min(11vw, 15vh), 56px);
+  height: clamp(40px, min(11vw, 15vh), 56px);
+  font-size: clamp(17px, 4.5vw, 24px);
+  border-radius: 6px;
+}
+
+.hh-slots .slot-key {
+  font-size: 8px;
+  bottom: 3px;
+  left: 4px;
+}
+
+/* Controls exist only during gameplay. On the title screen and the cutscene the
+   chassis shows a lit screen and nothing else. The sound toggle is pulled back
+   out of the hidden group so it stays reachable. */
+.hh-left.is-idle .hh-dpad,
+.hh-right.is-idle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hh-left.is-idle .hh-sound {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Inventory slots double as the item buttons on touch */
+.inventory-slot.hh-tappable {
+  pointer-events: auto;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.inventory-slot.hh-tappable.filled {
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+.inventory-slot.hh-tappable.is-down {
+  background: rgba(255, 255, 255, 0.28);
+  transform: translateY(1px);
+}
+
+/* On the handheld the prompts are positioned over the screen well by main.js,
+   so they need to sit above the chassis plate. */
+body.has-handheld #game-ui {
+  z-index: 120;
+}
+
+/* Help overlay is keyboard-triggered only; never surfaces on the handheld */
+body.has-handheld #help-overlay {
+  display: none !important;
+}
+
+body.has-handheld #item-notification {
+  top: 6px;
+  font-size: clamp(8px, 2.2vw, 11px);
+  padding: 5px 9px;
+  max-width: 90%;
+  text-align: center;
 }

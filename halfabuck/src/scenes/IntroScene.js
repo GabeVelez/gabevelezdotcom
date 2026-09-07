@@ -1,5 +1,8 @@
 import Phaser from "phaser";
 
+// Outlasts the synthetic mouse event iOS fires after a touch (~300ms).
+const START_ARM_MS = 500;
+
 export class IntroScene extends Phaser.Scene {
   constructor() {
     super("IntroScene");
@@ -57,11 +60,24 @@ export class IntroScene extends Phaser.Scene {
       color: "#ffffff"
     }).setOrigin(0.5);
 
-    // Make PRESS START clickable
-    pressStart.setInteractive({ useHandCursor: true });
-    pressStart.on("pointerdown", () => {
+    // Start on a tap anywhere on the screen, not just on the label. The label is
+    // ~10px tall; on a phone it is close to impossible to hit deliberately.
+    //
+    // Armed on a delay for the same reason the cutscene's skip is: arriving here
+    // from the game over or ending screen, that screen's tap echoes into this
+    // one as a synthetic mouse event and would start the game unbidden.
+    this._started = false;
+    this._armed = false;
+    this.time.delayedCall(START_ARM_MS, () => { this._armed = true; });
+
+    const start = () => {
+      if (this._started || !this._armed) return;
+      this._started = true;
       this.scene.start("AbductionCutscene");
-    });
+    };
+
+    pressStart.setInteractive({ useHandCursor: true });
+    this.input.on("pointerdown", start);
 
     // Classic arcade flashing effect - fade between visible and slightly dim
     this.tweens.add({
@@ -74,7 +90,7 @@ export class IntroScene extends Phaser.Scene {
     });
 
     // Start game on SPACE key
-    this.input.keyboard.once("keydown-SPACE", () => this.scene.start("AbductionCutscene"));
+    this.input.keyboard.once("keydown-SPACE", start);
 
     // DEBUG/TESTING: Press T to open Scene Selector (for testing individual boards)
     this.input.keyboard.once("keydown-T", () => {

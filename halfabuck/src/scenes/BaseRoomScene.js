@@ -88,9 +88,6 @@ export class BaseRoomScene extends Phaser.Scene {
     this._bodyDebug = this.add.graphics().setDepth(1000);
     this._bodyDebugOn = false;
 
-    // Interaction tooltip graphics
-    this._tooltipGraphics = this.add.graphics().setDepth(1001);
-    this._nearbyItem = null;
 
     // Debug controls
     this.input.keyboard.on("keydown-V", () => { this._visionDebugOn = !this._visionDebugOn; });
@@ -135,6 +132,11 @@ export class BaseRoomScene extends Phaser.Scene {
    * Play landing animation after falling through hole
    */
   _playLandingAnimation() {
+    // Remember the real scale before shrinking. This used to tween back to a
+    // hardcoded 0.15, so changing the player's scale left them permanently
+    // undersized (and with a shrunken collision body) after any hole fall.
+    const restoreScale = this.player.scaleX;
+
     // Start small (like coming up from hole)
     this.player.setScale(0.01);
     this.player.setAlpha(1); // Reset alpha
@@ -151,8 +153,8 @@ export class BaseRoomScene extends Phaser.Scene {
       // Slower, more pronounced pop-up with elastic bounce
       this.tweens.add({
         targets: this.player,
-        scaleX: 0.15,
-        scaleY: 0.15,
+        scaleX: restoreScale,
+        scaleY: restoreScale,
         duration: 450,
         ease: 'Elastic.easeOut',
         onComplete: () => {
@@ -531,8 +533,8 @@ export class BaseRoomScene extends Phaser.Scene {
     // Update player
     this.player.update(input);
 
-    // Check for nearby items
-    this._checkItemInteraction(input);
+    // Pick up anything the player has walked up to
+    this._checkItemPickup();
 
     // Check for locked doors to unlock
     this._checkLockedDoors();
@@ -640,24 +642,16 @@ export class BaseRoomScene extends Phaser.Scene {
 
     // Player animations (Gabe)
     this.anims.create({ key: "idle_down", frames: [{ key: "gabe-front", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "walk_down", frames: this.anims.generateFrameNumbers("gabe-front", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
-    this.anims.create({ key: "crouch_down", frames: [{ key: "gabe-front", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "crouchwalk_down", frames: this.anims.generateFrameNumbers("gabe-front", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+    this.anims.create({ key: "walk_down", frames: this.anims.generateFrameNumbers("gabe-front", { start: 0, end: 4 }), frameRate: 14, repeat: -1 });
 
     this.anims.create({ key: "idle_up", frames: [{ key: "gabe-back", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "walk_up", frames: this.anims.generateFrameNumbers("gabe-back", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
-    this.anims.create({ key: "crouch_up", frames: [{ key: "gabe-back", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "crouchwalk_up", frames: this.anims.generateFrameNumbers("gabe-back", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+    this.anims.create({ key: "walk_up", frames: this.anims.generateFrameNumbers("gabe-back", { start: 0, end: 4 }), frameRate: 14, repeat: -1 });
 
     this.anims.create({ key: "idle_left", frames: [{ key: "gabe-left", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "walk_left", frames: this.anims.generateFrameNumbers("gabe-left", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
-    this.anims.create({ key: "crouch_left", frames: [{ key: "gabe-left", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "crouchwalk_left", frames: this.anims.generateFrameNumbers("gabe-left", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+    this.anims.create({ key: "walk_left", frames: this.anims.generateFrameNumbers("gabe-left", { start: 0, end: 4 }), frameRate: 14, repeat: -1 });
 
     this.anims.create({ key: "idle_right", frames: [{ key: "gabe-right", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "walk_right", frames: this.anims.generateFrameNumbers("gabe-right", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
-    this.anims.create({ key: "crouch_right", frames: [{ key: "gabe-right", frame: 0 }], frameRate: 1, repeat: -1 });
-    this.anims.create({ key: "crouchwalk_right", frames: this.anims.generateFrameNumbers("gabe-right", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
+    this.anims.create({ key: "walk_right", frames: this.anims.generateFrameNumbers("gabe-right", { start: 0, end: 4 }), frameRate: 14, repeat: -1 });
 
     // Guard animations (soldier1)
     this.anims.create({ key: "guard_walk_down", frames: this.anims.generateFrameNumbers("guard-front", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
@@ -673,9 +667,13 @@ export class BaseRoomScene extends Phaser.Scene {
   }
 
   /**
-   * Check for item interaction
+   * Pick up any item the player walks up to.
+   *
+   * There is no pick-up button. With only three items in the game and no reason
+   * to ever refuse one, a button was a control to teach for no decision to make,
+   * so walking within an item's interactionRange collects it.
    */
-  _checkItemInteraction(input) {
+  _checkItemPickup() {
     // Find nearest item in range
     let nearestItem = null;
     let nearestDistance = Infinity;
@@ -693,24 +691,8 @@ export class BaseRoomScene extends Phaser.Scene {
       }
     }
 
-    this._nearbyItem = nearestItem;
-
-    // Update tooltip display (HTML overlay only, no in-game label)
-    if (this._nearbyItem) {
-      // Update UI to show interaction prompt
-      if (this.gameUI) {
-        this.gameUI.showInteractionPrompt(this._nearbyItem.itemName);
-      }
-
-      // Handle interaction input
-      if (input.justInteract) {
-        this._collectItem(this._nearbyItem);
-      }
-    } else {
-      // Hide UI interaction prompt
-      if (this.gameUI) {
-        this.gameUI.hideInteractionPrompt();
-      }
+    if (nearestItem) {
+      this._collectItem(nearestItem);
     }
   }
 
@@ -732,14 +714,12 @@ export class BaseRoomScene extends Phaser.Scene {
       // Update UI
       if (this.gameUI) {
         this.gameUI.updateInventory(this.inventory.getAll());
-        this.gameUI.hideInteractionPrompt();
 
         // Show collection notification
         this.gameUI.showItemNotification(item.itemId, item.itemName);
       }
 
-      // Clear nearby item reference
-      this._nearbyItem = null;
+  
     }
   }
 

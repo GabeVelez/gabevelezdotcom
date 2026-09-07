@@ -1,5 +1,9 @@
 import Phaser from "phaser";
 
+// Long enough to outlast the synthetic mouse event iOS fires after a touch
+// (~300ms), so the tap that starts the game cannot also skip the cutscene.
+const SKIP_ARM_MS = 800;
+
 export class AbductionCutscene extends Phaser.Scene {
   constructor() {
     super("AbductionCutscene");
@@ -111,19 +115,34 @@ export class AbductionCutscene extends Phaser.Scene {
     this.topLetterbox = this.add.rectangle(0, 0, width, letterboxHeight, 0x000000).setOrigin(0, 0).setDepth(10);
     this.bottomLetterbox = this.add.rectangle(0, height - letterboxHeight, width, letterboxHeight, 0x000000).setOrigin(0, 0).setDepth(10);
 
-    // Skip instruction (in top letterbox, right aligned)
-    this.skipText = this.add.text(width - 5, 6, "PRESS SPACE TO SKIP", {
+    // Skip instruction (in top letterbox, right aligned). Phones have no space
+    // bar, so the label has to match the gesture that actually works.
+    // Ask the shell rather than re-testing the media query, so there is one
+    // definition of "this is a touch device" and the ?handheld=1 override is
+    // honoured everywhere.
+    const isTouch = !!this.registry.get("shell")?.active;
+    this.skipText = this.add.text(width - 5, 6, isTouch ? "TAP TO SKIP" : "PRESS SPACE TO SKIP", {
       fontFamily: "'Press Start 2P', monospace",
       fontSize: "6px",
       color: "#888888"
     }).setOrigin(1, 0).setDepth(11);
 
-    // Skip listener - SPACE key only
-    this.input.keyboard.on("keydown-SPACE", () => {
-      if (!this.skipped) {
-        this.skipCutscene();
-      }
-    });
+    // Skip on SPACE or on a tap anywhere. Without the pointer handler the
+    // cutscene was unskippable on mobile.
+    //
+    // Armed on a delay: the tap that started the game on the title screen
+    // reaches this scene a second time, because iOS synthesises a mouse event a
+    // few hundred ms after the touch that caused the transition. Unarmed, that
+    // echo skipped the whole cutscene the instant it began.
+    this._skipArmed = false;
+    this.time.delayedCall(SKIP_ARM_MS, () => { this._skipArmed = true; });
+
+    const trySkip = () => {
+      if (this.skipped || !this._skipArmed) return;
+      this.skipCutscene();
+    };
+    this.input.keyboard.on("keydown-SPACE", trySkip);
+    this.input.on("pointerdown", trySkip);
 
     // Start showing frames
     this.showFrame(0);
@@ -321,6 +340,13 @@ export class AbductionCutscene extends Phaser.Scene {
 
   showAwakening() {
     const { width, height } = this.scale;
+
+    // Past the skippable region either way: reaching this naturally has to latch
+    // the same flag a skip does, or a later SPACE/tap would re-enter skipCutscene
+    // and restart the awakening typewriter.
+    this.skipped = true;
+    this.input.keyboard.off("keydown-SPACE");
+    this.input.off("pointerdown");
 
     // Hide skip instruction (awakening screen cannot be skipped)
     if (this.skipText) {

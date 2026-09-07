@@ -4,15 +4,20 @@
  */
 
 export class GameUI {
-  constructor() {
+  /**
+   * @param {object|null} shell Handheld shell, when running on a touch device.
+   *   Used to keep the chassis HUD and controls in step with scene visibility,
+   *   and to phrase prompts for taps instead of keys.
+   */
+  constructor(shell = null) {
+    this.shell = shell;
+    this.isTouch = !!(shell && shell.active);
+
     this.detectionFill = document.getElementById('detection-meter-fill');
     this.soundToggle = document.getElementById('sound-toggle');
     this.soundIcon = document.getElementById('sound-icon');
     this.helpOverlay = document.getElementById('help-overlay');
     this.helpVisible = false;
-
-    // Interaction prompt
-    this.interactionPrompt = document.getElementById('interaction-prompt');
 
     // Item notification
     this.itemNotification = document.getElementById('item-notification');
@@ -100,27 +105,18 @@ export class GameUI {
     const gameUI = document.getElementById('game-ui');
     gameUI.style.display = visible ? 'block' : 'none';
 
+    // On the handheld the HUD lives in the chassis strip and the d-pad only
+    // feeds gameplay scenes, so both follow the same signal. The chassis itself
+    // stays put: it is the device the title screen is displayed on.
+    if (this.shell) {
+      this.shell.setHudVisible(visible);
+      this.shell.setControlsActive(visible);
+    }
+
     // Always hide help when hiding UI
     if (!visible) {
       this.hideHelp();
     }
-  }
-
-  /**
-   * Show interaction prompt
-   */
-  showInteractionPrompt(itemName) {
-    if (!this.interactionPrompt) return;
-    this.interactionPrompt.textContent = `Press G to pick up ${itemName}`;
-    this.interactionPrompt.style.display = 'block';
-  }
-
-  /**
-   * Hide interaction prompt
-   */
-  hideInteractionPrompt() {
-    if (!this.interactionPrompt) return;
-    this.interactionPrompt.style.display = 'none';
   }
 
   /**
@@ -135,16 +131,20 @@ export class GameUI {
     }
 
     // Get the notification message based on item type
+    // The slot numbers are the shared vocabulary: the HUD shows 1/2/3 on both
+    // platforms, and they are the keyboard keys as well as the tap targets, so
+    // these strings need no per-device wording at all.
     let message = '';
     switch(itemId) {
       case 'cardboard_box':
-        message = `${itemName.toUpperCase()} ACQUIRED — Press 1 to hide inside`;
+        message = `${itemName.toUpperCase()} ACQUIRED: 1 to hide inside`;
         break;
       case 'smoke_grenade':
-        message = `${itemName.toUpperCase()} ACQUIRED — Press 2 to deploy smoke`;
+        message = `${itemName.toUpperCase()} ACQUIRED: 2 to deploy smoke`;
         break;
+      case 'keycard':
       case 'security_keycard':
-        message = `${itemName.toUpperCase()} ACQUIRED — Unlocks red doors automatically`;
+        message = `${itemName.toUpperCase()} ACQUIRED: unlocks red doors automatically`;
         break;
       case 'easter_egg':
         message = itemName; // Easter eggs show message as-is (no "ACQUIRED")
@@ -175,11 +175,8 @@ export class GameUI {
 
     // Clear all slots (but preserve the slot-key number indicators)
     slots.forEach(slot => {
-      // Remove only the item icon, keep the slot-key number
-      const icon = slot.querySelector('i');
-      if (icon) {
-        icon.remove();
-      }
+      // Remove the item art, keep the slot-key number
+      slot.querySelectorAll('i, img.slot-art').forEach((el) => el.remove());
       slot.classList.remove('filled');
       slot.classList.add('empty');
       slot.removeAttribute('title');
@@ -194,18 +191,26 @@ export class GameUI {
       slot.classList.add('filled');
       slot.title = item.description || item.name;
 
-      // Add Bootstrap icon based on item ID (note: inventory uses 'id' not 'itemId')
-      const icon = document.createElement('i');
-      if (item.id === 'cardboard_box') {
-        icon.className = 'bi bi-box-seam-fill';
-      } else if (item.id === 'smoke_grenade') {
-        icon.className = 'bi bi-cloud-fill';
-      } else if (item.id === 'security_keycard') {
-        icon.className = 'bi bi-sd-card-fill';
+      // Use the same pixel art the world uses, so the slot shows the actual item
+      // rather than a generic vector glyph in a pixel-art game.
+      const ART = {
+        cardboard_box: 'box.png',
+        smoke_grenade: 'smoke-bomb.png',
+        security_keycard: 'keycard.png',
+        keycard: 'keycard.png',
+      };
+      const file = ART[item.id];
+      if (file) {
+        const icon = document.createElement('img');
+        icon.className = 'slot-art';
+        icon.src = `assets/sprites/items/${file}`;
+        icon.alt = item.name || item.id;
+        slot.appendChild(icon);
       } else {
-        icon.className = 'bi bi-star-fill'; // Default icon
+        const icon = document.createElement('i');
+        icon.className = 'bi bi-star-fill'; // Fallback for anything unmapped
+        slot.appendChild(icon);
       }
-      slot.appendChild(icon);
     });
   }
 }

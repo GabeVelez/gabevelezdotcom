@@ -8,7 +8,7 @@ export class SecurityKeycard extends Item {
   constructor(scene, x, y, config = {}) {
     // Default config for security keycard
     const keycardConfig = {
-      texture: config.texture || "security-keycard",
+      texture: config.texture || "item_keycard",
       id: config.id || "keycard",
       name: config.name || "Security Keycard",
       description: config.description || "A keycard that unlocks secured doors",

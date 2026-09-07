@@ -4,7 +4,6 @@ import { StateMachine } from "../systems/stateMachine.js";
 export const PlayerStates = {
   IDLE: "idle",
   WALK: "walk",
-  CROUCH: "crouch",
   BOX: "box",
   DETECTED: "detected",
 };
@@ -16,7 +15,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
 
     // Scale to show sprite detail - larger than original 16x24 spec
-    this.setScale(0.15); // ~210 * 0.15 ≈ 32 pixels (shows more detail)
+    this.setScale(0.5); // 64px frames * 0.5 = 32px on screen, a clean 2:1
 
     // Anchor at bottom-center (eliminates waddle from earlier)
     this.setOrigin(0.5, 1.0);
@@ -34,7 +33,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // this.setCollideWorldBounds(true);
 
     this.walkSpeed = 80;
-    this.crouchSpeed = 48;
     this.dragSpeed = 40;
     this.boxSpeed = 32;
 
@@ -56,7 +54,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.stateMachine = new StateMachine(PlayerStates.IDLE, {
       [PlayerStates.IDLE]: new IdleState(),
       [PlayerStates.WALK]: new WalkState(),
-      [PlayerStates.CROUCH]: new CrouchState(),
       [PlayerStates.BOX]: new BoxState(),
       [PlayerStates.DETECTED]: new DetectedState(),
     }, [this]);
@@ -169,7 +166,6 @@ class IdleState {
   }
   execute(player, input) {
     if (player.isBoxed) return;
-    if (input.crouch) return player.stateMachine.transition(PlayerStates.CROUCH);
     const moving = input.up || input.down || input.left || input.right;
     if (moving) return player.stateMachine.transition(PlayerStates.WALK);
   }
@@ -178,7 +174,6 @@ class IdleState {
 class WalkState {
   execute(player, input) {
     if (player.isBoxed) return player.stateMachine.transition(PlayerStates.BOX);
-    if (input.crouch) return player.stateMachine.transition(PlayerStates.CROUCH);
 
     const vx = (input.right ? 1 : 0) - (input.left ? 1 : 0);
     const vy = (input.down ? 1 : 0) - (input.up ? 1 : 0);
@@ -189,33 +184,6 @@ class WalkState {
     player.setVelocity(v.x, v.y);
     player.setFacingFromVelocity(v.x, v.y);
     player.anims.play(`walk_${player.facing}`, true);
-  }
-}
-
-class CrouchState {
-  enter(player) {
-    player.setVelocity(0, 0);
-    player.anims.play(`crouch_${player.facing}`, true);
-  }
-  execute(player, input) {
-    if (!input.crouch) return player.stateMachine.transition(PlayerStates.IDLE);
-    if (player.isBoxed) return player.stateMachine.transition(PlayerStates.BOX);
-
-    const vx = (input.right ? 1 : 0) - (input.left ? 1 : 0);
-    const vy = (input.down ? 1 : 0) - (input.up ? 1 : 0);
-    const v = new Phaser.Math.Vector2(vx, vy);
-
-    if (v.lengthSq() === 0) {
-      player.setVelocity(0, 0);
-      player.anims.play(`crouch_${player.facing}`, true);
-      return;
-    }
-
-    const speed = player.getMoveSpeed(player.crouchSpeed);
-    v.normalize().scale(speed);
-    player.setVelocity(v.x, v.y);
-    player.setFacingFromVelocity(v.x, v.y);
-    player.anims.play(`crouchwalk_${player.facing}`, true);
   }
 }
 

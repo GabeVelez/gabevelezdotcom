@@ -3,7 +3,7 @@ import Phaser from "phaser";
 
 import { createGameConfig, BASE_W, BASE_H, getIntegerZoom } from "./config/gameConfig.js";
 import { updateOrientationOverlay, isPortrait } from "./utils/orientation.js";
-import { createTouchControls } from "./ui/touchControls.js";
+import { createMobileShell } from "./ui/mobileShell.js";
 import { GameUI } from "./ui/gameUI.js";
 import { SceneSelectorOverlay } from "./ui/sceneSelectorOverlay.js";
 
@@ -39,8 +39,8 @@ if (document.readyState === 'loading') {
   enforceLandscape();
 }
 
-// Touch controls (DOM overlay)
-const touchRef = createTouchControls();
+// Retro handheld shell (mobile only; inert on desktop)
+const shell = createMobileShell();
 
 // Wait for fonts to load before starting game
 let game;
@@ -73,10 +73,11 @@ Promise.all([
   ]));
 
   // Share touch state with scenes via registry
-  game.registry.set("touchRef", touchRef);
+  game.registry.set("touchRef", shell);
+  game.registry.set("shell", shell);
 
   // Initialize HTML UI overlay
-  const gameUI = new GameUI();
+  const gameUI = new GameUI(shell);
   game.registry.set("gameUI", gameUI);
 
   // Initialize Scene Selector overlay (for testing)
@@ -106,10 +107,16 @@ Promise.all([
 });
 
 /**
- * Pixel-perfect integer scaling:
- * - Keep internal canvas 320x180
- * - Apply integer zoom via CSS size
- * - Centered by #game flexbox
+ * Canvas sizing.
+ *
+ * Desktop keeps pixel-perfect integer zoom: internal canvas stays 320x180 and
+ * only whole multiples are used, centered by the #game flexbox.
+ *
+ * The handheld fits the canvas to the screen well instead. Integer zoom is
+ * wrong there: on a phone the natural fit is around 1.8x, and flooring that to
+ * 1x was rendering the game at literal 320x180 in the middle of the display.
+ * A fractional scale with image-rendering: pixelated keeps it crisp enough and
+ * roughly doubles the play area.
  */
 function resize() {
   // If portrait, keep overlay; game can remain running but user can't comfortably play
@@ -118,15 +125,42 @@ function resize() {
   // Only resize if game exists (fonts loaded)
   if (!game) return;
 
-  const zoom = getIntegerZoom();
   game.scale.resize(BASE_W, BASE_H);
+
+  const useShell = shell.active && !isPortrait();
+  shell.setEnabled(useShell);
+
+  if (useShell) {
+    const fit = shell.fitScreen(BASE_W, BASE_H);
+    if (fit) {
+      game.canvas.style.width = `${fit.w}px`;
+      game.canvas.style.height = `${fit.h}px`;
+
+      // Pin the prompt/notification overlay to the screen well so it can't
+      // spill onto the chassis plate.
+      const ui = document.getElementById("game-ui");
+      if (ui) {
+        ui.style.inset = "auto";
+        ui.style.left = `${fit.x}px`;
+        ui.style.top = `${fit.y}px`;
+        ui.style.width = `${fit.width}px`;
+        ui.style.height = `${fit.height}px`;
+      }
+    }
+    return;
+  }
+
+  const zoom = getIntegerZoom();
   game.canvas.style.width = `${BASE_W * zoom}px`;
   game.canvas.style.height = `${BASE_H * zoom}px`;
-
-  // Touch UI: enable on coarse pointer devices only, and only in landscape
-  const isTouch = matchMedia("(pointer: coarse)").matches;
-  const enableTouch = isTouch && !isPortrait();
-  touchRef.setEnabled(enableTouch);
 }
 
 window.addEventListener("resize", resize);
+
+// Safari settles the landscape viewport a beat after the rotation event, and
+// again when the URL bar collapses, so re-measure on both.
+window.addEventListener("orientationchange", () => {
+  resize();
+  setTimeout(resize, 250);
+});
+window.visualViewport?.addEventListener("resize", resize);
