@@ -17,13 +17,24 @@
 
 export const CUTSCENES = {
   /**
-   * Between Security Office and Executive Wing. The reveal: who took him.
+   * The reveal, on arriving in the Executive Wing.
+   *
+   * Composited rather than a sequence: a Midtown office behind, then Gabe
+   * sliding in from the left and the captor from the right. The two character
+   * layers are exported at full frame size with transparent backgrounds and
+   * aligned to the background, so they share its transform and only their x
+   * needs animating.
    */
   villain_reveal: {
-    frames: [
-      { image: "cs_reveal_01", duration: 2600, text: "SO IT WAS YOU" },
-      { image: "cs_reveal_02", duration: 2600 },
-      { image: "cs_reveal_03", duration: 2600 },
+    type: "layered",
+    duration: 5400,
+    background: "cs_reveal_bg",
+    layers: [
+      { image: "cs_reveal_gabe",    from: "left",  delay: 250, duration: 850 },
+      { image: "cs_reveal_villain", from: "right", delay: 850, duration: 850 },
+    ],
+    captions: [
+      { at: 2100, until: 5400, text: "SO IT WAS YOU" },
     ],
   },
 
@@ -67,6 +78,8 @@ export const CUTSCENES = {
  * Every frame key, so BootScene can attempt to load them in one pass.
  * Missing files fail quietly and their frames are skipped at runtime.
  */
-export const ALL_CUTSCENE_FRAMES = Object.values(CUTSCENES).flatMap((c) =>
-  c.frames.map((f) => f.image)
-);
+export const ALL_CUTSCENE_FRAMES = Object.values(CUTSCENES).flatMap((c) => [
+  ...(c.frames || []).map((f) => f.image),
+  ...(c.background ? [c.background] : []),
+  ...(c.layers || []).map((l) => l.image),
+]);

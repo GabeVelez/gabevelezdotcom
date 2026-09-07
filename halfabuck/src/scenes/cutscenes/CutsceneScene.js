@@ -53,13 +53,16 @@ export class CutsceneScene extends Phaser.Scene {
 
     this.cameras.main.setBackgroundColor("#000000");
 
-    // Only frames whose art actually exists. Missing ones are skipped rather
-    // than rendering Phaser's magenta placeholder.
+    const layered = this.config?.type === "layered";
+
+    // Only art that actually exists. Missing pieces are skipped rather than
+    // rendering Phaser's magenta placeholder.
     this.frames = (this.config?.frames || []).filter((f) =>
       this.textures.exists(f.image)
     );
 
-    if (this.frames.length === 0) {
+    const bgExists = layered && this.textures.exists(this.config.background);
+    if (!bgExists && this.frames.length === 0) {
       this.finish();
       return;
     }
@@ -95,7 +98,65 @@ export class CutsceneScene extends Phaser.Scene {
     this.input.keyboard.on("keydown-SPACE", trySkip);
     this.input.on("pointerdown", trySkip);
 
-    this.showFrame(0);
+    if (layered) this.playLayered();
+    else this.showFrame(0);
+  }
+
+  /**
+   * A composited scene rather than a sequence: a background plus character
+   * layers that slide in. The layers are exported aligned at full frame size
+   * with transparent backgrounds, so they share the background's transform and
+   * only need an x offset animated to zero.
+   */
+  playLayered() {
+    const { width, height } = this.scale;
+    const cfg = this.config;
+
+    const bg = this.add.image(width / 2, height / 2, cfg.background).setDepth(1);
+    const usableHeight = height - LETTERBOX_H * 2;
+    const scale = Math.min(width / bg.width, usableHeight / bg.height);
+    bg.setScale(scale);
+
+    // How far a layer must travel to start fully off screen
+    const travel = bg.displayWidth;
+
+    (cfg.layers || []).forEach((layer, i) => {
+      if (!this.textures.exists(layer.image)) return;
+
+      const dir = layer.from === "right" ? 1 : -1;
+      const sprite = this.add
+        .image(width / 2 + dir * travel, height / 2, layer.image)
+        .setScale(scale)
+        .setDepth(2 + i);
+
+      this.tweens.add({
+        targets: sprite,
+        x: width / 2,
+        delay: layer.delay ?? 0,
+        duration: layer.duration ?? 700,
+        ease: layer.ease || "Cubic.easeOut",
+      });
+    });
+
+    (cfg.captions || []).forEach((cap) => {
+      this.time.delayedCall(cap.at ?? 0, () => {
+        if (this.finished) return;
+        const label = this.add
+          .text(width / 2, height - LETTERBOX_H / 2, cap.text, {
+            fontFamily: "'Orbitron', sans-serif",
+            fontSize: "10px",
+            color: "#ffffff",
+            align: "center",
+          })
+          .setOrigin(0.5)
+          .setDepth(11);
+        if (cap.until) {
+          this.time.delayedCall(cap.until - (cap.at ?? 0), () => label.destroy());
+        }
+      });
+    });
+
+    this.time.delayedCall(cfg.duration ?? 5000, () => this.finish());
   }
 
   showFrame(index) {
