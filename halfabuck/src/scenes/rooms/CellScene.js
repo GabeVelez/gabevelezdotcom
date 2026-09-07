@@ -23,7 +23,7 @@ export class CellScene extends BaseRoomScene {
 
     // Cell is 240x160 (15 tiles × 10 tiles)
     // Center on 320x180 canvas: offset (40, 10)
-    this.cellOffsetX = 40;
+    this.cellOffsetX = 72; // (384 - 240) / 2
     this.cellOffsetY = 10;
 
     // Add cell background image immediately (scale to 240×160)

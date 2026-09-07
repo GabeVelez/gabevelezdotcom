@@ -1,6 +1,9 @@
 import Phaser from "phaser";
 
-export const BASE_W = 320;
+// 384x180 is 2.13:1, which is close to a landscape phone (roughly 2.2:1). At the
+// old 320x180 (16:9) the canvas was always height-limited on a phone, leaving
+// width unused on every side.
+export const BASE_W = 384;
 export const BASE_H = 180;
 
 /**

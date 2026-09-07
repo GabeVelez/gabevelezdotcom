@@ -14,9 +14,10 @@ export class SurroundedScene extends Phaser.Scene {
       gameUI.setVisible(false);
     }
 
-    // Display surrounded image
+    // Display surrounded image. Cover-fit rather than stretch, matching the
+    // other full-screen scenes, so the wider 384x180 canvas does not distort it.
     const bg = this.add.image(width / 2, height / 2, "surrounded");
-    bg.setDisplaySize(width, height);
+    bg.setScale(Math.max(width / bg.width, height / bg.height));
 
     // Play surrounded sound if enabled
     if (this.registry.get("soundEnabled")) {

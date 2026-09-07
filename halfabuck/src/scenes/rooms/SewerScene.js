@@ -1,5 +1,6 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
+import { BASE_W } from "../../config/gameConfig.js";
 
 /**
  * Sewer - Dark transitional space beneath the cell
@@ -14,7 +15,7 @@ export class SewerScene extends BaseRoomScene {
   create() {
     // Sewer is 288x192 (18 tiles × 12 tiles)
     // Center on 320x180 canvas: offset (16, -6)
-    this.sewerOffsetX = 16;
+    this.sewerOffsetX = 48; // (384 - 288) / 2
     this.sewerOffsetY = -6;
 
     // Add sewer background image immediately
@@ -79,10 +80,10 @@ export class SewerScene extends BaseRoomScene {
 
     // Bottom UI barrier - prevents player from walking behind UI overlay
     const uiBarrier = this.add.rectangle(
-      160,  // Center of canvas width (320 / 2)
-      170,  // Bottom 20 pixels (180 - 10)
-      320,  // Full canvas width
-      20,   // Barrier height
+      BASE_W / 2,  // Centre of the canvas
+      170,         // Bottom 20 pixels (180 - 10)
+      BASE_W,      // Full canvas width
+      20,          // Barrier height
       0x000000,
       0
     );

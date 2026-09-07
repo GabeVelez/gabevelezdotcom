@@ -21,7 +21,7 @@ export class RooftopHelipadScene extends BaseRoomScene {
   create() {
     // Rooftop is 480x480
     // Center on 320x180 canvas would overflow - keep at (0,0) or use camera bounds
-    this.rooftopOffsetX = -80; // Center horizontally: (320 - 480) / 2
+    this.rooftopOffsetX = -48; // Center horizontally: (384 - 480) / 2
     this.rooftopOffsetY = -150; // Keep player visible in bottom area
 
     // Add rooftop background image

@@ -15,7 +15,7 @@ export class MaintenanceTunnelScene extends BaseRoomScene {
   create() {
     // Maintenance Tunnel is 480x256 (30 tiles × 16 tiles)
     // Center on 320x180 canvas: offset at (-80, -38) to center properly
-    this.tunnelOffsetX = -80;
+    this.tunnelOffsetX = -48; // (384 - 480) / 2
     this.tunnelOffsetY = -38;
 
     // Add maintenance tunnel background image
