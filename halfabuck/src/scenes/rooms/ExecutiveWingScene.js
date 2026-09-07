@@ -87,8 +87,9 @@ export class ExecutiveWingScene extends BaseRoomScene {
     // exist before setupVisionSystem so it can hand him a cone.
     this.createGuards();
     if (!this.villainDefeated) {
-      // His post: in front of the desk, between the player and the water.
-      this.villain = new Villain(this, 192, 158);
+      // His post: behind his desk, facing the door. He comes out in front of
+      // it to attack, and has to go round it to do so, which is the window.
+      this.villain = new Villain(this, 192, 84);
       this.guards.push(this.villain);
     }
 
@@ -113,10 +114,12 @@ export class ExecutiveWingScene extends BaseRoomScene {
     // (glass in flight, the hit, him screaming) rather than an in-game arc.
     // Control returns here with him down and the way past open.
 
-    // On the desk, which is the whole problem: he is standing in front of it.
-    // The desk is solid, so it is picked up by reaching over the near edge
-    // rather than by walking onto it.
-    const water = new Item(this, 192, 124, {
+    // On the far half of the desk, on his side of it. That placement is doing
+    // the work: with him behind the desk and the glass on the near half you
+    // could walk up, take it over the top and throw from 70px without ever
+    // moving him. Back here it cannot be reached from the near side at all,
+    // so getting onto his side of the desk is the level.
+    const water = new Item(this, 192, 106, {
       id: "water_glass",
       name: "Glass of Water",
       description: "Ice cold. Somebody is about to wear it.",
@@ -137,7 +140,7 @@ export class ExecutiveWingScene extends BaseRoomScene {
     if (this.villainDefeated) {
       // Back from the throw cutscene: soaked, screaming, out of the way. A
       // still sprite, not the entity, because there is nothing left to chase.
-      const downed = this.add.sprite(192, 100, "villain-agony");
+      const downed = this.add.sprite(192, 80, "villain-agony");
       downed.setDisplaySize(48, 48).setDepth(9).play("villain_agony");
       if (this.gameUI) {
         this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
@@ -192,8 +195,10 @@ export class ExecutiveWingScene extends BaseRoomScene {
     g.clear();
     if (!v || v.defeated || !v.vision) return;
 
-    // Cone is cast from his eyeline, not his feet, so it sits where he looks.
-    const originY = v.y - v.displayHeight * 0.55;
+    // Same origin the vision system tests from (guard.y - 16), so what is
+    // drawn is the cone that actually sees you rather than an approximation
+    // of it sitting a few pixels off.
+    const originY = v.y - 16;
     const half = Phaser.Math.DegToRad(v.vision.angleDeg) / 2;
     const charging = v.isCharging;
 
