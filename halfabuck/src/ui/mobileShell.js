@@ -35,9 +35,6 @@ const TAP_PULSE_MS = 120;
 // Fraction of the d-pad half-width that registers as "no direction".
 const DPAD_DEADZONE = 0.22;
 
-// Must match the .hh-bezel border-width in styles.css.
-const BEZEL_BORDER = 3;
-
 export function isCoarsePointer() {
   return window.matchMedia("(pointer: coarse)").matches;
 }
@@ -239,16 +236,19 @@ export function createMobileShell() {
   function fitScreen(baseW, baseH) {
     if (!state.enabled) return null;
 
-    const availW = screenEl.clientWidth - BEZEL_BORDER * 2;
-    const availH = screenEl.clientHeight - BEZEL_BORDER * 2;
+    // The rim collapses to 0 in cinematic mode, so read it rather than assume it.
+    const border = parseFloat(getComputedStyle(bezelEl).borderTopWidth) || 0;
+
+    const availW = screenEl.clientWidth - border * 2;
+    const availH = screenEl.clientHeight - border * 2;
     if (availW < 1 || availH < 1) return null;
 
     const scale = Math.min(availW / baseW, availH / baseH);
     const w = Math.max(1, Math.round(baseW * scale));
     const h = Math.max(1, Math.round(baseH * scale));
 
-    bezelEl.style.width = `${w + BEZEL_BORDER * 2}px`;
-    bezelEl.style.height = `${h + BEZEL_BORDER * 2}px`;
+    bezelEl.style.width = `${w + border * 2}px`;
+    bezelEl.style.height = `${h + border * 2}px`;
 
     const r = bezelEl.getBoundingClientRect();
     return { w, h, x: r.left, y: r.top, width: r.width, height: r.height };
@@ -276,6 +276,12 @@ export function createMobileShell() {
     controlsActive = v;
     leftEl.classList.toggle("is-idle", !v);
     rightEl.classList.toggle("is-idle", !v);
+
+    // With no controls to make room for, the gutters are dead space. Collapse
+    // them so the title screen and the cutscene use the whole viewport.
+    root.classList.toggle("is-cinematic", !v);
+    // The screen well just changed size, so the canvas has to be re-fitted.
+    window.dispatchEvent(new Event("resize"));
     if (!v) {
       clearDirections();
       state.slot1 = state.slot2 = state.slot3 = false;

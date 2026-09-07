@@ -383,9 +383,11 @@ canvas {
 
   /* Gutters hold the controls; the strip holds the HUD. Everything left over
      is screen, which is why the canvas can finally use the full height. */
-  /* Balanced against height too, so a short landscape viewport can't let the
-     gutters squeeze the screen down to nothing. */
-  --hh-gutter: clamp(96px, min(24vw, 38vh), 172px);
+  /* Only as wide as the width left over once the canvas is height-limited, so
+     the gutters stop starving the screen. 1.7778 is the 16:9 canvas ratio.
+     Clamped so a thumb always has something to land on. */
+  --hh-gutter: clamp(84px, calc((100vw - (100vh - 12px) * 1.7778) / 2), 160px);
+  --hh-gutter: clamp(84px, calc((100vw - (100dvh - 12px) * 1.7778) / 2), 160px);
 
   --hh-plate-hi: #2e333b;
   --hh-plate-lo: #14161a;
@@ -410,6 +412,39 @@ canvas {
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.10),
     inset 0 -2px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* No controls on the title screen, the cutscene or the end screens, so the
+   chassis gets out of the way entirely and the screen takes the full viewport.
+   The sound toggle is the one thing that has to stay reachable, so it floats
+   over the bottom-left corner instead of living in a column. */
+#handheld.is-cinematic .hh-body {
+  grid-template-columns: 0 1fr 0;
+  padding: 0;
+}
+
+#handheld.is-cinematic .hh-right {
+  display: none;
+}
+
+#handheld.is-cinematic .hh-left {
+  position: absolute;
+  left: max(8px, env(safe-area-inset-left));
+  bottom: max(6px, env(safe-area-inset-bottom));
+  width: auto;
+  padding: 0;
+  z-index: 60;
+}
+
+#handheld.is-cinematic .hh-readout,
+#handheld.is-cinematic .hh-control {
+  display: none;
+}
+
+/* Nothing beside the screen, so drop the rounded rim and let it go edge to edge */
+#handheld.is-cinematic .hh-bezel {
+  border-width: 0;
+  border-radius: 0;
 }
 
 /* ---- screen well ---- */
