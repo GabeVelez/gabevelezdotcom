@@ -6,7 +6,7 @@ const SKIP_ARM_MS = 800;
 
 // Height of each cinematic bar. Also defines the window the frame art is fitted
 // into, so the two cannot drift apart.
-export const LETTERBOX_H = 12;
+export const LETTERBOX_H = 14;
 
 export class AbductionCutscene extends Phaser.Scene {
   constructor() {
@@ -196,8 +196,8 @@ export class AbductionCutscene extends Phaser.Scene {
 
     // Display text overlays if any (in bottom letterbox area)
     if (frame.text && frame.text.length > 0) {
-      const letterboxBottom = height - 20; // Bottom letterbox starts here
-      const textY = letterboxBottom + 10; // Center text in letterbox
+      const letterboxBottom = height - LETTERBOX_H; // shares the bar constant
+      const textY = letterboxBottom + LETTERBOX_H / 2; // centred in the bar
 
       frame.text.forEach((line, i) => {
         // Add semi-transparent background behind text for better legibility

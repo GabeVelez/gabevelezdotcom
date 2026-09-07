@@ -35,8 +35,10 @@ export class IntroScene extends Phaser.Scene {
 
     // Scale the background to cover the game canvas
     // Contain rather than cover, so the logo and PRESS START are never cropped
-    // by the wider canvas.
-    const scale = Math.min(width / bg.width, height / bg.height);
+    // by the wider canvas. Backed off 3% so the logo at the top and the text at
+    // the bottom are not flush against the screen edges.
+    const TITLE_INSET = 0.97;
+    const scale = Math.min(width / bg.width, height / bg.height) * TITLE_INSET;
     bg.setScale(scale);
 
     // Center the background
