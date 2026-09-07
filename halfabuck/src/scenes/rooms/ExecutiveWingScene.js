@@ -1,6 +1,8 @@
+import Phaser from "phaser";
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { Item } from "../../entities/Item.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
+import { Villain } from "../../entities/Villain.js";
 
 /**
  * Executive Wing - Level 9
@@ -54,6 +56,12 @@ export class ExecutiveWingScene extends BaseRoomScene {
   }
 
   async initializeScene() {
+    // Phaser reuses scene instances, so both of these still point at objects
+    // the previous run destroyed. Coming back from the throw cutscene would
+    // otherwise try to draw a cone for a dead villain.
+    this.villain = null;
+    this._coneG = null;
+
     const { width, height } = this.scale;
     const wingWidth = this.wingWidth;
     const wingHeight = this.wingHeight;
@@ -75,9 +83,14 @@ export class ExecutiveWingScene extends BaseRoomScene {
 
     this.createPlayer(playerX, playerY);
 
-    // No guards here, but the array and vision system still need to exist:
-    // BaseRoomScene's update loop iterates them unconditionally.
+    // The villain is the only thing in this room that sees, and he has to
+    // exist before setupVisionSystem so it can hand him a cone.
     this.createGuards();
+    if (!this.villainDefeated) {
+      // His post: in front of the desk, between the player and the water.
+      this.villain = new Villain(this, 192, 158);
+      this.guards.push(this.villain);
+    }
 
     // Create a simple tilemap for vision/waypoint systems (walkable everywhere except collisions)
     const map = this.make.tilemap({
@@ -100,16 +113,17 @@ export class ExecutiveWingScene extends BaseRoomScene {
     // (glass in flight, the hit, him screaming) rather than an in-game arc.
     // Control returns here with him down and the way past open.
 
-    // Out on the rug, a short step off the line between the door and the desk,
-    // so it is something you go and get rather than something you trip over.
-    const water = new Item(this, 150, 248, {
+    // On the desk, which is the whole problem: he is standing in front of it.
+    // The desk is solid, so it is picked up by reaching over the near edge
+    // rather than by walking onto it.
+    const water = new Item(this, 192, 124, {
       id: "water_glass",
       name: "Glass of Water",
       description: "Ice cold. Somebody is about to wear it.",
       texture: "item_water",
       displaySize: 20,
       depth: 5,
-      interactionRange: 40,
+      interactionRange: 36,
     });
     if (!this.villainDefeated) this.items.push(water);
     else water.destroy();
@@ -120,33 +134,36 @@ export class ExecutiveWingScene extends BaseRoomScene {
     const roofExit = this._exits[this._exits.length - 1];
     roofExit.triggered = !this.villainDefeated;
 
-    const villain = this.createThrowTarget(184, 82, {
-      // At his desk, facing down the room at the door you come through. The
-      // desk is solid, so reaching the alcove behind him means going around it.
-      texture: "villain-front",
-      displaySize: 48,
-      requiresItem: "water_glass",
-      range: 110,
-      instant: true, // the water_throw cutscene shows the throw itself
-      onDefeated: () => {
-        this.scene.start("CutsceneScene", {
-          cutscene: "water_throw",
-          next: "ExecutiveWingScene",
-          nextData: { ...this.playerData, revealSeen: true, villainDefeated: true },
-        });
-      },
-    });
-
     if (this.villainDefeated) {
-      // Back from the throw cutscene: soaked, screaming, and no longer between
-      // the player and the stairs.
-      villain.defeated = true;
-      villain.sprite.setTexture("villain-agony");
-      villain.sprite.setDisplaySize(48, 48);
-      villain.sprite.play("villain_agony");
+      // Back from the throw cutscene: soaked, screaming, out of the way. A
+      // still sprite, not the entity, because there is nothing left to chase.
+      const downed = this.add.sprite(192, 100, "villain-agony");
+      downed.setDisplaySize(48, 48).setDepth(9).play("villain_agony");
       if (this.gameUI) {
         this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
       }
+    } else {
+      // He is the throw target as well as the threat, so the range check reads
+      // his live position rather than where he started.
+      this.createThrowTarget(this.villain.x, this.villain.y, {
+        sprite: this.villain,
+        requiresItem: "water_glass",
+        range: 110,
+        instant: true, // the water_throw cutscene shows the throw itself
+        onDefeated: () => {
+          this.villain.defeat();
+          this.scene.start("CutsceneScene", {
+            cutscene: "water_throw",
+            next: "ExecutiveWingScene",
+            nextData: { ...this.playerData, revealSeen: true, villainDefeated: true },
+          });
+        },
+      });
+
+      // His cone is drawn, unlike a guard's. A boss you have to dodge has to
+      // be readable: you can see the arc to stay out of, and see it go red
+      // the moment he commits.
+      this._coneG = this.add.graphics().setDepth(4);
     }
 
     // Physics - add colliders for all collision bodies
@@ -164,5 +181,27 @@ export class ExecutiveWingScene extends BaseRoomScene {
 
   update(time, delta) {
     this.updateBase(time, delta);
+    this._drawVillainCone();
+  }
+
+  _drawVillainCone() {
+    const g = this._coneG;
+    const v = this.villain;
+    if (!g) return;
+
+    g.clear();
+    if (!v || v.defeated || !v.vision) return;
+
+    // Cone is cast from his eyeline, not his feet, so it sits where he looks.
+    const originY = v.y - v.displayHeight * 0.55;
+    const half = Phaser.Math.DegToRad(v.vision.angleDeg) / 2;
+    const charging = v.isCharging;
+
+    g.fillStyle(charging ? 0xe0574f : 0xf0c040, charging ? 0.22 : 0.11);
+    g.beginPath();
+    g.moveTo(v.x, originY);
+    g.arc(v.x, originY, v.vision.distance, v.vision.facing - half, v.vision.facing + half, false);
+    g.closePath();
+    g.fillPath();
   }
 }

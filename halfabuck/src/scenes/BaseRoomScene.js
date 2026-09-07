@@ -37,6 +37,10 @@ export class BaseRoomScene extends Phaser.Scene {
    * Create common systems (input, vision, etc.)
    */
   createBaseSystems() {
+    // Phaser reuses scene instances, so this latch survives a restart unless
+    // it is cleared on the way in.
+    this._playerCaught = false;
+
     const { width, height } = this.scale;
 
     // Initialize inventory system (shared across scenes via registry)
@@ -289,6 +293,11 @@ export class BaseRoomScene extends Phaser.Scene {
    * Faster fillMs = more aggressive detection
    */
   _getVisionConfig(guardType) {
+    if (guardType === "villain") {
+      // Wide and quick to react. He is not trying to catch you unawares, he is
+      // trying to keep you off his desk, so he should commit almost at once.
+      return { distance: 96, angleDeg: 96, fillMs: 500, drainMs: 700 };
+    }
     if (guardType === "lead") {
       // Lead guard - more aggressive detection
       return { distance: 100, angleDeg: 100, fillMs: 800, drainMs: 1000 };
@@ -606,10 +615,12 @@ export class BaseRoomScene extends Phaser.Scene {
    * Render detection meter and check for game over
    */
   _renderDetectionMeter() {
-    let maxMeter = 0;
+    let maxMeter = 0;       // what the HUD shows
+    let capturingMeter = 0; // what can actually end the run
     for (const g of this.guards) {
       const m = this.vision?.getMeter(g) ?? 0;
       if (m > maxMeter) maxMeter = m;
+      if (g.capturesOnDetection !== false && m > capturingMeter) capturingMeter = m;
     }
 
     // Update HTML UI meter
@@ -617,12 +628,23 @@ export class BaseRoomScene extends Phaser.Scene {
       this.gameUI.updateDetectionMeter(maxMeter);
     }
 
-    // Game over when detection reaches 100%
-    if (maxMeter >= 1.0) {
-      stopMusic(this);
-      this.scene.start("SurroundedScene");
-      return;
+    // Game over when detection reaches 100%. Some pursuers are exempt: the
+    // villain's meter is a warning that he is coming, and it is the grab that
+    // ends the run, so a full meter alone must not.
+    if (capturingMeter >= 1.0) {
+      this.playerCaught("seen");
     }
+  }
+
+  /**
+   * The one way the player loses a room. Guarded so that a grab and a full
+   * detection meter landing on the same frame cannot start the scene twice.
+   */
+  playerCaught() {
+    if (this._playerCaught) return;
+    this._playerCaught = true;
+    stopMusic(this);
+    this.scene.start("SurroundedScene");
   }
 
   /**
@@ -659,6 +681,11 @@ export class BaseRoomScene extends Phaser.Scene {
 
     // Villain, soaked and screaming. Slow enough to read as convulsing rather
     // than flickering, since each frame was drawn independently.
+    this.anims.create({ key: "villain_walk_down", frames: this.anims.generateFrameNumbers("villain-front", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
+    this.anims.create({ key: "villain_walk_up", frames: this.anims.generateFrameNumbers("villain-back", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
+    this.anims.create({ key: "villain_walk_left", frames: this.anims.generateFrameNumbers("villain-left", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
+    this.anims.create({ key: "villain_walk_right", frames: this.anims.generateFrameNumbers("villain-right", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
+
     this.anims.create({ key: "villain_agony", frames: this.anims.generateFrameNumbers("villain-agony", { start: 0, end: 9 }), frameRate: 8, repeat: -1 });
   }
 
@@ -731,16 +758,21 @@ export class BaseRoomScene extends Phaser.Scene {
    * projectile physics and no combat state, just a tween and a callback.
    */
   createThrowTarget(x, y, config = {}) {
-    const sprite = this.add.sprite(x, y, config.texture);
-    if (config.displaySize) {
-      sprite.setDisplaySize(config.displaySize, config.displaySize);
+    // A target can be a still sprite this creates, or an entity that already
+    // exists and moves under its own power (the villain). In the second case
+    // x/y have to be read live or the range check tests where he used to be.
+    const sprite = config.sprite ?? this.add.sprite(x, y, config.texture);
+    if (!config.sprite) {
+      if (config.displaySize) {
+        sprite.setDisplaySize(config.displaySize, config.displaySize);
+      }
+      sprite.setDepth(config.depth ?? 9);
     }
-    sprite.setDepth(config.depth ?? 9);
 
     const target = {
       sprite,
-      x,
-      y,
+      get x() { return sprite.x; },
+      get y() { return sprite.y; },
       requiresItem: config.requiresItem,
       range: config.range ?? 90,
       // Lob it (a thrown glass) or send it flat and fast (a rocket).
