@@ -1,16 +1,14 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
-import { Guard } from "../../entities/Guard.js";
-import { LeadGuard } from "../../entities/LeadGuard.js";
-import { Officer } from "../../entities/Officer.js";
-import { Captain } from "../../entities/Captain.js";
-import { Overseer } from "../../entities/Overseer.js";
 import { Item } from "../../entities/Item.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
  * Executive Wing - Level 9
- * Open-plan executive office with glass walls and synchronized guard patrols
- * Size: 544×320 pixels (34×20 tiles)
+ * The confrontation, not a stealth level. No guards: the player walks in, picks
+ * up the glass of water and throws it at the villain.
+ *
+ * Being redrawn as a single screen at 384x180, so no camera scrolling. The
+ * dimensions below still describe the old art.
  */
 export class ExecutiveWingScene extends BaseRoomScene {
   constructor() {
@@ -61,69 +59,9 @@ export class ExecutiveWingScene extends BaseRoomScene {
 
     this.createPlayer(playerX, playerY);
 
-    // Create guards
+    // No guards here, but the array and vision system still need to exist:
+    // BaseRoomScene's update loop iterates them unconditionally.
     this.createGuards();
-
-    // Executive Wing - Full guard roster (7 guards)
-    // Distribution: 1 Regular, 2 Lead, 2 Officer, 1 Captain, 1 Overseer (FIRST OVERSEER)
-
-    // Guard 1: Regular - Front entrance patrol
-    const guard1 = new Guard(this, 150, 100, [
-      { x: 150, y: 100 },
-      { x: 150, y: 200 },
-    ]);
-    guard1.setDepth(10);
-    this.guards.push(guard1);
-
-    // Guard 2: Lead - Left wing patrol
-    const guard2 = new LeadGuard(this, 200, 160, [
-      { x: 200, y: 100 },
-      { x: 200, y: 220 },
-    ]);
-    guard2.setDepth(10);
-    this.guards.push(guard2);
-
-    // Guard 3: Lead - Right wing patrol (synchronized opposite)
-    const guard3 = new LeadGuard(this, 400, 220, [
-      { x: 400, y: 220 },
-      { x: 400, y: 100 },
-    ]);
-    guard3.setDepth(10);
-    this.guards.push(guard3);
-
-    // Guard 4: Officer - Center area patrol
-    const guard4 = new Officer(this, 300, 160, [
-      { x: 250, y: 160 },
-      { x: 350, y: 160 },
-    ]);
-    guard4.setDepth(10);
-    this.guards.push(guard4);
-
-    // Guard 5: Officer - Back corridor patrol
-    const guard5 = new Officer(this, 450, 80, [
-      { x: 350, y: 80 },
-      { x: 480, y: 80 },
-    ]);
-    guard5.setDepth(10);
-    this.guards.push(guard5);
-
-    // Guard 6: Captain - Fast roaming responder
-    const guard6 = new Captain(this, 350, 200, [
-      { x: 350, y: 160 },
-      { x: 450, y: 160 },
-      { x: 450, y: 220 },
-      { x: 350, y: 220 },
-    ]);
-    guard6.setDepth(10);
-    this.guards.push(guard6);
-
-    // Guard 7: Overseer - Guards exit (FIRST OVERSEER INTRODUCTION)
-    const guard7 = new Overseer(this, 512, 96, [
-      { x: 496, y: 96 },
-      { x: 528, y: 96 },
-    ]);
-    guard7.setDepth(10);
-    this.guards.push(guard7);
 
     // Create a simple tilemap for vision/waypoint systems (walkable everywhere except collisions)
     const map = this.make.tilemap({
