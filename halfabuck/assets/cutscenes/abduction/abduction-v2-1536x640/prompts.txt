@@ -1,0 +1,25 @@
+Revision 2. Built-in imagegen edits using each original frame as sole reference.
+
+Edit target: the attached ORIGINAL cutscene. Make a faithful cinematic reframing, not a stylistic reinterpretation. Exact output 1536 x 640 pixels, 2.4:1. Preserve the original illustration's face, proportions, expression, clothing, colors, soft shading and restrained surface detail with maximum fidelity. Widen/recompose the original scene to fit the ultra-wide canvas; don't stretch people. Main man must match original EXACTLY: heavyset with broad round cheeks, warm brown skin, short salt-and-pepper beard with gray chin, black rectangular glasses, black baseball cap with white G, dark blazer and dark shirt. Do not make him thinner, more rugged, older, or more angular. Keep original subdued natural illustrated finish: smooth tonal transitions, soft atmospheric depth, modest grain. Avoid coarse brush strokes, etched contours, crispy over-sharpening, exaggerated orange saturation, oily highlights, excessive texture and generic AI concept-art treatment. Keep the same story beat, camera angle and expression. Faces, cap and key action fully visible with breathing room at top and bottom. Remove the original bottom dark overlay entirely; full-bleed artwork, no bars/borders/subtitles/watermarks. No text or branding except G on cap. 
+
+Frame 01. Preserve this exact smiling round-faced man's likeness and friendly expression while exiting brick apartment doorway. Same warm soft evening lighting. Widen to waist-up composition, retain head comfortably below top edge.
+
+Frame 02. Preserve exact protagonist's face and heavyset build opening rear sedan door and glancing back. Remove car's GUBER lettering. Same soft amber night city.
+
+Frame 03. Preserve exact protagonist's round face, glasses, beard shape and relaxed smile while looking at phone in backseat. Preserve dim muted original palette, no excessive orange.
+
+Frame 04. Preserve distinct silver-haired mustached driver at front right and original protagonist at back left using phone. Driver has no hat or glasses.
+
+Frame 05. Preserve original close-up of driver's hand pressing round red button. No person or face visible. Dashboard labels illegible. Soft natural red glow, not aggressively sharpened.
+
+Frame 06. Preserve exact original rear-seat first-person view of silver-haired mustached driver, NO hat or glasses; protagonist is off-camera. Partition open/down. Front passenger seat empty.
+
+Frame 07. Preserve exact original rear-seat first-person view with raised glass partition. Silver-haired mustached driver NO hat or glasses. Protagonist off-camera. Same camera/driver/seats as frame 06 but glass now closed with soft red reflections.
+
+Frame 08. Preserve original terrified protagonist face, mouth open, round cheeks and natural beard, red-lit rear seat. Pull camera slightly back to retain full cap comfortably below top and beard above bottom. No gas yet.
+
+Frame 09. Preserve original frightened protagonist with palm against glass, five fingers, soft yellow-green gas in red-lit cabin. Match exact facial identity, not angular or exaggerated.
+
+Frame 10. Preserve original unconscious protagonist slumped sideways with closed eyes, original soft face shape, short gray-black beard, cap and glasses. Soft yellow-green gas, dim muted red cabin.
+
+Exported at 1536 x 640.

@@ -239,8 +239,10 @@ export function createMobileShell() {
     // The rim collapses to 0 in cinematic mode, so read it rather than assume it.
     const border = parseFloat(getComputedStyle(bezelEl).borderTopWidth) || 0;
 
-    const availW = screenEl.clientWidth - border * 2;
-    const availH = screenEl.clientHeight - border * 2;
+    // Clamp to the viewport as well as the cell. If the cell is ever pushed
+    // open by its own contents the canvas must not follow it off screen.
+    const availW = Math.min(screenEl.clientWidth, window.innerWidth) - border * 2;
+    const availH = Math.min(screenEl.clientHeight, window.innerHeight) - border * 2;
     if (availW < 1 || availH < 1) return null;
 
     const scale = Math.min(availW / baseW, availH / baseH);

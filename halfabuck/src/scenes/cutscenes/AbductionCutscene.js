@@ -42,8 +42,13 @@ export class AbductionCutscene extends Phaser.Scene {
       },
       {
         image: "cutscene_abduction_06",
-        duration: 3000, // Extended to include frame 07's time - partition animation
-        text: [] // No text, partition rises with glass effect
+        duration: 1600, // Partition still down, driver visible
+        text: []
+      },
+      {
+        image: "cutscene_abduction_07",
+        duration: 1600, // Partition closed, driver sealed off
+        text: []
       },
       {
         image: "cutscene_abduction_08",
@@ -80,7 +85,7 @@ export class AbductionCutscene extends Phaser.Scene {
       const frameNum = i.toString().padStart(2, '0');
       this.load.image(
         `cutscene_abduction_${frameNum}`,
-        `assets/cutscenes/abduction/cutscene_abduction_${frameNum}.png`
+        `assets/cutscenes/abduction/cutscene_abduction_${frameNum}.jpg`
       );
     }
 
@@ -302,7 +307,7 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Handle sound effects based on frame
-    this.playSoundsForFrame(index);
+    this.playSoundsForFrame(frame.image);
 
     // Set timer for next frame
     this.time.delayedCall(frame.duration, () => {
@@ -465,12 +470,17 @@ export class AbductionCutscene extends Phaser.Scene {
     });
   }
 
-  playSoundsForFrame(frameIndex) {
+  /**
+   * Cues are keyed to the frame's image, not its index. Index-keying broke
+   * every cue after the partition the moment a frame was added or removed,
+   * which is why the old code carried "frame 07 removed from array" comments.
+   */
+  playSoundsForFrame(frameId) {
     const soundEnabled = this.registry.get("soundEnabled");
     if (!soundEnabled) return;
 
     // Frame 1: Start Uptown Funk music (loops through entire cutscene)
-    if (frameIndex === 0) { // Index 0 = Frame 1
+    if (frameId === "cutscene_abduction_01") {
       this.activeSounds.uptownFunk = this.sound.add('uptown_funk', {
         loop: true,
         volume: 0.6
@@ -479,7 +489,7 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Frame 3: Reduce Uptown Funk to 6% volume (subtle background music)
-    if (frameIndex === 2) { // Index 2 = Frame 3
+    if (frameId === "cutscene_abduction_03") {
       if (this.activeSounds.uptownFunk && this.activeSounds.uptownFunk.isPlaying) {
         this.tweens.add({
           targets: this.activeSounds.uptownFunk,
@@ -491,7 +501,7 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Frame 3: Start car driving (loops in background through frame 10)
-    if (frameIndex === 2) { // Index 2 = Frame 3
+    if (frameId === "cutscene_abduction_03") {
       this.activeSounds.carDriving = this.sound.add('car_driving', {
         loop: true,
         volume: 0.4
@@ -500,17 +510,17 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Frame 5: Door lock sound
-    if (frameIndex === 4) { // Index 4 = Frame 5
+    if (frameId === "cutscene_abduction_05") {
       this.sound.play('door_lock', { volume: 0.8 });
     }
 
     // Frame 6: Partition starts raising
-    if (frameIndex === 5) { // Index 5 = Frame 6
+    if (frameId === "cutscene_abduction_06") {
       this.sound.play('partition_raise', { volume: 0.7 });
     }
 
     // Frame 8: Alarm starts (continues through frames 8-9, fades in frame 10)
-    if (frameIndex === 6) { // Index 6 = Frame 8 (frame 07 removed from array)
+    if (frameId === "cutscene_abduction_08") {
       this.activeSounds.alarm = this.sound.add('alarm', {
         loop: true,
         volume: 0.6
@@ -519,7 +529,7 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Frame 9: Gas flow starts, then coughing after delay
-    if (frameIndex === 7) { // Index 7 = Frame 9 (frame 07 removed from array)
+    if (frameId === "cutscene_abduction_09") {
       // Start gas flow (continues into frame 10)
       this.activeSounds.gasFlow = this.sound.add('gas_flow', {
         loop: true,
@@ -537,7 +547,7 @@ export class AbductionCutscene extends Phaser.Scene {
     }
 
     // Frame 10: Fade out all sounds gradually
-    if (frameIndex === 8) { // Index 8 = Frame 10 (frame 07 removed from array, 1575ms duration)
+    if (frameId === "cutscene_abduction_10") {
       // Start fading immediately for smooth transition
       // Fade out alarm
       if (this.activeSounds.alarm && this.activeSounds.alarm.isPlaying) {

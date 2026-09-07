@@ -399,8 +399,11 @@ canvas {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: var(--hh-gutter) 1fr var(--hh-gutter);
-  grid-template-rows: 1fr;
+  /* minmax(0, ...) rather than 1fr. 1fr means minmax(auto, 1fr), so the track
+     grew to fit the bezel's explicit pixel size, fitScreen then measured the
+     inflated cell and grew it again. The canvas ran off the bottom. */
+  grid-template-columns: var(--hh-gutter) minmax(0, 1fr) var(--hh-gutter);
+  grid-template-rows: minmax(0, 1fr);
   align-items: stretch;
   /* No bottom bar, so the screen gets the full height of the chassis. */
   padding: 5px max(6px, env(safe-area-inset-right)) 5px max(6px, env(safe-area-inset-left));
@@ -419,7 +422,7 @@ canvas {
    The sound toggle is the one thing that has to stay reachable, so it floats
    over the bottom-left corner instead of living in a column. */
 #handheld.is-cinematic .hh-body {
-  grid-template-columns: 0 1fr 0;
+  grid-template-columns: 0 minmax(0, 1fr) 0;
   /* Still edge to edge, but not underneath the notch or the rounded corners.
      Without this the canvas ran under them and clipped anything drawn at the
      canvas edge, such as the cutscene's TAP TO SKIP. */
@@ -462,7 +465,10 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Both required so the cell can never be pushed open by its own contents */
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .hh-bezel {
