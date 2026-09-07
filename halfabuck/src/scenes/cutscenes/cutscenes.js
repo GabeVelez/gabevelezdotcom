@@ -27,19 +27,22 @@ export const CUTSCENES = {
    */
   villain_reveal: {
     type: "layered",
-    duration: 13800,
+    duration: 12800,
     background: "cs_reveal_bg",
     layers: [
-      { image: "cs_reveal_gabe",    from: "left",  delay: 250, duration: 850 },
-      { image: "cs_reveal_villain", from: "right", delay: 850, duration: 850 },
+      // Gabe first, alone in the office.
+      { image: "cs_reveal_gabe",    from: "left",  delay: 250,  duration: 850 },
+      // The voice starts before he does, so he is heard before he is seen and
+      // arrives on the back of his own first line.
+      { image: "cs_reveal_villain", from: "right", delay: 2400, duration: 850 },
     ],
-    // He talks. Split into beats rather than one block: at 10px in a 384-wide
-    // canvas the whole speech would be an unreadable wall.
+    // Split into beats rather than one block: at 10px in a 384-wide canvas the
+    // whole speech would be an unreadable wall.
     captions: [
-      { at: 2000, until: 4400,  text: "HEARD IT WAS YOUR BIRTHDAY." },
-      { at: 4400, until: 7800,  text: "AND YOUR CAPTAIN WOKE, COMMY-LOVING ASS IS NOW AT AN END." },
-      { at: 7800, until: 10200, text: "YOUR END WILL BE SO GREAT." },
-      { at: 10200, until: 13600, text: "THE GREATEST END OF ALL TIME, THEY TELL ME." },
+      { at: 1300, until: 3600,  text: "HEARD IT WAS YOUR BIRTHDAY." },
+      { at: 3600, until: 6800,  text: "AND YOUR CAPTAIN WOKE, COMMY-LOVING ASS IS NOW AT AN END." },
+      { at: 6800, until: 9200,  text: "YOUR END WILL BE SO GREAT." },
+      { at: 9200, until: 12600, text: "THE GREATEST END OF ALL TIME, THEY TELL ME." },
     ],
   },
 
