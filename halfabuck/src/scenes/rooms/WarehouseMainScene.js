@@ -1,4 +1,5 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
+import { Guard } from "../../entities/Guard.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
@@ -50,8 +51,35 @@ export class WarehouseMainScene extends BaseRoomScene {
 
     this.createPlayer(spawnPos.x, spawnPos.y);
 
-    // Create guards (guards will be added board by board)
     this.createGuards();
+
+    // Two regular guards, the weakest kind, sweeping the only two lanes that
+    // cross the room. The shelving in the middle (x 104-378, y 77-203) is one
+    // solid block, so getting from the door at the top-left to the exit at the
+    // bottom-right means going round it, and both ways round pass through one
+    // of these two. They are the difficulty here, not the count.
+    //
+    // Sweeps are deliberately different lengths, 320px against 265px, so they
+    // drift out of phase instead of pacing in lockstep for the whole level.
+
+    // Top lane, y 26-203... the strip above the shelving. Starts clear of the
+    // door so the player is not spawned in front of him.
+    const topGuard = new Guard(this, 120, 62, [
+      { x: 120, y: 62 },
+      { x: 440, y: 62 },
+    ]);
+    topGuard.setDepth(10);
+    this.guards.push(topGuard);
+
+    // Bottom lane, and the one the exit is on. He stops short of the exit
+    // alcove at x 398 so there is a pocket to arrive in rather than a guard
+    // parked on the way out.
+    const bottomGuard = new Guard(this, 130, 250, [
+      { x: 130, y: 250 },
+      { x: 395, y: 250 },
+    ]);
+    bottomGuard.setDepth(10);
+    this.guards.push(bottomGuard);
 
     // Create simple tilemap for vision/waypoint systems (walkable everywhere except collisions)
     const map = this.make.tilemap({

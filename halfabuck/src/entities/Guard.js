@@ -23,11 +23,14 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     this.setScale(0.15);
     this.setOrigin(0.5, 1.0);
 
-    // Full sprite collision box
-    const collisionWidth = this.width;
-    const collisionHeight = this.height;
+    // A feet box, like the player's, not the whole sprite. The sprite is
+    // 256x339 and stood 38x51 in world units, which is taller than the player
+    // is and left 0.1px of clearance in a 51px warehouse lane - a guard put
+    // there simply jammed. Top-down movement should collide on the feet.
+    const collisionWidth = this.width * 0.9;
+    const collisionHeight = this.height * 0.45;
     this.body.setSize(collisionWidth, collisionHeight);
-    this.body.setOffset(0, 0);
+    this.body.setOffset((this.width - collisionWidth) / 2, this.height - collisionHeight);
 
     // Enable collision - don't constrain to world bounds, let tilemap walls provide boundaries
     // this.body.setCollideWorldBounds(true);
