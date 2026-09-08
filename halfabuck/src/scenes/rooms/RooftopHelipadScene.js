@@ -1,17 +1,22 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
-import { Guard } from "../../entities/Guard.js";
-import { LeadGuard } from "../../entities/LeadGuard.js";
-import { Officer } from "../../entities/Officer.js";
-import { Captain } from "../../entities/Captain.js";
-import { Overseer } from "../../entities/Overseer.js";
-import { Item } from "../../entities/Item.js";
 
 /**
- * Rooftop Helipad - Final level (Level 10)
- * 480×480 pixels with maximum challenge
- * 7 guards with concentric patrol rings
- * Helicopter at center, locked gate, victory condition
+ * Rooftop Helipad - Level 10.
+ *
+ * Cleared back to a bare room while it is redesigned: background, collision,
+ * spawn, camera and a working exit, and nothing else. Everything that used to
+ * be here was built for the old 480x480 placeholder art and is being replaced,
+ * so it has been taken out rather than left to be worked around:
+ *
+ *   - eight guards (2 regular, 2 lead, 2 officer, a captain and an overseer)
+ *   - the helipad_gate, a locked door whose keycard does not exist in the
+ *     game, so it could never open
+ *   - the helicopter, which span its whole fuselage rather than a rotor
+ *   - the bazooka and the monster it was thrown at
+ *
+ * The exit is deliberately kept and left open so the game can still be played
+ * end to end while the level is designed. It sits where the helicopter used to.
  */
 export class RooftopHelipadScene extends BaseRoomScene {
   constructor() {
@@ -81,145 +86,24 @@ export class RooftopHelipadScene extends BaseRoomScene {
 
     this.createPlayer(playerX, playerY);
 
-    // Create 7 guards with maximum challenge
+    // No guards. The room is being redesigned; they will be placed against
+    // the new art. The array and vision system still have to exist because
+    // BaseRoomScene's update loop iterates them unconditionally.
     this.createGuards();
-
-    // Final Boss Level - Full guard roster (8 guards)
-    // Distribution: 2 Regular, 2 Lead, 2 Officer, 1 Captain, 1 Overseer
-
-    // Guard 1: Regular - Outer ring patrol (clockwise)
-    const guard1 = new Guard(this, rooftopOffsetX + 160, rooftopOffsetY + 160, [
-      { x: rooftopOffsetX + 160, y: rooftopOffsetY + 160 },
-      { x: rooftopOffsetX + 320, y: rooftopOffsetY + 160 },
-      { x: rooftopOffsetX + 320, y: rooftopOffsetY + 320 },
-      { x: rooftopOffsetX + 160, y: rooftopOffsetY + 320 }
-    ]);
-    guard1.setDepth(10);
-    this.guards.push(guard1);
-
-    // Guard 2: Regular - Inner ring patrol (counter-clockwise)
-    const guard2 = new Guard(this, rooftopOffsetX + 200, rooftopOffsetY + 200, [
-      { x: rooftopOffsetX + 200, y: rooftopOffsetY + 200 },
-      { x: rooftopOffsetX + 200, y: rooftopOffsetY + 280 },
-      { x: rooftopOffsetX + 280, y: rooftopOffsetY + 280 },
-      { x: rooftopOffsetX + 280, y: rooftopOffsetY + 200 }
-    ]);
-    guard2.setDepth(10);
-    this.guards.push(guard2);
-
-    // Guard 3: Lead - North perimeter patrol
-    const guard3 = new LeadGuard(this, rooftopOffsetX + 120, rooftopOffsetY + 80, [
-      { x: rooftopOffsetX + 120, y: rooftopOffsetY + 80 },
-      { x: rooftopOffsetX + 360, y: rooftopOffsetY + 80 }
-    ]);
-    guard3.setDepth(10);
-    this.guards.push(guard3);
-
-    // Guard 4: Lead - South perimeter patrol
-    const guard4 = new LeadGuard(this, rooftopOffsetX + 120, rooftopOffsetY + 400, [
-      { x: rooftopOffsetX + 120, y: rooftopOffsetY + 400 },
-      { x: rooftopOffsetX + 360, y: rooftopOffsetY + 400 }
-    ]);
-    guard4.setDepth(10);
-    this.guards.push(guard4);
-
-    // Guard 5: Officer - East perimeter patrol
-    const guard5 = new Officer(this, rooftopOffsetX + 400, rooftopOffsetY + 120, [
-      { x: rooftopOffsetX + 400, y: rooftopOffsetY + 120 },
-      { x: rooftopOffsetX + 400, y: rooftopOffsetY + 360 }
-    ]);
-    guard5.setDepth(10);
-    this.guards.push(guard5);
-
-    // Guard 6: Officer - West perimeter patrol
-    const guard6 = new Officer(this, rooftopOffsetX + 80, rooftopOffsetY + 120, [
-      { x: rooftopOffsetX + 80, y: rooftopOffsetY + 120 },
-      { x: rooftopOffsetX + 80, y: rooftopOffsetY + 360 }
-    ]);
-    guard6.setDepth(10);
-    this.guards.push(guard6);
-
-    // Guard 7: Captain - Fast roaming diagonal patrol
-    const guard7 = new Captain(this, rooftopOffsetX + 300, rooftopOffsetY + 300, [
-      { x: rooftopOffsetX + 150, y: rooftopOffsetY + 150 },
-      { x: rooftopOffsetX + 330, y: rooftopOffsetY + 150 },
-      { x: rooftopOffsetX + 330, y: rooftopOffsetY + 330 },
-      { x: rooftopOffsetX + 150, y: rooftopOffsetY + 330 }
-    ]);
-    guard7.setDepth(10);
-    this.guards.push(guard7);
-
-    // Guard 8: Overseer - Helicopter overwatch (guards victory point)
-    const guard8 = new Overseer(this, rooftopOffsetX + 240, rooftopOffsetY + 240, [
-      { x: rooftopOffsetX + 220, y: rooftopOffsetY + 240 },
-      { x: rooftopOffsetX + 260, y: rooftopOffsetY + 240 }
-    ]);
-    guard8.setDepth(10);
-    this.guards.push(guard8);
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // Create locked gate at helipad entrance
-    const gate = this.createLockedDoor(
-      rooftopOffsetX + 256,
-      rooftopOffsetY + 208,
-      32,
-      16,
-      "helipad_gate"
-    );
-
-    // Create helicopter sprite at center with rotor animation
-    const helicopter = this.add.sprite(
+    // The way out, kept open so the level is completable while it is built.
+    // Move it once the new layout exists.
+    this.createExit(
       rooftopOffsetX + 240,
       rooftopOffsetY + 240,
-      "helicopter"
+      64,
+      64,
+      "EndingScene",
+      "victory"
     );
-    helicopter.setDisplaySize(96, 96);
-    helicopter.setDepth(5);
-
-    // Create simple rotor rotation animation
-    this.tweens.add({
-      targets: helicopter,
-      angle: 360,
-      duration: 1000,
-      repeat: -1,
-      ease: 'Linear'
-    });
-
-    // --- Boss beat: the Resident Evil helipad. Rocket launcher, then the
-    //     chopper. The monster has to go down before the exit opens. ---------
-    const bazooka = new Item(this, rooftopOffsetX + 240, rooftopOffsetY + 400, {
-      id: "bazooka",
-      name: "Bazooka",
-      description: "One shot. Make it count.",
-      texture: "item_bazooka",
-      displaySize: 28,
-      depth: 5,
-      interactionRange: 40,
-    });
-    this.items.push(bazooka);
-
-    // Victory exit at the helicopter, held shut until the monster is down.
-    const exitX = rooftopOffsetX + 240;
-    const exitY = rooftopOffsetY + 240;
-    this.createExit(exitX, exitY, 64, 64, "EndingScene", "victory");
-    const victoryExit = this._exits[this._exits.length - 1];
-    victoryExit.triggered = true; // disabled until the kill
-
-    this.createThrowTarget(rooftopOffsetX + 240, rooftopOffsetY + 150, {
-      texture: "monster",
-      displaySize: 64,
-      requiresItem: "bazooka",
-      range: 130,
-      arc: false, // rockets travel flat
-      onDefeated: () => {
-        victoryExit.triggered = false; // board the chopper
-        if (this.gameUI) {
-          this.gameUI.showItemNotification("easter_egg", "Get to the chopper.");
-        }
-      },
-    });
 
     // Add colliders for all SVG collision bodies
     collisionBodies.forEach(body => {
