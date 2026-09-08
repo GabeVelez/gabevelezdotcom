@@ -41,6 +41,7 @@ html, body {
    on the d-pad or a slot number raises iOS's magnifier over the game. */
 #handheld,
 #handheld * {
+  touch-action: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
@@ -56,6 +57,9 @@ html, body {
 }
 
 canvas {
+  /* touch-action does not inherit, so html/body carrying it was not enough:
+     a double tap landing on the canvas or the chassis still zoomed on iOS. */
+  touch-action: none;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   -webkit-font-smoothing: none;
@@ -403,19 +407,21 @@ canvas {
   /* minmax(0, ...) rather than 1fr. 1fr means minmax(auto, 1fr), so the track
      grew to fit the bezel's explicit pixel size, fitScreen then measured the
      inflated cell and grew it again. The canvas ran off the bottom. */
-  grid-template-columns: var(--hh-gutter) minmax(0, 1fr) var(--hh-gutter);
+  /* One full-width cell. The controls used to sit in gutters either side,
+     which cost the screen about a fifth of its width and still only left room
+     for a d-pad whose individual directions were around 26px - well under a
+     thumb. They float over the screen now instead, so the canvas gets the
+     whole viewport and the pad gets a size you can actually hit. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
   align-items: stretch;
-  /* No bottom bar, so the screen gets the full height of the chassis. */
-  padding: 5px max(6px, env(safe-area-inset-right)) 5px max(6px, env(safe-area-inset-left));
+  padding: max(4px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
   box-sizing: border-box;
 
-  background:
-    linear-gradient(180deg, var(--hh-plate-hi) 0%, var(--hh-plate-lo) 62%, #0e1013 100%);
-  /* Top highlight + bottom shadow reads as moulded plastic rather than flat UI */
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.10),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.55);
+  /* Black rather than moulded plastic. With the controls floating over the
+     screen there is no chassis left to read as a console, and black lets the
+     canvas edge disappear the way it already does on the title and cutscenes. */
+  background: #000;
 }
 
 /* No controls on the title screen, the cutscene or the end screens, so the
@@ -459,13 +465,8 @@ canvas {
   z-index: 60;
 }
 
-/* .hh-control matched nothing - there is no such element - so the d-pad kept
-   its 160px square in the layout while merely being transparent. That left
-   .hh-left as an invisible 160px-wide box pinned over the bottom-left of the
-   screen at z-index 60, swallowing taps on the title and end screens. Take it
-   out of the flow so the column collapses to just the sound button. */
 #handheld.is-cinematic .hh-readout,
-#handheld.is-cinematic .hh-dpad {
+#handheld.is-cinematic .hh-control {
   display: none;
 }
 
@@ -478,7 +479,7 @@ canvas {
 /* ---- screen well ---- */
 
 .hh-screen {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
   height: 100%;
   display: flex;
@@ -496,9 +497,9 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #050607;
-  border: 3px solid #0b0d10;
-  border-radius: 8px;
+  background: #000;
+  border: 0;
+  border-radius: 0;
   /* Recessed glass: dark inner rim plus a faint top sheen */
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.06),
@@ -514,36 +515,58 @@ canvas {
 
 /* ---- d-pad ---- */
 
-.hh-left {
-  grid-column: 1;
-  grid-row: 1;
-  min-width: 0;
+/* Both columns are now transparent rails laid over the screen, top to bottom:
+   readout at the top, controls at the foot. The rail itself takes no pointers,
+   so only the pad, the slots and the sound button are live and the rest of the
+   screen stays clear. */
+.hh-left,
+.hh-right {
+  position: absolute;
+  top: max(4px, env(safe-area-inset-top));
+  bottom: max(4px, env(safe-area-inset-bottom));
+  z-index: 60;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 6px 4px;
+  /* Readouts stack from the top, the control is pushed to the foot by its own
+     margin. space-between would have put the control in the middle, because
+     the sound button is a third child holding the bottom of the rail. */
+  justify-content: flex-start;
   box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Readout, then sound, then the control at the foot where the thumb is. */
+.hh-readout,
+.hh-meter { order: 0; }
+.hh-sound  { order: 1; }
+.hh-control {
+  order: 2;
+  margin-top: auto;
+}
+
+.hh-left {
+  left: max(8px, env(safe-area-inset-left));
+  align-items: flex-start;
 }
 
 /* Column headers: level name over the d-pad, detection meter over the slots.
    Both share the same box so the two columns line up. */
 .hh-readout,
 .hh-meter {
-  width: 100%;
-  max-width: 150px;
-  /* Matched fixed height so the d-pad and the slots below them line up, even
-     though the meter is a label plus a bar and the level name may wrap. Fixed
-     rather than min- so a wrapped name cannot shift its column, and tall enough
-     for the longest name ("LVL 8: Maintenance Tunnel") at the narrowest gutter,
-     which is three lines. */
-  height: 40px;
-  margin-bottom: clamp(10px, 4vh, 22px);
+  /* Overlaid on the game rather than sitting in a gutter, so they size to
+     their content and carry their own backing to stay legible over whatever
+     is behind them. No matched height any more: the pad and the slots are
+     pinned to the foot of their rail, not floated under these. */
+  width: auto;
+  max-width: 42vw;
   flex: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 3px;
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: rgba(6, 8, 11, 0.62);
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
   color: #fff;
@@ -557,25 +580,22 @@ canvas {
 }
 
 .hh-readout #level-label {
-  width: 100%;
+  width: auto;
   flex: none;
-  font-size: clamp(7px, 1.9vw, 10px);
-  text-align: center;
-  /* The gutter is too narrow for the longest names on one line, so wrap them
-     instead of cutting them off. Letter-spacing is dropped from the desktop
-     0.5px because it is what pushed "Maintenance" (the longest word in any
-     level name) past the gutter and split it mid-word. break-word stays only
-     as insurance for a longer name added later. */
-  white-space: normal;
-  overflow-wrap: break-word;
-  letter-spacing: 0;
+  font-size: clamp(8px, 2.2vw, 11px);
+  text-align: left;
+  /* Across the top of the screen now rather than down a narrow gutter, so
+     even the longest name fits on one line and no longer needs wrapping or
+     the reduced letter-spacing that stopped it splitting mid-word. */
+  white-space: nowrap;
+  letter-spacing: 0.4px;
   line-height: 1.2;
 }
 
 .hh-meter #detection-container {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 2px;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
 }
 
 .hh-meter #detection-label {
@@ -585,8 +605,8 @@ canvas {
 }
 
 .hh-meter #detection-meter-bg {
-  width: 100%;
-  height: 13px;
+  width: clamp(70px, 18vw, 120px);
+  height: 12px;
   border-width: 1px;
 }
 
@@ -598,6 +618,7 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 6px;
 }
 
 .hh-sound #sound-toggle {
@@ -610,8 +631,16 @@ canvas {
 }
 
 .hh-dpad {
-  width: min(88%, 160px);
+  /* Each of the nine cells is a third of this, so 168px gives 56px directions
+     against Apple's 44px minimum. The old 160px cap inside an 88px gutter came
+     out at roughly 77px overall, or 26px a direction. */
+  width: clamp(144px, 46vh, 192px);
   aspect-ratio: 1;
+  /* Sits over the game, so it needs to read as a control without hiding it */
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0.82;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -679,33 +708,25 @@ canvas {
 /* ---- face buttons ---- */
 
 .hh-right {
-  grid-column: 3;
-  grid-row: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 6px 4px;
-  box-sizing: border-box;
+  right: max(8px, env(safe-area-inset-right));
+  align-items: flex-end;
 }
 
-/* Balances the sound button in the left column so the d-pad and the slots sit
-   at the same height. */
+/* Only the things you actually press take pointers. */
+.hh-dpad,
+.hh-slots,
+.hh-sound {
+  pointer-events: auto;
+}
+
 .hh-foot {
-  height: 32px;
-  flex: none;
+  display: none;
 }
 
-/* The band between header and foot. Both columns give it the same space and
-   centre their control in it, so the d-pad and the slots share a centre line. */
 .hh-control {
-  flex: 1 1 auto;
-  min-height: 0;
-  width: 100%;
+  flex: none;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
 }
 
 /* Item slots stack vertically under the right thumb, which is the one place a
@@ -721,10 +742,14 @@ canvas {
 }
 
 .hh-slots .inventory-slot {
-  width: clamp(40px, min(11vw, 15vh), 56px);
-  height: clamp(40px, min(11vw, 15vh), 56px);
-  font-size: clamp(17px, 4.5vw, 24px);
-  border-radius: 6px;
+  /* Was capped at 56 and often landed near 40 inside the gutter. Free of the
+     gutter these can be a proper target. */
+  width: clamp(54px, 15vh, 68px);
+  height: clamp(54px, 15vh, 68px);
+  font-size: clamp(22px, 6vh, 30px);
+  border-radius: 9px;
+  background: rgba(6, 8, 11, 0.62);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .hh-slots .slot-key {
