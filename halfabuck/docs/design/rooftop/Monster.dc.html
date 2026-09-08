@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; background: #0f1116; }
+    a { color: #5cc9d6; } a:hover { color: #8fdde6; }
+  </style>
+</helmet>
+
+<div style="font-family: 'IBM Plex Sans', system-ui, sans-serif; background: #0f1116; color: #e9e7e2; padding: 40px 44px 48px; box-sizing: border-box; min-height: 100%;">
+
+  <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; color: #5cc9d6; text-transform: uppercase;">The monster</div>
+  <h2 style="font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 24px; margin: 10px 0 8px;">Four states, and one of them is your window</h2>
+  <p style="color: #b6bcc7; font-size: 14.5px; line-height: 1.55; margin: 0 0 30px; max-width: 66ch;">Your sheet has four walk directions and four rush directions, which is not a guard's moveset &mdash; it is a boss with a commit. That is the whole design, and it is what makes a one-shot weapon fair.</p>
+
+  <div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid #272d38;">
+
+    <div style="display: grid; grid-template-columns: 118px 1fr 150px; gap: 0 20px; padding: 20px 0; border-bottom: 1px solid #272d38; align-items: start;">
+      <div>
+        <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; color: #d9a13c;">STALK</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5b6270; margin-top: 4px;">rows 1&ndash;4</div>
+      </div>
+      <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Walks straight at you, always. No patrol, no losing you, no cone to break &mdash; he knows where you are and he is coming. Slower than you, so you can open ground, and closing it is what builds the pressure.</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #e9e7e2; line-height: 1.7;">speed <span style="color: #d9a13c;">52</span><br><span style="color: #5b6270;">you move at 80</span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 118px 1fr 150px; gap: 0 20px; padding: 20px 0; border-bottom: 1px solid #272d38; align-items: start; background: #171b22; margin: 0 -14px; padding-left: 14px; padding-right: 14px;">
+      <div>
+        <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; color: #e0574f;">WIND UP</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5b6270; margin-top: 4px;">rush frame 1, held</div>
+      </div>
+      <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Within reach he plants and rears back. This is the tell, and it is the only reason the fight is survivable &mdash; long enough to react, short enough to be frightening. He locks his direction here, to the nearest of four.</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #e9e7e2; line-height: 1.7;">hold <span style="color: #e0574f;">400ms</span><br>at range <span style="color: #e0574f;">90px</span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 118px 1fr 150px; gap: 0 20px; padding: 20px 0; border-bottom: 1px solid #272d38; align-items: start;">
+      <div>
+        <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; color: #e0574f;">RUSH</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5b6270; margin-top: 4px;">rows 5&ndash;8</div>
+      </div>
+      <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Twice your speed, in a straight line, <span style="color: #e9e7e2;">and it cannot steer</span>. That single restriction is the fight: you do not outrun the rush, you step out of its lane. Ends on a wall or when the distance is spent.</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #e9e7e2; line-height: 1.7;">speed <span style="color: #e0574f;">165</span><br>for <span style="color: #e0574f;">520ms</span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 118px 1fr 150px; gap: 0 20px; padding: 20px 0; border-bottom: 1px solid #272d38; align-items: start; background: #171b22; margin: 0 -14px; padding-left: 14px; padding-right: 14px; border-left: 3px solid #4fbf7e;">
+      <div>
+        <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; color: #4fbf7e;">RECOVER</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5b6270; margin-top: 4px;">rush frame 5, held</div>
+      </div>
+      <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Overshot, stopped, breathing. He cannot turn and cannot grab. In act two this is just when you put ground between you; in act three it is when you line up the shot.</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #e9e7e2; line-height: 1.7;">hold <span style="color: #4fbf7e;">800ms</span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 118px 1fr 150px; gap: 0 20px; padding: 20px 0; align-items: start;">
+      <div>
+        <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; color: #868d9a;">GRAB</div>
+      </div>
+      <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Contact at any point, in any state. Same ending as being seen anywhere else in the game.</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #e9e7e2; line-height: 1.7;">radius <span style="color: #868d9a;">20px</span></div>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;">
+    <div style="background: #171b22; border: 1px solid #272d38; padding: 18px 20px;">
+      <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.12em; color: #5cc9d6; text-transform: uppercase; margin-bottom: 8px;">The full cycle is 1.7 seconds</div>
+      <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.6;">400ms tell, 520ms rush, 800ms recovery. Roughly 26 rushes across the 45-second wait &mdash; enough that you learn the rhythm inside the first few, which is exactly what you want on a level people will replay.</div>
+    </div>
+    <div style="background: #171b22; border: 1px solid #272d38; padding: 18px 20px;">
+      <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.12em; color: #5cc9d6; text-transform: uppercase; margin-bottom: 8px;">No vision cone</div>
+      <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.6;">The human villain downstairs has one and it is drawn on screen. This one should not: he is not searching, he is hunting, and giving him a cone would invite people to hide from something that cannot be hidden from.</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px; background: #14171d; border: 1px solid #39414f; border-left: 3px solid #e0574f; padding: 18px 20px;">
+    <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.12em; color: #e0574f; text-transform: uppercase; margin-bottom: 8px;">Your inventory stops working</div>
+    <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.6; margin-bottom: 12px;">The box and the smoke grenade are dead from the moment he lands. Every trick that has carried you through nine levels stops here, and the level is what is left when they are gone.</div>
+    <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.6;">Do it <span style="color: #e9e7e2;">visibly</span>, not silently. The two slots stay on screen and go dark as he hits the deck &mdash; a slot that quietly does nothing reads as a bug, a slot you watch die reads as the floor going out from under you. Then slot 3 lights up when the launcher drops. Taken away, then handed one thing back, and the one thing is not somewhere to hide.</div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

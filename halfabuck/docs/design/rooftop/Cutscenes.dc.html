@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; background: #0f1116; }
+    a { color: #5cc9d6; } a:hover { color: #8fdde6; }
+  </style>
+</helmet>
+
+<div style="font-family: 'IBM Plex Sans', system-ui, sans-serif; background: #0f1116; color: #e9e7e2; padding: 40px 44px 48px; box-sizing: border-box; min-height: 100%;">
+
+  <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; color: #5cc9d6; text-transform: uppercase;">Frames to generate</div>
+  <h2 style="font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 24px; margin: 10px 0 8px;">Eight frames close the game</h2>
+  <p style="color: #b6bcc7; font-size: 14.5px; line-height: 1.55; margin: 0 0 8px; max-width: 66ch;">All at <span style="font-family: 'IBM Plex Mono', monospace; color: #e9e7e2;">1536 &times; 640</span>, the same 2.4:1 as the abduction set, prompt and style block in <span style="font-family: 'IBM Plex Mono', monospace;">docs/CUTSCENE_PROMPT.md</span>. Generate each group in one pass &mdash; frame by frame is where the character stops looking like the same character.</p>
+  <p style="color: #868d9a; font-size: 13.5px; line-height: 1.55; margin: 0 0 30px; max-width: 66ch;">Drop them in <span style="font-family: 'IBM Plex Mono', monospace;">assets/cutscenes/story/</span> under these names and they play. No code changes; the two groups are already wired and currently sit empty.</p>
+
+  <!-- group 1 -->
+  <div style="display: flex; align-items: baseline; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #272d38;">
+    <span style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.12em; color: #e0574f;">THE SHOT</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #868d9a;">cs_shot_01 &ndash; 02 &nbsp;·&nbsp; new group</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 148px 1fr; gap: 0 20px; padding: 18px 0; border-bottom: 1px solid #272d38;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #e0574f;">cs_shot_01</div>
+    <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Low and behind you, launcher on the shoulder, the monster filling the far end of the roof. Backblast lighting the deck. He is mid-rush toward camera &mdash; you are firing at something already coming.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 148px 1fr; gap: 0 20px; padding: 18px 0; border-bottom: 1px solid #272d38;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #e0574f;">cs_shot_02</div>
+    <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Impact. White core, the silhouette of him inside it. No gore &mdash; this is a birthday game.</div>
+  </div>
+
+  <!-- group 2 -->
+  <div style="display: flex; align-items: baseline; gap: 12px; padding: 30px 0 12px; border-bottom: 1px solid #272d38;">
+    <span style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.12em; color: #4fbf7e;">THE ESCAPE</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #868d9a;">cs_escape_01 &ndash; 03 &nbsp;·&nbsp; already wired, empty</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 148px 1fr; gap: 0 20px; padding: 18px 0; border-bottom: 1px solid #272d38;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4fbf7e;">cs_escape_01</div>
+    <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">The roof going up behind you as you run for the open door. Rotor wash, debris, orange from below.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 148px 1fr; gap: 0 20px; padding: 18px 0; border-bottom: 1px solid #272d38;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4fbf7e;">cs_escape_02</div>
+    <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">Wide, from the air: the helicopter banking away, the roof burning behind it, the skyline beyond. The only frame with any distance in it.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 148px 1fr; gap: 0 20px; padding: 18px 0; border-bottom: 1px solid #272d38; background: #171b22; margin: 0 -14px; padding-left: 14px; padding-right: 14px; border-left: 3px solid #4fbf7e;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4fbf7e;">cs_escape_03</div>
+    <div>
+      <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55; margin-bottom: 10px;">Inside the cabin, side on, sitting in the passenger seat. Cigar in your mouth, city sliding past the window behind you. Warm light from the instruments. This is the last thing anyone sees.</div>
+      <div style="color: #868d9a; font-size: 13px; line-height: 1.55;">Passenger, not pilot &mdash; which is what makes the side view the right one. A cockpit shot would have you flying it, and would put the back of your head to the camera at the exact moment your face is the point.</div>
+    </div>
+  </div>
+
+  <!-- group 3 -->
+  <div style="display: flex; align-items: baseline; gap: 12px; padding: 30px 0 12px; border-bottom: 1px solid #272d38;">
+    <span style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.12em; color: #d9a13c;">THE TRANSFORMATION</span>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #868d9a;">cs_transform_01 &ndash; 03 &nbsp;·&nbsp; already wired, empty</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 148px 1fr; gap: 0 20px; padding: 18px 0; border-bottom: 1px solid #272d38;">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d9a13c;">cs_transform_01&ndash;03</div>
+    <div style="color: #b6bcc7; font-size: 14px; line-height: 1.55;">The empty office he was left in, then the change, then whatever is standing there at the end of it. Three beats, no more. <span style="color: #e9e7e2;">Nobody is watching this but the audience</span> &mdash; frame it as something happening in a room with no one in it.</div>
+  </div>
+
+  <div style="margin-top: 24px; background: #171b22; border: 1px solid #272d38; border-left: 3px solid #4fbf7e; padding: 18px 20px;">
+    <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.12em; color: #4fbf7e; text-transform: uppercase; margin-bottom: 8px;">Settled &mdash; it plays on the stairs</div>
+    <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.6;">Not when the water lands, and not when he touches down on the roof. It runs after the scripted escape, once the character is out of the room. He never sees it; you do. That gap is the whole point &mdash; his walk across the roof in act one is worth watching precisely because he does not know.</div>
+  </div>
+
+  <div style="margin-top: 22px; color: #868d9a; font-size: 13px; line-height: 1.6; max-width: 76ch;">
+    <span style="color: #e9e7e2;">One thing to watch:</span> the abduction set came back with faces cropped because the frames were 1.5:1 and the window is 2.4:1. Ask for the wide ratio explicitly and keep everything that matters in the central band &mdash; at this shape the top and bottom go first.
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

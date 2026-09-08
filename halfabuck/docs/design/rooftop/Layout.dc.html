@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; background: #0f1116; }
+    a { color: #5cc9d6; } a:hover { color: #8fdde6; }
+  </style>
+</helmet>
+
+<div style="font-family: 'IBM Plex Sans', system-ui, sans-serif; background: #0f1116; color: #e9e7e2; padding: 40px 44px 48px; box-sizing: border-box; min-height: 100%;">
+
+  <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; color: #5cc9d6; text-transform: uppercase;">The roof</div>
+  <h2 style="font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 24px; margin: 10px 0 8px;">768 &times; 180, and the screen is 384 &times; 180</h2>
+  <p style="color: #b6bcc7; font-size: 14.5px; line-height: 1.55; margin: 0 0 28px; max-width: 68ch;">Two screens wide, exactly one screen tall. Nothing scrolls vertically, so the whole depth of the roof is always visible and he can never come at you from off the top or bottom of the frame &mdash; only from the side. That is what makes a hunt readable.</p>
+
+  <!-- plan, drawn at 1.5x -->
+  <div style="position: relative; width: 1152px; height: 270px; background: #14171d; border: 1px solid #39414f; box-sizing: border-box;">
+
+    <!-- half-screen marker -->
+    <div style="position: absolute; left: 576px; top: 0; width: 1px; height: 100%; background: #272d38;"></div>
+    <div style="position: absolute; left: 584px; top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5b6270;">one screen &rarr;</div>
+
+    <!-- stairwell -->
+    <div style="position: absolute; left: 12px; top: 96px; width: 66px; height: 78px; background: #1d222b; border: 1px solid #4fbf7e; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #4fbf7e; line-height: 1.3;">STAIR<br>WELL</span>
+    </div>
+
+    <!-- trigger line -->
+    <div style="position: absolute; left: 288px; top: 0; width: 2px; height: 100%; background: repeating-linear-gradient(180deg, #e0574f 0 8px, transparent 8px 16px);"></div>
+    <div style="position: absolute; left: 296px; top: 218px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #e0574f;">trigger &nbsp;x=192</div>
+
+    <!-- landing point -->
+    <div style="position: absolute; left: 456px; top: 108px; width: 60px; height: 60px; border-radius: 50%; border: 2px dashed #e0574f; box-sizing: border-box;"></div>
+    <div style="position: absolute; left: 440px; top: 76px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #e0574f;">he lands here</div>
+
+    <!-- helipad -->
+    <div style="position: absolute; left: 852px; top: 60px; width: 150px; height: 150px; border-radius: 50%; border: 3px solid #d9a13c; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <span style="font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 44px; color: #d9a13c;">H</span>
+    </div>
+    <div style="position: absolute; left: 862px; top: 218px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #d9a13c;">helipad &nbsp;x&asymp;620</div>
+
+    <!-- bazooka drop -->
+    <div style="position: absolute; left: 790px; top: 176px; width: 34px; height: 14px; background: #4fbf7e;"></div>
+    <div style="position: absolute; left: 740px; top: 196px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #4fbf7e;">bazooka drops</div>
+
+    <!-- arena label -->
+    <div style="position: absolute; left: 120px; top: 30px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #5b6270;">&larr; open deck, the arena &mdash; keep it clear &rarr;</div>
+
+    <!-- scale bar -->
+    <div style="position: absolute; left: 12px; top: 244px; width: 150px; height: 1px; background: #5b6270;"></div>
+    <div style="position: absolute; left: 12px; top: 226px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #5b6270;">100 game px</div>
+  </div>
+  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5b6270; margin-top: 8px;">plan drawn at 1.5&times; &nbsp;·&nbsp; game coordinates in the labels</div>
+
+  <!-- notes -->
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 34px;">
+
+    <div style="background: #171b22; border: 1px solid #272d38; border-left: 3px solid #e0574f; padding: 16px 18px;">
+      <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.12em; color: #e0574f; text-transform: uppercase; margin-bottom: 8px;">Keep it empty</div>
+      <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.55;">Scenery on the deck reads as cover and there is none &mdash; his rush goes through the space you would hide in. Vents and aircon units belong at the very top and bottom edges as dressing, not in the middle where they would break the chase.</div>
+    </div>
+
+    <div style="background: #171b22; border: 1px solid #272d38; border-left: 3px solid #d9a13c; padding: 16px 18px;">
+      <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.12em; color: #d9a13c; text-transform: uppercase; margin-bottom: 8px;">Why he lands mid-roof</div>
+      <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.55;">Far enough right that he is between you and the pad, far enough left that you are not immediately in his reach. About 100px of clear ground either side on landing.</div>
+    </div>
+
+    <div style="background: #171b22; border: 1px solid #272d38; border-left: 3px solid #4fbf7e; padding: 16px 18px;">
+      <div style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.12em; color: #4fbf7e; text-transform: uppercase; margin-bottom: 8px;">The weapon is short of the pad</div>
+      <div style="color: #b6bcc7; font-size: 13.5px; line-height: 1.55;">Dropped just left of the helipad, so collecting it means going to the far end &mdash; past him &mdash; rather than finding it on the way.</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 26px; color: #868d9a; font-size: 13px; line-height: 1.6; max-width: 78ch;">
+    <span style="color: #e9e7e2;">Collision:</span> a wall band around all four edges, and nothing else. The helipad is a painted circle, not an obstacle. Author it in Figma at 768&times;180 like the others, rectangles only &mdash; a path exports as a shape the parser drops silently.
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -9,6 +9,13 @@ import { InventorySystem } from "../systems/inventorySystem.js";
 import { SVGExitParser } from "../utils/SVGExitParser.js";
 import { playMusic, stopMusic } from "../systems/music.js";
 
+/** Fed to the update loop while a scripted sequence has the controls. */
+const EMPTY_INPUT = Object.freeze({
+  up: false, down: false, left: false, right: false,
+  slot1: false, slot2: false, slot3: false,
+  justSlot1: false, justSlot2: false, justSlot3: false,
+});
+
 /**
  * Base class for all room scenes in the game.
  * Handles common functionality like player setup, guards, vision system, etc.
@@ -40,6 +47,7 @@ export class BaseRoomScene extends Phaser.Scene {
     // Phaser reuses scene instances, so this latch survives a restart unless
     // it is cleared on the way in.
     this._playerCaught = false;
+    this._scripted = false;
 
     const { width, height } = this.scale;
 
@@ -352,7 +360,7 @@ export class BaseRoomScene extends Phaser.Scene {
   /**
    * Create exit zone that transitions to another scene
    */
-  createExit(x, y, width, height, targetScene, entryDirection) {
+  createExit(x, y, width, height, targetScene, entryDirection, options = {}) {
     // Store exit info for manual checking in update loop
     if (!this._exits) this._exits = [];
 
@@ -360,6 +368,10 @@ export class BaseRoomScene extends Phaser.Scene {
       bounds: { x: x - width/2, y: y - height/2, width, height },
       targetScene,
       entryDirection,
+      // A door can play a cutscene on the way through. Handing over between
+      // rooms is the natural place for a story beat: it is the one moment the
+      // player is already between two places and expecting a change.
+      cutscene: options.cutscene || null,
       triggered: false
     };
 
@@ -536,10 +548,12 @@ export class BaseRoomScene extends Phaser.Scene {
     }
 
     const dt = dtMs;
-    const input = this.inputManager.get();
+    // During a scripted exit the character is acting, not the player. Feed the
+    // update loop empty input so nothing the thumb does reaches him.
+    const input = this._scripted ? EMPTY_INPUT : this.inputManager.get();
 
     // Update player
-    this.player.update(input);
+    if (!this._scripted) this.player.update(input);
 
     // Pick up anything the player has walked up to
     this._checkItemPickup();
@@ -574,6 +588,19 @@ export class BaseRoomScene extends Phaser.Scene {
             // Use special hole transition if this is a hole exit
             if (exit.isHole) {
               this.transitionThroughHole(exit.targetScene, exit.entryDirection, exit);
+            } else if (exit.cutscene) {
+              // No stopMusic here on purpose: a cutscene with no music of its
+              // own leaves the track alone, so spooky runs unbroken from the
+              // reveal through the confrontation and up the stairs.
+              this.scene.start("CutsceneScene", {
+                cutscene: exit.cutscene,
+                next: exit.targetScene,
+                nextData: {
+                  isDragging: this.player.isDragging,
+                  isBoxed: this.player.isBoxed,
+                  entryDirection: exit.entryDirection,
+                },
+              });
             } else {
               this.transitionToRoom(exit.targetScene, exit.entryDirection);
             }
@@ -640,6 +667,58 @@ export class BaseRoomScene extends Phaser.Scene {
     if (capturingMeter >= 1.0) {
       this.playerCaught("seen");
     }
+  }
+
+  /**
+   * Take the controls and walk the player along a fixed path, then hand over.
+   *
+   * For scripted exits, where the character acts and the player watches. The
+   * body is disabled so nothing collides mid-run and the tween cannot be
+   * fought; the walk animation is driven per leg from the direction of travel
+   * so he still moves like himself rather than sliding.
+   *
+   * @param {{x:number,y:number}[]} points  legs to walk, in order
+   * @param {object} [opts]                 speed (px/sec), delay before starting
+   * @param {Function} [onArrive]           called once the last leg lands
+   */
+  autoWalk(points, opts = {}, onArrive = null) {
+    if (!this.player || !points?.length) return;
+
+    const speed = opts.speed ?? 110;
+    this._scripted = true;
+    this.player.body.setVelocity(0, 0);
+    this.player.body.enable = false;
+
+    const legs = [...points];
+    const step = () => {
+      const next = legs.shift();
+      if (!next) {
+        this.player.anims.stop();
+        if (onArrive) onArrive();
+        return;
+      }
+      const dx = next.x - this.player.x;
+      const dy = next.y - this.player.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 1) return step();
+
+      const dir = Math.abs(dx) > Math.abs(dy)
+        ? (dx < 0 ? "left" : "right")
+        : (dy < 0 ? "up" : "down");
+      this.player.anims.play(`walk_${dir}`, true);
+
+      this.tweens.add({
+        targets: this.player,
+        x: next.x,
+        y: next.y,
+        duration: (dist / speed) * 1000,
+        ease: "Linear",
+        onComplete: step,
+      });
+    };
+
+    if (opts.delay) this.time.delayedCall(opts.delay, step);
+    else step();
   }
 
   /**

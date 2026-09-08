@@ -1,0 +1,48 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 900,
+      "h": 1240,
+      "title": "Beat sequence"
+    },
+    {
+      "file": "Layout.dc.html",
+      "x": 1000,
+      "y": 0,
+      "w": 1280,
+      "h": 700,
+      "title": "The roof"
+    },
+    {
+      "file": "Monster.dc.html",
+      "x": 1000,
+      "y": 820,
+      "w": 940,
+      "h": 1000,
+      "title": "Monster behaviour"
+    },
+    {
+      "file": "Cutscenes.dc.html",
+      "x": 2380,
+      "y": 0,
+      "w": 920,
+      "h": 1080,
+      "title": "Cutscene frames"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "scripted-exit",
+      "x": 0,
+      "y": 1320,
+      "w": 420,
+      "text": "Built: the escape from the executive wing is scripted now, not played. Water lands, 1.4s of him convulsing, then the controls go and the character runs for the stairs. Path verified clear of the desk on all four legs."
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  }
+}

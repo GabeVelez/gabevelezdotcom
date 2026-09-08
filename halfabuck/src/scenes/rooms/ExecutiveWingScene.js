@@ -132,7 +132,14 @@ export class ExecutiveWingScene extends BaseRoomScene {
 
     // The lit alcove behind the desk. Shut until he is down, so he cannot
     // simply be walked around.
-    this.createExit(192, 24, 56, 40, "RooftopHelipadScene", "north");
+    // Up the stairs, and he changes on the way. The transformation plays here
+    // rather than the moment the water lands, so you leave him screaming and
+    // still human, watch him become something else, and then cross the roof
+    // knowing what is coming. The arrival up there is the reveal, not the
+    // explanation.
+    this.createExit(192, 24, 56, 40, "RooftopHelipadScene", "north", {
+      cutscene: "villain_transform",
+    });
     const roofExit = this._exits[this._exits.length - 1];
     roofExit.triggered = !this.villainDefeated;
 
@@ -145,9 +152,31 @@ export class ExecutiveWingScene extends BaseRoomScene {
       // not jump position or size between standing and screaming.
       const downed = this.add.sprite(192, 224, "villain-agony");
       downed.setOrigin(0.5, 1).setDisplaySize(32, 32).setDepth(9).play("villain_agony");
+
+      // You do not get to choose to leave. A second to watch him convulse,
+      // then the controls go and he makes for the stairs on his own. The path
+      // breaks wide round the desk, which is solid: a scripted run must never
+      // look stuck. He is gone before the change happens, so he never sees it
+      // -- that is for whoever is holding the phone.
       if (this.gameUI) {
-        this.gameUI.showItemNotification("easter_egg", "Go. While he is down.");
+        this.gameUI.showItemNotification("easter_egg", "Go. Now.");
       }
+      this.autoWalk(
+        [
+          { x: 95, y: 200 },   // break left, clear of the desk
+          { x: 95, y: 70 },    // up the open side
+          { x: 192, y: 70 },   // across, above the desk
+          { x: 192, y: 26 },   // into the alcove
+        ],
+        { speed: 118, delay: 1400 },
+        () => {
+          this.scene.start("CutsceneScene", {
+            cutscene: "villain_transform",
+            next: "RooftopHelipadScene",
+            nextData: { entryDirection: "north" },
+          });
+        }
+      );
     } else {
       // He is the throw target as well as the threat, so the range check reads
       // his live position rather than where he started.
