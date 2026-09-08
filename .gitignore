@@ -26,5 +26,7 @@ gcp-*.json
 firebase-debug.log
 firebase-debug.*.log
 
-# Design files - InDesign source files
+# Design files - InDesign and Photoshop source files. Never served, and
+# titlescreen.psd alone is 30MB that every clone and every deploy carried.
 *.indd
+*.psd
