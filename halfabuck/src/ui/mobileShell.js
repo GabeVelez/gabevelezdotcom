@@ -73,7 +73,8 @@ export function createMobileShell() {
       <div class="hh-left">
         <div class="hh-readout"></div>
         <div class="hh-control">
-        <div class="hh-dpad" aria-label="Direction pad">
+        <div class="hh-pad-zone" aria-label="Movement area">
+        <div class="hh-dpad">
           <span class="hh-pad hh-pad-corner"></span>
           <span class="hh-pad hh-pad-up"></span>
           <span class="hh-pad hh-pad-corner"></span>
@@ -85,7 +86,10 @@ export function createMobileShell() {
           <span class="hh-pad hh-pad-corner"></span>
         </div>
         </div>
-        <div class="hh-sound"></div>
+        </div>
+        <div class="hh-sound">
+          <button class="hh-pause" type="button" aria-label="Pause">II</button>
+        </div>
       </div>
 
       <div class="hh-screen">
@@ -110,6 +114,8 @@ export function createMobileShell() {
   const leftEl = root.querySelector(".hh-left");
   const rightEl = root.querySelector(".hh-right");
   const dpadEl = root.querySelector(".hh-dpad");
+  const pauseEl = root.querySelector(".hh-pause");
+  const padZoneEl = root.querySelector(".hh-pad-zone");
 
   // Redistribute the desktop HUD bar into the chassis instead of keeping it as
   // a strip across the bottom. Each column reads top to bottom as "what you are
@@ -143,7 +149,8 @@ export function createMobileShell() {
   // Gates every control surface. False on menus and cutscenes so a stray thumb
   // on the dimmed chassis can't feed input into a scene that isn't gameplay.
   let controlsActive = false;
-  const canPress = () => state.enabled && controlsActive;
+  let paused = false;
+  const canPress = () => state.enabled && controlsActive && !paused;
 
   function clearDirections() {
     state.up = state.down = state.left = state.right = false;
@@ -166,16 +173,38 @@ export function createMobileShell() {
     dpadEl.querySelector(".hh-pad-right").classList.toggle("is-down", state.right);
   }
 
-  dpadEl.addEventListener("pointerdown", (e) => {
+  // The pad is summoned, not parked. A fixed pad sat on a 90x90 square of the
+  // game world all the time, whether a thumb was there or not, and the camera
+  // would happily leave the player standing underneath it. Placing it wherever
+  // the thumb lands costs nothing: that patch of screen is already behind a
+  // hand. So padZoneEl is a transparent catcher over the left of the screen,
+  // and dpadEl is moved to meet the touch.
+  function placePad(e) {
+    const zone = padZoneEl.getBoundingClientRect();
+    const size = dpadEl.offsetWidth || 160;
+    const half = size / 2;
+
+    // Kept fully inside the zone, so a thumb near an edge still gets a whole
+    // pad to steer against rather than half of one off-screen.
+    const cx = Math.min(Math.max(e.clientX, zone.left + half), zone.right - half);
+    const cy = Math.min(Math.max(e.clientY, zone.top + half), zone.bottom - half);
+
+    dpadEl.style.left = `${cx - zone.left - half}px`;
+    dpadEl.style.top = `${cy - zone.top - half}px`;
+  }
+
+  padZoneEl.addEventListener("pointerdown", (e) => {
     if (!canPress()) return;
     e.preventDefault();
     padPointerId = e.pointerId;
-    // Capture keeps a sliding thumb bound to the pad. Not fatal if it fails.
-    try { dpadEl.setPointerCapture(e.pointerId); } catch { /* ignore */ }
+    placePad(e);
+    dpadEl.classList.add("is-live");
+    // Capture keeps a sliding thumb bound to the zone. Not fatal if it fails.
+    try { padZoneEl.setPointerCapture(e.pointerId); } catch { /* ignore */ }
     readPad(e);
   });
 
-  dpadEl.addEventListener("pointermove", (e) => {
+  padZoneEl.addEventListener("pointermove", (e) => {
     if (padPointerId !== e.pointerId) return;
     e.preventDefault();
     readPad(e);
@@ -184,10 +213,21 @@ export function createMobileShell() {
   const endPad = (e) => {
     if (padPointerId !== e.pointerId) return;
     padPointerId = null;
+    dpadEl.classList.remove("is-live");
     clearDirections();
   };
-  dpadEl.addEventListener("pointerup", endPad);
-  dpadEl.addEventListener("pointercancel", endPad);
+  padZoneEl.addEventListener("pointerup", endPad);
+  padZoneEl.addEventListener("pointercancel", endPad);
+
+  // ------------------------------------------------------------------ pause
+  // Only offered during gameplay; on the title and the cutscenes there is
+  // nothing to pause and setControlsActive hides the whole rail anyway.
+  pauseEl.addEventListener("pointerdown", (e) => {
+    if (!canPress()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    state.onPause?.();
+  });
 
   // -------------------------------------------------------- tappable slots
   // The inventory slots are the item buttons. Stacked under the right thumb,
@@ -290,6 +330,21 @@ export function createMobileShell() {
     }
   }
 
+  /**
+   * Pause is a scene drawn over the room, not a layout change, so the chassis
+   * keeps its size and only stops taking input. Without this the pad zone
+   * would still swallow every tap in the bottom-left third of the pause
+   * screen, and that screen resumes on a tap anywhere.
+   */
+  function setPaused(v) {
+    paused = v;
+    root.classList.toggle("is-paused", v);
+    if (v) {
+      clearDirections();
+      state.slot1 = state.slot2 = state.slot3 = false;
+    }
+  }
+
   function setHudVisible(v) {
     readoutEl.classList.toggle("is-hidden", !v);
     meterEl.classList.toggle("is-hidden", !v);
@@ -304,6 +359,7 @@ export function createMobileShell() {
     state,
     setEnabled,
     setControlsActive,
+    setPaused,
     setHudVisible,
     fitScreen,
     root,

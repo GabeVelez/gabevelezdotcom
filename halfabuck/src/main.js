@@ -23,6 +23,7 @@ import { MaintenanceTunnelScene } from "./scenes/rooms/MaintenanceTunnelScene.js
 import { ExecutiveWingScene } from "./scenes/rooms/ExecutiveWingScene.js";
 import { RooftopHelipadScene } from "./scenes/rooms/RooftopHelipadScene.js";
 import { SurroundedScene } from "./scenes/SurroundedScene.js";
+import { PauseScene } from "./scenes/PauseScene.js";
 import { GameOverScene } from "./scenes/GameOverScene.js";
 import { EndingScene } from "./scenes/EndingScene.js";
 
@@ -122,6 +123,7 @@ waitForGate().then(() => Promise.all([
     MaintenanceTunnelScene,
     ExecutiveWingScene,
     RooftopHelipadScene,
+    PauseScene,
     SurroundedScene,
     GameOverScene,
     EndingScene

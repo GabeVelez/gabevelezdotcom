@@ -94,7 +94,13 @@ export class BaseRoomScene extends Phaser.Scene {
         this.gameUI.toggleHelp();
       }
     });
-    this.input.keyboard.on("keydown-ESC", () => this.scene.start("EndingScene"));
+    // ESC used to jump straight to MISSION COMPLETE, so one keypress skipped
+    // all ten levels. It pauses now, which is what a player expects it to do.
+    this.input.keyboard.on("keydown-ESC", () => this.pauseGame());
+
+    // Same for the chassis button, so pausing does not need a keyboard.
+    const shell = this.registry.get("shell");
+    if (shell?.state) shell.state.onPause = () => this.pauseGame();
 
     // Add delay before exits become active (prevent immediate triggering on scene load)
     this.time.delayedCall(300, () => {
@@ -634,6 +640,19 @@ export class BaseRoomScene extends Phaser.Scene {
     if (capturingMeter >= 1.0) {
       this.playerCaught("seen");
     }
+  }
+
+  /**
+   * Pause. The room is paused rather than stopped, so PauseScene draws over a
+   * level that is still there and resuming costs nothing.
+   */
+  pauseGame() {
+    if (this.scene.isPaused(this.scene.key)) return;
+    // The shell's button fires through a callback set in createBaseSystems.
+
+    this.registry.get("shell")?.setPaused?.(true);
+    this.scene.pause();
+    this.scene.launch("PauseScene", { roomKey: this.scene.key });
   }
 
   /**

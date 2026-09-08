@@ -474,6 +474,12 @@ canvas {
   display: none;
 }
 
+/* Empty slots are furniture. Fade them right back so three dark boxes are not
+   sitting on the level for the eight of ten levels you are carrying nothing. */
+.hh-slots .inventory-slot.empty {
+  opacity: 0.3;
+}
+
 /* Nothing beside the screen, so drop the rounded rim and let it go edge to edge */
 #handheld.is-cinematic .hh-bezel {
   border-width: 0;
@@ -621,8 +627,29 @@ canvas {
   flex: none;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 8px;
   margin-top: 6px;
+}
+
+/* Sits beside the sound toggle, top-left, out of both thumbs' way. */
+.hh-pause {
+  width: 30px;
+  height: 30px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #fff;
+  background: rgba(6, 8, 11, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hh-left.is-idle .hh-pause {
+  display: none;
 }
 
 .hh-sound #sound-toggle {
@@ -634,16 +661,32 @@ canvas {
   font-size: 17px;
 }
 
+/* Transparent catcher. Nothing is drawn here; it exists to receive the touch
+   that summons the pad, so the left of the screen is steerable anywhere rather
+   than only on one fixed square. */
+.hh-pad-zone {
+  position: relative;
+  width: clamp(190px, 34vw, 300px);
+  height: clamp(160px, 62vh, 260px);
+  pointer-events: auto;
+  touch-action: none;
+}
+
 .hh-dpad {
   /* Each of the nine cells is a third of this, so 168px gives 56px directions
-     against Apple's 44px minimum. The old 160px cap inside an 88px gutter came
-     out at roughly 77px overall, or 26px a direction. */
+     against Apple's 44px minimum. */
+  position: absolute;
+  left: 0;
+  top: 0;
   width: clamp(144px, 46vh, 192px);
   aspect-ratio: 1;
-  /* Sits over the game, so it needs to read as a control without hiding it */
   border-radius: 12px;
   overflow: hidden;
-  opacity: 0.82;
+  /* Summoned, not parked: invisible and inert until a thumb lands, so it never
+     covers the game while nobody is steering. */
+  opacity: 0;
+  transition: opacity 0.14s ease;
+  pointer-events: none;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -717,10 +760,24 @@ canvas {
 }
 
 /* Only the things you actually press take pointers. */
-.hh-dpad,
+.hh-pad-zone,
 .hh-slots,
 .hh-sound {
   pointer-events: auto;
+}
+
+.hh-dpad.is-live {
+  opacity: 0.8;
+}
+
+/* Paused: the chassis keeps its size so nothing jumps, but every control stops
+   taking taps, otherwise the pad zone eats them before the pause screen sees
+   them. The pause button itself goes too - the overlay has its own Resume. */
+#handheld.is-paused .hh-pad-zone,
+#handheld.is-paused .hh-slots,
+#handheld.is-paused .hh-pause {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hh-foot {
@@ -765,7 +822,7 @@ canvas {
 /* Controls exist only during gameplay. On the title screen and the cutscene the
    chassis shows a lit screen and nothing else. The sound toggle is pulled back
    out of the hidden group so it stays reachable. */
-.hh-left.is-idle .hh-dpad,
+.hh-left.is-idle .hh-pad-zone,
 .hh-right.is-idle {
   opacity: 0;
   pointer-events: none;
