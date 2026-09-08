@@ -429,7 +429,11 @@ canvas {
    The sound toggle is the one thing that has to stay reachable, so it floats
    over the bottom-left corner instead of living in a column. */
 #handheld.is-cinematic .hh-body {
-  grid-template-columns: 0 minmax(0, 1fr) 0;
+  /* No grid-template-columns override here. It used to collapse the two
+     gutters with `0 minmax(0,1fr) 0`, but the body is a single column now and
+     .hh-screen sits in column 1 - so that three-column rule put the screen in
+     a 0px track and the title, the cutscenes and the game over screen all
+     rendered nothing at all on a phone. */
   /* Still edge to edge, but not underneath the notch or the rounded corners.
      Without this the canvas ran under them and clipped anything drawn at the
      canvas edge, such as the cutscene's TAP TO SKIP. */
