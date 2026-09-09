@@ -163,7 +163,7 @@ export class Monster extends Phaser.Physics.Arcade.Sprite {
     // Measured AFTER he has moved, not before. Checking the distance from the
     // top of update tested last frame's position, which at 165px/s is most of
     // a body behind where he actually is.
-    if (this._grabbed(player)) this.scene.playerCaught?.("grabbed");
+    if (this._grabbed(player)) this.scene.playerCaught?.("defeated");
   }
 
   _grabbed(player) {

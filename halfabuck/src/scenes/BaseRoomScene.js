@@ -754,11 +754,15 @@ export class BaseRoomScene extends Phaser.Scene {
    * The one way the player loses a room. Guarded so that a grab and a full
    * detection meter landing on the same frame cannot start the scene twice.
    */
-  playerCaught() {
+  playerCaught(reason) {
     if (this._playerCaught) return;
     this._playerCaught = true;
     stopMusic(this);
-    this.scene.start("SurroundedScene");
+    // Being spotted by a patrol and being picked up off the deck by the
+    // monster are not the same defeat, so they do not get the same card.
+    this.scene.start("SurroundedScene", {
+      card: reason === "defeated" ? "defeated" : "surrounded",
+    });
   }
 
   /**

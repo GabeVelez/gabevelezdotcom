@@ -46,6 +46,8 @@ export class BootScene extends Phaser.Scene {
     this.load.image("titlescreen", "assets/ui/titlescreen.png");
     this.load.image("surrounded", "assets/ui/surrounded.png");
     this.load.image("gameover", "assets/ui/gameover.png");
+    // Losing to the thing on the roof gets its own card.
+    this.load.image("defeated", "assets/ui/defeated.png");
 
     // --- Audio ---
     this.load.audio("intro_music", "assets/audio/music/moodmode-that-8-bit-music-322062.mp3");
