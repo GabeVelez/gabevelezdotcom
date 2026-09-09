@@ -168,6 +168,14 @@ export class BootScene extends Phaser.Scene {
       });
     });
 
+    // The transformed villain. 5 columns by 8 rows in 152px cells: walk in
+    // four directions, then rush in four. He stands about 50px on screen
+    // against the player's 29, which is the escalation and needs no scaling.
+    this.load.spritesheet("villain-big", "assets/sprites/villain/villain-big.png", {
+      frameWidth: 152,
+      frameHeight: 152,
+    });
+
     // Soaked and screaming, for after the water lands. Ten frames rather than
     // five, so the writhing does not read as an obvious short loop. Cut on the
     // same baseline as the walk sheets, and aligned on the shoes so his feet

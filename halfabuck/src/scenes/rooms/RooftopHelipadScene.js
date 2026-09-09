@@ -1,5 +1,6 @@
 import { BaseRoomScene } from "../BaseRoomScene.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
+import { Monster } from "../../entities/Monster.js";
 
 /**
  * Rooftop Helipad - Level 10.
@@ -14,10 +15,14 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
  * now, so the level starts at 0,0 like every other room and the collision SVG
  * needs no offset applied to it.
  *
- * Still to come: the monster, his entrance, the survive timer, the helicopter
- * and the bazooka. The exit is open in the meantime so the game can be played
- * end to end.
+ * Three acts. You walk out and head for the pad; he lands between you and it;
+ * you stay alive until the chopper arrives with a weapon in it. Still to come:
+ * the helicopter and the bazooka, so for now surviving the timer opens the
+ * exit directly.
  */
+const SURVIVE_MS = 45000;
+const TRIGGER_X = 192;
+
 export class RooftopHelipadScene extends BaseRoomScene {
   constructor() {
     super("RooftopHelipadScene");
@@ -71,13 +76,21 @@ export class RooftopHelipadScene extends BaseRoomScene {
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // The helipad, centred where the paint actually is. Open for now; it will
-    // be held shut until the monster is down.
+    // The helipad, centred where the paint actually is. Shut until you have
+    // held out; there is nothing to board before then.
     this.createExit(607, 141, 64, 64, "EndingScene", "victory");
+    this.victoryExit = this._exits[this._exits.length - 1];
+    this.victoryExit.triggered = true;
+
+    // He is not on the roof yet. You get ten seconds of it being empty, which
+    // is what makes the landing land.
+    this.monster = new Monster(this, 400, 140);
+    this.monsterArrived = false;
+    this.surviveLeft = SURVIVE_MS;
 
     collisionBodies.forEach((body) => {
       this.physics.add.collider(this.player, body);
-      for (const g of this.guards) this.physics.add.collider(g, body);
+      this.physics.add.collider(this.monster, body);
     });
 
     this.cameras.main.setBounds(0, 0, this.roofWidth, this.roofHeight);
@@ -86,5 +99,46 @@ export class RooftopHelipadScene extends BaseRoomScene {
 
   update(time, delta) {
     this.updateBase(time, delta);
+    if (!this.player?.body) return;
+
+    if (!this.monsterArrived) {
+      // Crossing a third of the way over, on your way to the pad.
+      if (this.player.x >= TRIGGER_X) this._arrive();
+      return;
+    }
+
+    this.monster.update(delta);
+
+    if (this.surviveLeft > 0) {
+      this.surviveLeft = Math.max(0, this.surviveLeft - delta);
+      this.gameUI?.updateDetectionMeter(1 - this.surviveLeft / SURVIVE_MS);
+      if (this.surviveLeft === 0) this._chopperArrives();
+    }
+  }
+
+  /** He drops in between you and the helipad, and your kit stops working. */
+  _arrive() {
+    this.monsterArrived = true;
+    this._scripted = true;
+    this.player.body.setVelocity(0, 0);
+
+    this.gameUI?.setMeterMode("inbound");
+    this.gameUI?.updateDetectionMeter(0);
+
+    // The box and the smoke are dead from here. Nine levels of tricks, gone
+    // the moment he arrives, and taken away where you can see it happen.
+    this.gameUI?.setSlotsDisabled([0, 1]);
+    this.inventoryFrozen = true;
+
+    this.monster.dropIn(() => {
+      this._scripted = false;
+      this.gameUI?.showItemNotification("easter_egg", "Stay alive.");
+    });
+  }
+
+  /** Forty-five seconds later. */
+  _chopperArrives() {
+    this.victoryExit.triggered = false;
+    this.gameUI?.showItemNotification("easter_egg", "Get to the chopper.");
   }
 }

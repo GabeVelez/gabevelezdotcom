@@ -48,6 +48,7 @@ export class BaseRoomScene extends Phaser.Scene {
     // it is cleared on the way in.
     this._playerCaught = false;
     this._scripted = false;
+    this.inventoryFrozen = false;
 
     const { width, height } = this.scale;
 
@@ -79,6 +80,10 @@ export class BaseRoomScene extends Phaser.Scene {
 
     // Get HTML UI overlay reference
     this.gameUI = this.registry.get("gameUI");
+    // The HUD outlives the scene. The rooftop relabels the meter and kills two
+    // slots; without this, dying up there would carry both back to the cell.
+    this.gameUI?.setMeterMode?.("detection");
+    this.gameUI?.setSlotsDisabled?.([]);
     if (this.gameUI) {
       this.gameUI.setVisible(true);
       // Update sound icon to match current state
@@ -777,6 +782,22 @@ export class BaseRoomScene extends Phaser.Scene {
     this.anims.create({ key: "overseer_walk_left", frames: this.anims.generateFrameNumbers("overseer-left", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
     this.anims.create({ key: "overseer_walk_right", frames: this.anims.generateFrameNumbers("overseer-right", { start: 0, end: 4 }), frameRate: 8, repeat: -1 });
 
+    // The monster. Rows are walk right/left/down/up then rush right/left/down/up,
+    // five frames each, so row r is frames r*5 to r*5+4. The rush runs faster
+    // than the walk because he is committing, not travelling.
+    ["right", "left", "down", "up"].forEach((dir, i) => {
+      this.anims.create({
+        key: `monster_walk_${dir}`,
+        frames: this.anims.generateFrameNumbers("villain-big", { start: i * 5, end: i * 5 + 4 }),
+        frameRate: 9, repeat: -1,
+      });
+      this.anims.create({
+        key: `monster_rush_${dir}`,
+        frames: this.anims.generateFrameNumbers("villain-big", { start: (i + 4) * 5, end: (i + 4) * 5 + 4 }),
+        frameRate: 16, repeat: -1,
+      });
+    });
+
     // Villain, soaked and screaming. Slow enough to read as convulsing rather
     // than flickering, since each frame was drawn independently.
     this.anims.create({ key: "villain_walk_down", frames: this.anims.generateFrameNumbers("villain-front", { start: 0, end: 4 }), frameRate: 10, repeat: -1 });
@@ -892,8 +913,14 @@ export class BaseRoomScene extends Phaser.Scene {
    * enough to a target. The slot index is looked up rather than hardcoded,
    * since it depends on pickup order.
    */
+  /** Rooms can switch the carried items off; the rooftop does. */
+  _itemsUsable() {
+    return !this.inventoryFrozen;
+  }
+
   _checkThrowTargets(input) {
     if (!this.throwTargets || this.throwTargets.length === 0) return;
+    if (!this._itemsUsable()) return;
 
     const items = this.inventory.getAll();
 

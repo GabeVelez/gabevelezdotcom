@@ -60,8 +60,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(input) {
+    // A room can switch the carried items off. The rooftop does, the moment
+    // the monster lands: the box and the smoke stop working there, and this is
+    // what makes the dead slots in the HUD tell the truth.
+    const itemsUsable = this.scene._itemsUsable ? this.scene._itemsUsable() : true;
+
     // Toggle box on edge-trigger (only if player has cardboard box in inventory)
-    if (input.justSlot1) {
+    if (input.justSlot1 && itemsUsable) {
       const inventory = this.scene.registry.get("inventory");
 
       // Only allow boxing if player has the cardboard box
@@ -95,7 +100,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     // Deploy smoke grenade on slot2 (only if player has smoke grenade in inventory)
-    if (input.justSlot2) {
+    if (input.justSlot2 && itemsUsable) {
       const inventory = this.scene.registry.get("inventory");
 
       if (inventory && inventory.hasItem("smoke_grenade")) {

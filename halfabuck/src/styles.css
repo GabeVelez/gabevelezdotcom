@@ -838,6 +838,14 @@ canvas {
   pointer-events: auto;
 }
 
+/* Switched off, and made to look it. The rooftop kills the box and the smoke
+   the moment he lands; the slot has to read as taken away rather than broken. */
+.inventory-slot.is-dead {
+  opacity: 0.22;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
 /* Inventory slots double as the item buttons on touch */
 .inventory-slot.hh-tappable {
   pointer-events: auto;

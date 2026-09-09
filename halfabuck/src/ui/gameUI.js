@@ -39,7 +39,25 @@ export class GameUI {
   /**
    * Update detection meter (0-1 range)
    */
+  /**
+   * The rooftop repurposes the detection meter as a countdown, because it is
+   * already the thing players watch when something is closing in. Relabelling
+   * it beats adding a second bar to a 180px-tall screen.
+   */
+  setMeterMode(mode) {
+    const label = document.getElementById('detection-label');
+    if (label) label.textContent = mode === 'inbound' ? 'CHOPPER INBOUND:' : 'DETECTION:';
+    this._meterMode = mode;
+  }
+
   updateDetectionMeter(value) {
+    // A filling countdown is good news, so it must not go red on the way up.
+    if (this._meterMode === 'inbound') {
+      this.detectionFill.style.width = `${Math.max(0, Math.min(100, value * 100))}%`;
+      this.detectionFill.classList.remove('yellow', 'red');
+      return;
+    }
+
     const percent = Math.max(0, Math.min(100, value * 100));
     this.detectionFill.style.width = `${percent}%`;
 
@@ -174,6 +192,19 @@ export class GameUI {
   /**
    * Update inventory display (3-slot system)
    */
+  /**
+   * Take the slots away, visibly. Used on the roof, where the box and the
+   * smoke stop working the moment he lands: a slot that quietly does nothing
+   * reads as a bug, a slot you watch go dark reads as the floor going out
+   * from under you.
+   */
+  setSlotsDisabled(indices) {
+    if (!this.inventoryItems) return;
+    const slots = this.inventoryItems.querySelectorAll('.inventory-slot');
+    this._disabledSlots = indices;
+    slots.forEach((slot, i) => slot.classList.toggle('is-dead', indices.includes(i)));
+  }
+
   updateInventory(items) {
     if (!this.inventoryItems) return;
 
@@ -190,6 +221,11 @@ export class GameUI {
       slot.classList.add('empty');
       slot.removeAttribute('title');
     });
+
+    // A disabled slot stays disabled across a refill.
+    if (this._disabledSlots) {
+      slots.forEach((slot, i) => slot.classList.toggle('is-dead', this._disabledSlots.includes(i)));
+    }
 
     // Fill slots with collected items
     items.forEach((item, index) => {
