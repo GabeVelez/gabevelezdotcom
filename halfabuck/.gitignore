@@ -17,8 +17,7 @@ temp-layouts/
 # Generated collision overlays (regenerate with tools/collision-overlay.py)
 tools/overlays/
 
-# Pre-optimisation source audio and art, kept locally for re-encoding
-assets/audio/music/originals/
-assets/sounds/cutscenes/originals/
-assets/cutscenes/story/originals/
-assets/scenes/rooftop-helipad/originals/
+# Everything that was processed into something the game actually loads, plus
+# everything superseded. Kept on disk so a sheet can be recut or an old version
+# eyeballed; never cloned or deployed.
+originals/
