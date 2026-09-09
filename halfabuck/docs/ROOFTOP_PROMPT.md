@@ -35,17 +35,27 @@ downsamples cleanly — and I will bring it down to 768 × 180.
 > pipework, no debris in the central band. It has to stay readable as a
 > space to run in.
 >
-> **Objects, all lit from above and slightly left, with short shadows falling
-> down and to the right.** Each shows its top surface and the face turned
-> toward the viewer, like furniture in a top-down game:
-> - A stairwell head-house at the far left, a low brick or concrete box with
->   a closed steel door in the face nearest the viewer, a handrail on top.
-> - Two low air-conditioning units set against the far parapet in the
->   left-middle third: rusted metal housings with fan grilles on top.
-> - Two small vent stacks between them, capped pipes, silhouette only.
-> - A helipad painted flat on the deck in the right third: a faded yellow
->   circle with a second ring inside it and a large letter H. It is paint on
->   asphalt, worn and scuffed, not a raised platform. Nothing stands on it.
+> **The deck is nearly bare, and that is deliberate** — it is an arena, and
+> anything standing on it is somewhere a chase snags. There are only three
+> things on it:
+> - **A steel door set into the left-hand parapet, exactly halfway down it.**
+>   Weathered, riveted, standing slightly ajar with a sliver of warm light
+>   spilling out onto the deck. It is flush with the wall, not a hut or a
+>   box standing on the roof. This is the only feature on the left half of
+>   the image and it needs to read clearly as the way in.
+> - **One low air-conditioning unit**, set against the far parapet about a
+>   third of the way across: a rusted metal housing with a fan grille on
+>   top, lit from above and slightly left, with a short shadow falling down
+>   and to the right. It shows its top surface and the face turned toward
+>   the viewer, like furniture in a top-down game. Two small capped vent
+>   pipes stand near it, silhouette only.
+> - **A helipad painted flat on the deck in the right third**: a faded
+>   yellow circle with a second ring inside it and a large letter H. Paint
+>   on asphalt, worn and scuffed — not a raised platform. Nothing stands
+>   on it, and nothing stands near it.
+>
+> Everything from the middle of the roof across to the helipad is empty
+> deck. Do not fill it.
 >
 > **Light and colour.** Night. Cold moonlight over the deck, and warm amber
 > spill from the city below catching the outer face of the parapets. The
@@ -70,6 +80,11 @@ corridor to line up perfectly on the first try.
 **The band fractions matter more than the objects.** If the sky band comes
 back much deeper than 11%, the playable deck shrinks and the chase gets
 cramped. That one is worth regenerating for; a misplaced AC unit is not.
+
+**The other thing worth regenerating for is clutter.** These models like to
+fill a roof with crates, ducting and pipework. The empty right half is
+load-bearing: it is where the chase happens and where the weapon has to be
+picked up under pressure. If it comes back busy, say so and ask again.
 
 **Check it before it goes in:** `python3 tools/collision-overlay.py rooftop`
 draws the collision over the art using the same maths the game does.
