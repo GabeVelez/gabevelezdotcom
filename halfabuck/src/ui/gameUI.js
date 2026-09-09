@@ -46,13 +46,16 @@ export class GameUI {
    */
   setMeterMode(mode) {
     const label = document.getElementById('detection-label');
-    if (label) label.textContent = mode === 'inbound' ? 'CHOPPER INBOUND:' : 'DETECTION:';
+    // "CHOPPER INBOUND" told the player about something they have no way of
+    // knowing is coming. The bar has to say what THEY must do; the helicopter
+    // is then a payoff for having done it rather than a spoiler of it.
+    if (label) label.textContent = mode === 'survive' ? 'SURVIVE:' : 'DETECTION:';
     this._meterMode = mode;
   }
 
   updateDetectionMeter(value) {
     // A filling countdown is good news, so it must not go red on the way up.
-    if (this._meterMode === 'inbound') {
+    if (this._meterMode === 'survive') {
       this.detectionFill.style.width = `${Math.max(0, Math.min(100, value * 100))}%`;
       this.detectionFill.classList.remove('yellow', 'red');
       return;

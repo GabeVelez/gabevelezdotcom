@@ -122,7 +122,7 @@ export class RooftopHelipadScene extends BaseRoomScene {
     this._scripted = true;
     this.player.body.setVelocity(0, 0);
 
-    this.gameUI?.setMeterMode("inbound");
+    this.gameUI?.setMeterMode("survive");
     this.gameUI?.updateDetectionMeter(0);
 
     // The box and the smoke are dead from here. Nine levels of tricks, gone

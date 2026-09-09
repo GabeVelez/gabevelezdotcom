@@ -176,50 +176,69 @@ export class Monster extends Phaser.Physics.Arcade.Sprite {
     const scene = this.scene;
     const landX = this.x, landY = this.y;
 
-    const shadow = scene.add.ellipse(landX, landY, 8, 4, 0x000000, 0.55);
-    shadow.setDepth(4);
+    // A shadow on the deck that grows in step with him. It says both that
+    // something is coming and exactly where it will land, which is what makes
+    // this dramatic rather than merely sudden.
+    const shadow = scene.add.ellipse(landX, landY, 10, 5, 0x000000, 0.5).setDepth(4);
 
-    this.setVisible(false);
-    this.setPosition(landX, landY - 260);
-    this.setScale(0.95);
+    // Scale, not position. Up-screen in a top-down view is AWAY, not UP, so
+    // dropping him in from above the frame read as walking in from the north
+    // and he was off screen for most of it. Falling toward the floor is
+    // something getting BIGGER, then settling to its real size - so he starts
+    // at three times scale, right on the spot, and comes down on top of you
+    // in full view the whole way.
+    // 1.4 puts him about 140px tall on a 180px screen for the first instant -
+    // enough to fill it without his head being cropped off the top of the
+    // frame, which is what a larger start does.
+    const START = 1.4, END = 0.5;
+    this.setScale(START);
+    this.setPosition(landX, landY - 30);
+    this._pose("walk", "down", 0);
+    this.setAlpha(0);
+    this.setVisible(true);
 
-    scene.tweens.add({ targets: shadow, scaleX: 7, scaleY: 7, duration: 620, ease: "Quad.easeIn" });
+    scene.tweens.add({ targets: this, alpha: 1, duration: 140 });
+    // A rumble under the descent, so the impact is the end of something rather
+    // than the whole event.
+    scene.cameras.main.shake(600, 0.003);
+    scene.tweens.add({
+      targets: shadow,
+      scaleX: 5.5, scaleY: 5.5,
+      alpha: 0.62,
+      duration: 620,
+      ease: "Quad.easeIn",
+    });
 
-    scene.time.delayedCall(300, () => {
-      this.setVisible(true);
-      this._pose("walk", "down", 0);
-      scene.tweens.add({
-        targets: this,
-        y: landY,
-        scaleX: 0.5, scaleY: 0.5,
-        duration: 340,
-        ease: "Quad.easeIn",
-        onComplete: () => {
-          scene.cameras.main.shake(360, 0.012);
-          shadow.destroy();
+    scene.tweens.add({
+      targets: this,
+      scaleX: END, scaleY: END,
+      y: landY,
+      duration: 620,
+      ease: "Quad.easeIn",
+      onComplete: () => {
+        scene.cameras.main.shake(380, 0.014);
+        shadow.destroy();
 
-          // Dust, thrown outward from the impact.
-          for (let i = 0; i < 12; i++) {
-            const a = (Math.PI * 2 * i) / 12;
-            const p = scene.add.circle(landX, landY - 4, 3, 0x8a8578, 0.5).setDepth(11);
-            scene.tweens.add({
-              targets: p,
-              x: landX + Math.cos(a) * (28 + Math.random() * 22),
-              y: landY - 4 + Math.sin(a) * (12 + Math.random() * 10),
-              alpha: 0,
-              duration: 520,
-              onComplete: () => p.destroy(),
-            });
-          }
-
-          // A beat on the deck before he starts hunting.
-          scene.time.delayedCall(520, () => {
-            this.body.enable = true;
-            this._enter(MonsterState.STALK);
-            if (onLanded) onLanded();
+        for (let i = 0; i < 14; i++) {
+          const a = (Math.PI * 2 * i) / 14;
+          const p = scene.add.circle(landX, landY - 4, 3, 0x8a8578, 0.55).setDepth(11);
+          scene.tweens.add({
+            targets: p,
+            x: landX + Math.cos(a) * (30 + Math.random() * 24),
+            y: landY - 4 + Math.sin(a) * (13 + Math.random() * 11),
+            alpha: 0,
+            duration: 560,
+            onComplete: () => p.destroy(),
           });
-        },
-      });
+        }
+
+        // A beat stood over the crater before he comes for you.
+        scene.time.delayedCall(620, () => {
+          this.body.enable = true;
+          this._enter(MonsterState.STALK);
+          if (onLanded) onLanded();
+        });
+      },
     });
   }
 
