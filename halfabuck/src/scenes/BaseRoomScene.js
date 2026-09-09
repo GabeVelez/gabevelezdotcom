@@ -219,9 +219,20 @@ export class BaseRoomScene extends Phaser.Scene {
       const visionConfig = this._getVisionConfig(guard.guardType);
       this.vision.initGuard(guard, visionConfig);
 
-      // Initialize pathfinding grid from tilemap
+      // Pathfinding has to know about the SVG walls, not just the tilemap,
+      // which every room leaves entirely walkable.
       if (wallLayer) {
-        guard.initializePathfinding(wallLayer);
+        guard.initializePathfinding(wallLayer, this.collisionBodies);
+      }
+
+      // And guards need the same walls the player has. This was left to each
+      // scene and five of the six were not doing it, so a guard in Warehouse
+      // Main walked through the shelving to reach you - which is most of why
+      // they felt impossible to lose.
+      if (this.collisionBodies) {
+        for (const body of this.collisionBodies) {
+          this.physics.add.collider(guard, body);
+        }
       }
     }
   }

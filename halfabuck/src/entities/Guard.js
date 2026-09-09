@@ -91,19 +91,39 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
   /**
    * Initialize pathfinding grid from tilemap layer
    */
-  initializePathfinding(tilemapLayer) {
+  initializePathfinding(tilemapLayer, collisionBodies = null) {
     if (!tilemapLayer) return;
 
     const map = tilemapLayer.tilemap;
     const grid = [];
 
-    // Create grid from tilemap (0 = walkable, 1 = blocked)
+    // The grid used to come from the tilemap alone, and every room fills its
+    // tilemap entirely walkable because the real walls live in the collision
+    // SVG. So A* believed the whole level was open floor and routed guards
+    // straight through shelving: they would grind along a wall they had
+    // planned to walk through, or arrive from a direction nothing could have
+    // walked. Mark a tile blocked if a collision body covers any of it.
+    const rects = [];
+    for (const body of collisionBodies || []) {
+      const b = body?.getBounds?.();
+      if (b) rects.push(b);
+    }
+    const tw = map.tileWidth, th = map.tileHeight;
+    const ox = tilemapLayer.x || 0, oy = tilemapLayer.y || 0;
+
     for (let y = 0; y < map.height; y++) {
       grid[y] = [];
       for (let x = 0; x < map.width; x++) {
         const tile = tilemapLayer.getTileAt(x, y);
-        // Walkable if no tile or tile doesn't collide
-        grid[y][x] = (!tile || !tile.collides) ? 0 : 1;
+        let blocked = !!(tile && tile.collides);
+        if (!blocked && rects.length) {
+          const wx = ox + x * tw, wy = oy + y * th;
+          for (const r of rects) {
+            if (wx < r.x + r.width && wx + tw > r.x &&
+                wy < r.y + r.height && wy + th > r.y) { blocked = true; break; }
+          }
+        }
+        grid[y][x] = blocked ? 1 : 0;
       }
     }
 

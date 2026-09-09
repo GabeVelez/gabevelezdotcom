@@ -53,7 +53,13 @@ export class Monster extends Phaser.Physics.Arcade.Sprite {
     this.rushMs = config.rushMs ?? 520;
     this.recoverMs = config.recoverMs ?? 800;
     this.commitRange = config.commitRange ?? 90;
-    this.grabRadius = config.grabRadius ?? 20;
+    this.grabRadius = config.grabRadius ?? 22;
+    // He is 50px tall with an arm thrown out well past his feet, and the grab
+    // was measured foot to foot - so his hand could be through you while the
+    // check said 40px clear. During a lunge the reach is taken from a point
+    // out in front of him instead, which is where the sprite actually is.
+    this.reach = config.reach ?? 30;
+    this.reachRadius = config.reachRadius ?? 26;
     // He aims where you are going, not where you are. Without this a committed
     // rush is beaten by walking in any direction at all, since he arrives at
     // the spot you have already left; with it, running in a straight line is
@@ -154,7 +160,24 @@ export class Monster extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    if (dist <= this.grabRadius) this.scene.playerCaught?.("grabbed");
+    // Measured AFTER he has moved, not before. Checking the distance from the
+    // top of update tested last frame's position, which at 165px/s is most of
+    // a body behind where he actually is.
+    if (this._grabbed(player)) this.scene.playerCaught?.("grabbed");
+  }
+
+  _grabbed(player) {
+    if (Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) <= this.grabRadius) {
+      return true;
+    }
+    // Mid-lunge the arm is out, so test the hand as well as the body.
+    if (this.state !== MonsterState.RUSH && this.state !== MonsterState.WINDUP) return false;
+    const d = this.state === MonsterState.RUSH
+      ? this.rushDir
+      : { right: { x: 1, y: 0 }, left: { x: -1, y: 0 }, down: { x: 0, y: 1 }, up: { x: 0, y: -1 } }[this.facing];
+    const hx = this.x + d.x * this.reach;
+    const hy = this.y + d.y * this.reach - 8; // his hand rides above his feet
+    return Phaser.Math.Distance.Between(hx, hy, player.x, player.y) <= this.reachRadius;
   }
 
   _enter(state) {

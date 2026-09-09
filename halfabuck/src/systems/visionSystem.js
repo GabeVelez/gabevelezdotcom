@@ -26,6 +26,11 @@ export class VisionSystem {
     this.alertingGuard = null; // Which guard triggered the alert
     this.alertCooldown = 0; // Cooldown timer before alert can reset (ms)
     this.minAlertDuration = 3000; // Minimum alert duration (3 seconds)
+
+    // How long a guard keeps looking after losing sight before he gives up,
+    // drops his cone back and goes back on patrol. Long enough to feel like
+    // he is searching, short enough that breaking contact is a real option.
+    this.giveUpMs = 3500;
   }
 
   initGuard(guard, config = {}) {
@@ -104,6 +109,10 @@ export class VisionSystem {
       const inside = this._isPlayerInCone(g);
       const meter = this.meters.get(g) ?? 0;
 
+      // How long since THIS guard last had eyes on you. Reset below when he
+      // does; it is what lets him give up.
+      if (!inside) g.timeSinceLastSeen = (g.timeSinceLastSeen ?? 0) + dt;
+
       const p = this.player;
       const pv = p.body?.velocity;
       const pMoving = pv && (Math.abs(pv.x) + Math.abs(pv.y) > 1);
@@ -121,6 +130,8 @@ export class VisionSystem {
 
       // Track if guard can see player
       g.canSeePlayer = inside;
+
+      if (inside) g.timeSinceLastSeen = 0;
 
       // Update last known position when player is visible
       if (inside && next > 0.05) {
@@ -166,6 +177,22 @@ export class VisionSystem {
         trig.investigate = false;
         trig.chase = false;
         trig.alert = false;
+      }
+
+      // Give up. Without this a guard who has lost you keeps a cone widened to
+      // 125% and a state machine still walking to where you were, so he
+      // re-acquires the moment you move and there is no way to break contact.
+      // Losing a guard has to be possible or the stealth is theatre.
+      if (!inside && next < 0.01 && g.timeSinceLastSeen >= this.giveUpMs) {
+        if (g.vision.isAlerted) {
+          g.vision.isAlerted = false;
+          g.vision.distance = g.vision.greenDistance;
+        }
+        const patrolState = g.stateMachine?.possibleStates?.[GuardStates.PATROL];
+        if (g.stateMachine && g.stateMachine.state !== patrolState) {
+          g.stateMachine.transition?.(GuardStates.PATROL);
+        }
+        g.lastKnownPlayerPos = null;
       }
 
       // State transitions based on detection level
@@ -225,8 +252,11 @@ export class VisionSystem {
       }
     }
 
-    // Reset alert when all guards are back to patrol and no one is detecting
-    if (this.alertActive && !anyDetecting && !anyAlerted) {
+    // Reset the shared alert when nobody can currently see the player. It used
+    // to also require every guard to be back on patrol, which meant one guard
+    // stuck mid-search held every cone in the level at 125% indefinitely - so
+    // walking away from one guard made every other guard sharper.
+    if (this.alertActive && !anyDetecting) {
       this.resetAlert();
     }
   }
