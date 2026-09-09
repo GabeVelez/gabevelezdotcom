@@ -4,19 +4,19 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 /**
  * Rooftop Helipad - Level 10.
  *
- * Cleared back to a bare room while it is redesigned: background, collision,
- * spawn, camera and a working exit, and nothing else. Everything that used to
- * be here was built for the old 480x480 placeholder art and is being replaced,
- * so it has been taken out rather than left to be worked around:
+ * 768 x 256 on a 384 x 180 screen, so it scrolls both ways. The deck is only
+ * y 58 to 214 of that; everything above is the city seen from up here and
+ * everything below is our own building falling away. Both bands are drawn,
+ * neither is walkable, and the far one is more than twice the depth of the
+ * near one because that lopsidedness is what reads as a tilted camera.
  *
- *   - eight guards (2 regular, 2 lead, 2 officer, a captain and an overseer)
- *   - the helipad_gate, a locked door whose keycard does not exist in the
- *     game, so it could never open
- *   - the helicopter, which span its whole fuselage rather than a rotor
- *   - the bazooka and the monster it was thrown at
+ * The old offset scheme is gone. The art is authored at the level's own size
+ * now, so the level starts at 0,0 like every other room and the collision SVG
+ * needs no offset applied to it.
  *
- * The exit is deliberately kept and left open so the game can still be played
- * end to end while the level is designed. It sits where the helicopter used to.
+ * Still to come: the monster, his entrance, the survive timer, the helicopter
+ * and the bazooka. The exit is open in the meantime so the game can be played
+ * end to end.
  */
 export class RooftopHelipadScene extends BaseRoomScene {
   constructor() {
@@ -25,101 +25,62 @@ export class RooftopHelipadScene extends BaseRoomScene {
   }
 
   create() {
-    // Rooftop is 480x480
-    // Center on 320x180 canvas would overflow - keep at (0,0) or use camera bounds
-    this.rooftopOffsetX = -48; // Center horizontally: (384 - 480) / 2
-    this.rooftopOffsetY = -150; // Keep player visible in bottom area
+    this.roofWidth = 768;
+    this.roofHeight = 256;
 
-    // Add rooftop background image
-    const rooftopBg = this.add.image(this.rooftopOffsetX, this.rooftopOffsetY, "rooftop_helipad_layout");
-    rooftopBg.setOrigin(0, 0);
-    rooftopBg.setDisplaySize(480, 480);
-    rooftopBg.setDepth(0);
+    const bg = this.add.image(0, 0, "rooftop_layout");
+    bg.setOrigin(0, 0);
+    bg.setDisplaySize(this.roofWidth, this.roofHeight);
+    bg.setDepth(0);
 
-    // Initialize the rest asynchronously
     this.initializeScene();
   }
 
   async initializeScene() {
-    const rooftopOffsetX = this.rooftopOffsetX;
-    const rooftopOffsetY = this.rooftopOffsetY;
-
-    // Create invisible tilemap for waypoint/vision system (all walkable)
+    // Walkable everywhere; the SVG bodies below do the actual blocking.
     const map = this.make.tilemap({
       tileWidth: 16,
       tileHeight: 16,
-      width: 30, // 480 / 16
-      height: 30
+      width: 48,   // 768 / 16
+      height: 16,  // 256 / 16
     });
-
     const tiles = map.addTilesetImage("warehouse_tiles");
     const ground = map.createBlankLayer("ground", tiles);
-    ground.x = rooftopOffsetX;
-    ground.y = rooftopOffsetY;
-    ground.fill(1, 0, 0, 30, 30); // Fill all tiles as walkable
+    ground.fill(1, 0, 0, 48, 16);
     ground.setVisible(false);
     this.groundLayer = ground;
 
-    // Load collision from SVG file with offset applied
+    // Measured off the art rather than off the block-out: the far coping runs
+    // y 51-57 and the near one y 215-221, so the deck is y 58 to 214.
     const collisionBodies = await SVGCollisionParser.parseAndCreateBodies(
       this,
-      "assets/collision/rooftop-helipad-collision.svg",
-      rooftopOffsetX,
-      rooftopOffsetY
+      "assets/collision/rooftop-collision.svg"
     );
-
-    // Store for reference (needed for vision system and player collision)
     this.collisionBodies = collisionBodies;
 
     this.createBaseSystems();
 
-    // Player spawn position - enter from south (bottom)
-    let playerX = rooftopOffsetX + 240; // Center horizontally
-    let playerY = rooftopOffsetY + 440; // Near bottom
+    // Out of the door in the left parapet, which the art puts at y 125-151.
+    this.createPlayer(40, 146);
 
-    if (this.entryDirection === "north") {
-      // Coming from Executive Wing (stairs/elevator) - spawn at bottom
-      playerX = rooftopOffsetX + 240;
-      playerY = rooftopOffsetY + 440;
-      console.log(`Spawning from Executive Wing at (${playerX}, ${playerY})`);
-    }
-
-    this.createPlayer(playerX, playerY);
-
-    // No guards. The room is being redesigned; they will be placed against
-    // the new art. The array and vision system still have to exist because
-    // BaseRoomScene's update loop iterates them unconditionally.
+    // No guards up here - what hunts you is the monster, and he is not one.
+    // The array and vision system still have to exist because BaseRoomScene's
+    // update loop iterates them unconditionally.
     this.createGuards();
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);
 
-    // The way out, kept open so the level is completable while it is built.
-    // Move it once the new layout exists.
-    this.createExit(
-      rooftopOffsetX + 240,
-      rooftopOffsetY + 240,
-      64,
-      64,
-      "EndingScene",
-      "victory"
-    );
+    // The helipad, centred where the paint actually is. Open for now; it will
+    // be held shut until the monster is down.
+    this.createExit(607, 141, 64, 64, "EndingScene", "victory");
 
-    // Add colliders for all SVG collision bodies
-    collisionBodies.forEach(body => {
+    collisionBodies.forEach((body) => {
       this.physics.add.collider(this.player, body);
+      for (const g of this.guards) this.physics.add.collider(g, body);
     });
 
-    // Add guard colliders
-    for (const g of this.guards) {
-      this.physics.add.collider(g, ground);
-      collisionBodies.forEach(body => {
-        this.physics.add.collider(g, body);
-      });
-    }
-
-    // Camera - follow player with bounds set to rooftop area
-    this.cameras.main.setBounds(rooftopOffsetX, rooftopOffsetY, 480, 480);
+    this.cameras.main.setBounds(0, 0, this.roofWidth, this.roofHeight);
     this.cameras.main.startFollow(this.player, true);
   }
 

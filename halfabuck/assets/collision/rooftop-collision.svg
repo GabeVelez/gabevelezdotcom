@@ -1,0 +1,20 @@
+<svg width="768" height="256" viewBox="0 0 768 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Rooftop Helipad. Measured off rooftop-layout.png rather than off the
+     block-out, so it matches what the art actually does:
+       the coping at the far edge runs y 51-57, deck starts at 58
+       the coping at the near edge runs y 215-221, deck ends at 214
+       the parapet's inner edge is x 12 on the left and x 750 on the right
+     Deck is 738 x 156. Rectangles only - a path exports as a shape the
+     parser drops silently. -->
+
+<!-- the city, and our own parapet, above the deck -->
+<rect x="0" y="0" width="768" height="58" fill="#FF0000"/>
+<!-- the near parapet, and the face of the building below it -->
+<rect x="0" y="214" width="768" height="42" fill="#FF0000"/>
+<!-- side parapets -->
+<rect x="0" y="0" width="12" height="256" fill="#FF0000"/>
+<rect x="750" y="0" width="18" height="256" fill="#FF0000"/>
+
+<!-- the air-conditioning unit, the only solid thing standing on the deck -->
+<rect x="281" y="58" width="40" height="22" fill="#FF0000"/>
+</svg>

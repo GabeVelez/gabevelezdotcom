@@ -37,7 +37,6 @@ LEVELS = {
     "maintenance-tunnel": ("maintenance-tunnel-collision.svg",  "layouts/maintenance_tunnel_layout.png"),
     "executive-wing":     ("executive-wing-collision.svg",      "scenes/executive-wing/executive-bg.png"),
     "rooftop":            ("rooftop-collision.svg",             "scenes/rooftop-helipad/rooftop-layout.png"),
-    "rooftop-helipad":    ("rooftop-helipad-collision.svg",     "scenes/rooftop-helipad/rooftop-helipad-layout.png"),
 }
 
 
