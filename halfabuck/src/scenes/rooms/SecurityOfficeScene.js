@@ -3,16 +3,17 @@ import { SecurityKeycard } from "../../entities/SecurityKeycard.js";
 import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
- * Security Office - Level 7
+ * Security Office - Level 8
  * 400×352 pixels
- * Security Keycard at (336,176) inside locked room
- * Enter at bottom-left (35,330)
- * Exit at top-left (35,17) to MaintenanceTunnelScene (requires keycard)
+ * Security Keycard at (336,176), out in the open
+ * In at the head of the room (44,49) from the Maintenance Tunnel
+ * Out at the foot of it (44,318) to the Executive Wing, through the door the
+ * keycard opens - the last room before the confrontation.
  */
 export class SecurityOfficeScene extends BaseRoomScene {
   constructor() {
     super("SecurityOfficeScene");
-    this.levelLabel = "LVL 7: Security Office";
+    this.levelLabel = "LVL 8: Security Office";
   }
 
   create() {
@@ -67,8 +68,8 @@ export class SecurityOfficeScene extends BaseRoomScene {
 
     // Setup exits from SVG and get spawn position
     const spawnPos = await this.setupExitsFromSVG("assets/exits/security-office-exits.svg", {
-      enterZone: { scene: "LoadingDockScene", direction: "north", entryDirection: "south" },
-      exitZone: { scene: "MaintenanceTunnelScene", direction: "south", entryDirection: "north" }
+      enterZone: { scene: "MaintenanceTunnelScene", direction: "north", entryDirection: "south" },
+      exitZone: { scene: "ExecutiveWingScene", direction: "south", entryDirection: "north" }
     }, officeOffsetX, officeOffsetY);
 
     this.createPlayer(spawnPos.x, spawnPos.y);
@@ -83,6 +84,11 @@ export class SecurityOfficeScene extends BaseRoomScene {
       keycardId: "executive-wing"
     });
     this.items.push(keycard);
+
+    // The door into the Executive Wing. It sits on the exit zone - the black
+    // rect at (17.5, 330.62) 52x21 - and holds you in the room until the
+    // keycard is spent on it.
+    this.createLockedDoor(43.6, 341.3, 52, 18, "executive-wing");
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);

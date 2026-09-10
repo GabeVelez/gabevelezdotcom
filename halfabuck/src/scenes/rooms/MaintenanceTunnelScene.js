@@ -3,13 +3,15 @@ import { SVGCollisionParser } from "../../utils/SVGCollisionParser.js";
 
 /**
  * Maintenance Tunnel - Narrow underground passage
- * Level 8
- * Exit north to Executive Wing
+ * Level 7
+ * In at the head of the tunnel from the Loading Dock, out at the foot of it
+ * into the Security Office. Nothing is locked in here: the keycard is found
+ * in the next room and spent on the door out of it.
  */
 export class MaintenanceTunnelScene extends BaseRoomScene {
   constructor() {
     super("MaintenanceTunnelScene");
-    this.levelLabel = "LVL 8: Maintenance Tunnel";
+    this.levelLabel = "LVL 7: Maintenance Tunnel";
   }
 
   create() {
@@ -64,26 +66,14 @@ export class MaintenanceTunnelScene extends BaseRoomScene {
 
     // Setup exits from SVG and get spawn position
     const spawnPos = await this.setupExitsFromSVG("assets/exits/maintenance-tunnel-exits.svg", {
-      enterZone: { scene: "SecurityOfficeScene", direction: "north", entryDirection: "south" },
-      exitZone: { scene: "ExecutiveWingScene", direction: "south", entryDirection: "north" }
+      enterZone: { scene: "LoadingDockScene", direction: "north", entryDirection: "south" },
+      exitZone: { scene: "SecurityOfficeScene", direction: "south", entryDirection: "north" }
     }, tunnelOffsetX, tunnelOffsetY);
 
     this.createPlayer(spawnPos.x, spawnPos.y);
 
     // Create guards (guards will be added board by board)
     this.createGuards();
-
-    // The door into the Executive Wing, and the lock the Security Office
-    // keycard exists for. The exit zone is the black rect in the tunnel's
-    // exits SVG at (17.5, 234.62) 52x21, so the door sits on it once the
-    // level offset is applied and blocks the way through until it is opened.
-    this.createLockedDoor(
-      tunnelOffsetX + 43.5,
-      tunnelOffsetY + 245.3,
-      52,
-      18,
-      "executive-wing"
-    );
 
     this.setupVisionSystem(ground);
     this.buildWaypointNetwork(ground);

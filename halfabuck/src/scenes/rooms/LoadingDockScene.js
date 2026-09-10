@@ -45,7 +45,7 @@ export class LoadingDockScene extends BaseRoomScene {
     // Setup exits from SVG and get spawn position
     const spawnPos = await this.setupExitsFromSVG("assets/exits/loading-dock-exits.svg", {
       enterZone: { scene: "StorageBayScene", direction: "north", entryDirection: "south" },
-      exitZone: { scene: "SecurityOfficeScene", direction: "south", entryDirection: "north" }
+      exitZone: { scene: "MaintenanceTunnelScene", direction: "south", entryDirection: "north" }
     });
 
     this.createPlayer(spawnPos.x, spawnPos.y);
