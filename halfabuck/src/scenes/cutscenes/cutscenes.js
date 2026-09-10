@@ -89,8 +89,12 @@ export const CUTSCENES = {
     travel: 2560,            // px of wall that goes past
     floorPx: 80,             // one storey, so the counter matches the windows
     startFloor: 8,
-    startSound: "ground_impact",
-    arriveSound: "item_pickup",
+    // Each of these takes the first sound that actually exists, so dropping a
+    // real recording into assets/audio/sfx/ replaces the stand-in with no code
+    // change - and the ride still has something to play until then.
+    startSound: ["elevator_start", "ground_impact"],
+    humSound: ["elevator_hum"],        // loops for the whole climb
+    arriveSound: ["elevator_ding", "item_pickup"],
   },
 
   /**

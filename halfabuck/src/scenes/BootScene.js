@@ -19,8 +19,8 @@ export class BootScene extends Phaser.Scene {
       if (/__(jpg|png)$/.test(file.key || "")) return;
       // The lift draws its own stand-ins when the real art is absent, so a
       // miss here is expected until those files land.
-      if (/^elev_/.test(file.key || "")) {
-        console.info(`[BootScene] "${file.key}" not present yet; the lift will draw its own`);
+      if (/^elev(_|ator_)/.test(file.key || "")) {
+        console.info(`[BootScene] "${file.key}" not present yet; the lift falls back`);
         return;
       }
       if (ALL_CUTSCENE_FRAMES.includes(file.key)) {
@@ -50,6 +50,14 @@ export class BootScene extends Phaser.Scene {
     //   elev_car.png     transparent, ~74 x 62, the glass car with him inside
     ["elev_facade", "elev_crown", "elev_car"].forEach((key) => {
       this.load.image(key, `assets/cutscenes/elevator/${key}.png`);
+    });
+
+    // ...and its noises. Same deal: drop the file in and it is used, leave it
+    // out and the ride falls back to a borrowed sound (or, for the hum, to
+    // silence). elevator_hum is the one worth having - it loops under the
+    // whole climb and there is no music to cover it.
+    ["elevator_start", "elevator_hum", "elevator_ding"].forEach((key) => {
+      this.load.audio(key, `assets/audio/sfx/${key}.mp3`);
     });
 
     ALL_CUTSCENE_FRAMES.forEach((key) => {

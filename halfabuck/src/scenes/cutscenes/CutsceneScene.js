@@ -49,6 +49,7 @@ export class CutsceneScene extends Phaser.Scene {
     // were destroyed when this scene restarted.
     this._elev = null;
     this._elevStreaks = [];
+    this._elevHum = null;
   }
 
   create() {
@@ -326,6 +327,15 @@ export class CutsceneScene extends Phaser.Scene {
 
     this._elev = { facade, crown, car, readout, travel, duration, elapsed: 0, floor: -1, done: false };
 
+    // The motor, running under the whole climb. It is the only thing in the
+    // scene making noise, so its volume is driven by how fast he is actually
+    // moving further down - a hum at a flat level is just a drone.
+    const humKey = this._elevKey(cfg.humSound);
+    if (humKey && this.registry.get("soundEnabled")) {
+      this._elevHum = this.sound.add(humKey, { loop: true, volume: 0 });
+      this._elevHum.play();
+    }
+
     // The shove as it takes up the cable.
     this._elevSound(cfg.startSound, 0.5);
     this.cameras.main.shake(260, 0.004);
@@ -361,9 +371,17 @@ export class CutsceneScene extends Phaser.Scene {
     return Math.min(1, d / area);
   }
 
-  _elevSound(key, volume) {
-    if (!key || !this.registry.get("soundEnabled")) return;
-    if (this.cache.audio.exists(key)) this.sound.play(key, { volume: volume ?? 0.6 });
+  /** First of these that has actually been loaded. */
+  _elevKey(keys) {
+    if (!keys) return null;
+    const list = Array.isArray(keys) ? keys : [keys];
+    return list.find((k) => this.cache.audio.exists(k)) || null;
+  }
+
+  _elevSound(keys, volume) {
+    if (!this.registry.get("soundEnabled")) return;
+    const key = this._elevKey(keys);
+    if (key) this.sound.play(key, { volume: volume ?? 0.6 });
   }
 
   updateElevator(_time, delta) {
@@ -392,6 +410,7 @@ export class CutsceneScene extends Phaser.Scene {
     // A lift sways. Two out-of-step sines so it never looks like a metronome,
     // scaled by speed so it settles as he arrives.
     const sway = Math.min(1, step / 4);
+    if (this._elevHum) this._elevHum.setVolume(0.55 * sway);
     e.car.y = this._elevCarY + Math.sin(e.elapsed / 90) * 0.9 * sway;
     e.car.x = this.scale.width / 2 + Math.sin(e.elapsed / 143) * 0.7 * sway;
 
@@ -405,6 +424,10 @@ export class CutsceneScene extends Phaser.Scene {
       e.done = true;
       e.readout.setColor("#8fe388");
       this._elevSound(this.config.arriveSound, 0.7);
+      if (this._elevHum) {
+        this.tweens.add({ targets: this._elevHum, volume: 0, duration: 400,
+          onComplete: () => this._elevHum?.stop() });
+      }
       this.cameras.main.shake(180, 0.003);
       // Settle onto the floor, the way a car drops the last inch onto its
       // brakes.
@@ -485,6 +508,10 @@ export class CutsceneScene extends Phaser.Scene {
   finish() {
     if (this.finished) return;
     this.finished = true;
+
+    // A looping sound outlives the scene that started it, so a skipped ride
+    // would carry the motor into the Executive Wing.
+    if (this._elevHum) { this._elevHum.stop(); this._elevHum.destroy(); this._elevHum = null; }
 
     this.time.removeAllEvents();
     this.tweens.killAll();
