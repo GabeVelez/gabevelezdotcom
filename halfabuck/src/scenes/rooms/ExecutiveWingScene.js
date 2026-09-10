@@ -153,6 +153,12 @@ export class ExecutiveWingScene extends BaseRoomScene {
       const downed = this.add.sprite(192, 224, "villain-agony");
       downed.setOrigin(0.5, 1).setDisplaySize(32, 32).setDepth(9).play("villain_agony");
 
+      // He screams here rather than under the cutscene, so the sound is tied
+      // to the thing you can see making it.
+      if (this.registry.get("soundEnabled") && this.cache.audio.exists("villain_scream")) {
+        this.sound.add("villain_scream", { volume: 0.9 }).play();
+      }
+
       // You do not get to choose to leave. A second to watch him convulse,
       // then the controls go and he makes for the stairs on his own. The path
       // breaks wide round the desk, which is solid: a scripted run must never

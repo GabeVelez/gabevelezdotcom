@@ -58,7 +58,10 @@ export const CUTSCENES = {
     music: "spooky", // already playing; named so it is not interrupted
     frames: [
       { image: "cs_water_01", duration: 1500, sound: "box_toggle" },
-      { image: "cs_water_02", duration: 2600, sound: "wilhelm_scream", shake: 260,
+      // The hit is a thud, not a scream. He does his screaming in the room
+      // afterwards, where you can see him doing it - a scream over a still
+      // frame is just noise, a scream over him convulsing is the payoff.
+      { image: "cs_water_02", duration: 2600, sound: "ground_impact", shake: 260,
         text: "AAAAARGH!" },
     ],
   },
