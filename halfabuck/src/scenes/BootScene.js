@@ -17,6 +17,12 @@ export class BootScene extends Phaser.Scene {
       // misses. Only the pair going missing is worth reporting, and create()
       // does that.
       if (/__(jpg|png)$/.test(file.key || "")) return;
+      // The lift draws its own stand-ins when the real art is absent, so a
+      // miss here is expected until those files land.
+      if (/^elev_/.test(file.key || "")) {
+        console.info(`[BootScene] "${file.key}" not present yet; the lift will draw its own`);
+        return;
+      }
       if (ALL_CUTSCENE_FRAMES.includes(file.key)) {
         console.info(`[BootScene] cutscene frame "${file.key}" not present yet; it will be skipped`);
       } else {
@@ -37,6 +43,15 @@ export class BootScene extends Phaser.Scene {
     // extension was absent, which is every frame in the game. Both formats are
     // loaded under their own keys instead, and create() aliases whichever one
     // actually arrived to the key the cutscenes ask for.
+    // The elevator ride. Drop any of these three into assets/cutscenes/elevator/
+    // and it replaces the drawn stand-in with no code change:
+    //   elev_facade.png  seamless vertical tile, 384 wide, the tower wall
+    //   elev_crown.png   384 x 220, the top of the tower with sky above it
+    //   elev_car.png     transparent, ~74 x 62, the glass car with him inside
+    ["elev_facade", "elev_crown", "elev_car"].forEach((key) => {
+      this.load.image(key, `assets/cutscenes/elevator/${key}.png`);
+    });
+
     ALL_CUTSCENE_FRAMES.forEach((key) => {
       this.load.image(`${key}__jpg`, `assets/cutscenes/story/${key}.jpg`);
       this.load.image(`${key}__png`, `assets/cutscenes/story/${key}.png`);

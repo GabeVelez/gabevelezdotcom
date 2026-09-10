@@ -472,7 +472,8 @@ export class BaseRoomScene extends Phaser.Scene {
       const xz = exitData.exitZone;
       const centerX = xz.x + xz.width / 2;
       const centerY = xz.y + xz.height / 2;
-      this.createExit(centerX, centerY, xz.width, xz.height, exitConfig.exitZone.scene, exitConfig.exitZone.direction);
+      this.createExit(centerX, centerY, xz.width, xz.height, exitConfig.exitZone.scene, exitConfig.exitZone.direction,
+        exitConfig.exitZone.cutscene ? { cutscene: exitConfig.exitZone.cutscene } : {});
       console.log(`Exit zone: SVG=(${xz.x}, ${xz.y}), center=(${centerX}, ${centerY}), ${xz.width}×${xz.height}) → ${exitConfig.exitZone.scene}`);
     }
 

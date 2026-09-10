@@ -69,7 +69,8 @@ export class SecurityOfficeScene extends BaseRoomScene {
     // Setup exits from SVG and get spawn position
     const spawnPos = await this.setupExitsFromSVG("assets/exits/security-office-exits.svg", {
       enterZone: { scene: "MaintenanceTunnelScene", direction: "north", entryDirection: "south" },
-      exitZone: { scene: "ExecutiveWingScene", direction: "south", entryDirection: "north" }
+      // Through this door is the lift, and the lift is the ride up to him.
+      exitZone: { scene: "ExecutiveWingScene", direction: "south", entryDirection: "north", cutscene: "elevator" }
     }, officeOffsetX, officeOffsetY);
 
     this.createPlayer(spawnPos.x, spawnPos.y);

@@ -67,6 +67,33 @@ export const CUTSCENES = {
   },
 
   /**
+   * Between the Security Office and the Executive Wing: forty floors up the
+   * outside of the tower.
+   *
+   * Not a frame sequence. The camera hangs in the air off the face of the
+   * building and the car climbs past it, so the whole thing is one continuous
+   * move rather than three stills - which is the only way a lift reads as a
+   * lift. No music: after nine levels of chiptune, a minute of nothing but
+   * cable noise is what makes the floor counter feel like a countdown.
+   *
+   * All three pieces of art are optional. Anything missing is drawn from
+   * primitives at boot instead, so the ride plays today and the real art is a
+   * file drop later.
+   */
+  elevator: {
+    type: "elevator",
+    facade: "elev_facade",   // seamless vertical tile: the tower wall
+    crown: "elev_crown",     // the top of the tower, and sky above it
+    car: "elev_car",         // transparent: the glass car, him inside
+    duration: 8000,
+    travel: 2560,            // px of wall that goes past
+    floorPx: 80,             // one storey, so the counter matches the windows
+    startFloor: 8,
+    startSound: "ground_impact",
+    arriveSound: "item_pickup",
+  },
+
+  /**
    * After the roof door. He is not finished, he is changing.
    */
   villain_transform: {

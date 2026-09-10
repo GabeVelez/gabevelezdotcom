@@ -72,6 +72,7 @@ export class SceneSelectorOverlay {
       { name: "LoadingDockScene", label: "Loading Dock" },
       { name: "MaintenanceTunnelScene", label: "Maintenance Tunnel" },
       { name: "SecurityOfficeScene", label: "Security Office" },
+      { name: "CutsceneScene", label: "\u2014 Elevator Ride", data: { cutscene: "elevator", next: "ExecutiveWingScene", nextData: { entryDirection: "north" } } },
       { name: "ExecutiveWingScene", label: "Executive Wing" },
       { name: "RooftopHelipadScene", label: "Rooftop Helipad" },
       { name: "SurroundedScene", label: "Surrounded" },
@@ -117,7 +118,9 @@ export class SceneSelectorOverlay {
 
       button.addEventListener('click', () => {
         this.hide();
-        this.game.scene.start(scene.name);
+        // Some entries are not rooms. A cutscene needs to be told which one it
+        // is and where to go afterwards, so an entry may carry its own data.
+        this.game.scene.start(scene.name, scene.data);
       });
 
       buttonContainer.appendChild(button);
