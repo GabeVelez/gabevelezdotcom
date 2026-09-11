@@ -291,9 +291,17 @@ export class CutsceneScene extends Phaser.Scene {
     // car runs out of building.
     const crownKey = cfg.crown || "elev_crown";
     let crown = null;
+    let crownRest = height;
     if (this.textures.exists(crownKey)) {
-      crown = this.add.image(width / 2, height - travel, crownKey).setOrigin(0.5, 1).setDepth(2);
+      crown = this.add.image(width / 2, 0, crownKey).setOrigin(0.5, 1).setDepth(2);
       crown.setScale(width / crown.width); // spans the frame, keeps its aspect
+      // At rest its TOP edge meets the top of the frame, not its bottom edge
+      // the bottom - the art is composed downward from open sky, so resting it
+      // flush with the floor of the screen crops the sky off and the reveal is
+      // a sliver. Taller art simply shows more sky. Never above the frame
+      // floor, or the wall would show underneath it.
+      crownRest = Math.max(height, crown.displayHeight);
+      crown.y = crownRest - travel;
     }
 
     // Him, in the glass, holding still while the world drops.
@@ -325,7 +333,7 @@ export class CutsceneScene extends Phaser.Scene {
       .setOrigin(1, 0)
       .setDepth(11);
 
-    this._elev = { facade, crown, car, readout, travel, duration, elapsed: 0, floor: -1, done: false };
+    this._elev = { facade, crown, crownRest, car, readout, travel, duration, elapsed: 0, floor: -1, done: false };
 
     // The motor, running under the whole climb. It is the only thing in the
     // scene making noise, so its volume is driven by how fast he is actually
@@ -399,7 +407,7 @@ export class CutsceneScene extends Phaser.Scene {
 
     // Everything hangs off `travelled`, so nothing can drift.
     e.facade.tilePositionY = -travelled / e.facade.tileScaleY;
-    if (e.crown) e.crown.y = this.scale.height - e.travel + travelled;
+    if (e.crown) e.crown.y = e.crownRest - e.travel + travelled;
 
     for (let i = 0; i < this._elevStreaks.length; i++) {
       const r = this._elevStreaks[i];
