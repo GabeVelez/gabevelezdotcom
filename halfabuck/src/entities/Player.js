@@ -20,14 +20,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Anchor at bottom-center (eliminates waddle from earlier)
     this.setOrigin(0.5, 1.0);
 
-    // Uniform collision box - sprites are now all aligned the same way
-    // Simple percentage-based collision works perfectly with aligned sprites
-    const collisionWidth = this.width * 0.9;  // 90% width
-    const collisionHeight = this.height * 0.5;  // 50% height (bottom half)
-    const offsetY = this.height - collisionHeight;  // Position at bottom (feet)
-
-    this.body.setSize(collisionWidth, collisionHeight);
-    this.body.setOffset(0, offsetY);
+    this._fitBody();
 
     // Don't constrain to world bounds - let tilemap walls provide boundaries
     // this.setCollideWorldBounds(true);
@@ -57,6 +50,18 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       [PlayerStates.BOX]: new BoxState(),
       [PlayerStates.DETECTED]: new DetectedState(),
     }, [this]);
+  }
+
+  // A feet box, centred, about as wide as the character actually is. It used
+  // to be 90% of the 64px frame, which is mostly empty space either side of
+  // him: 29 world px wide, left-aligned, against 35px gaps between the
+  // Warehouse shelves. You had to line up within 3px to get in, and on a d-pad
+  // that reads as the gap being solid.
+  _fitBody() {
+    const collisionWidth = this.width * 0.6;
+    const collisionHeight = this.height * 0.5;
+    this.body.setSize(collisionWidth, collisionHeight);
+    this.body.setOffset((this.width - collisionWidth) / 2, this.height - collisionHeight);
   }
 
   update(input) {
@@ -131,13 +136,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       this.boxSprite.setPosition(this.x, this.y);
     }
 
-    // Maintain collision box at bottom (feet) - sprites are aligned uniformly
-    const collisionWidth = this.width * 0.9;
-    const collisionHeight = this.height * 0.5;
-    const offsetY = this.height - collisionHeight;
-
-    this.body.setSize(collisionWidth, collisionHeight);
-    this.body.setOffset(0, offsetY);
+    this._fitBody();
 
     // Keep dragged body attached behind player
     if (this.isDragging && this.dragTarget) {
