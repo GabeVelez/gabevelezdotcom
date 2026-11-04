@@ -102,7 +102,7 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     // SVG. So A* believed the whole level was open floor and routed guards
     // straight through shelving: they would grind along a wall they had
     // planned to walk through, or arrive from a direction nothing could have
-    // walked. Mark a tile blocked if a collision body covers any of it.
+    // walked. Walls from the collision SVG block tiles, as below.
     const rects = [];
     for (const body of collisionBodies || []) {
       const b = body?.getBounds?.();
@@ -111,16 +111,27 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     const tw = map.tileWidth, th = map.tileHeight;
     const ox = tilemapLayer.x || 0, oy = tilemapLayer.y || 0;
 
+    // A tile is open if HIS BODY fits with his feet at its centre, not if the
+    // tile itself is clear. He is a 35x23 box standing on his feet, and a path
+    // threaded through one-tile gaps beside the walls had him grinding on
+    // every corner of it. So grow each wall by half his width either side and
+    // by his height below (the box sits above his feet), and test the centre.
+    // From the source size and his scale: body.width is not scaled until the
+    // first physics step, and this runs before it, so it read 230px and
+    // blocked the whole room.
+    const halfW = this.body.sourceWidth * Math.abs(this.scaleX) / 2;
+    const bodyH = this.body.sourceHeight * Math.abs(this.scaleY);
+
     for (let y = 0; y < map.height; y++) {
       grid[y] = [];
       for (let x = 0; x < map.width; x++) {
         const tile = tilemapLayer.getTileAt(x, y);
         let blocked = !!(tile && tile.collides);
         if (!blocked && rects.length) {
-          const wx = ox + x * tw, wy = oy + y * th;
+          const cx = ox + x * tw + tw / 2, cy = oy + y * th + th / 2;
           for (const r of rects) {
-            if (wx < r.x + r.width && wx + tw > r.x &&
-                wy < r.y + r.height && wy + th > r.y) { blocked = true; break; }
+            if (cx > r.x - halfW && cx < r.x + r.width + halfW &&
+                cy > r.y && cy < r.y + r.height + bodyH) { blocked = true; break; }
           }
         }
         grid[y][x] = blocked ? 1 : 0;
@@ -128,6 +139,10 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.pathfinderGrid = grid;
+    // Sync, or the path lands a tick after the guard asked for it: every
+    // recalculation left him with no path for a frame, so he fell back to
+    // walking straight at the target, into whatever was in the way.
+    this.pathfinder.enableSync();
     this.pathfinder.setGrid(grid);
     this.pathfinder.setAcceptableTiles([0]); // Only walk on 0 tiles
     this.pathfinder.enableDiagonals();
@@ -147,23 +162,27 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     const startTile = layer.worldToTileXY(this.x, this.y);
     const endTile = layer.worldToTileXY(targetX, targetY);
 
-    if (!startTile || !endTile) return;
+    // A tile is blocked if a wall touches any of it, so a guard standing
+    // against a wall, or a player crouched against one, is often "on" a blocked
+    // tile - and A* refuses to start or end there. That was most of why guards
+    // gave up on the spot they were sent to: no path, so they walked straight
+    // at it and ground against the shelving. Use the nearest open tile.
+    const start = this._nearestOpenTile(startTile);
+    const end = this._nearestOpenTile(endTile);
+    if (!start || !end) return;
 
-    // Bounds check
-    if (startTile.x < 0 || startTile.x >= map.width ||
-        startTile.y < 0 || startTile.y >= map.height ||
-        endTile.x < 0 || endTile.x >= map.width ||
-        endTile.y < 0 || endTile.y >= map.height) {
-      return;
-    }
-
-    this.pathfinder.findPath(startTile.x, startTile.y, endTile.x, endTile.y, (path) => {
+    const half = map.tileWidth / 2;
+    this.pathfinder.findPath(start.x, start.y, end.x, end.y, (path) => {
       if (path && path.length > 0) {
-        // Convert grid path to world coordinates
+        // Tile centres, not corners, or every path hugs the top-left of its
+        // tiles and clips the walls it is meant to go round.
         this.currentPath = path.map(node => {
-          return layer.tileToWorldXY(node.x, node.y);
+          const p = layer.tileToWorldXY(node.x, node.y);
+          return { x: p.x + half, y: p.y + half };
         });
-        this.currentPathIndex = 0;
+        // Node 0 is the tile he is already on. Heading for it first made him
+        // step back to its centre every time the path was recalculated.
+        this.currentPathIndex = this.currentPath.length > 1 ? 1 : 0;
         if (onPathFound) onPathFound(this.currentPath);
       } else {
         this.currentPath = [];
@@ -172,6 +191,28 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
 
     this.pathfinder.calculate();
     this.lastPathCalculation = Date.now();
+  }
+
+  _isOpenTile(x, y) {
+    return this.pathfinderGrid[y]?.[x] === 0;
+  }
+
+  /** The tile itself if open, else the closest open one within 4 tiles. */
+  _nearestOpenTile(tile) {
+    if (!tile) return null;
+    for (let r = 0; r <= 4; r++) {
+      let best = null, bestD = Infinity;
+      for (let dy = -r; dy <= r; dy++) {
+        for (let dx = -r; dx <= r; dx++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+          const x = tile.x + dx, y = tile.y + dy;
+          const d = dx * dx + dy * dy;
+          if (d < bestD && this._isOpenTile(x, y)) { best = { x, y }; bestD = d; }
+        }
+      }
+      if (best) return best;
+    }
+    return null;
   }
 
   /**
@@ -223,8 +264,12 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
    * Check if there's a clear path ahead (for obstacle avoidance)
    */
   checkClearPath(fromX, fromY, toX, toY) {
-    if (!this.scene.groundLayer) return true;
+    if (!this.scene.groundLayer || !this.pathfinderGrid) return true;
 
+    // Against the pathfinding grid, which knows about the SVG walls. Checking
+    // the tilemap said every line was clear, because every room fills its
+    // tilemap walkable, so a guard heading back to patrol from the far side of
+    // the shelving walked straight into it.
     const layer = this.scene.groundLayer;
     const steps = 10;
 
@@ -232,8 +277,8 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
       const t = i / steps;
       const x = Phaser.Math.Linear(fromX, toX, t);
       const y = Phaser.Math.Linear(fromY, toY, t);
-      const tile = layer.getTileAtWorldXY(x, y, true);
-      if (tile && tile.collides) return false;
+      const tile = layer.worldToTileXY(x, y);
+      if (tile && this.pathfinderGrid[tile.y]?.[tile.x] === 1) return false;
     }
 
     return true;
@@ -281,22 +326,9 @@ export class Guard extends Phaser.Physics.Arcade.Sprite {
     // Update speed based on awareness level
     this._updateSpeedFromAwareness();
 
+    // The body stays the feet box set in the constructor. This used to reset
+    // it to the whole sprite every frame, which undid the feet box entirely.
     this.stateMachine.step(dt);
-
-    // Adjust collision box based on movement direction for consistency
-    if (this.body.velocity.y < 0 && Math.abs(this.body.velocity.y) > Math.abs(this.body.velocity.x)) {
-      // Moving up - tighter collision to reduce jitter
-      this.body.setSize(this.width * 0.85, this.height * 0.85);
-      this.body.setOffset(this.width * 0.075, this.height * 0.075);
-    } else if (Math.abs(this.body.velocity.x) > Math.abs(this.body.velocity.y)) {
-      // Moving left/right - uniform height
-      this.body.setSize(this.width, this.height * 0.94);
-      this.body.setOffset(0, this.height * 0.03);
-    } else {
-      // Moving down or stationary - full collision
-      this.body.setSize(this.width, this.height);
-      this.body.setOffset(0, 0);
-    }
   }
 
   _updateAwareness(dt) {
@@ -544,12 +576,14 @@ class PatrolState {
     // Check if path is clear, if not use A* pathfinding
     const pathClear = guard.checkClearPath(guard.x, guard.y, target.x, target.y);
 
-    if (!pathClear && guard.pathfinderGrid) {
-      // Use A* to navigate around obstacle
-      if (!guard.currentPath || guard.currentPath.length === 0) {
-        guard.calculatePathTo(target.x, target.y);
-      }
+    if (!pathClear && guard.pathfinderGrid && !guard.currentPath?.length) {
+      guard.calculatePathTo(target.x, target.y);
+    }
 
+    // Use A* to navigate around obstacle. If there is no route at all (a room
+    // tighter than the grid's idea of his body), fall through and walk the
+    // line as patrols always did, rather than skip every waypoint.
+    if (!pathClear && guard.currentPath?.length) {
       if (!guard.followPath()) {
         // Path following failed, skip to next waypoint
         guard.pathIndex = (guard.pathIndex + 1) % guard.path.length;
@@ -591,16 +625,17 @@ class SuspiciousState {
     const point = context || {};
     guard.lastKnownPlayerPos = { x: point.x, y: point.y } ?? guard.lastKnownPlayerPos;
     guard.suspicionTimer = 1500; // Short pause to look around
-    guard.rotationDirection = Phaser.Math.Between(0, 1) === 0 ? -1 : 1;
   }
 
   execute(guard, dt) {
     guard.suspicionTimer -= dt;
 
-    // Slow down and look around
+    // Stop and look at what caught his eye. He used to spin his cone in a
+    // random direction, which pointed it away from you half the time.
     guard.setVelocity(0, 0);
-    if (guard.vision) {
-      guard.vision.facing += guard.rotationDirection * 0.02;
+    const p = guard.lastKnownPlayerPos;
+    if (guard.vision && p?.x != null) {
+      guard.vision.facing = Math.atan2(p.y - (guard.y - 16), p.x - guard.x);
     }
 
     // If detection increases (player still visible), move to INVESTIGATE
@@ -617,6 +652,7 @@ class InvestigateState {
     guard.lastKnownPlayerPos = { x: point.x, y: point.y };
     guard.investigateTimer = 3000; // 3 seconds to investigate
     guard.timeSinceLastSeen = 0;
+    guard.currentPath = [];
   }
 
   execute(guard, dt) {
@@ -658,6 +694,7 @@ class ChaseState {
   enter(guard) {
     guard.chaseTimer = 0;
     guard.lastChaseUpdate = Date.now();
+    guard.currentPath = [];
   }
 
   execute(guard, dt) {
@@ -703,26 +740,45 @@ class SearchState {
 
     guard.searchPhase = 0;
     guard.searchStepTimer = 0;
+    // Radius before the points: it was set after, so the first ring used
+    // whatever the last search had grown to, or 0 on his first.
+    guard.searchRadius = 60; // Expanding search radius
     guard.searchPoints = this._generateSearchPoints(guard);
     guard.currentSearchPoint = 0;
-    guard.searchRadius = 60; // Expanding search radius
+    guard.currentPath = []; // not the path to wherever he was going before
   }
 
   _generateSearchPoints(guard) {
     // Generate search points in expanding circle around last known position
     const center = guard.lastKnownPlayerPos || { x: guard.x, y: guard.y };
-    const points = [];
+    const raw = [];
     const numPoints = 4;
 
+    // The spot itself first. The ring used to be all there was, so he circled
+    // where you were seen without ever standing on it.
+    if (guard.searchRadius === 60) raw.push(center);
     for (let i = 0; i < numPoints; i++) {
       const angle = (Math.PI * 2 * i) / numPoints;
-      points.push({
+      raw.push({
         x: center.x + Math.cos(angle) * guard.searchRadius,
         y: center.y + Math.sin(angle) * guard.searchRadius
       });
     }
 
-    return points;
+    // Points land inside shelving or off the map, and he can never get within
+    // 15px of those, so he stood at the nearest wall until the timer ran out.
+    // Move each to the nearest floor he can actually reach, or drop it.
+    const layer = guard.scene.groundLayer;
+    if (!layer || !guard.pathfinderGrid) return raw;
+    const half = layer.tilemap.tileWidth / 2;
+    const points = [];
+    for (const pt of raw) {
+      const t = guard._nearestOpenTile(layer.worldToTileXY(pt.x, pt.y));
+      if (!t) continue;
+      const w = layer.tileToWorldXY(t.x, t.y);
+      points.push({ x: w.x + half, y: w.y + half });
+    }
+    return points.length ? points : [center];
   }
 
   execute(guard, dt) {
@@ -754,6 +810,7 @@ class SearchState {
         if (guard.searchStepTimer > 800) {
           guard.currentSearchPoint = (guard.currentSearchPoint + 1) % guard.searchPoints.length;
           guard.searchStepTimer = 0;
+          guard.currentPath = [];
 
           // Expand search radius after each cycle
           if (guard.currentSearchPoint === 0) {
@@ -818,6 +875,15 @@ class RespondingState {
       baseTimeout * awarenessMultiplier * 0.8,
       baseTimeout * awarenessMultiplier * 1.2
     );
+
+    // Plus the walk. A flat 4-6s ran out halfway across the Warehouse, so he
+    // turned back before ever reaching the spot he was called to. Straight
+    // line x1.5 for going round things.
+    if (guard.alertTarget) {
+      const d = Math.hypot(guard.alertTarget.x - guard.x, guard.alertTarget.y - guard.y);
+      guard.responseTimeout += (d * 1.5 / guard.speed) * 1000;
+    }
+    guard.currentPath = [];
   }
 
   execute(guard, dt) {
@@ -855,6 +921,7 @@ class RespondingState {
 
 class ReturningState {
   execute(guard) {
+    guard.currentPath = []; // the chase's path, not one back to his patrol
     guard.stateMachine.transition(GuardStates.PATROL);
   }
 }

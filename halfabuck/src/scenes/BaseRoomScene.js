@@ -632,6 +632,21 @@ export class BaseRoomScene extends Phaser.Scene {
       g.update(dt);
     }
 
+    // Walking into a guard is getting caught, from any side, boxed or not.
+    // There is no collider between them, so without this you could walk
+    // straight through one behind his back. Guards whose meter cannot end the
+    // run (the villain) cannot end it by touch either: his grab does that.
+    if (!this._scripted && this.player.body.enable) {
+      for (const g of this.guards) {
+        if (!g.active || g.isKnockedOut || g.isHidden || !g.body?.enable) continue;
+        if (g.capturesOnDetection === false) continue;
+        if (this.physics.overlap(this.player, g)) {
+          this.playerCaught("seen");
+          return;
+        }
+      }
+    }
+
     // Update vision system
     this.vision?.update(dt);
 

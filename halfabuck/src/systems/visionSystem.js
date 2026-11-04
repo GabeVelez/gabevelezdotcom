@@ -179,18 +179,18 @@ export class VisionSystem {
         trig.alert = false;
       }
 
-      // Give up. Without this a guard who has lost you keeps a cone widened to
-      // 125% and a state machine still walking to where you were, so he
-      // re-acquires the moment you move and there is no way to break contact.
-      // Losing a guard has to be possible or the stealth is theatre.
-      if (!inside && next < 0.01 && g.timeSinceLastSeen >= this.giveUpMs) {
+      // Give up, but only once he has been and looked. This used to force him
+      // back to patrol 3.5s after losing sight, which at 42px/s is before he
+      // gets anywhere near where he saw you - and a guard sent by a broadcast
+      // had never seen you at all, so his timer was already past 3.5s and he
+      // turned round on the frame he was sent. Investigate, search and
+      // respond all run out on their own timers and walk him back to patrol;
+      // what is left here is putting his cone back once he is there.
+      const onPatrol = g.stateMachine?.state === g.stateMachine?.possibleStates?.[GuardStates.PATROL];
+      if (onPatrol && !inside && next < 0.01 && g.timeSinceLastSeen >= this.giveUpMs) {
         if (g.vision.isAlerted) {
           g.vision.isAlerted = false;
           g.vision.distance = g.vision.greenDistance;
-        }
-        const patrolState = g.stateMachine?.possibleStates?.[GuardStates.PATROL];
-        if (g.stateMachine && g.stateMachine.state !== patrolState) {
-          g.stateMachine.transition?.(GuardStates.PATROL);
         }
         g.lastKnownPlayerPos = null;
       }
